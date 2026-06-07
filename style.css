@@ -1,0 +1,53 @@
+/* kiro-iso-builder — ATT-style look. Plain GTK4, theme-friendly. */
+
+.screen-title {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 2px;
+}
+
+.row-title {
+    font-weight: 600;
+}
+
+.dim-label {
+    opacity: 0.65;
+    font-size: 12px;
+}
+
+/* ATT brand orange — for emphasis / warnings */
+.att-orange {
+    color: #FFA500;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+/* ATT orange but at the surrounding text size (no enlarging) */
+.att-orange-note {
+    color: #FFA500;
+    font-size: 12px;
+}
+
+.card {
+    background-color: alpha(currentColor, 0.04);
+    border: 1px solid alpha(currentColor, 0.10);
+    border-radius: 10px;
+    padding: 14px;
+}
+
+.boxed-list {
+    border-radius: 10px;
+}
+
+/* Pre-flight status icons */
+.status-ok    { color: #2ec27e; }
+.status-warn  { color: #e5a50a; }
+.status-fail  { color: #e01b24; }
+
+.sidebar {
+    background-color: alpha(currentColor, 0.03);
+}
+
+progressbar text {
+    font-size: 11px;
+}

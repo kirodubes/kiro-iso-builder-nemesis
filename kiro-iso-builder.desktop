@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Kiro ISO Builder
+Comment=Build the Kiro ISO with one-click host pre-flight fixes
+Exec=kiro-iso-builder
+Icon=builder
+Terminal=false
+Categories=System;Settings;
+Keywords=kiro;iso;archiso;build;
