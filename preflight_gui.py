@@ -33,7 +33,7 @@ class PreflightScreen:
         self.widget.append(title)
         subtitle = Gtk.Label(
             label="Confirm the host is ready, then fix anything red before building.",
-            xalign=0)
+            xalign=0, wrap=True, max_width_chars=70)
         subtitle.add_css_class("dim-label")
         self.widget.append(subtitle)
 

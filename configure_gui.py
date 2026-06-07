@@ -28,7 +28,7 @@ DEFAULTS = {
 
 def _labelled(label, widget):
     box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
-    lbl = Gtk.Label(label=label, xalign=0, hexpand=True)
+    lbl = Gtk.Label(label=label, xalign=0, hexpand=True, wrap=True)
     lbl.add_css_class("row-title")
     box.append(lbl)
     widget.set_halign(Gtk.Align.END)
@@ -49,7 +49,7 @@ class ConfigureScreen:
         title.add_css_class("screen-title")
         self.widget.append(title)
         sub = Gtk.Label(label="These write straight to build.conf — the CLI uses the same file.",
-                        xalign=0)
+                        xalign=0, wrap=True, max_width_chars=70)
         sub.add_css_class("dim-label")
         self.widget.append(sub)
 
@@ -70,7 +70,7 @@ class ConfigureScreen:
         self.detect_btn = Gtk.Button(label="Detect available kernels")
         self.detect_btn.connect("clicked", lambda _w: self._detect())
         detect_row.append(self.detect_btn)
-        self.kernel_status = Gtk.Label(xalign=0, hexpand=True)
+        self.kernel_status = Gtk.Label(xalign=0, hexpand=True, wrap=True)
         self.kernel_status.add_css_class("dim-label")
         detect_row.append(self.kernel_status)
         form.append(detect_row)
@@ -101,7 +101,7 @@ class ConfigureScreen:
 
         self.widget.append(form)
 
-        self.status = Gtk.Label(xalign=0)
+        self.status = Gtk.Label(xalign=0, wrap=True)
         self.status.add_css_class("dim-label")
         self.widget.append(self.status)
 

@@ -78,7 +78,9 @@ class DoneScreen:
         scroller.set_child(self.checks)
         self.widget.append(scroller)
 
-        bar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        bar = Gtk.FlowBox(selection_mode=Gtk.SelectionMode.NONE, homogeneous=False,
+                          min_children_per_line=1, max_children_per_line=8,
+                          column_spacing=8, row_spacing=8)
         self.open_btn = Gtk.Button(label="Open output folder")
         self.open_btn.connect("clicked", lambda _w: self._open())
         self.vbox_btn = Gtk.Button(label="Test in VirtualBox")

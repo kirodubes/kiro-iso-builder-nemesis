@@ -29,12 +29,18 @@ class PackagesScreen:
         title = Gtk.Label(label="Choose packages", xalign=0)
         title.add_css_class("screen-title")
         self.widget.append(title)
-        sub = Gtk.Label(
-            label="All optional (TIER 3) apps ship by default — tick any you want REMOVED from "
-                  "the ISO. Core packages always ship and aren't listed here.",
+        subbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
+        sub1 = Gtk.Label(
+            label="All optional (TIER 3) apps ship by default — tick any you want REMOVED "
+                  "from the ISO.",
+            xalign=0, wrap=True, max_width_chars=86)
+        sub2 = Gtk.Label(
+            label="Core packages always ship and aren't listed here.",
             xalign=0, wrap=True, max_width_chars=70)
-        sub.add_css_class("att-orange")
-        self.widget.append(sub)
+        for s in (sub1, sub2):
+            s.add_css_class("att-orange")
+            subbox.append(s)
+        self.widget.append(subbox)
 
         toolbar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         self.search = Gtk.SearchEntry(hexpand=True, placeholder_text="Search packages…")
@@ -53,7 +59,7 @@ class PackagesScreen:
         scroller.set_child(self.container)
         self.widget.append(scroller)
 
-        self.status = Gtk.Label(xalign=0)
+        self.status = Gtk.Label(xalign=0, wrap=True)
         self.status.add_css_class("att-orange-note")
         self.widget.append(self.status)
 

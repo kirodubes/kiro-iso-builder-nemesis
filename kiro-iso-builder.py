@@ -38,7 +38,7 @@ SCREENS = [
 class BuilderWindow(Gtk.ApplicationWindow):
     def __init__(self, app):
         super().__init__(application=app, title="Kiro ISO Builder")
-        self.set_default_size(720, 600)
+        self.set_default_size(850, 600)
 
         header = Gtk.HeaderBar()
         self.set_titlebar(header)
