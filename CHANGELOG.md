@@ -40,6 +40,18 @@ Discussions #39 (point 2). Checks themselves are unchanged; only display order/h
 - `PreflightScreen._populate` inserts a non-selectable header row when the section
   changes; new `_build_header()` renders it with a `.section-header` CSS class.
 
+### What Changed — Build screen states output paths
+
+The Build screen never said where output lands; the resolved `kiro-build` / `kiro-Out`
+paths were only hinted on Configure. Added an explicit, selectable two-line label under the
+Build subtitle — **Work dir:** and **ISO output:** — refreshed on every show so it tracks
+the `build_location` chosen on Configure. Raised by cyberagency on Discussions #39 (point 3,
+paths). The clone path stays on Pre-flight where it's picked.
+
+- New `BuildScreen._show_paths()` reads `fn.build_folder()` / `fn.out_folder()` and renders
+  the two paths (falls back to a "set the clone path on Pre-flight" note when unresolved);
+  called from `on_show()`.
+
 ### Files Modified
 
 - host_checks.py, configure_gui.py, build_gui.py, packages_gui.py, kiro-iso-builder.py,
