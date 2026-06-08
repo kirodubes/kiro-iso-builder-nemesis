@@ -104,6 +104,10 @@ class BuildScreen:
         script = fn.build_script()
         if script is None:
             return
+        # Last gate before the build: pin build_location=local so the script writes
+        # under the chosen folder, never $HOME — keeps the build and the Work-dir
+        # label above it from ever disagreeing, whatever wrote build.conf.
+        fn.normalize_build_location()
         self._stopping = False
         self._open_build_log()
         self.start_btn.set_sensitive(False)
