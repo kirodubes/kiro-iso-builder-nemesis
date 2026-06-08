@@ -106,6 +106,10 @@ class PreflightScreen:
         self._log("Running checks…")
 
         def worker():
+            # Re-discover the clone first so a folder deleted on disk since the
+            # last run is reflected — otherwise check_repo() reports the stale
+            # cached path as "Found" and the update check degrades to "offline?".
+            fn.refresh_paths()
             results = hc.run_all()
             GLib.idle_add(self._populate, results)
 

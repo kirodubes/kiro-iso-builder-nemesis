@@ -38,6 +38,7 @@ def _labelled(label, widget):
 class ConfigureScreen:
     def __init__(self, window):
         self.window = window
+        self._loaded = False
 
         self.widget = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
         for m in ("set_margin_top", "set_margin_bottom", "set_margin_start", "set_margin_end"):
@@ -115,7 +116,12 @@ class ConfigureScreen:
         self.widget.append(nav)
 
     def on_show(self):
-        self._load()
+        # Load from build.conf only on the first successful visit; after that the
+        # dropdowns hold the working state, so revisiting via the sidebar must not
+        # clobber unsaved edits. Keep retrying while build.conf is still missing
+        # (e.g. until Pre-flight clones the repo).
+        if not self._loaded:
+            self._load()
 
     def _load(self):
         if not fn.build_conf_path():
@@ -125,6 +131,7 @@ class ConfigureScreen:
         self.widget.set_sensitive(True)
         self._apply(fn.read_conf())
         self.status.set_text("")
+        self._loaded = True
 
     def _apply(self, conf):
         """Set every control from a {key: value} dict (build.conf or DEFAULTS)."""

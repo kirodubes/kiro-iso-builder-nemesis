@@ -4,6 +4,45 @@
 
 ---
 
+## 2026-06-08 — Pre-flight Re-check re-discovers the clone (catches a deleted folder)
+
+### What Changed
+- **`preflight_gui.py`** — `refresh()` (the **Re-check** button) now calls
+  `fn.refresh_paths()` before running the checks, re-running clone discovery.
+
+### Why
+- `check_repo()` only tests the cached `fn.BUILD_SCRIPTS` global (set once at app
+  startup); it never re-stats the disk. So after the user deleted the clone folder
+  on disk, Re-check still reported the clone as **Found** at the stale path, and
+  the update check degraded to a misleading "couldn't check for updates
+  (offline?)". Only restarting the app cleared it (discovery re-runs at import).
+  Re-check now reflects reality without a restart.
+
+### Files Modified
+- `preflight_gui.py`
+
+## 2026-06-08 — Configure: stop wiping unsaved kernel/driver picks on revisit
+
+### What Changed
+- **`configure_gui.py`** — `on_show()` now loads from `build.conf` only on the
+  first successful visit, guarded by a new `self._loaded` flag. Revisiting the
+  Configure screen via the sidebar keeps the in-memory dropdown state instead of
+  re-reading `build.conf` and snapping the kernel/NVIDIA picks back to defaults.
+
+### Why
+- Selections are only written to `build.conf` by **Save & Continue** (`_save`).
+  Navigating away via the sidebar never saves, so the unconditional reload on
+  every `on_show` silently discarded a user's kernel choices when they went
+  Configure → Pre-flight → Configure.
+- The flag is set only after a *successful* load, so a still-missing `build.conf`
+  (clone not done yet) keeps retrying on later visits — the clone-then-configure
+  path is unaffected. Pre-flight's repo reset explicitly preserves `build.conf`
+  (`preflight_gui.py`), so there is no on-disk change Configure needs to re-read
+  after the first load.
+
+### Files Modified
+- `configure_gui.py`
+
 ## 2026-06-08 — Never move/adopt the HQ source repo (mirrors production)
 
 ### What Changed
