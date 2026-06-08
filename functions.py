@@ -79,10 +79,10 @@ def find_build_scripts():
     saved = saved_repo_path()
     if saved:
         candidates += [saved / "build-scripts", saved]
-    candidates += [
-        APP_DIR.parent / REPO_NAME / "build-scripts",   # sibling clone (dev layout)
-        Path.home() / REPO_NAME / "build-scripts",
-    ]
+    # Deliberately NOT APP_DIR.parent/<repo> (the app's sibling): on the dev box
+    # that's a Kiro-HQ source folder, and the builder must never adopt, build in,
+    # or move it. Default to ~/<repo> — a dedicated clone location outside HQ.
+    candidates.append(Path.home() / REPO_NAME / "build-scripts")
     if not DEV:
         candidates.append(Path("/usr/share/kiro-iso/build-scripts"))
     for c in candidates:

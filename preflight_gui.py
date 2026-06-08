@@ -1,6 +1,5 @@
 """Pre-flight screen — runs host checks and offers one-click fixes."""
 
-import shutil
 import threading
 
 import gi
@@ -162,55 +161,16 @@ class PreflightScreen:
             self._log(f"[error] {target} already exists but isn't a {fn.REPO_NAME} clone — "
                       "pick another folder.")
             return
-        current = fn.BUILD_SCRIPTS.parent if fn.BUILD_SCRIPTS else None
-        # A clone exists elsewhere → offer to move it to the chosen spot.
-        if current and current != target and current.exists():
-            self._confirm_move(current, target)
-        else:
-            self._set_repo_location(target, f"{fn.REPO_NAME} location set to {target} (will clone here).")
+        # Never move an existing repo — it may be a source checkout (on the dev
+        # box, a Kiro-HQ folder). Just point the app at the chosen target;
+        # Pre-flight clones a fresh copy there if one isn't already present.
+        self._set_repo_location(target, f"{fn.REPO_NAME} location set to {target} (will clone here).")
 
     def _set_repo_location(self, repo, msg):
         fn.save_repo_path(repo)
         fn.refresh_paths()
         self._log(msg)
         self.refresh()
-
-    def _confirm_move(self, current, target):
-        dlg = Gtk.AlertDialog()
-        dlg.set_modal(True)
-        dlg.set_message(f"Move the {fn.REPO_NAME} folder?")
-        dlg.set_detail(f"From:  {current}\nTo:  {target}")
-        dlg.set_buttons(["Cancel", "Move"])
-        dlg.set_default_button(1)
-        dlg.set_cancel_button(0)
-        dlg.choose(self.window, None,
-                   lambda d, r: self._on_move_confirmed(d, r, current, target))
-
-    def _on_move_confirmed(self, dlg, result, current, target):
-        try:
-            idx = dlg.choose_finish(result)
-        except GLib.Error:
-            return
-        if idx != 1:   # Cancel
-            return
-        self._log(f"Moving {current} → {target} …")
-
-        def worker():
-            try:
-                target.parent.mkdir(parents=True, exist_ok=True)
-                shutil.move(str(current), str(target))
-                err = None
-            except (OSError, shutil.Error) as exc:
-                err = str(exc)
-            GLib.idle_add(self._on_moved, target, err)
-
-        threading.Thread(target=worker, daemon=True).start()
-
-    def _on_moved(self, target, err):
-        if err:
-            self._log(f"[error] move failed: {err}")
-            return
-        self._set_repo_location(target, f"Moved {fn.REPO_NAME} to {target}")
 
     def _build_header(self, text):
         row = Gtk.ListBoxRow()
