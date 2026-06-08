@@ -169,32 +169,33 @@ def check_nvidia():
     return OK, f"no NVIDIA GPU detected; driver set to '{choice}' (unused)", None
 
 
-# Order matters: repo + environment first, then fixable repos, then advisories.
+# Grouped into sections that render as headers on the Pre-flight screen.
+# Within a section order is cosmetic — every check runs regardless of order.
 CHECKS = [
-    ("repo", f"{fn.REPO_NAME} (git clone)", check_repo),
-    ("uptodate", f"{fn.REPO_NAME} up to date", check_repo_uptodate),
-    ("root", "Not running as root", check_not_root),
-    ("arch", "Arch-based host", check_arch),
-    ("polkit", "polkit auth agent", check_polkit),
-    ("archiso", "archiso package", check_archiso),
-    ("grub", "grub package", check_grub),
-    ("chaotic", "Chaotic-AUR repo", check_chaotic),
-    ("cachyos", "CachyOS repo", check_cachyos),
-    ("disk", "Free disk space", check_disk),
-    ("stale_mounts", "Stale build mounts", check_stale_mounts),
-    ("leftover_build", "Leftover build folder", check_leftover_build_folder),
-    ("kernels", "Kernel package(s)", check_kernels),
-    ("nvidia", "NVIDIA driver choice", check_nvidia),
+    ("repo", f"{fn.REPO_NAME} (git clone)", check_repo, "Build sources"),
+    ("uptodate", f"{fn.REPO_NAME} up to date", check_repo_uptodate, "Build sources"),
+    ("polkit", "polkit auth agent", check_polkit, "Dependencies"),
+    ("archiso", "archiso package", check_archiso, "Dependencies"),
+    ("grub", "grub package", check_grub, "Dependencies"),
+    ("chaotic", "Chaotic-AUR repo", check_chaotic, "Dependencies"),
+    ("cachyos", "CachyOS repo", check_cachyos, "Dependencies"),
+    ("kernels", "Kernel package(s)", check_kernels, "Dependencies"),
+    ("root", "Not running as root", check_not_root, "Host & workspace"),
+    ("arch", "Arch-based host", check_arch, "Host & workspace"),
+    ("disk", "Free disk space", check_disk, "Host & workspace"),
+    ("stale_mounts", "Stale build mounts", check_stale_mounts, "Host & workspace"),
+    ("leftover_build", "Leftover build folder", check_leftover_build_folder, "Host & workspace"),
+    ("nvidia", "NVIDIA driver choice", check_nvidia, "Host & workspace"),
 ]
 
 
 def run_all():
-    """Return a list of dicts: key, title, status, detail, fix."""
+    """Return a list of dicts: key, title, status, detail, fix, section."""
     results = []
-    for key, title, detect in CHECKS:
+    for key, title, detect, section in CHECKS:
         status, detail, fix = detect()
         results.append({"key": key, "title": title, "status": status,
-                        "detail": detail, "fix": fix})
+                        "detail": detail, "fix": fix, "section": section})
     return results
 
 

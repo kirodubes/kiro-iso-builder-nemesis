@@ -4,9 +4,9 @@
 
 ---
 
-## 2026-06-08 — Pre-flight wording: kiro-iso is a git clone, not a repo
+## 2026-06-08 — Pre-flight clarity: clone wording + grouped checks
 
-### What Changed
+### What Changed — clone wording
 
 Reworded the user-facing strings that called the `kiro-iso` build-scripts checkout a
 "repo". On the Pre-flight screen it sat right next to the **Chaotic-AUR repo** and
@@ -26,10 +26,24 @@ wording stays correct in both modes. Internal docstrings/comments that say "kiro
 were left as-is — it *is* a git repository; the fix is purely about the user-facing
 conflation with pacman repos.
 
+### What Changed — grouped Pre-flight checks
+
+The Pre-flight screen was one flat list of ~14 rows mixing build sources, dependencies
+and host/workspace housekeeping. Grouped them under section headers — **Build sources**
+(kiro-iso clone, up-to-date), **Dependencies** (polkit, archiso, grub, Chaotic-AUR,
+CachyOS, kernels), **Host & workspace** (not-root, Arch-based, disk space, stale build
+mounts, leftover build folder, NVIDIA) — so the disk/mounts/leftover housekeeping reads
+as its own group instead of interleaved with dependency checks. Raised by cyberagency on
+Discussions #39 (point 2). Checks themselves are unchanged; only display order/headers.
+
+- Added a `section` field to each entry in `CHECKS`; `run_all()` carries it through.
+- `PreflightScreen._populate` inserts a non-selectable header row when the section
+  changes; new `_build_header()` renders it with a `.section-header` CSS class.
+
 ### Files Modified
 
 - host_checks.py, configure_gui.py, build_gui.py, packages_gui.py, kiro-iso-builder.py,
-  functions.py
+  functions.py, preflight_gui.py, style.css
 
 ## 2026-06-07 — Initial GTK4 app
 

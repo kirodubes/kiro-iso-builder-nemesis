@@ -104,7 +104,12 @@ class PreflightScreen:
             self.listbox.remove(child)
             child = self.listbox.get_first_child()
         self.rows.clear()
+        current_section = None
         for r in results:
+            section = r.get("section")
+            if section and section != current_section:
+                self.listbox.append(self._build_header(section))
+                current_section = section
             self.listbox.append(self._build_row(r))
         self.recheck_btn.set_sensitive(True)
         n_fail = sum(1 for r in results if r["status"] == hc.FAIL)
@@ -192,6 +197,19 @@ class PreflightScreen:
             self._log(f"[error] move failed: {err}")
             return
         self._set_repo_location(target, f"Moved {fn.REPO_NAME} to {target}")
+
+    def _build_header(self, text):
+        row = Gtk.ListBoxRow()
+        row.set_selectable(False)
+        row.set_activatable(False)
+        label = Gtk.Label(label=text, xalign=0)
+        label.add_css_class("section-header")
+        label.set_margin_top(12)
+        label.set_margin_bottom(4)
+        label.set_margin_start(10)
+        label.set_margin_end(10)
+        row.set_child(label)
+        return row
 
     def _build_row(self, r):
         row = Gtk.ListBoxRow()

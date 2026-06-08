@@ -10,6 +10,15 @@
     font-weight: 600;
 }
 
+/* Pre-flight section headers (Build sources / Dependencies / Host & workspace) */
+.section-header {
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 0.55;
+}
+
 .dim-label {
     opacity: 0.65;
     font-size: 12px;
