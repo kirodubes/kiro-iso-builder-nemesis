@@ -41,6 +41,12 @@ class BuildScreen:
         sub.add_css_class("dim-label")
         self.widget.append(sub)
 
+        # Spell out exactly where this build's work dir and ISO land — refreshed
+        # on every show since build_location can change on the Configure screen.
+        self.paths = Gtk.Label(xalign=0, wrap=True, max_width_chars=78, selectable=True)
+        self.paths.add_css_class("dim-label")
+        self.widget.append(self.paths)
+
         bar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         self.start_btn = Gtk.Button(label="Start build")
         self.start_btn.add_css_class("suggested-action")
@@ -80,9 +86,19 @@ class BuildScreen:
         self.widget.append(nav)
 
     def on_show(self):
+        self._show_paths()
         if fn.build_script() is None:
             self._log(f"{fn.REPO_NAME} clone not found — fix it on the Pre-flight screen.")
             self.start_btn.set_sensitive(False)
+
+    def _show_paths(self):
+        build, out = fn.build_folder(), fn.out_folder()
+        if build and out:
+            self.paths.set_markup(
+                f"<b>Work dir:</b>  {GLib.markup_escape_text(str(build))}\n"
+                f"<b>ISO output:</b>  {GLib.markup_escape_text(str(out))}")
+        else:
+            self.paths.set_text("Output location unknown — set the clone path on the Pre-flight screen.")
 
     def _start(self):
         script = fn.build_script()
