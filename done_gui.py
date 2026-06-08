@@ -91,6 +91,10 @@ class DoneScreen:
         self.vm_btn.connect("clicked", lambda _w: self._test_vm())
         self.install_btn = Gtk.Button(label="Install QEMU")
         self.install_btn.connect("clicked", lambda _w: self._install_qemu())
+        self.burn_btn = Gtk.Button(label="Burn to USB")
+        self.burn_btn.connect("clicked", lambda _w: self._burn())
+        self.burn_install_btn = Gtk.Button(label="Install USB writer")
+        self.burn_install_btn.connect("clicked", lambda _w: self._install_mintstick())
         self.log_btn = Gtk.Button(label="Open build log")
         self.log_btn.connect("clicked", lambda _w: self._open_log())
         self.save_profile_btn = Gtk.Button(label="Save build profile…")
@@ -102,6 +106,8 @@ class DoneScreen:
         bar.append(self.vbox_install_btn)
         bar.append(self.vm_btn)
         bar.append(self.install_btn)
+        bar.append(self.burn_btn)
+        bar.append(self.burn_install_btn)
         bar.append(self.log_btn)
         bar.append(self.save_profile_btn)
         bar.append(again)
@@ -142,6 +148,12 @@ class DoneScreen:
         self.vm_btn.set_sensitive(on and has_qemu)
         self.install_btn.set_visible(not has_qemu)
         self.install_btn.set_sensitive(on and not has_qemu)
+        has_mintstick = fn.have("mintstick")
+        # Show "Burn to USB" when mintstick is present, otherwise the install button.
+        self.burn_btn.set_visible(has_mintstick)
+        self.burn_btn.set_sensitive(on and has_mintstick)
+        self.burn_install_btn.set_visible(not has_mintstick)
+        self.burn_install_btn.set_sensitive(on and not has_mintstick)
 
     def _open(self):
         folder = _out_folder()
@@ -262,6 +274,31 @@ class DoneScreen:
         else:
             self._log(f"QEMU install failed (exit {code}).")
             self.install_btn.set_sensitive(True)
+
+    # ── burn the ISO to a USB stick via mintstick ──────────────────────
+    def _burn(self):
+        if not self.iso or not fn.have("mintstick"):
+            return
+        # mintstick self-elevates and lets the user pick the target USB device.
+        subprocess.Popen(["mintstick", "-m", "iso", "-i", str(self.iso)])
+
+    def _install_mintstick(self):
+        self.burn_install_btn.set_sensitive(False)
+        self._log("Installing mintstick (you'll be asked for your password)…")
+        fn.run_pipe(
+            ["pkexec", "pacman", "-S", "--needed", "--noconfirm", "mintstick"],
+            lambda line: self._log(fn.strip_ansi(line)),
+            self._on_mintstick_installed)
+
+    def _on_mintstick_installed(self, code):
+        if code == 0 and fn.have("mintstick"):
+            self._log("USB writer installed — you can now Burn to USB.")
+            self.burn_install_btn.set_visible(False)
+            self.burn_btn.set_visible(True)
+            self.burn_btn.set_sensitive(True)
+        else:
+            self._log(f"USB writer install failed (exit {code}).")
+            self.burn_install_btn.set_sensitive(True)
 
     # ── save a shareable build profile (settings + package selection) ─
     def _save_profile(self):

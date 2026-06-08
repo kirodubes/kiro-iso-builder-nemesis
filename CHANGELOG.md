@@ -4,6 +4,26 @@
 
 ---
 
+## 2026-06-08 — Done screen: Burn the ISO to a USB stick (mintstick)
+
+### What Changed
+- **`done_gui.py`** — added a **Burn to USB** action to the Done screen. When
+  `mintstick` is installed it launches `mintstick -m iso -i <iso>` with the
+  freshly built ISO preselected; when it's missing, an **Install USB writer**
+  button installs it first (`pkexec pacman -S --needed --noconfirm mintstick`),
+  then flips to the Burn button — mirroring the existing QEMU/VirtualBox
+  install-or-launch pair.
+
+### Why
+- The Done screen could test-boot the ISO in a VM but had no way to get it onto
+  physical media — the obvious final step. mintstick self-elevates and makes the
+  user pick the target USB device, so KIB needs no `pkexec`, no device
+  enumeration, and no raw `dd` (no risk of writing the wrong disk from the
+  builder). Launch is a direct `Popen` as the normal user, matching `_test_vm`.
+
+### Files Modified
+- `done_gui.py`
+
 ## 2026-06-08 — Pre-flight Re-check re-discovers the clone (catches a deleted folder)
 
 ### What Changed
