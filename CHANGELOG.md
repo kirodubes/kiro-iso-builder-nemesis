@@ -4,6 +4,33 @@
 
 ---
 
+## 2026-06-08 — Pre-flight wording: kiro-iso is a git clone, not a repo
+
+### What Changed
+
+Reworded the user-facing strings that called the `kiro-iso` build-scripts checkout a
+"repo". On the Pre-flight screen it sat right next to the **Chaotic-AUR repo** and
+**CachyOS repo** rows (real pacman repositories), so users read it as another pacman
+repo when it's actually a git clone of the build profile. Raised by cyberagency on
+Discussions #39.
+
+- Pre-flight check row title `kiro-iso repo` → **`kiro-iso (git clone)`**, now visibly
+  distinct from the pacman-repo rows.
+- Detail / status / error strings across the Pre-flight, Configure, Packages and Build
+  screens now say "clone" instead of "repo" when referring to the kiro-iso checkout.
+
+### Technical Details
+
+All labels interpolate `fn.REPO_NAME` (`kiro-iso`, or `kiro-iso-next` in dev mode), so the
+wording stays correct in both modes. Internal docstrings/comments that say "kiro-iso repo"
+were left as-is — it *is* a git repository; the fix is purely about the user-facing
+conflation with pacman repos.
+
+### Files Modified
+
+- host_checks.py, configure_gui.py, build_gui.py, packages_gui.py, kiro-iso-builder.py,
+  functions.py
+
 ## 2026-06-07 — Initial GTK4 app
 
 First working version of the Kiro ISO Builder: a GTK4 (ATT-style, plain Gtk4 — no

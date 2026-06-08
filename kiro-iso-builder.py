@@ -123,7 +123,7 @@ def main():
     if fn.DEV:
         print("[dev] targeting kiro-iso-next")
     if fn.BUILD_SCRIPTS is None:
-        print("[warn] kiro-iso repo not found — the Pre-flight screen can clone it.")
+        print("[warn] kiro-iso clone not found — the Pre-flight screen can clone it.")
     argv = [a for a in sys.argv if a != "--dev"]
     return BuilderApp().run(argv)
 

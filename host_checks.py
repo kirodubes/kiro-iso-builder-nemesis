@@ -46,7 +46,7 @@ def _free_gb(path):
 def check_repo():
     if fn.BUILD_SCRIPTS:
         return OK, f"Found at {fn.BUILD_SCRIPTS}", None
-    return FAIL, f"{fn.REPO_NAME} repo not found — everything is built from it", ("clone",)
+    return FAIL, f"{fn.REPO_NAME} clone not found — everything is built from it", ("clone",)
 
 
 def check_repo_uptodate():
@@ -54,7 +54,7 @@ def check_repo_uptodate():
     # build from stale scripts/package lists. Fetches; offline degrades to a WARN.
     repo = fn.repo_dir()
     if repo is None:
-        return OK, f"set once the {fn.REPO_NAME} repo is present", None
+        return OK, f"set once the {fn.REPO_NAME} clone is present", None
     if not fn.have("git"):
         return WARN, "git unavailable — can't check for updates", None
     if not fn.git_fetch(repo):
@@ -123,7 +123,7 @@ def check_disk():
 
 def check_kernels():
     if fn.build_conf_path() is None:
-        return OK, f"set once the {fn.REPO_NAME} repo is present", None
+        return OK, f"set once the {fn.REPO_NAME} clone is present", None
     raw = fn.read_conf().get("kernel", "").strip()
     if raw == "ask":
         return OK, "kernel picker set to 'ask' (chosen at build time)", None
@@ -143,7 +143,7 @@ def check_stale_mounts():
     # Leftover mkarchiso bind-mounts from an earlier stopped/crashed build break
     # the next build and can wedge the host. Detect them read-only (no root).
     if fn.unmount_build_script() is None:
-        return OK, f"set once the {fn.REPO_NAME} repo is present", None
+        return OK, f"set once the {fn.REPO_NAME} clone is present", None
     if fn.stale_mounts_present():
         return WARN, "stale build mounts under kiro-build — clean before building", ("unmount",)
     return OK, "no stale build mounts", None
@@ -153,7 +153,7 @@ def check_leftover_build_folder():
     # A leftover kiro-build from a prior run is root-owned (mkarchiso ran as root)
     # and can't be deleted from a file manager. Offer a confirmed removal.
     if fn.repo_dir() is None:
-        return OK, f"set once the {fn.REPO_NAME} repo is present", None
+        return OK, f"set once the {fn.REPO_NAME} clone is present", None
     if fn.build_folder_present():
         return WARN, f"leftover build folder {fn.build_folder()} (root-owned) — remove it", ("removebuild",)
     return OK, "no leftover build folder", None
@@ -171,7 +171,7 @@ def check_nvidia():
 
 # Order matters: repo + environment first, then fixable repos, then advisories.
 CHECKS = [
-    ("repo", f"{fn.REPO_NAME} repo", check_repo),
+    ("repo", f"{fn.REPO_NAME} (git clone)", check_repo),
     ("uptodate", f"{fn.REPO_NAME} up to date", check_repo_uptodate),
     ("root", "Not running as root", check_not_root),
     ("arch", "Arch-based host", check_arch),

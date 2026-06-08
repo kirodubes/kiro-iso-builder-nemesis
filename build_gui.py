@@ -81,7 +81,7 @@ class BuildScreen:
 
     def on_show(self):
         if fn.build_script() is None:
-            self._log(f"{fn.REPO_NAME} repo not found — fix it on the Pre-flight screen.")
+            self._log(f"{fn.REPO_NAME} clone not found — fix it on the Pre-flight screen.")
             self.start_btn.set_sensitive(False)
 
     def _start(self):

@@ -488,7 +488,7 @@ def run_hostprep_fix(args, on_line, on_done):
     """pkexec the host-prep dispatcher: one polkit prompt, runs as root."""
     runner = host_prep_run()
     if runner is None:
-        GLib.idle_add(on_line, f"[error] {REPO_NAME} repo not found")
+        GLib.idle_add(on_line, f"[error] {REPO_NAME} clone not found")
         GLib.idle_add(on_done, 1)
         return
     run_pipe(["pkexec", "bash", str(runner), *args], on_line, on_done)

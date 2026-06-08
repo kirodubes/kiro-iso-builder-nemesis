@@ -95,7 +95,7 @@ class PackagesScreen:
         self.checks, self.groups, self.sections = [], [], []
 
         if fn.packages_file() is None:
-            self.status.set_text("packages.x86_64 not found — fix the repo on the Pre-flight screen.")
+            self.status.set_text("packages.x86_64 not found — fix the clone on the Pre-flight screen.")
             self.widget.set_sensitive(False)
             return
         self.widget.set_sensitive(True)

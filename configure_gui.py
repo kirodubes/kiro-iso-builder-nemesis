@@ -127,7 +127,7 @@ class ConfigureScreen:
 
     def _load(self):
         if not fn.build_conf_path():
-            self.status.set_text("build.conf not found — fix the repo on the Pre-flight screen.")
+            self.status.set_text("build.conf not found — fix the clone on the Pre-flight screen.")
             self.widget.set_sensitive(False)
             return
         self.widget.set_sensitive(True)
@@ -157,9 +157,9 @@ class ConfigureScreen:
         loc = LOCATION[self.location.get_selected()]
         base = fn.build_output_base(loc)
         if base is None:
-            self.location_hint.set_text(f"→ builds next to the {fn.REPO_NAME} repo (set the repo on Pre-flight)")
+            self.location_hint.set_text(f"→ builds next to the {fn.REPO_NAME} clone (set its location on Pre-flight)")
             return
-        where = "next to the repo" if loc == "local" else "your home folder"
+        where = "next to the clone" if loc == "local" else "your home folder"
         self.location_hint.set_text(f"→ kiro-build / kiro-Out go in {base} ({where})")
 
     def _reset(self):
@@ -218,7 +218,7 @@ class ConfigureScreen:
     # ── import a shareable build profile (settings + package selection) ─
     def _import_profile(self):
         if not fn.build_conf_path():
-            self.status.set_text(f"{fn.REPO_NAME} repo not found — fix it on the Pre-flight screen.")
+            self.status.set_text(f"{fn.REPO_NAME} clone not found — fix it on the Pre-flight screen.")
             return
         dialog = Gtk.FileDialog()
         dialog.set_title("Import build profile")
