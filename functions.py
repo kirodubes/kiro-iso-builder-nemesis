@@ -99,6 +99,7 @@ def refresh_paths():
     global BUILD_SCRIPTS
     BUILD_SCRIPTS = find_build_scripts()
     ensure_build_conf()
+    normalize_build_location()
     return BUILD_SCRIPTS
 
 
@@ -134,6 +135,17 @@ def ensure_build_conf():
         shutil.copy(defaults, path)
 
 
+def normalize_build_location():
+    """Force build_location=local in the live build.conf.
+
+    KISS: the build/out folders always sit under the one folder the user picks on
+    Pre-flight (next to the clone). We settle that here — where the location is
+    established — not on the Configure screen, which the StackSidebar lets a user
+    skip on the way to Build."""
+    if build_conf_path() and read_conf().get("build_location") != "local":
+        set_conf("build_location", "local")
+
+
 def packages_file():
     """archiso/packages.x86_64 in the kiro-iso repo, or None."""
     return BUILD_SCRIPTS.parent / "archiso" / "packages.x86_64" if BUILD_SCRIPTS else None
@@ -149,25 +161,26 @@ def repo_dir():
     return BUILD_SCRIPTS.parent if BUILD_SCRIPTS else None
 
 
-def build_output_base(location):
-    """Where kiro-build/kiro-Out land for a given build_location, mirroring
-    build-the-iso.sh: 'local' → beside the repo (its parent), else $HOME."""
-    if location == "local":
-        repo = repo_dir()
-        return repo.parent if repo else None
-    return Path.home()
+def build_base_dir():
+    """The single folder that holds the clone, kiro-build and kiro-Out.
+
+    KISS: everything lives under one folder the user picks on Pre-flight. It's the
+    clone's parent once a clone exists; before that, the parent of the chosen (or
+    default) clone location, so the disk check has a real target to measure."""
+    repo = repo_dir()
+    if repo:
+        return repo.parent
+    return (saved_repo_path() or default_repo_dir()).parent
 
 
 def build_folder():
-    """The mkarchiso work dir for the current build_location, or None."""
-    base = build_output_base(read_conf().get("build_location", "home"))
-    return base / "kiro-build" if base else None
+    """The mkarchiso work dir, under the chosen build folder."""
+    return build_base_dir() / "kiro-build"
 
 
 def out_folder():
-    """The ISO output dir for the current build_location, or None."""
-    base = build_output_base(read_conf().get("build_location", "home"))
-    return base / "kiro-Out" if base else None
+    """The ISO output dir, under the chosen build folder."""
+    return build_base_dir() / "kiro-Out"
 
 
 # ── Per-build logs ──────────────────────────────────────────────────

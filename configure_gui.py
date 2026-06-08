@@ -10,7 +10,6 @@ gi.require_version("Gtk", "4.0")
 from gi.repository import Gio, GLib, Gtk  # noqa: E402
 
 NVIDIA = ["open", "580xx", "390xx"]
-LOCATION = ["home", "local"]
 # Curated fallback list, used until the user clicks Detect (or if no repo DB).
 KERNELS = ["linux-cachyos", "linux-zen", "linux", "linux-lts", "linux-hardened"]
 NONE = "none"
@@ -22,7 +21,6 @@ DEFAULTS = {
     "bump_version": "yes",
     "clean_pacman_cache": "no",
     "remove_build_folder": "no",
-    "build_location": "home",
 }
 
 
@@ -90,12 +88,6 @@ class ConfigureScreen:
         advbox.append(_labelled("Clean pacman cache", self.clean))
         self.remove_build = Gtk.Switch(valign=Gtk.Align.CENTER)
         advbox.append(_labelled("Remove build folder after build", self.remove_build))
-        self.location = Gtk.DropDown.new_from_strings(LOCATION)
-        self.location.connect("notify::selected", lambda *_: self._update_location_hint())
-        advbox.append(_labelled("Build location", self.location))
-        self.location_hint = Gtk.Label(xalign=0, wrap=True)
-        self.location_hint.add_css_class("dim-label")
-        advbox.append(self.location_hint)
         adv.set_child(advbox)
         form.append(adv)
 
@@ -150,17 +142,6 @@ class ConfigureScreen:
         self.bump.set_active(conf.get("bump_version", "yes") == "yes")
         self.clean.set_active(conf.get("clean_pacman_cache", "no") == "yes")
         self.remove_build.set_active(conf.get("remove_build_folder", "no") == "yes")
-        self._select(self.location, LOCATION, conf.get("build_location", "home"))
-        self._update_location_hint()
-
-    def _update_location_hint(self):
-        loc = LOCATION[self.location.get_selected()]
-        base = fn.build_output_base(loc)
-        if base is None:
-            self.location_hint.set_text(f"→ builds next to the {fn.REPO_NAME} clone (set its location on Pre-flight)")
-            return
-        where = "next to the clone" if loc == "local" else "your home folder"
-        self.location_hint.set_text(f"→ kiro-build / kiro-Out go in {base} ({where})")
 
     def _reset(self):
         self._apply(DEFAULTS)
@@ -212,7 +193,6 @@ class ConfigureScreen:
         fn.set_conf("bump_version", "yes" if self.bump.get_active() else "no")
         fn.set_conf("clean_pacman_cache", "yes" if self.clean.get_active() else "no")
         fn.set_conf("remove_build_folder", "yes" if self.remove_build.get_active() else "no")
-        fn.set_conf("build_location", LOCATION[self.location.get_selected()])
         self.window.navigate("packages")
 
     # ── import a shareable build profile (settings + package selection) ─

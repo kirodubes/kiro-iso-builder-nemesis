@@ -115,10 +115,16 @@ def check_cachyos():
 
 
 def check_disk():
-    free = _free_gb(os.path.expanduser("~"))
+    # Measure the filesystem that actually holds the build folder the user chose,
+    # not always $HOME — they may build on a separate disk (e.g. /DATA).
+    base = fn.build_base_dir()
+    probe = base
+    while not probe.exists() and probe != probe.parent:
+        probe = probe.parent
+    free = _free_gb(str(probe))
     if free >= 15:
-        return OK, f"{free:.0f} GB free in home", None
-    return WARN, f"only {free:.0f} GB free in home (~15 GB recommended)", None
+        return OK, f"{free:.0f} GB free in {base}", None
+    return WARN, f"only {free:.0f} GB free in {base} (~15 GB recommended)", None
 
 
 def check_kernels():

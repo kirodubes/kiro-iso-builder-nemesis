@@ -4,7 +4,39 @@
 
 ---
 
-## 2026-06-08 — Pre-flight clarity: clone wording + grouped checks
+## 2026-06-08 — Pre-flight clarity: clone wording, grouped checks, one build folder
+
+### What Changed — one build folder, surfaced up front (KISS)
+
+The "where does my stuff go?" decision was split in two and both halves were buried:
+the **clone path** sat mid-Pre-flight behind the checks, and the **build output**
+(`home` vs `local`) was a dropdown on the Configure screen among nvidia/kernels. That
+split confused cyberagency on Discussions #39.
+
+Collapsed it to one decision: the user picks a **single folder** on Pre-flight and the
+clone, the `kiro-build` work dir and the `kiro-Out` ISO all live under it. The separate
+"Build location" choice is gone. The default case is unchanged — default clone
+`~/kiro-iso` → `~/kiro-build` / `~/kiro-Out`, exactly as before; only the unusual
+"non-home clone + home output" combo collapses.
+
+- **No build-script change.** The build script's existing `build_location=local` branch
+  already puts build/out next to the clone, and `resolve_repo_dir` already appends
+  `kiro-iso` to the picked folder (clone-parent == chosen base). So the whole change
+  stays inside the builder app; `build-the-iso.sh` / `build.conf.defaults` untouched.
+- **`functions.py`** — `build_output_base()` replaced by `build_base_dir()` (always the
+  clone's parent, or the chosen/default clone-parent before a clone exists);
+  `build_folder()`/`out_folder()` derive from it. New `normalize_build_location()` forces
+  `build_location=local` in the live `build.conf`, called from `refresh_paths()` **and**
+  at app startup (`kiro-iso-builder.py`) — so a user who jumps Pre-flight → Build,
+  skipping Configure, still builds into the chosen folder rather than silently into `~`.
+- **`preflight_gui.py`** — the location picker is now a prominent "Where should Kiro
+  build?" card at the top of the screen, above the checks, with a one-line explainer.
+- **`configure_gui.py`** — removed the Build-location dropdown, its hint, the `LOCATION`
+  constant, `_update_location_hint()`, and the `build_location` default.
+- **`host_checks.py`** — `check_disk()` now measures free space on the filesystem that
+  holds the chosen build folder (e.g. `/DATA`), not always `$HOME`.
+- **`build_gui.py`** — the build summary reports the resolved **Build folder** instead of
+  the now-always-`local` knob.
 
 ### What Changed — clone wording
 

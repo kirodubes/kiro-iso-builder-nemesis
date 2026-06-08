@@ -42,7 +42,7 @@ class BuildScreen:
         self.widget.append(sub)
 
         # Spell out exactly where this build's work dir and ISO land — refreshed
-        # on every show since build_location can change on the Configure screen.
+        # on every show since the build folder can change on the Pre-flight screen.
         self.paths = Gtk.Label(xalign=0, wrap=True, max_width_chars=78, selectable=True)
         self.paths.add_css_class("dim-label")
         self.widget.append(self.paths)
@@ -274,7 +274,7 @@ class BuildScreen:
             f"Timestamp:      {time.strftime('%Y-%m-%d %H:%M:%S')}",
             f"Result:         {'SUCCESS' if code == 0 else f'FAILED (exit {code})'}",
             f"Duration:       {dur // 60}m {dur % 60}s",
-            f"build_location: {conf.get('build_location', '?')}",
+            f"Build folder:   {fn.build_base_dir()}",
             f"nvidia_driver:  {conf.get('nvidia_driver', '?')}",
             f"kernel:         {conf.get('kernel', '?')}",
             f"Host:           {self._host_pretty_name()}",

@@ -102,6 +102,7 @@ class BuilderApp(Gtk.Application):
     def _on_activate(self, app):
         fn.ensure_app_dirs()
         fn.ensure_build_conf()
+        fn.normalize_build_location()
         self._load_css()
         if not self.get_windows():
             BuilderWindow(app).present()

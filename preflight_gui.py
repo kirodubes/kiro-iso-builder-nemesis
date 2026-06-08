@@ -31,24 +31,38 @@ class PreflightScreen:
         title = Gtk.Label(label="Pre-flight checks", xalign=0)
         title.add_css_class("screen-title")
         self.widget.append(title)
-        subtitle = Gtk.Label(
-            label="Confirm the host is ready, then fix anything red before building.",
-            xalign=0, wrap=True, max_width_chars=70)
-        subtitle.add_css_class("dim-label")
-        self.widget.append(subtitle)
 
-        repo_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
-        repo_caption = Gtk.Label(label=f"{fn.REPO_NAME} location:", xalign=0)
-        repo_caption.add_css_class("row-title")
+        # The decision that matters most, surfaced first: one folder that holds the
+        # clone, the build files and the finished ISO.
+        folder_card = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        folder_card.add_css_class("card")
+        folder_heading = Gtk.Label(label="Where should Kiro build?", xalign=0)
+        folder_heading.add_css_class("row-title")
+        folder_card.append(folder_heading)
+
+        folder_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         self.repo_label = Gtk.Label(xalign=0, hexpand=True, wrap=True, selectable=True)
         self.repo_label.add_css_class("dim-label")
         browse_btn = Gtk.Button(label="Browse…")
         browse_btn.set_valign(Gtk.Align.CENTER)
         browse_btn.connect("clicked", lambda _w: self._browse_repo())
-        repo_row.append(repo_caption)
-        repo_row.append(self.repo_label)
-        repo_row.append(browse_btn)
-        self.widget.append(repo_row)
+        folder_row.append(self.repo_label)
+        folder_row.append(browse_btn)
+        folder_card.append(folder_row)
+
+        folder_help = Gtk.Label(
+            label="The clone, the build files (kiro-build) and the finished ISO (kiro-Out) "
+                  "all live in this one folder.",
+            xalign=0, wrap=True, max_width_chars=70)
+        folder_help.add_css_class("dim-label")
+        folder_card.append(folder_help)
+        self.widget.append(folder_card)
+
+        subtitle = Gtk.Label(
+            label="Then confirm the host is ready and fix anything red before building.",
+            xalign=0, wrap=True, max_width_chars=70)
+        subtitle.add_css_class("dim-label")
+        self.widget.append(subtitle)
 
         toolbar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         self.recheck_btn = Gtk.Button(label="Re-check")
