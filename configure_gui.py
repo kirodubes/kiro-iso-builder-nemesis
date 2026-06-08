@@ -20,7 +20,7 @@ DEFAULTS = {
     "kernel": "linux-cachyos linux-zen",
     "bump_version": "yes",
     "clean_pacman_cache": "no",
-    "remove_build_folder": "no",
+    "remove_build_folder": "yes",
 }
 
 

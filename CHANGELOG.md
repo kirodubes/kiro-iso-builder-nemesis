@@ -38,6 +38,17 @@ clone, the `kiro-build` work dir and the `kiro-Out` ISO all live under it. The s
 - **`build_gui.py`** — the build summary reports the resolved **Build folder** instead of
   the now-always-`local` knob.
 
+### What Changed — remove build folder by default
+
+Flipped the **"Remove build folder after build"** default from `no` to `yes`. The build
+already wipes and recreates the work dir at the start of every run
+(`prepare_build_tree` → `remove_buildfolder yes`), so keeping it bought nothing but a
+lingering **root-owned** `kiro-build` that tripped the leftover-folder pre-flight warning
+and the keep/delete prompts (the loop cyberagency hit on #39). Removing it after each
+build leaves a clean state with no build-speed cost. The toggle stays in Advanced for
+anyone who wants to inspect the tree. Changed in the GUI `DEFAULTS` here and in the
+canonical `build.conf.defaults` seed in `kiro-iso` / `kiro-iso-next`.
+
 ### What Changed — clone wording
 
 Reworded the user-facing strings that called the `kiro-iso` build-scripts checkout a
