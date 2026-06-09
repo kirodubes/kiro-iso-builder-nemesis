@@ -4,6 +4,35 @@
 
 ---
 
+## 2026-06-09 — Configure screen: Editions (window-manager) picker
+
+### What Changed
+- **`configure_gui.py`** — new **Editions (window managers)** section on the Configure screen:
+  a checkbox per edition, with the note "XFCE is always included as the base / fallback
+  session." Ticking writes `editions="…"` to `build.conf` (the same knob the CLI build reads),
+  so GUI users can compose XFCE + the window managers they want. `DEFAULTS["editions"] =
+  "ohmychadwm"`; Reset and Import-profile flow through it.
+- **`functions.py`** — added `list_editions()` (mirrors `list_kernels()`): the checkboxes are
+  **auto-discovered from the `EDITION-BLOCK` markers** in the kiro-iso `packages.x86_64`, so
+  new editions (bspwm, …) appear in the GUI automatically with no code change. Also made
+  `set_conf()` **append a key when it isn't present** (previously it silently skipped a key
+  missing from an older live `build.conf`).
+
+### Why
+Closes the CLI↔GUI loop on the new TWM-edition feature (kiro-iso-next: `editions=` /
+`EDITION-BLOCK` blocks). The ISO side is verified on an installed Kiro-next system
+(XFCE + ohmychadwm + i3, default XFCE); this surfaces the same choice in the builder.
+Nemesis (beta) first, per repo policy.
+
+### Technical Details
+- Editions are the source of truth in `packages.x86_64` (the build toggles those blocks); the
+  GUI reads the marker names rather than hardcoding a list — verified live: the control builds
+  `[ohmychadwm, i3]`, reflects the saved `build.conf`, and Reset leaves only `ohmychadwm`.
+- Out of scope (full-DE phase): `default_session` control, XFCE-as-removable.
+
+### Files Modified
+- `configure_gui.py`, `functions.py`, `CHANGELOG.md`
+
 ## 2026-06-08 — Done screen: Burn the ISO to a USB stick (mintstick)
 
 ### What Changed

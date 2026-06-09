@@ -313,7 +313,9 @@ def read_conf():
 
 
 def set_conf(key, value):
-    """Rewrite ``key``'s value in build.conf in place, keeping its comment."""
+    """Set ``key`` in build.conf: rewrite its value in place (keeping any comment),
+    or append the key if it isn't present yet (so newly-added knobs persist even on
+    an older live build.conf)."""
     path = build_conf_path()
     if not path or not path.is_file():
         return False
@@ -332,9 +334,10 @@ def set_conf(key, value):
             changed = True
         else:
             out.append(line)
-    if changed:
-        path.write_text("\n".join(out) + "\n")
-    return changed
+    if not changed:
+        out.append(f"{key}={rendered}")
+    path.write_text("\n".join(out) + "\n")
+    return True
 
 
 # ── TIER 3 package list (the optional packages, grouped by category) ─
@@ -718,6 +721,17 @@ def list_kernels():
         return []
     out = cmd_out(["bash", str(script)])
     return [ln.strip() for ln in out.splitlines() if ln.strip()]
+
+
+def list_editions():
+    """WM/desktop editions the ISO offers — the EDITION-BLOCK names in
+    packages.x86_64 (the build's source of truth, same blocks the build toggles).
+    Read-only, no root. Returns [] if the repo/file isn't found.
+    """
+    pf = packages_file()
+    if pf is None or not pf.is_file():
+        return []
+    return re.findall(r"^###\s*>>> EDITION-BLOCK (\S+) >>>", pf.read_text(), re.M)
 
 
 def max_build_phase(default=12):

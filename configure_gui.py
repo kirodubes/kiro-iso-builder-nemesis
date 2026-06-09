@@ -18,6 +18,7 @@ NONE = "none"
 DEFAULTS = {
     "nvidia_driver": "open",
     "kernel": "linux-cachyos linux-zen",
+    "editions": "ohmychadwm",
     "bump_version": "yes",
     "clean_pacman_cache": "no",
     "remove_build_folder": "yes",
@@ -80,6 +81,19 @@ class ConfigureScreen:
         hint.add_css_class("dim-label")
         form.append(hint)
 
+        ed_title = Gtk.Label(label="Editions (window managers)", xalign=0)
+        ed_title.add_css_class("row-title")
+        form.append(ed_title)
+        self.editions_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+        form.append(self.editions_box)
+        self.edition_checks = {}
+        ed_note = Gtk.Label(
+            label="XFCE is always included as the base / fallback session. Tick the window "
+                  "managers to add as extra login sessions you can pick in SDDM.",
+            xalign=0, wrap=True)
+        ed_note.add_css_class("dim-label")
+        form.append(ed_note)
+
         self.bump = Gtk.Switch(valign=Gtk.Align.CENTER)
         form.append(_labelled("Bump version before building", self.bump))
 
@@ -129,9 +143,27 @@ class ConfigureScreen:
             self.widget.set_sensitive(False)
             return
         self.widget.set_sensitive(True)
+        self._populate_editions()
         self._apply(fn.read_conf())
         self.status.set_text("")
         self._loaded = True
+
+    def _populate_editions(self):
+        """Build a checkbox per edition discovered in packages.x86_64 (EDITION-BLOCK
+        markers). Rebuilds only when the set changes (first load / after the clone)."""
+        names = fn.list_editions()
+        if list(self.edition_checks) == names:
+            return
+        child = self.editions_box.get_first_child()
+        while child is not None:
+            nxt = child.get_next_sibling()
+            self.editions_box.remove(child)
+            child = nxt
+        self.edition_checks = {}
+        for name in names:
+            cb = Gtk.CheckButton(label=name)
+            self.editions_box.append(cb)
+            self.edition_checks[name] = cb
 
     def _apply(self, conf):
         """Set every control from a {key: value} dict (build.conf or DEFAULTS)."""
@@ -145,6 +177,10 @@ class ConfigureScreen:
         first_opts = KERNELS + [t for t in tokens if t not in KERNELS]
         self._set_options(self.kernel1, first_opts, first)
         self._set_options(self.kernel2, [NONE] + first_opts, second)
+
+        sel = conf.get("editions", "ohmychadwm").split()
+        for name, cb in self.edition_checks.items():
+            cb.set_active(name in sel)
 
         self.bump.set_active(conf.get("bump_version", "yes") == "yes")
         self.clean.set_active(conf.get("clean_pacman_cache", "no") == "yes")
@@ -197,6 +233,8 @@ class ConfigureScreen:
         second = self._selected(self.kernel2)
         kernels = [first] + ([second] if second and second not in (NONE, first) else [])
         fn.set_conf("kernel", " ".join(k for k in kernels if k))
+        checked = [n for n, cb in self.edition_checks.items() if cb.get_active()]
+        fn.set_conf("editions", " ".join(checked))
         fn.set_conf("bump_version", "yes" if self.bump.get_active() else "no")
         fn.set_conf("clean_pacman_cache", "yes" if self.clean.get_active() else "no")
         fn.set_conf("remove_build_folder", "yes" if self.remove_build.get_active() else "no")
