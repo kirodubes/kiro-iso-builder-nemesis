@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-06-09 — Configure: "Bump version before building" moved into Advanced
+
+### What Changed
+- **`configure_gui.py`** — the **Bump version before building** toggle is now the first row
+  inside the **Advanced** expander (with Clean pacman cache / Remove build folder), instead of
+  sitting out on the main Configure form. Behaviour unchanged — still writes `bump_version`.
+
+### Files Modified
+- `configure_gui.py`
+
 ## 2026-06-09 — Done screen: checksums show the ISO name first, with the algorithm labelled
 
 ### What Changed

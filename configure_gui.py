@@ -129,11 +129,10 @@ class ConfigureScreen:
         ds_note.add_css_class("dim-label")
         form.append(ds_note)
 
-        self.bump = Gtk.Switch(valign=Gtk.Align.CENTER)
-        form.append(_labelled("Bump version before building", self.bump))
-
         adv = Gtk.Expander(label="Advanced")
         advbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+        self.bump = Gtk.Switch(valign=Gtk.Align.CENTER)
+        advbox.append(_labelled("Bump version before building", self.bump))
         self.clean = Gtk.Switch(valign=Gtk.Align.CENTER)
         advbox.append(_labelled("Clean pacman cache", self.clean))
         self.remove_build = Gtk.Switch(valign=Gtk.Align.CENTER)
