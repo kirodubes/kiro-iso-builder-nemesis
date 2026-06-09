@@ -9,16 +9,20 @@ import functions as fn
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gio, GLib, Gtk  # noqa: E402
 
-NVIDIA = ["open", "580xx", "390xx"]
+NVIDIA = ["open", "580xx", "390xx", "none"]
 # Curated fallback list, used until the user clicks Detect (or if no repo DB).
 KERNELS = ["linux-cachyos", "linux-zen", "linux", "linux-lts", "linux-hardened"]
 NONE = "none"
+# Editions that are full desktops (vs window managers) — splits the two blocks on
+# the Configure screen. Anything not listed here is treated as a window manager.
+DESKTOPS = {"xfce", "cinnamon", "plasma", "gnome", "mate", "budgie", "lxqt", "deepin"}
 
 # Shipped defaults for the GUI-exposed knobs (the values build.conf ships with).
 DEFAULTS = {
     "nvidia_driver": "open",
     "kernel": "linux-cachyos linux-zen",
-    "editions": "ohmychadwm",
+    "editions": "xfce ohmychadwm",
+    "default_session": "xfce",
     "bump_version": "yes",
     "clean_pacman_cache": "no",
     "remove_build_folder": "yes",
@@ -58,6 +62,13 @@ class ConfigureScreen:
 
         self.nvidia = Gtk.DropDown.new_from_strings(NVIDIA)
         form.append(_labelled("NVIDIA driver", self.nvidia))
+        nv_hint = Gtk.Label(
+            label="AMD / Intel / a VM (no NVIDIA card)? Pick 'none' — no NVIDIA driver is baked "
+                  "in, and at boot choose the first entry, 'open source: AMD / Intel', which "
+                  "blacklists NVIDIA. The other options bake that NVIDIA driver set.",
+            xalign=0, wrap=True)
+        nv_hint.add_css_class("dim-label")
+        form.append(nv_hint)
 
         self.kernel1 = Gtk.DropDown()
         self._set_options(self.kernel1, KERNELS, KERNELS[0])
@@ -81,18 +92,36 @@ class ConfigureScreen:
         hint.add_css_class("dim-label")
         form.append(hint)
 
-        ed_title = Gtk.Label(label="Editions (window managers)", xalign=0)
+        ed_title = Gtk.Label(label="Editions (desktops & window managers)", xalign=0)
         ed_title.add_css_class("row-title")
         form.append(ed_title)
-        self.editions_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
-        form.append(self.editions_box)
+        # The "T": desktops in a horizontal row (top bar), window managers in a
+        # vertical column (stem). Both feed the Default-session dropdown below.
+        dt_lbl = Gtk.Label(label="Desktops", xalign=0)
+        dt_lbl.add_css_class("dim-label")
+        form.append(dt_lbl)
+        self.desktops_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=16)
+        form.append(self.desktops_box)
+        wm_lbl = Gtk.Label(label="Window managers", xalign=0)
+        wm_lbl.add_css_class("dim-label")
+        form.append(wm_lbl)
+        self.wms_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+        form.append(self.wms_box)
         self.edition_checks = {}
         ed_note = Gtk.Label(
-            label="XFCE is always included as the base / fallback session. Tick the window "
-                  "managers to add as extra login sessions you can pick in SDDM.",
+            label="Tick what you want — each becomes a session you can pick at the SDDM login "
+                  "screen. Tick at least one.",
             xalign=0, wrap=True)
         ed_note.add_css_class("dim-label")
         form.append(ed_note)
+
+        self.default_session = Gtk.DropDown()
+        form.append(_labelled("Default session (boots first)", self.default_session))
+        ds_note = Gtk.Label(
+            label="Which of the ticked editions the live ISO logs into first.",
+            xalign=0, wrap=True)
+        ds_note.add_css_class("dim-label")
+        form.append(ds_note)
 
         self.bump = Gtk.Switch(valign=Gtk.Align.CENTER)
         form.append(_labelled("Bump version before building", self.bump))
@@ -150,20 +179,34 @@ class ConfigureScreen:
 
     def _populate_editions(self):
         """Build a checkbox per edition discovered in packages.x86_64 (EDITION-BLOCK
-        markers). Rebuilds only when the set changes (first load / after the clone)."""
+        markers), split into the Desktops row and the Window-managers column.
+        Rebuilds only when the set changes (first load / after the clone)."""
         names = fn.list_editions()
         if list(self.edition_checks) == names:
             return
-        child = self.editions_box.get_first_child()
-        while child is not None:
-            nxt = child.get_next_sibling()
-            self.editions_box.remove(child)
-            child = nxt
+        for box in (self.desktops_box, self.wms_box):
+            child = box.get_first_child()
+            while child is not None:
+                nxt = child.get_next_sibling()
+                box.remove(child)
+                child = nxt
         self.edition_checks = {}
         for name in names:
             cb = Gtk.CheckButton(label=name)
-            self.editions_box.append(cb)
+            cb.connect("toggled", lambda *_: self._refresh_default_session_options())
+            (self.desktops_box if name in DESKTOPS else self.wms_box).append(cb)
             self.edition_checks[name] = cb
+        self._refresh_default_session_options()
+
+    def _refresh_default_session_options(self):
+        """Default-session dropdown lists only the ticked editions; keep the current
+        pick if still ticked, else fall back to the first ticked one."""
+        ticked = [n for n, cb in self.edition_checks.items() if cb.get_active()]
+        if not ticked:
+            self.default_session.set_model(Gtk.StringList.new([]))
+            return
+        current = self._selected(self.default_session)
+        self._set_options(self.default_session, ticked, current if current in ticked else ticked[0])
 
     def _apply(self, conf):
         """Set every control from a {key: value} dict (build.conf or DEFAULTS)."""
@@ -178,9 +221,15 @@ class ConfigureScreen:
         self._set_options(self.kernel1, first_opts, first)
         self._set_options(self.kernel2, [NONE] + first_opts, second)
 
-        sel = conf.get("editions", "ohmychadwm").split()
+        sel = conf.get("editions", "xfce ohmychadwm").split()
         for name, cb in self.edition_checks.items():
             cb.set_active(name in sel)
+        ticked = [n for n, cb in self.edition_checks.items() if cb.get_active()]
+        ds = conf.get("default_session", "xfce")
+        if ticked:
+            self._set_options(self.default_session, ticked, ds if ds in ticked else ticked[0])
+        else:
+            self.default_session.set_model(Gtk.StringList.new([]))
 
         self.bump.set_active(conf.get("bump_version", "yes") == "yes")
         self.clean.set_active(conf.get("clean_pacman_cache", "no") == "yes")
@@ -228,13 +277,19 @@ class ConfigureScreen:
         dropdown.set_selected(items.index(value) if value in items else 0)
 
     def _save(self):
+        checked = [n for n, cb in self.edition_checks.items() if cb.get_active()]
+        if not checked:
+            self.status.set_text("Tick at least one desktop or window manager — an ISO needs a session.")
+            return
         fn.set_conf("nvidia_driver", NVIDIA[self.nvidia.get_selected()])
         first = self._selected(self.kernel1)
         second = self._selected(self.kernel2)
         kernels = [first] + ([second] if second and second not in (NONE, first) else [])
         fn.set_conf("kernel", " ".join(k for k in kernels if k))
-        checked = [n for n, cb in self.edition_checks.items() if cb.get_active()]
         fn.set_conf("editions", " ".join(checked))
+        ds = self._selected(self.default_session)
+        if ds:
+            fn.set_conf("default_session", ds)
         fn.set_conf("bump_version", "yes" if self.bump.get_active() else "no")
         fn.set_conf("clean_pacman_cache", "yes" if self.clean.get_active() else "no")
         fn.set_conf("remove_build_folder", "yes" if self.remove_build.get_active() else "no")

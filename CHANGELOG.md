@@ -18,6 +18,38 @@
   `set_conf()` **append a key when it isn't present** (previously it silently skipped a key
   missing from an older live `build.conf`).
 
+- **`functions.py` / `kiro-iso-builder.py`** — the nemesis (beta) builder now **always targets
+  `kiro-iso-next`** (`REPO_NAME` hardcoded) and uses its **own config dir**
+  `~/.config/kiro-iso-builder-next`, so it can't inherit the production builder's saved repo path
+  (which pointed at a `kiro-iso` clone with no edition blocks → empty Editions section). The now-
+  redundant **`--dev` flag was removed** (the nemesis IS the beta builder, so it no longer needs a
+  toggle to reach `kiro-iso-next`). The `/usr/share` discovery fallback uses `REPO_NAME` instead of
+  a hardcoded `kiro-iso`.
+
+- **`configure_gui.py`** — relabelled the section "Editions (window managers)" → "Editions
+  (desktops & window managers)" and tweaked the note, now that a full desktop (cinnamon) appears
+  among the auto-discovered editions.
+- **`configure_gui.py` — XFCE-optional Configure follow-ups** (XFCE is no longer forced on the
+  ISO): (1) fixed the now-false "XFCE is always included" note → "Tick the editions to include —
+  each becomes a session you can pick in SDDM"; (2) added a **Default session** dropdown that lists
+  only the *ticked* editions (live-updates as you tick/untick) and writes `default_session`, so
+  unticking XFCE can't leave a stale default pointing at a missing session; (3) added **`none`** to
+  the NVIDIA-driver dropdown with a one-line hint ("Pick 'none' if you have no NVIDIA GPU
+  (AMD/Intel/VM) — no proprietary driver is baked in"). DEFAULTS gained `default_session="xfce"`
+  and `editions="xfce ohmychadwm"`.
+- **`configure_gui.py` — "T" layout for editions.** Split the flat checkbox list into two blocks: a
+  **Desktops** row (horizontal) and a **Window managers** column (vertical) — forming a T, with the
+  default-session dropdown beneath both. A small `DESKTOPS` set (`xfce, cinnamon, plasma, gnome,
+  mate, budgie, lxqt, deepin`) classifies each auto-discovered edition; anything else is a WM. All
+  multi-select (tick everything if you want). New WMs still auto-appear; a new full desktop needs
+  its name in `DESKTOPS` (one line).
+- **`configure_gui.py` — honesty + safeguard.** (1) Reworded the NVIDIA-driver hint to drop the
+  word "proprietary" (the default `nvidia-open-dkms` is NVIDIA's *open* kernel modules, so
+  "proprietary vs not" was misleading): now "No NVIDIA GPU (AMD/Intel/VM)? Pick 'none' — no NVIDIA
+  driver is baked in. The other options each bake that NVIDIA driver set." — true for any choice.
+  (2) **Safeguard:** Save & Continue is blocked (with a clear message) if **no edition is ticked**,
+  so the GUI can't produce a session-less ISO.
+
 ### Why
 Closes the CLI↔GUI loop on the new TWM-edition feature (kiro-iso-next: `editions=` /
 `EDITION-BLOCK` blocks). The ISO side is verified on an installed Kiro-next system

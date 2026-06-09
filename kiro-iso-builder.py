@@ -121,12 +121,10 @@ class BuilderApp(Gtk.Application):
 
 
 def main():
-    if fn.DEV:
-        print("[dev] targeting kiro-iso-next")
+    print(f"[info] targeting {fn.REPO_NAME}")
     if fn.BUILD_SCRIPTS is None:
-        print("[warn] kiro-iso clone not found — the Pre-flight screen can clone it.")
-    argv = [a for a in sys.argv if a != "--dev"]
-    return BuilderApp().run(argv)
+        print(f"[warn] {fn.REPO_NAME} clone not found — the Pre-flight screen can clone it.")
+    return BuilderApp().run(sys.argv)
 
 
 if __name__ == "__main__":
