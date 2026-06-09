@@ -4,6 +4,30 @@
 
 ---
 
+## 2026-06-09 — Default-session auto-follows a ticked desktop; status in ATT orange
+
+### What Changed
+- **`configure_gui.py`** — the **Default session** dropdown now auto-follows the preferred
+  edition (**a full desktop wins > flagship `ohmychadwm` > first ticked**) instead of just the
+  first ticked edition. So ticking **plasma** (or any desktop) makes it the boot session
+  automatically — forgetful users no longer end up booting `ohmychadwm` with a desktop they
+  picked. A value the **user selects in the dropdown is kept** (override flag, set only on a
+  real user pick via `notify::selected` guarded by `_ds_updating`); a saved WM in `build.conf`
+  loses to a ticked desktop on load, while a WM-only build keeps its saved WM default.
+- **`configure_gui.py`** — the validation **status label is now ATT brand orange**
+  (`att-orange-note`, `#FFA500`) instead of dim grey, so messages like "Tick at least one
+  desktop or window manager — an ISO needs a session" actually read as a warning.
+
+### Why
+- Mirrors the same **DE > ohmychadwm > first** fallback added to `apply_editions` in
+  kiro-iso-next's `build-the-iso.sh`. The GUI writes `default_session` explicitly, so without
+  this the build-side fallback never fired and a deliberately selected desktop lost to the WM.
+- The DE list in `configure_gui.py` (`DESKTOPS`) and the one in `build-the-iso.sh` must stay in
+  sync when a desktop is added.
+
+### Files Modified
+- `configure_gui.py`
+
 ## 2026-06-09 — Configure screen: Editions (window-manager) picker
 
 ### What Changed

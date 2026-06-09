@@ -116,6 +116,12 @@ class ConfigureScreen:
         form.append(ed_note)
 
         self.default_session = Gtk.DropDown()
+        # The default session auto-follows the preferred edition (DE > ohmychadwm > first)
+        # until the user picks a value themselves; _ds_updating distinguishes a programmatic
+        # set from a real user pick so the override flag is only set by the latter.
+        self._ds_user_override = False
+        self._ds_updating = False
+        self.default_session.connect("notify::selected", self._on_default_session_changed)
         form.append(_labelled("Default session (boots first)", self.default_session))
         ds_note = Gtk.Label(
             label="Which of the ticked editions the live ISO logs into first.",
@@ -138,7 +144,7 @@ class ConfigureScreen:
         self.widget.append(form)
 
         self.status = Gtk.Label(xalign=0, wrap=True)
-        self.status.add_css_class("dim-label")
+        self.status.add_css_class("att-orange-note")
         self.widget.append(self.status)
 
         nav = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
@@ -198,15 +204,42 @@ class ConfigureScreen:
             self.edition_checks[name] = cb
         self._refresh_default_session_options()
 
+    @staticmethod
+    def _preferred_default(ticked):
+        """Sensible default session: a full desktop wins, else flagship ohmychadwm, else
+        the first ticked edition. Mirrors apply_editions' fallback in build-the-iso.sh."""
+        for name in ticked:
+            if name in DESKTOPS:
+                return name
+        return "ohmychadwm" if "ohmychadwm" in ticked else ticked[0]
+
+    def _on_default_session_changed(self, _dropdown, _param):
+        if not self._ds_updating:
+            self._ds_user_override = True
+
+    def _set_default_session(self, items, current):
+        """Set the default-session dropdown without it counting as a user override."""
+        self._ds_updating = True
+        self._set_options(self.default_session, items, current)
+        self._ds_updating = False
+
     def _refresh_default_session_options(self):
-        """Default-session dropdown lists only the ticked editions; keep the current
-        pick if still ticked, else fall back to the first ticked one."""
+        """Dropdown lists only the ticked editions. Auto-follow the preferred default
+        (DE > ohmychadwm > first) so a freshly ticked desktop becomes the boot session;
+        a value the user picked themselves is kept as long as it stays ticked."""
         ticked = [n for n, cb in self.edition_checks.items() if cb.get_active()]
         if not ticked:
+            self._ds_updating = True
             self.default_session.set_model(Gtk.StringList.new([]))
+            self._ds_updating = False
             return
         current = self._selected(self.default_session)
-        self._set_options(self.default_session, ticked, current if current in ticked else ticked[0])
+        if self._ds_user_override and current in ticked:
+            target = current
+        else:
+            self._ds_user_override = False
+            target = self._preferred_default(ticked)
+        self._set_default_session(ticked, target)
 
     def _apply(self, conf):
         """Set every control from a {key: value} dict (build.conf or DEFAULTS)."""
@@ -227,9 +260,19 @@ class ConfigureScreen:
         ticked = [n for n, cb in self.edition_checks.items() if cb.get_active()]
         ds = conf.get("default_session", "xfce")
         if ticked:
-            self._set_options(self.default_session, ticked, ds if ds in ticked else ticked[0])
+            has_desktop = any(t in DESKTOPS for t in ticked)
+            # Honour a saved session if it's a desktop, or if there's no desktop to prefer;
+            # otherwise a saved WM loses to a ticked desktop (the forgetful-user fix).
+            if ds in ticked and (ds in DESKTOPS or not has_desktop):
+                target = ds
+            else:
+                target = self._preferred_default(ticked)
+            self._ds_user_override = target == ds
+            self._set_default_session(ticked, target)
         else:
+            self._ds_updating = True
             self.default_session.set_model(Gtk.StringList.new([]))
+            self._ds_updating = False
 
         self.bump.set_active(conf.get("bump_version", "yes") == "yes")
         self.clean.set_active(conf.get("clean_pacman_cache", "no") == "yes")
