@@ -19,6 +19,7 @@ import functions as fn  # noqa: E402
 from build_gui import BuildScreen  # noqa: E402
 from configure_gui import ConfigureScreen  # noqa: E402
 from done_gui import DoneScreen  # noqa: E402
+from extras_gui import ExtrasScreen  # noqa: E402
 from packages_gui import PackagesScreen  # noqa: E402
 from preflight_gui import PreflightScreen  # noqa: E402
 
@@ -30,8 +31,9 @@ SCREENS = [
     ("preflight", "1 · Pre-flight", PreflightScreen),
     ("configure", "2 · Configure", ConfigureScreen),
     ("packages", "3 · Packages", PackagesScreen),
-    ("build", "4 · Build", BuildScreen),
-    ("done", "5 · Done", DoneScreen),
+    ("extras", "4 · Add apps", ExtrasScreen),
+    ("build", "5 · Build", BuildScreen),
+    ("done", "6 · Done", DoneScreen),
 ]
 
 

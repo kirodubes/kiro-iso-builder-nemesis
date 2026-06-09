@@ -56,6 +56,19 @@ def _latest_iso(folder):
     return isos[0] if isos else None
 
 
+def _filename_first(text, label):
+    """Render a checksum line as '<file>  <ALGO>:  <hash>' (label injected between)."""
+    out = []
+    for line in text.splitlines():
+        parts = line.split(None, 1)
+        if len(parts) == 2:
+            digest, name = parts
+            out.append(f"{name.strip().lstrip('*')}  {label}:  {digest}\n")
+        elif line.strip():
+            out.append(line + "\n")
+    return "".join(out)
+
+
 class DoneScreen:
     def __init__(self, window):
         self.window = window
@@ -128,10 +141,12 @@ class DoneScreen:
         size_gb = self.iso.stat().st_size / 1_000_000_000
         self.info.set_text(f"{self.iso.name}\n{size_gb:.2f} GB  ·  {folder}")
         self._enable(True)
+        labels = {"sha256": "SHA256", "sha1": "SHA1", "md5": "MD5"}
         for ext in ("sha256", "sha1", "md5"):
             f = self.iso.with_name(self.iso.name + "." + ext)
             if f.is_file():
-                self.checks_buf.insert(self.checks_buf.get_end_iter(), f.read_text())
+                self.checks_buf.insert(
+                    self.checks_buf.get_end_iter(), _filename_first(f.read_text(), labels[ext]))
 
     def _enable(self, on):
         self.open_btn.set_sensitive(on)

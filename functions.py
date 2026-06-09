@@ -382,6 +382,47 @@ def read_tier3():
     return [(name, pkgs) for name, pkgs in categories if pkgs]
 
 
+# ── EXTRA APPS (opt-in apps the ISO does NOT ship by default) ────────
+_EXTRA_CAT_RE = re.compile(r"^###\s*CATEGORY:\s*(.+?)\s*$")
+_EXTRA_START_RE = re.compile(r"^###\s*>>> EXTRA-APP (\S+)\s*\|\s*(.+?)\s*\|\s*(\S+)\s*>>>\s*$")
+_EXTRA_END_RE = re.compile(r"^###\s*<<< EXTRA-APP (\S+) <<<")
+_EXTRA_PKG_RE = re.compile(r"^#([^#\s]\S*)\s*$")
+
+
+def read_extra_apps():
+    """[(category, [{key,label,repo,packages}, ...]), ...] of opt-in EXTRA APPS.
+
+    Parses the commented EXTRA-APP blocks in packages.x86_64 — the build's source of
+    truth, the same blocks apply_package_additions() uncomments. Read-only, no root.
+    """
+    pf = packages_file()
+    if pf is None or not pf.is_file():
+        return []
+    categories, by_name, current_cat, current_app = [], {}, None, None
+    for line in pf.read_text().splitlines():
+        m = _EXTRA_CAT_RE.match(line)
+        if m:
+            current_cat = m.group(1)
+            if current_cat not in by_name:
+                by_name[current_cat] = []
+                categories.append((current_cat, by_name[current_cat]))
+            continue
+        m = _EXTRA_START_RE.match(line)
+        if m:
+            current_app = {"key": m.group(1), "label": m.group(2), "repo": m.group(3), "packages": []}
+            continue
+        if _EXTRA_END_RE.match(line):
+            if current_app is not None and current_cat is not None:
+                by_name[current_cat].append(current_app)
+            current_app = None
+            continue
+        if current_app is not None:
+            mp = _EXTRA_PKG_RE.match(line)
+            if mp:
+                current_app["packages"].append(mp.group(1))
+    return [(cat, apps) for cat, apps in categories if apps]
+
+
 _EXCLUDE_HEADER = (
     "# TIER 3 packages to EXCLUDE from the ISO (kiro-iso-builder package profile).\n"
     "#\n"
@@ -476,6 +517,55 @@ def write_excludes(excludes):
     if not p:
         return False
     write_exclude_file(p, excludes)
+    return True
+
+
+# ── EXTRA APPS additions overlay (the "Add apps" page) ──────────────
+_ADDITIONS_HEADER = (
+    "# EXTRA APPS to ADD to the ISO (kiro-iso-builder \"Add apps\" page).\n"
+    "#\n"
+    "# build-the-iso.sh's apply_package_additions() uncomments the matching EXTRA-APP\n"
+    "# block in packages.x86_64. One app KEY per line (e.g. wps, ollama); lines starting\n"
+    "# with # are ignored. An empty list adds nothing — the standard ISO.\n\n"
+)
+
+
+def additions_path():
+    return BUILD_SCRIPTS / "package-additions.conf" if BUILD_SCRIPTS else None
+
+
+def read_additions_file(path):
+    """Set of app keys in an additions file (overlay or saved list)."""
+    out = set()
+    try:
+        text = Path(path).read_text()
+    except OSError:
+        return out
+    for line in text.splitlines():
+        s = line.strip()
+        if s and not s.startswith("#"):
+            out.add(s)
+    return out
+
+
+def write_additions_file(path, keys):
+    """Write an additions file (sorted, with header) to an arbitrary path."""
+    body = "\n".join(sorted(keys))
+    Path(path).write_text(_ADDITIONS_HEADER + body + ("\n" if body else ""))
+
+
+def read_additions():
+    """Set of app keys currently in the additions overlay file."""
+    p = additions_path()
+    return read_additions_file(p) if p and p.is_file() else set()
+
+
+def write_additions(keys):
+    """Write the additions overlay file (build-scripts/package-additions.conf)."""
+    p = additions_path()
+    if not p:
+        return False
+    write_additions_file(p, keys)
     return True
 
 

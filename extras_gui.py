@@ -1,9 +1,10 @@
-"""Packages screen — pick which optional (TIER 3) packages ship on the ISO.
+"""Add apps screen — opt-in apps the ISO does NOT ship by default.
 
-Reuses the ATT "streamline" idea: TIER 3 packages grouped by category, with
-category-level select-all (tri-state) and a search filter. Unticked packages are
-written to package-selection.conf, which the build comments out. TIER 1/2 are
-never shown, so nothing here can break the build.
+The mirror image of the Packages screen: there everything is ticked and you untick
+to remove; here NOTHING is ticked and you tick to ADD. Selected app keys are written
+to package-additions.conf, which the build uncomments (apply_package_additions). The
+catalog is auto-discovered from the EXTRA-APP blocks in packages.x86_64 — one source
+of truth, so a new app appears here with no code change.
 """
 
 import gi
@@ -14,10 +15,10 @@ gi.require_version("Gtk", "4.0")
 from gi.repository import Gio, GLib, Gtk  # noqa: E402
 
 
-class PackagesScreen:
+class ExtrasScreen:
     def __init__(self, window):
         self.window = window
-        self.checks = []       # (pkg, CheckButton)
+        self.checks = []       # (key, CheckButton)
         self.groups = []       # (category_check, [child_checks])
         self.sections = []     # ([header_widgets], [(name_lower, widget)])
         self._syncing = False
@@ -26,33 +27,27 @@ class PackagesScreen:
         for m in ("set_margin_top", "set_margin_bottom", "set_margin_start", "set_margin_end"):
             getattr(self.widget, m)(18)
 
-        title = Gtk.Label(label="Choose packages", xalign=0)
+        title = Gtk.Label(label="Add apps", xalign=0)
         title.add_css_class("screen-title")
         self.widget.append(title)
         subbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
         sub1 = Gtk.Label(
-            label="If everything is selected you get the packages from the default Kiro ISO.",
+            label="These apps are NOT on the standard Kiro — tick the ones you want added.",
             xalign=0, wrap=True, max_width_chars=86)
         sub2 = Gtk.Label(
-            label="Unselect what you do not want.",
+            label="Nothing is ticked by default. Tick none and your ISO stays the standard Kiro.",
             xalign=0, wrap=True, max_width_chars=86)
-        sub3 = Gtk.Label(
-            label="Core packages always ship and aren't listed here.",
-            xalign=0, wrap=True, max_width_chars=70)
-        for s in (sub1, sub2, sub3):
+        for s in (sub1, sub2):
             s.add_css_class("att-orange")
             subbox.append(s)
         self.widget.append(subbox)
 
         toolbar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
-        self.search = Gtk.SearchEntry(hexpand=True, placeholder_text="Search packages…")
+        self.search = Gtk.SearchEntry(hexpand=True, placeholder_text="Search apps…")
         self.search.connect("search-changed", lambda e: self._apply_filter(e.get_text()))
-        all_btn = Gtk.Button(label="Select all")
-        all_btn.connect("clicked", lambda _w: self._set_all(True))
         none_btn = Gtk.Button(label="Deselect all")
         none_btn.connect("clicked", lambda _w: self._set_all(False))
         toolbar.append(self.search)
-        toolbar.append(all_btn)
         toolbar.append(none_btn)
         self.widget.append(toolbar)
 
@@ -66,9 +61,9 @@ class PackagesScreen:
         self.widget.append(self.status)
 
         profile = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
-        save_prof = Gtk.Button(label="Save package list…")
+        save_prof = Gtk.Button(label="Save app list…")
         save_prof.connect("clicked", lambda _w: self._save_profile())
-        import_prof = Gtk.Button(label="Import package list…")
+        import_prof = Gtk.Button(label="Import app list…")
         import_prof.connect("clicked", lambda _w: self._import_profile())
         profile.append(save_prof)
         profile.append(import_prof)
@@ -76,7 +71,7 @@ class PackagesScreen:
 
         nav = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8, halign=Gtk.Align.END)
         back = Gtk.Button(label="← Back")
-        back.connect("clicked", lambda _w: self.window.navigate("configure"))
+        back.connect("clicked", lambda _w: self.window.navigate("packages"))
         save = Gtk.Button(label="Save & Continue →")
         save.add_css_class("suggested-action")
         save.connect("clicked", lambda _w: self._save())
@@ -102,29 +97,30 @@ class PackagesScreen:
             return
         self.widget.set_sensitive(True)
 
-        categories = fn.read_tier3()
-        excluded = fn.read_excludes()
+        categories = fn.read_extra_apps()
+        added = fn.read_additions()
         if not categories:
-            self.status.set_text("No optional apps were found to choose from.")
+            self.status.set_text("No extra apps are offered yet.")
             return
 
         total = 0
-        for category, pkgs in categories:
+        for category, apps in categories:
             cat_check = Gtk.CheckButton(label=category)
             cat_check.add_css_class("row-title")
             cat_check.set_margin_top(10)
             self.container.append(cat_check)
 
             child_checks, items = [], []
-            for pkg in pkgs:
-                row = Gtk.CheckButton(label=pkg)
+            for app in apps:
+                row = Gtk.CheckButton(label=app["label"])
                 row.set_margin_start(24)
-                row.set_active(pkg not in excluded)
+                row.set_active(app["key"] in added)
+                row.set_tooltip_text(f"{app['repo']}: {' '.join(app['packages'])}")
                 row.connect("toggled", self._on_child_toggled, cat_check, child_checks)
                 self.container.append(row)
-                self.checks.append((pkg, row))
+                self.checks.append((app["key"], row))
                 child_checks.append(row)
-                items.append((pkg.lower(), row))
+                items.append((f"{app['label']} {app['key']} {' '.join(app['packages'])}".lower(), row))
                 total += 1
 
             cat_check.connect("toggled", self._on_category_toggled, child_checks)
@@ -169,7 +165,7 @@ class PackagesScreen:
 
     def _set_all(self, active):
         self._syncing = True
-        for _pkg, row in self.checks:
+        for _key, row in self.checks:
             row.set_active(active)
         self._syncing = False
         for cat_check, child_checks in self.groups:
@@ -192,20 +188,19 @@ class PackagesScreen:
     def _update_status(self, total=None):
         if total is None:
             total = len(self.checks)
-        shipping = sum(1 for _p, row in self.checks if row.get_active())
-        self.status.set_text(
-            f"Packages that will ship: {shipping}/{total}  ({total - shipping} left out)")
+        added = sum(1 for _k, row in self.checks if row.get_active())
+        self.status.set_text(f"Apps that will be added: {added}/{total}")
 
     def _save(self):
-        excludes = {pkg for pkg, row in self.checks if not row.get_active()}
-        fn.write_excludes(excludes)
-        self.window.navigate("extras")
+        keys = {key for key, row in self.checks if row.get_active()}
+        fn.write_additions(keys)
+        self.window.navigate("build")
 
-    # ── save / import a named profile (from ATT streamline) ─────────
-    def _apply_excludes(self, excludes):
+    # ── save / import a named app list ──────────────────────────────
+    def _apply_keys(self, keys):
         self._syncing = True
-        for pkg, row in self.checks:
-            row.set_active(pkg not in excludes)
+        for key, row in self.checks:
+            row.set_active(key in keys)
         self._syncing = False
         for cat_check, child_checks in self.groups:
             self._sync_header(cat_check, child_checks)
@@ -213,8 +208,8 @@ class PackagesScreen:
 
     def _save_profile(self):
         dialog = Gtk.FileDialog()
-        dialog.set_title("Save package profile")
-        dialog.set_initial_name("kiro-packages.txt")
+        dialog.set_title("Save app list")
+        dialog.set_initial_name("kiro-extra-apps.txt")
         dialog.set_initial_folder(Gio.File.new_for_path(str(fn.profiles_dir())))
         dialog.save(self.window, None, self._on_save_ready)
 
@@ -224,13 +219,13 @@ class PackagesScreen:
         except GLib.Error:
             return
         if gfile:
-            excludes = {pkg for pkg, row in self.checks if not row.get_active()}
-            fn.write_exclude_file(gfile.get_path(), excludes)
-            self.status.set_text(f"Saved profile ({len(excludes)} excluded) → {gfile.get_path()}")
+            keys = {key for key, row in self.checks if row.get_active()}
+            fn.write_additions_file(gfile.get_path(), keys)
+            self.status.set_text(f"Saved app list ({len(keys)} added) → {gfile.get_path()}")
 
     def _import_profile(self):
         dialog = Gtk.FileDialog()
-        dialog.set_title("Import package profile")
+        dialog.set_title("Import app list")
         dialog.set_initial_folder(Gio.File.new_for_path(str(fn.profiles_dir())))
         dialog.open(self.window, None, self._on_open_ready)
 
@@ -240,7 +235,6 @@ class PackagesScreen:
         except GLib.Error:
             return
         if gfile:
-            excludes = fn.read_exclude_file(gfile.get_path())
-            self._apply_excludes(excludes)
-            self.status.set_text(
-                f"Imported profile — {len(excludes)} package(s) marked for exclusion.")
+            keys = fn.read_additions_file(gfile.get_path())
+            self._apply_keys(keys)
+            self.status.set_text(f"Imported app list — {len(keys)} app(s) marked to add.")

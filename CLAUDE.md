@@ -29,8 +29,10 @@ to them. Design spec: `Kiro-HQ/ISO-BUILDER-GUI-SPEC.md`. Ships via `nemesis_repo
   `/usr/share`), `build.conf` read/write bridge, two runners (`run_pipe` for pkexec fixes,
   `run_in_pty` for the build), and a thread-safe `ask_password` dialog.
 - `host_checks.py` — the 11 pre-flight checks and their fix descriptors.
-- `*_gui.py` — one screen class each (`PreflightScreen`, `ConfigureScreen`, `BuildScreen`,
-  `DoneScreen`), each exposing `.widget` and `on_show()`.
+- `*_gui.py` — one screen class each (`PreflightScreen`, `ConfigureScreen`, `PackagesScreen`,
+  `ExtrasScreen`, `BuildScreen`, `DoneScreen`), each exposing `.widget` and `on_show()`.
+  `PackagesScreen` removes TIER-3 apps (ticked = ships); `ExtrasScreen` adds opt-in apps not on
+  the base image (ticked = added), auto-discovered from the `EXTRA-APP` blocks in `packages.x86_64`.
 
 ## The kiro-iso contract
 

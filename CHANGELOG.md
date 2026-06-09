@@ -4,6 +4,93 @@
 
 ---
 
+## 2026-06-09 — Done screen: checksums show the ISO name first, with the algorithm labelled
+
+### What Changed
+- **`done_gui.py`** — the checksum list now reads `<filename>  <ALGO>:  <hash>` (e.g.
+  `kiro-next-…iso  SHA256:  bf0ae…`) instead of the raw `sha256sum` order `<hash>  <filename>`,
+  so the eye lands on the ISO name first and each line says which algorithm it is. New module
+  helper `_filename_first(text, label)` reorders the line and injects the label (handles both
+  the two-space text format and the `*` binary-mode marker). Display-only — the
+  `.sha256/.sha1/.md5` files keep the standard order so `sha256sum -c` still works.
+
+### Files Modified
+- `done_gui.py`
+
+## 2026-06-09 — New "Add apps" page: opt-in apps the ISO doesn't ship
+
+### What Changed
+- **New wizard page `4 · Add apps`** (`extras_gui.py`, `ExtrasScreen`) — the mirror image of
+  the Packages page. Where Packages is "all ticked, untick to remove", Add apps is **nothing
+  ticked, tick to add**: a curated set of apps Kiro deliberately leaves off the base image.
+  Ticking an app bakes it into the built ISO. Seeded from ATT's catalogs — **Office** (suites,
+  mail, editors, PDF/notes, scanning — LibreOffice/OnlyOffice/WPS/…). 24 apps / 5 categories.
+  (AI tools were dropped from the ISO builder — they belong post-install in ATT's AI page, where
+  aichat + Jan were added alongside the existing Ollama/Claude Code/etc.)
+- **`functions.py`** — `read_extra_apps()` auto-discovers the catalog from the new `EXTRA-APP`
+  blocks in the kiro-iso `packages.x86_64` (same one-source-of-truth pattern as `read_tier3()` /
+  `list_editions()` — a new app appears in the GUI with no code change). `read_additions()` /
+  `write_additions()` (+ `read_additions_file` / `write_additions_file` for Save/Import app list)
+  read and write `build-scripts/package-additions.conf`, storing selected app **keys**.
+- **Navigation** (`kiro-iso-builder.py`) — registered between Packages and Build; Build/Done
+  renumbered to `5`/`6`. Packages "Save & Continue" and Build "Back" now route through Add apps.
+
+### Why
+- KIB could only *subtract* from a fixed package set. Erik wanted the reasoning turned the other
+  way for apps we don't ship — pick what to **add** — seeded from ATT (AI included, to promote
+  the Claude/AI-on-Kiro story). Premise 1 ("always buildable as production, as-is") is preserved
+  structurally: nothing ticked ⇒ empty `package-additions.conf` ⇒ the standard Kiro.
+
+### Technical Details
+- **Catalog lives in `kiro-iso` `packages.x86_64`, not in KIB** — commented `EXTRA-APP` blocks
+  the build uncomments (see kiro-iso CHANGELOG). KIB keeps zero package data of its own.
+- **Repo-resolution reality:** the bakeable list is curated to packages that resolve in the
+  build's enabled repos (`extra`/`chaotic-aur`/`cachyos`/`nemesis_repo`). ATT's AI tools that are
+  AUR/pip/npm-only (aider, opencode, open-webui, lm-studio) **cannot** be baked into an ISO. The
+  AI category was ultimately dropped from the ISO builder entirely — AI tooling is a post-install
+  concern that belongs in ATT's AI page (where aichat + Jan were added), not baked into the image.
+- `ExtrasScreen` reuses the Packages screen's tri-state/search/save-import scaffolding, but each
+  checkbox is one **app** (multi-package apps like WPS = one tick), defaults unticked, and a
+  tooltip shows the app's repo + package set.
+
+### Files Modified
+- `extras_gui.py` (new), `functions.py`, `kiro-iso-builder.py`, `packages_gui.py`, `build_gui.py`
+
+## 2026-06-09 — Packages screen: ticked = ships (inverted from "tick to remove")
+
+### What Changed
+- **`packages_gui.py`** — flipped the checkbox meaning so it reads naturally: a **ticked box
+  now means the app ships on the ISO** (was: ticked = removed). Everything is **ticked by
+  default**, which is exactly the standard/production Kiro — so "build it the way it is now"
+  stays the zero-click default. "Select all" → production; "Deselect all" → minimal base.
+- Header reworded into plain language on three orange lines — no "TIER 3" jargon (a user
+  doesn't know what a tier is): "If everything is selected you have the standard Kiro ISO." /
+  "Unselect what you do not want." / "Core packages always ship and aren't listed here."
+  Status line now reads "Packages that will ship: N/total  (M left out)" instead of
+  "…removed from the iso".
+- De-jargoned the empty-state message too: "No TIER 3 packages found in packages.x86_64." →
+  "No optional apps were found to choose from."
+
+### Why
+- The old screen was self-contradictory: a *checked* box meant "remove this", giving the
+  dissonant "tick any you want REMOVED" + "removed: 83/83". Erik asked to turn the reasoning
+  around — select what ships, not what's removed. The file's own top docstring already
+  described this model ("Unticked packages are written to package-selection.conf"); this aligns
+  the code to it.
+
+### Technical Details
+- **Backend and build contract are untouched** — `package-selection.conf` is still an *exclude*
+  list and an empty list still ships the full TIER-3 set (= production), so premise 1 ("always
+  buildable as-is") is structurally guaranteed. The change is purely the GUI's checkbox
+  polarity + default state + labels.
+- Inverted five call sites in `packages_gui.py`: `_populate` (`set_active(pkg not in excluded)`),
+  `_apply_excludes` (same), `_save` / `_on_save_ready` (excludes = the *unticked* packages),
+  and `_update_status` (count the ticked = shipping). `done_gui.py` / `configure_gui.py` operate
+  on the exclude *set*, which didn't change, so their "N package(s) removed" wording stays correct.
+
+### Files Modified
+- `packages_gui.py`
+
 ## 2026-06-09 — Default-session auto-follows a ticked desktop; status in ATT orange
 
 ### What Changed
