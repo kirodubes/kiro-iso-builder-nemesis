@@ -15,7 +15,7 @@ KERNELS = ["linux-cachyos", "linux-zen", "linux", "linux-lts", "linux-hardened"]
 NONE = "none"
 # Editions that are full desktops (vs window managers) — splits the two blocks on
 # the Configure screen. Anything not listed here is treated as a window manager.
-DESKTOPS = {"xfce", "cinnamon", "plasma", "gnome", "mate", "budgie", "lxqt", "deepin"}
+DESKTOPS = {"xfce", "cinnamon", "plasma", "gnome", "mate", "budgie"}
 
 # Shipped defaults for the GUI-exposed knobs (the values build.conf ships with).
 DEFAULTS = {

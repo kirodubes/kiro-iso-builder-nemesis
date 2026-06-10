@@ -126,7 +126,14 @@ def main():
     print(f"[info] targeting {fn.REPO_NAME}")
     if fn.BUILD_SCRIPTS is None:
         print(f"[warn] {fn.REPO_NAME} clone not found — the Pre-flight screen can clone it.")
-    return BuilderApp().run(sys.argv)
+    app = BuilderApp()
+    # Single-instance app: if a window is already open, registering reveals us as
+    # the remote — say so instead of exiting silently with no new window.
+    app.register(None)
+    if app.get_is_remote():
+        print("Kiro ISO Builder is already running — re-focusing that window. "
+              "Close it first to launch a fresh instance.")
+    return app.run(sys.argv)
 
 
 if __name__ == "__main__":
