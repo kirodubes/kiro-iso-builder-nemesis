@@ -1,9 +1,8 @@
 """Done screen — open the output, show checksums, and test-boot the ISO.
 
-QEMU and VirtualBox each boot the ISO in a UEFI VM with a 50 GB disk. The QEMU
-disk is reused across test runs by default, so an install survives a reboot; tick
-"Fresh disk" to wipe it for a clean install test. QEMU can be installed in-place
-if missing.
+QEMU and VirtualBox each create a throwaway UEFI VM with a 50 GB disk (overwriting
+a single reusable test VM) so the installer has a clean target. QEMU can be
+installed in-place if missing.
 """
 
 import getpass
@@ -127,13 +126,12 @@ class DoneScreen:
         bar.append(again)
         self.widget.append(bar)
 
-        self.fresh_disk_chk = Gtk.CheckButton(
-            label="Fresh disk on each VM test (wipes any previous install)")
-        self.fresh_disk_chk.set_tooltip_text(
-            "Off: the QEMU test disk is reused, so an install survives a reboot and the "
-            "next test boots the installed system.\n"
-            "On: the disk is wiped before every test for a clean install run.")
-        self.widget.append(self.fresh_disk_chk)
+        note = Gtk.Label(
+            label="Note: the test VM only boots the ISO once to check the installer — it "
+                  "cannot reboot into an installed system. Test a real install on hardware.",
+            xalign=0, wrap=True)
+        note.add_css_class("att-orange-note")
+        self.widget.append(note)
 
     def on_show(self):
         folder = _out_folder()
@@ -258,27 +256,21 @@ class DoneScreen:
         if disk:
             cmd += ["-drive", f"file={disk},format=qcow2"]   # install target (>=25 GiB)
         # order=cd → hard disk first, CD-ROM fallback: an empty disk boots the ISO
-        # installer, but a disk that already holds an install boots the installed
-        # system instead of looping back into the ISO.
+        # installer, but after install the reboot boots the installed system instead
+        # of looping back into the ISO.
         cmd += ["-boot", "order=cd", "-cdrom", str(self.iso)]
         subprocess.Popen(cmd)
 
     def _test_disk(self):
-        """The 50 GB qcow2 install target — reused so an install survives a reboot.
-
-        Tick "Fresh disk" to wipe it before the run for a clean install test.
-        """
+        """A FRESH 50 GB qcow2 each run, so every test starts with a clean target."""
         if not fn.have("qemu-img"):
             self._log("qemu-img not found — the installer will have no disk to install on.")
             return None
         cache = Path.home() / ".cache" / "kiro-iso-builder"
         cache.mkdir(parents=True, exist_ok=True)
         disk = cache / "kiro-test.qcow2"
-        if disk.exists() and not self.fresh_disk_chk.get_active():
-            self._log("Reusing the existing virtual disk — a prior install will boot.")
-            return disk
         if disk.exists():
-            disk.unlink()
+            disk.unlink()   # overwrite: a clean disk every test (matches VirtualBox)
         self._log("Creating a fresh 50 GB virtual disk for the installer…")
         r = subprocess.run(["qemu-img", "create", "-f", "qcow2", str(disk), "50G"],
                            capture_output=True, text=True)

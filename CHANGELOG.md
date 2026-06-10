@@ -4,33 +4,26 @@
 
 ---
 
-## 2026-06-10 — QEMU test disk persists across runs ("Fresh disk" toggle)
+## 2026-06-10 — Launcher reports the single-instance case
 
 ### What Changed
-- **The QEMU test disk is now reused across "Test in QEMU" runs by default**, so an
-  install made in the VM survives a reboot — the next test boots the *installed*
-  system instead of looping back into the ISO installer. Previously every click of
-  the button wiped the disk (`disk.unlink()`), silently destroying any install.
-- **New "Fresh disk on each VM test" checkbox** on the Done screen (unticked by
-  default). Tick it to get the old behaviour — a clean 50 GB target wiped before every
-  run — for clean install tests.
 - **Launcher now reports the single-instance case.** Running `kiro-iso-builder` while a
   window is already open used to exit silently with no new window (GTK re-focuses the
   existing one). It now prints "Kiro ISO Builder is already running — re-focusing that
   window. Close it first to launch a fresh instance."
-
-### Why
-- The old "always wipe" design made "install Kiro, close QEMU, test again to boot the
-  installed system" impossible: the second click deleted the install. Reuse-by-default
-  matches what a user expects from a persistent VM; the toggle keeps clean-slate testing
-  one click away.
+- **Reverted the "Fresh disk" QEMU toggle** added earlier today. The QEMU test disk is
+  back to being wiped on every "Test in QEMU" click (`disk.unlink()`), so every run
+  starts from a clean target — matching VirtualBox. Reason: with QEMU's `-bios` firmware
+  mode the UEFI NVRAM boot entry is not persisted, so a reused disk still loops back into
+  the ISO rather than booting the install; the persistence added complexity without
+  delivering a bootable installed system.
+- **Done screen note.** Added an ATT-orange caption under the buttons: "Note: the test VM
+  only boots the ISO once to check the installer — it cannot reboot into an installed
+  system. Test a real install on hardware." — making the test-button behaviour explicit.
 
 ### Technical Details
-- `_test_disk()` now returns the existing `~/.cache/kiro-iso-builder/kiro-test.qcow2`
-  untouched when it exists and `fresh_disk_chk` is off (logs "Reusing the existing
-  virtual disk…"); it only `unlink()`s + recreates when the box is ticked or the disk is
-  missing. `-boot order=cd` (disk-first, CD fallback) already does the rest.
-- VirtualBox path unchanged — it still creates a throwaway VM each run.
+- `_test_disk()` always `unlink()`s + recreates `~/.cache/kiro-iso-builder/kiro-test.qcow2`;
+  the Done-screen checkbox is removed.
 - `kiro-iso-builder.py` registers the `Gtk.Application` before `run()` and checks
   `get_is_remote()` to detect the already-running primary.
 
