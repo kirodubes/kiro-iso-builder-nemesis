@@ -141,6 +141,18 @@ def check_kernels():
     available = set(fn.cmd_out(["pacman", "-Slq"]).split())
     missing = [t for t in tokens if t not in available]
     if missing:
+        # A cachyos-only kernel missing because [cachyos] is disabled (Kiro's
+        # default) is fixable: the keyring/mirrorlist are present, the repo is
+        # just commented out. Offer to enable it — only in that exact case, so a
+        # normal build is never nagged about the intentional default.
+        cachyos_missing = [t for t in missing if t.startswith("linux-cachyos")]
+        cachyos_ready = _pkg("cachyos-keyring") and _pkg("cachyos-mirrorlist")
+        cachyos_off = not fn.cmd_ok(["pacman", "-Sl", "cachyos"])
+        if cachyos_missing and cachyos_ready and cachyos_off:
+            return (WARN,
+                    f"{', '.join(cachyos_missing)} need the [cachyos] repo — it's disabled in "
+                    "pacman.conf (Kiro's default). Enable it to build with this kernel.",
+                    ("hostprep", ["enable_cachyos"]))
         return WARN, f"kernel(s) not in synced repos: {', '.join(missing)}", None
     return OK, f"kernel(s) resolve: {', '.join(tokens)}", None
 

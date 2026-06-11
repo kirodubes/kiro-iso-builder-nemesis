@@ -17,6 +17,16 @@
 - The list is now **detected automatically on first visit** to the Configure screen, so the
   dropdowns are rich without a click; the old "Detect available kernels" button is kept,
   relabelled **"Refresh kernels"**, for a manual re-detect after a repo sync.
+- **Enable the `[cachyos]` repo on demand to unlock its exclusive kernels.** A few CachyOS
+  flavors (`linux-cachyos-eevdf`, `-hardened`, `-server`, `-bmq`, …) live only in the
+  `cachyos` repo, which Kiro ships disabled by default. Two opt-in paths, both wired to the
+  new `enable_cachyos` host-prep (one polkit prompt, then an auto-refresh):
+  - **Configure screen** — an "Enable CachyOS repo" button that appears *only when the repo
+    is off*, so a normal build never sees it. Click it → the repo is uncommented → the kernel
+    list refreshes and the CachyOS-only flavors appear. This is the path that lets you turn
+    cachyos on *in order to pick* one of its kernels from a clean off-state.
+  - **Pre-flight** — the Kernel-package(s) check also offers the same fix if a cachyos-only
+    kernel is already selected (e.g. via an imported build profile) while the repo is off.
 
 ### Technical Details
 - `functions.py` — new `list_kernels_with_repo()` runs `list-kernels.sh --with-repo` and
@@ -32,7 +42,7 @@
   `kernel = "<first> [second]"`.
 
 ### Files Modified
-- `configure_gui.py`, `functions.py`
+- `configure_gui.py`, `functions.py`, `host_checks.py`
 
 ## 2026-06-11 — Build log: scroll-lock (stay where you scrolled)
 

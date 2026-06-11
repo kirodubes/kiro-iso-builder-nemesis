@@ -115,6 +115,19 @@ class ConfigureScreen:
         hint.add_css_class("dim-label")
         form.append(hint)
 
+        # Opt-in row, shown only when [cachyos] is off: a few CachyOS flavors live
+        # only in that repo (Kiro ships it disabled), so offer to enable it on demand.
+        self.cachyos_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        self.cachyos_btn = Gtk.Button(label="Enable CachyOS repo")
+        self.cachyos_btn.add_css_class("suggested-action")
+        self.cachyos_btn.connect("clicked", lambda _w: self._enable_cachyos())
+        self.cachyos_row.append(self.cachyos_btn)
+        self.cachyos_note = Gtk.Label(xalign=0, hexpand=True, wrap=True)
+        self.cachyos_note.add_css_class("att-orange-note")
+        self.cachyos_row.append(self.cachyos_note)
+        self.cachyos_row.set_visible(False)
+        form.append(self.cachyos_row)
+
         ed_title = Gtk.Label(label="Editions (desktops & window managers)", xalign=0)
         ed_title.add_css_class("row-title")
         form.append(ed_title)
@@ -328,12 +341,43 @@ class ConfigureScreen:
 
     def _apply_detected(self, pairs, cur1, cur2):
         self.detect_btn.set_sensitive(True)
+        self._update_cachyos_row()
         if not pairs:
             self.kernel_status.set_text("None found — sync repos first; keeping the built-in list.")
             return
         self._kernel_pairs = pairs
         self._populate_kernels(cur1, cur2)
         self.kernel_status.set_text(f"Found {len(pairs)} kernels.")
+
+    def _update_cachyos_row(self):
+        """Show the opt-in 'Enable CachyOS repo' row only when the repo is off (and
+        the build scripts are present, since the fix runs through them)."""
+        off = fn.BUILD_SCRIPTS is not None and not fn.cmd_ok(["pacman", "-Sl", "cachyos"])
+        self.cachyos_row.set_visible(off)
+        if off:
+            self.cachyos_note.set_text(
+                "CachyOS repo is disabled (Kiro's default) — enable it to add the "
+                "CachyOS-only kernels (eevdf, hardened, server, …).")
+
+    def _enable_cachyos(self):
+        self.cachyos_btn.set_sensitive(False)
+        self.kernel_status.set_text("Enabling CachyOS repo…")
+
+        def on_line(line):
+            text = line.strip()
+            if text:
+                self.kernel_status.set_text(text[:90])
+
+        def on_done(code):
+            self.cachyos_btn.set_sensitive(True)
+            if code == 0:
+                self.kernel_status.set_text("CachyOS repo enabled — refreshing kernels…")
+                self._detect()  # re-detects and hides the row (repo now active)
+            else:
+                self.kernel_status.set_text(f"Enabling CachyOS failed (exit {code}).")
+                self._update_cachyos_row()
+
+        fn.run_hostprep_fix(["enable_cachyos"], on_line, on_done)
 
     @staticmethod
     def _source_of(repo, name):
