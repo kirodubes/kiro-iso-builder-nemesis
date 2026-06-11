@@ -10,8 +10,21 @@ gi.require_version("Gtk", "4.0")
 from gi.repository import Gio, GLib, Gtk  # noqa: E402
 
 NVIDIA = ["open", "580xx", "390xx", "none"]
-# Curated fallback list, used until the user clicks Detect (or if no repo DB).
-KERNELS = ["linux-cachyos", "linux-zen", "linux", "linux-lts", "linux-hardened"]
+# Curated (repo, kernel) fallback, used until Refresh runs (or if no repo DB).
+KERNEL_FALLBACK = [
+    ("chaotic-aur", "linux-cachyos"),
+    ("extra", "linux-zen"),
+    ("core", "linux"),
+    ("core", "linux-lts"),
+    ("extra", "linux-hardened"),
+]
+KERNELS = [name for _, name in KERNEL_FALLBACK]
+# Source filter shown above the kernel dropdowns (tames the full repo list).
+KERNEL_SOURCES = ["All", "Official Arch", "CachyOS", "Chaotic"]
+# Repos that count as "Official Arch" (everything cachyos-named is bucketed by
+# name instead, since cachyos kernels are served from both cachyos and chaotic-aur).
+OFFICIAL_REPOS = {"core", "extra", "multilib",
+                  "core-testing", "extra-testing", "multilib-testing"}
 NONE = "none"
 # Editions that are full desktops (vs window managers) — splits the two blocks on
 # the Configure screen. Anything not listed here is treated as a window manager.
@@ -70,15 +83,24 @@ class ConfigureScreen:
         nv_hint.add_css_class("dim-label")
         form.append(nv_hint)
 
+        # Master (repo, kernel) list driving both dropdowns; replaced by Refresh.
+        self._kernel_pairs = list(KERNEL_FALLBACK)
+        self._kern_updating = False
+        self.kernel_source = Gtk.DropDown.new_from_strings(KERNEL_SOURCES)
+        self.kernel_source.connect("notify::selected", self._on_kernel_source_changed)
+        form.append(_labelled("Kernel source", self.kernel_source))
+
         self.kernel1 = Gtk.DropDown()
-        self._set_options(self.kernel1, KERNELS, KERNELS[0])
-        form.append(_labelled("First kernel (boots the live ISO)", self.kernel1))
         self.kernel2 = Gtk.DropDown()
-        self._set_options(self.kernel2, [NONE] + KERNELS, NONE)
+        for dd in (self.kernel1, self.kernel2):
+            dd.set_expression(Gtk.PropertyExpression.new(Gtk.StringObject, None, "string"))
+            dd.set_enable_search(True)
+        self._populate_kernels(KERNELS[0], NONE)
+        form.append(_labelled("First kernel (boots the live ISO)", self.kernel1))
         form.append(_labelled("Second kernel (optional)", self.kernel2))
 
         detect_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        self.detect_btn = Gtk.Button(label="Detect available kernels")
+        self.detect_btn = Gtk.Button(label="Refresh kernels")
         self.detect_btn.connect("clicked", lambda _w: self._detect())
         detect_row.append(self.detect_btn)
         self.kernel_status = Gtk.Label(xalign=0, hexpand=True, wrap=True)
@@ -86,8 +108,9 @@ class ConfigureScreen:
         detect_row.append(self.kernel_status)
         form.append(detect_row)
         hint = Gtk.Label(
-            label="Only kernels with a matching -headers are listed; the build installs "
-                  "those headers automatically (needed for the DKMS drivers).",
+            label="The list is every kernel the repos offer that has a matching -headers "
+                  "(those headers are installed automatically for the DKMS drivers). "
+                  "Filter by source above, and type in a dropdown to search.",
             xalign=0, wrap=True)
         hint.add_css_class("dim-label")
         form.append(hint)
@@ -181,6 +204,9 @@ class ConfigureScreen:
         self._apply(fn.read_conf())
         self.status.set_text("")
         self._loaded = True
+        # Pull the full kernel list once the repo is present, so the dropdowns are
+        # rich by default without a click; Refresh re-runs it after a repo sync.
+        self._detect()
 
     def _populate_editions(self):
         """Build a checkbox per edition discovered in packages.x86_64 (EDITION-BLOCK
@@ -247,11 +273,18 @@ class ConfigureScreen:
         tokens = [t for t in conf.get("kernel", "").split() if t != "ask"]
         first = tokens[0] if tokens else KERNELS[0]
         second = tokens[1] if len(tokens) > 1 else NONE
-        # Offer the curated list plus any saved kernel not already in it, so the
-        # current value is always selectable even before Detect runs.
-        first_opts = KERNELS + [t for t in tokens if t not in KERNELS]
-        self._set_options(self.kernel1, first_opts, first)
-        self._set_options(self.kernel2, [NONE] + first_opts, second)
+        # Ensure any saved kernel is in the master list so it stays selectable even
+        # before Refresh runs (its source is inferred from its name when no repo).
+        known = {n for _, n in self._kernel_pairs}
+        for t in tokens:
+            if t not in known:
+                self._kernel_pairs.append(("", t))
+                known.add(t)
+        # Show the whole list so the saved pick is always visible, then select it.
+        self._kern_updating = True
+        self.kernel_source.set_selected(0)  # "All"
+        self._kern_updating = False
+        self._populate_kernels(first, second)
 
         sel = conf.get("editions", "xfce ohmychadwm").split()
         for name, cb in self.edition_checks.items():
@@ -288,20 +321,52 @@ class ConfigureScreen:
         cur1, cur2 = self._selected(self.kernel1), self._selected(self.kernel2)
 
         def worker():
-            kernels = fn.list_kernels()
-            GLib.idle_add(self._apply_detected, kernels, cur1, cur2)
+            pairs = fn.list_kernels_with_repo()
+            GLib.idle_add(self._apply_detected, pairs, cur1, cur2)
 
         threading.Thread(target=worker, daemon=True).start()
 
-    def _apply_detected(self, kernels, cur1, cur2):
+    def _apply_detected(self, pairs, cur1, cur2):
         self.detect_btn.set_sensitive(True)
-        if not kernels:
+        if not pairs:
             self.kernel_status.set_text("None found — sync repos first; keeping the built-in list.")
             return
-        self._set_options(self.kernel1, kernels, cur1 if cur1 in kernels else kernels[0])
-        second_opts = [NONE] + kernels
-        self._set_options(self.kernel2, second_opts, cur2 if cur2 in second_opts else NONE)
-        self.kernel_status.set_text(f"Found {len(kernels)} kernels.")
+        self._kernel_pairs = pairs
+        self._populate_kernels(cur1, cur2)
+        self.kernel_status.set_text(f"Found {len(pairs)} kernels.")
+
+    @staticmethod
+    def _source_of(repo, name):
+        """Bucket a kernel for the source filter — cachyos by name (it ships from
+        both cachyos and chaotic-aur), the rest by serving repo."""
+        if name.startswith("linux-cachyos"):
+            return "CachyOS"
+        if repo in OFFICIAL_REPOS:
+            return "Official Arch"
+        return "Chaotic"
+
+    def _filtered_kernel_names(self):
+        cat = KERNEL_SOURCES[self.kernel_source.get_selected()]
+        return [n for r, n in self._kernel_pairs
+                if cat == "All" or self._source_of(r, n) == cat]
+
+    def _populate_kernels(self, first_sel, second_sel):
+        """Fill both dropdowns from the master list narrowed by the source filter,
+        keeping the given selections when they survive the filter."""
+        names = self._filtered_kernel_names()
+        self._kern_updating = True
+        if names:
+            self._set_options(self.kernel1, names, first_sel if first_sel in names else names[0])
+        else:
+            self.kernel1.set_model(Gtk.StringList.new([]))
+        second_opts = [NONE] + names
+        self._set_options(self.kernel2, second_opts, second_sel if second_sel in second_opts else NONE)
+        self._kern_updating = False
+
+    def _on_kernel_source_changed(self, _dropdown, _param):
+        if self._kern_updating:
+            return
+        self._populate_kernels(self._selected(self.kernel1), self._selected(self.kernel2))
 
     # ── helpers ─────────────────────────────────────────────────────
     @staticmethod

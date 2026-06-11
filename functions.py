@@ -813,6 +813,27 @@ def list_kernels():
     return [ln.strip() for ln in out.splitlines() if ln.strip()]
 
 
+def list_kernels_with_repo():
+    """Same kernels as list_kernels(), tagged with their source repo.
+
+    Runs list-kernels.sh --with-repo and returns [(repo, kernel), …]. The GUI
+    uses the repo tag to group kernels by source. Returns [] if the repo/script
+    isn't found.
+    """
+    if BUILD_SCRIPTS is None:
+        return []
+    script = BUILD_SCRIPTS / "list-kernels.sh"
+    if not script.is_file():
+        return []
+    out = cmd_out(["bash", str(script), "--with-repo"])
+    pairs = []
+    for ln in out.splitlines():
+        repo, _, name = ln.partition("\t")
+        if name:
+            pairs.append((repo.strip(), name.strip()))
+    return pairs
+
+
 def list_editions():
     """WM/desktop editions the ISO offers — the EDITION-BLOCK names in
     packages.x86_64 (the build's source of truth, same blocks the build toggles).

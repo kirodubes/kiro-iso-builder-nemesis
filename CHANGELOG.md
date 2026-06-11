@@ -4,6 +4,36 @@
 
 ---
 
+## 2026-06-11 — Kernel picker: full repo list + source filter + type-to-search
+
+### What Changed
+- **The kernel dropdowns now offer every kernel the repos carry**, not a hardcoded list of
+  five. The list is whatever `list-kernels.sh` reports (every package with a matching
+  `-headers`) — the whole `linux-cachyos-*` family, `linux-xanmod-*`, the pinned LTS series,
+  and CPU-microarch builds (`linux-x64v*`, `linux-znver*`).
+- **New "Kernel source" filter** above the two dropdowns — *All / Official Arch / CachyOS /
+  Chaotic* — so the now-large list stays navigable.
+- **Type-to-search inside each kernel dropdown** (native GTK dropdown search).
+- The list is now **detected automatically on first visit** to the Configure screen, so the
+  dropdowns are rich without a click; the old "Detect available kernels" button is kept,
+  relabelled **"Refresh kernels"**, for a manual re-detect after a repo sync.
+
+### Technical Details
+- `functions.py` — new `list_kernels_with_repo()` runs `list-kernels.sh --with-repo` and
+  returns `[(repo, kernel), …]`; `list_kernels()` (names-only) is unchanged.
+- `configure_gui.py` — a master `_kernel_pairs` list drives both dropdowns via
+  `_populate_kernels()`, narrowed by `_filtered_kernel_names()`. Kernels are bucketed by
+  `_source_of()`: **CachyOS by name** (`linux-cachyos*`) because cachyos kernels are served
+  from *both* the `cachyos` and `chaotic-aur` repos, the rest by serving repo
+  (`core`/`extra`/`multilib` → Official Arch, else Chaotic). Search via
+  `set_enable_search(True)` + a `Gtk.PropertyExpression` on the `StringList`'s `string`.
+  Switching the filter off the current pick resets the dropdown gracefully. The curated
+  five-kernel list survives as the offline fallback. `_save()` is unchanged — still writes
+  `kernel = "<first> [second]"`.
+
+### Files Modified
+- `configure_gui.py`, `functions.py`
+
 ## 2026-06-11 — Build log: scroll-lock (stay where you scrolled)
 
 ### What Changed
