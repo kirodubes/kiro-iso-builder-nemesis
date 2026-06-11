@@ -64,11 +64,16 @@ class BuildScreen:
 
         self.log_view = Gtk.TextView(editable=False, monospace=True, cursor_visible=False)
         self.log_buf = self.log_view.get_buffer()
-        self._end_mark = self.log_buf.create_mark(None, self.log_buf.get_end_iter(), False)
         scroller = Gtk.ScrolledWindow(vexpand=True)
         self.scroller = scroller
         scroller.set_child(self.log_view)
         self.widget.append(scroller)
+        # Auto-follow the tail; turn it off only when the user scrolls up to read,
+        # back on when they return to the bottom. _auto_scrolling guards our own
+        # programmatic scrolls so they aren't mistaken for a user scroll.
+        self._follow_tail = True
+        self._auto_scrolling = False
+        scroller.get_vadjustment().connect("value-changed", self._on_log_scrolled)
 
         # Input row — answer prompts the build raises (e.g. pacman's [Y/n]).
         input_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
@@ -312,11 +317,25 @@ class BuildScreen:
             pass
         return "?"
 
+    def _on_log_scrolled(self, adj):
+        # User-driven scroll: keep following only while parked at the bottom.
+        if self._auto_scrolling:
+            return
+        self._follow_tail = adj.get_value() + adj.get_page_size() >= adj.get_upper() - 4
+
     def _log(self, line):
-        adj = self.scroller.get_vadjustment()
-        # Follow the tail only if already at (near) the bottom; if the user scrolled
-        # up to read earlier output, leave the view where they put it.
-        at_bottom = adj.get_value() + adj.get_page_size() >= adj.get_upper() - 4
         self.log_buf.insert(self.log_buf.get_end_iter(), line + "\n")
-        if at_bottom:
-            self.log_view.scroll_mark_onscreen(self._end_mark)
+        if not self._follow_tail:
+            return
+
+        # Defer to idle so the new line is laid out before we measure the end;
+        # set_value reaches the true bottom where scroll_mark_onscreen lags during
+        # a fast stream (and that lag would otherwise break the follow latch).
+        def _to_bottom():
+            adj = self.scroller.get_vadjustment()
+            self._auto_scrolling = True
+            adj.set_value(adj.get_upper() - adj.get_page_size())
+            self._auto_scrolling = False
+            return False
+
+        GLib.idle_add(_to_bottom)

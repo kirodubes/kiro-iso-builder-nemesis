@@ -44,6 +44,26 @@
 ### Files Modified
 - `configure_gui.py`, `functions.py`, `host_checks.py`
 
+## 2026-06-11 — Build log: fix auto-follow regression from scroll-lock
+
+### What Changed
+- **The build log follows the tail again.** The scroll-lock change (below) gauged "am I at
+  the bottom?" from the scrollbar geometry on every line, but the `TextView` relayouts
+  *after* the insert — so during a fast stream a line lands a few pixels short of the bottom,
+  the next line reads "not at bottom", and the follow latch breaks for the rest of the build
+  (the view froze mid-output while phases kept advancing). Now it follows reliably, and
+  scrolling up to read still parks the view — back to the bottom resumes following.
+
+### Technical Details
+- `build_gui.py` — replaced the per-line geometry guess with a `self._follow_tail` flag,
+  flipped only by a real user scroll (`value-changed` handler, guarded by `_auto_scrolling`
+  so our own scrolls don't count). Auto-scroll now reaches the true end via
+  `GLib.idle_add` + `adj.set_value(upper - page_size)` (after relayout) instead of
+  `scroll_mark_onscreen`, which lagged. Dropped the now-unused end `Gtk.TextMark`.
+
+### Files Modified
+- `build_gui.py`
+
 ## 2026-06-11 — Build log: scroll-lock (stay where you scrolled)
 
 ### What Changed
