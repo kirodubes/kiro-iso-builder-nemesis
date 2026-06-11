@@ -4,6 +4,23 @@
 
 ---
 
+## 2026-06-11 — Build log: scroll-lock (stay where you scrolled)
+
+### What Changed
+- **Build-log scroll-lock.** The build log force-scrolled to the bottom on every new line,
+  so scrolling up to read earlier output snapped you straight back down. It now follows the
+  tail only when you're already at the bottom — scroll up and the view stays put; scroll
+  back to the bottom and it resumes following. Standard log-viewer behaviour.
+
+### Technical Details
+- `build_gui.py` `_log()` — reads the scroller's vadjustment
+  (`value + page_size >= upper - 4`) *before* inserting, and only calls
+  `scroll_mark_onscreen()` when already at the bottom. Uses one persistent end-mark instead
+  of creating a new `Gtk.TextMark` per line.
+
+### Files Modified
+- `build_gui.py`
+
 ## 2026-06-10 — Launcher reports the single-instance case
 
 ### What Changed
