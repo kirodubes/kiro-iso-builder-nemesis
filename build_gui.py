@@ -64,7 +64,9 @@ class BuildScreen:
 
         self.log_view = Gtk.TextView(editable=False, monospace=True, cursor_visible=False)
         self.log_buf = self.log_view.get_buffer()
+        self._end_mark = self.log_buf.create_mark(None, self.log_buf.get_end_iter(), False)
         scroller = Gtk.ScrolledWindow(vexpand=True)
+        self.scroller = scroller
         scroller.set_child(self.log_view)
         self.widget.append(scroller)
 
@@ -311,7 +313,10 @@ class BuildScreen:
         return "?"
 
     def _log(self, line):
-        end = self.log_buf.get_end_iter()
-        self.log_buf.insert(end, line + "\n")
-        mark = self.log_buf.create_mark(None, self.log_buf.get_end_iter(), False)
-        self.log_view.scroll_mark_onscreen(mark)
+        adj = self.scroller.get_vadjustment()
+        # Follow the tail only if already at (near) the bottom; if the user scrolled
+        # up to read earlier output, leave the view where they put it.
+        at_bottom = adj.get_value() + adj.get_page_size() >= adj.get_upper() - 4
+        self.log_buf.insert(self.log_buf.get_end_iter(), line + "\n")
+        if at_bottom:
+            self.log_view.scroll_mark_onscreen(self._end_mark)
