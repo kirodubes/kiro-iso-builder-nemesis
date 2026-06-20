@@ -6,10 +6,32 @@ pre-flight fixes via pkexec, the build by answering its own sudo prompt once.
 The build pipeline itself stays in kiro-iso/build-scripts — this only drives it.
 """
 
+# ── Force Python UTF-8 mode on a non-UTF-8 locale ─────────────────────────
+# Never crash on a non-UTF-8 system locale (e.g. latin-1 fr_BE). Under such a
+# locale Python encodes stdout and subprocess output with latin-1, so any
+# non-ASCII glyph raises a Unicode error. UTF-8 mode forces UTF-8 regardless of
+# LANG. Re-exec only when the locale's encoding is not UTF-8 — a normal UTF-8
+# desktop is left untouched; the guard is loop-safe (the re-exec'd process is
+# UTF-8 already).
+import codecs
+import os
 import sys
-from pathlib import Path
 
-import gi
+if codecs.lookup(sys.getfilesystemencoding()).name != "utf-8":
+    os.environ["PYTHONUTF8"] = "1"
+    os.execv(sys.executable, [sys.executable, "-X", "utf8", *sys.argv])
+
+# The build script we spawn inherits our locale; if it is not UTF-8 its output
+# renders as mojibake in the Build log view. Keep the user's locale when it is
+# already UTF-8, otherwise fall back to C.UTF-8 so child output stays readable.
+_cur_locale = os.environ.get("LC_ALL") or os.environ.get("LC_CTYPE") or os.environ.get("LANG") or ""
+if "utf-8" not in _cur_locale.lower() and "utf8" not in _cur_locale.lower():
+    os.environ["LANG"] = "C.UTF-8"
+    os.environ["LC_ALL"] = "C.UTF-8"
+
+from pathlib import Path  # noqa: E402
+
+import gi  # noqa: E402
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Gdk", "4.0")
