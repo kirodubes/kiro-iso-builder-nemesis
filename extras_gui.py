@@ -38,7 +38,8 @@ class ExtrasScreen:
             ed = edition.capitalize()
             title_text = f"{ed} extras"
             subs = (f"Optional {ed} apps, added only to this {ed} build — tick what you want.",
-                    "Nothing is ticked by default.")
+                    "Nothing is ticked by default.",
+                    "Consider these a work in progress.")
         title = Gtk.Label(label=title_text, xalign=0)
         title.add_css_class("screen-title")
         self.widget.append(title)

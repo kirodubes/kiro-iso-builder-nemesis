@@ -14,6 +14,8 @@
   (added to `kiro-iso-next`'s `packages.x86_64`). The design is edition-generic — any future
   edition with scoped EXTRA-APP blocks gets its own page with no further code change.
 - Plasma-scoped apps no longer clutter the global "Add apps" page.
+- Added a third subtitle line to every edition extras page — "Consider these a work in
+  progress." — flagging the scoped optional apps as not yet final.
 
 ### Technical Details
 - **Marker**: EXTRA-APP gains an optional 4th field — `… | <repo> | <editions> >>>` (absent =
