@@ -384,13 +384,16 @@ def read_tier3():
 
 # ── EXTRA APPS (opt-in apps the ISO does NOT ship by default) ────────
 _EXTRA_CAT_RE = re.compile(r"^###\s*CATEGORY:\s*(.+?)\s*$")
-_EXTRA_START_RE = re.compile(r"^###\s*>>> EXTRA-APP (\S+)\s*\|\s*(.+?)\s*\|\s*(\S+)\s*>>>\s*$")
+# Optional 4th field = space-separated edition scope (e.g. "plasma"). Absent = global
+# (shown for every edition). The build ignores it — it only matches on the key.
+_EXTRA_START_RE = re.compile(
+    r"^###\s*>>> EXTRA-APP (\S+)\s*\|\s*(.+?)\s*\|\s*(\S+?)\s*(?:\|\s*(.+?)\s*)?>>>\s*$")
 _EXTRA_END_RE = re.compile(r"^###\s*<<< EXTRA-APP (\S+) <<<")
 _EXTRA_PKG_RE = re.compile(r"^#([^#\s]\S*)\s*$")
 
 
 def read_extra_apps():
-    """[(category, [{key,label,repo,packages}, ...]), ...] of opt-in EXTRA APPS.
+    """[(category, [{key,label,repo,editions,packages}, ...]), ...] of opt-in EXTRA APPS.
 
     Parses the commented EXTRA-APP blocks in packages.x86_64 — the build's source of
     truth, the same blocks apply_package_additions() uncomments. Read-only, no root.
@@ -409,7 +412,8 @@ def read_extra_apps():
             continue
         m = _EXTRA_START_RE.match(line)
         if m:
-            current_app = {"key": m.group(1), "label": m.group(2), "repo": m.group(3), "packages": []}
+            current_app = {"key": m.group(1), "label": m.group(2), "repo": m.group(3),
+                           "editions": m.group(4).split() if m.group(4) else [], "packages": []}
             continue
         if _EXTRA_END_RE.match(line):
             if current_app is not None and current_cat is not None:
@@ -421,6 +425,27 @@ def read_extra_apps():
             if mp:
                 current_app["packages"].append(mp.group(1))
     return [(cat, apps) for cat, apps in categories if apps]
+
+
+def extra_app_keys(edition=None):
+    """Set of EXTRA-APP keys scoped to `edition` — None = global (unscoped) apps."""
+    keys = set()
+    for _cat, apps in read_extra_apps():
+        for a in apps:
+            scoped = (a["editions"] and edition in a["editions"]) if edition else (not a["editions"])
+            if scoped:
+                keys.add(a["key"])
+    return keys
+
+
+def edition_extras():
+    """Sorted list of edition names that have at least one scoped EXTRA-APP block —
+    drives which conditional per-edition pages the builder offers."""
+    eds = set()
+    for _cat, apps in read_extra_apps():
+        for a in apps:
+            eds.update(a["editions"])
+    return sorted(eds)
 
 
 _EXCLUDE_HEADER = (
@@ -567,6 +592,15 @@ def write_additions(keys):
         return False
     write_additions_file(p, keys)
     return True
+
+
+def reconcile_additions(catalog_keys, ticked_keys):
+    """Merge one Extras page's selection into the shared additions file without clobbering
+    the others. Replaces only the keys this page owns (catalog_keys) with its ticked set,
+    leaving every other page's keys untouched. Catalogs are disjoint (global vs per-edition),
+    so each page reconciles independently."""
+    kept = read_additions() - set(catalog_keys)
+    return write_additions(kept | set(ticked_keys))
 
 
 # ── Runner 1: pipe (pkexec fixes, clone) — non-tty is fine ──────────

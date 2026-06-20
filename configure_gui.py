@@ -220,6 +220,7 @@ class ConfigureScreen:
         self.widget.set_sensitive(True)
         self._populate_editions()
         self._apply(fn.read_conf())
+        self.window.update_edition_pages()  # reflect saved editions in the sidebar
         self.status.set_text("")
         self._loaded = True
         # Pull the full kernel list once the repo is present, so the dropdowns are
@@ -242,10 +243,16 @@ class ConfigureScreen:
         self.edition_checks = {}
         for name in names:
             cb = Gtk.CheckButton(label=name)
-            cb.connect("toggled", lambda *_: self._refresh_default_session_options())
+            cb.connect("toggled", lambda *_: self._on_edition_toggled())
             (self.desktops_box if name in DESKTOPS else self.wms_box).append(cb)
             self.edition_checks[name] = cb
         self._refresh_default_session_options()
+
+    def _on_edition_toggled(self):
+        # Ticking an edition both re-derives the default session and shows/hides that
+        # edition's conditional extras page in the sidebar.
+        self._refresh_default_session_options()
+        self.window.update_edition_pages()
 
     @staticmethod
     def _preferred_default(ticked):

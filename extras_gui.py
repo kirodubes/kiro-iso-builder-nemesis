@@ -16,8 +16,11 @@ from gi.repository import Gio, GLib, Gtk  # noqa: E402
 
 
 class ExtrasScreen:
-    def __init__(self, window):
+    def __init__(self, window, edition=None):
+        # edition=None → the global "Add apps" page (unscoped apps only). edition="plasma"
+        # → a per-edition page shown only while that edition is ticked (scoped apps only).
         self.window = window
+        self.edition = edition
         self.checks = []       # (key, CheckButton)
         self.groups = []       # (category_check, [child_checks])
         self.sections = []     # ([header_widgets], [(name_lower, widget)])
@@ -27,17 +30,21 @@ class ExtrasScreen:
         for m in ("set_margin_top", "set_margin_bottom", "set_margin_start", "set_margin_end"):
             getattr(self.widget, m)(18)
 
-        title = Gtk.Label(label="Add apps", xalign=0)
+        if edition is None:
+            title_text = "Add apps"
+            subs = ("These apps are NOT on the standard Kiro — tick the ones you want added.",
+                    "Nothing is ticked by default. Tick none and your ISO stays the standard Kiro.")
+        else:
+            ed = edition.capitalize()
+            title_text = f"{ed} extras"
+            subs = (f"Optional {ed} apps, added only to this {ed} build — tick what you want.",
+                    "Nothing is ticked by default.")
+        title = Gtk.Label(label=title_text, xalign=0)
         title.add_css_class("screen-title")
         self.widget.append(title)
         subbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
-        sub1 = Gtk.Label(
-            label="These apps are NOT on the standard Kiro — tick the ones you want added.",
-            xalign=0, wrap=True, max_width_chars=86)
-        sub2 = Gtk.Label(
-            label="Nothing is ticked by default. Tick none and your ISO stays the standard Kiro.",
-            xalign=0, wrap=True, max_width_chars=86)
-        for s in (sub1, sub2):
+        for text in subs:
+            s = Gtk.Label(label=text, xalign=0, wrap=True, max_width_chars=86)
             s.add_css_class("att-orange")
             subbox.append(s)
         self.widget.append(subbox)
@@ -70,8 +77,10 @@ class ExtrasScreen:
         self.widget.append(profile)
 
         nav = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8, halign=Gtk.Align.END)
+        # Relative nav: edition pages slot in dynamically between "Add apps" and "Build",
+        # so step to the adjacent VISIBLE page rather than a hardcoded name.
         back = Gtk.Button(label="← Back")
-        back.connect("clicked", lambda _w: self.window.navigate("packages"))
+        back.connect("clicked", lambda _w: self.window.navigate_relative(self, -1))
         save = Gtk.Button(label="Save & Continue →")
         save.add_css_class("suggested-action")
         save.connect("clicked", lambda _w: self._save())
@@ -81,6 +90,18 @@ class ExtrasScreen:
 
     def on_show(self):
         self._populate()
+
+    def _in_scope(self, app):
+        """True if `app` belongs on this page: unscoped apps on the global page,
+        edition-scoped apps on their edition's page."""
+        if self.edition is None:
+            return not app["editions"]
+        return self.edition in app["editions"]
+
+    def _catalog_keys(self):
+        """All app keys this page owns — used to reconcile the shared additions file
+        without touching keys owned by other pages."""
+        return fn.extra_app_keys(self.edition)
 
     # ── build the list ──────────────────────────────────────────────
     def _populate(self):
@@ -97,7 +118,13 @@ class ExtrasScreen:
             return
         self.widget.set_sensitive(True)
 
-        categories = fn.read_extra_apps()
+        # Keep only apps in this page's scope: the global page shows unscoped apps,
+        # an edition page shows apps scoped to its edition. Empty categories drop out.
+        categories = []
+        for category, apps in fn.read_extra_apps():
+            scoped = [a for a in apps if self._in_scope(a)]
+            if scoped:
+                categories.append((category, scoped))
         added = fn.read_additions()
         if not categories:
             self.status.set_text("No extra apps are offered yet.")
@@ -193,8 +220,10 @@ class ExtrasScreen:
 
     def _save(self):
         keys = {key for key, row in self.checks if row.get_active()}
-        fn.write_additions(keys)
-        self.window.navigate("build")
+        # Reconcile only this page's keys into the shared additions file, so the global
+        # and per-edition pages don't overwrite each other.
+        fn.reconcile_additions(self._catalog_keys(), keys)
+        self.window.navigate_relative(self, +1)
 
     # ── save / import a named app list ──────────────────────────────
     def _apply_keys(self, keys):

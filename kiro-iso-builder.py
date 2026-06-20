@@ -75,10 +75,24 @@ class BuilderWindow(Gtk.ApplicationWindow):
         outer.append(footer)
 
         self.screens = {}
+        self.page_order = []        # stack child names in wizard order
+        self.edition_pages = {}     # edition name -> its conditional page name
         for name, title, cls in SCREENS:
             screen = cls(self)
             self.screens[name] = screen
             self.stack.add_titled(screen.widget, name, title)
+            self.page_order.append(name)
+            # Conditional per-edition extras pages slot in right after "Add apps".
+            # Each is hidden until its edition is ticked (update_edition_pages).
+            if name == "extras":
+                for ed in fn.edition_extras():
+                    page_name = f"extras-{ed}"
+                    escreen = ExtrasScreen(self, edition=ed)
+                    self.screens[page_name] = escreen
+                    page = self.stack.add_titled(escreen.widget, page_name, f"{ed.capitalize()} extras")
+                    page.set_visible(False)
+                    self.page_order.append(page_name)
+                    self.edition_pages[ed] = page_name
 
         self.stack.connect("notify::visible-child-name", self._on_switch)
         # The first add_titled already made 'preflight' visible, so navigate()
@@ -88,6 +102,28 @@ class BuilderWindow(Gtk.ApplicationWindow):
 
     def navigate(self, name):
         self.stack.set_visible_child_name(name)
+
+    def navigate_relative(self, screen, delta):
+        """Step from `screen` to the adjacent VISIBLE page (delta -1/+1). Used by the
+        Extras pages, which are flanked by conditional per-edition pages."""
+        cur = next((n for n, s in self.screens.items() if s is screen), None)
+        order = [n for n in self.page_order
+                 if self.stack.get_page(self.screens[n].widget).get_visible()]
+        if cur in order:
+            i = min(max(order.index(cur) + delta, 0), len(order) - 1)
+            self.navigate(order[i])
+
+    def update_edition_pages(self):
+        """Show a per-edition extras page iff its edition is ticked on Configure; purge a
+        page's keys from the additions overlay when it goes hidden (kept tidy)."""
+        cfg = self.screens.get("configure")
+        ticked = {n for n, cb in cfg.edition_checks.items() if cb.get_active()} if cfg else set()
+        for ed, page_name in self.edition_pages.items():
+            page = self.stack.get_page(self.screens[page_name].widget)
+            want = ed in ticked
+            if page.get_visible() and not want:
+                fn.reconcile_additions(fn.extra_app_keys(ed), set())
+            page.set_visible(want)
 
     def _on_switch(self, *_a):
         name = self.stack.get_visible_child_name()
