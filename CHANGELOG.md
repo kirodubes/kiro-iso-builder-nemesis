@@ -4,6 +4,25 @@
 
 ---
 
+## 2026-06-20 — Configure screen no longer pins the window height
+
+### What Changed
+- The window could not be made shorter (≈1080px tall, mouse-resize blocked), most visibly on Plasma.
+  Cause: the Configure screen stacked its whole form directly in a vertical Box with no scroller, so
+  its large minimum height became the window's minimum height — and since `Gtk.Stack` sizes to its
+  largest child, that pinned the height on every screen, not just Configure. Wrapped the form in a
+  `ScrolledWindow` (matching every other screen) so it scrolls and the window can shrink freely.
+
+### Technical Details
+- `configure_gui.py`: the big form card is now placed inside `Gtk.ScrolledWindow(vexpand=True)`
+  before being appended to `self.widget`; title/sub stay above and status/nav below the scroller,
+  same layout idiom as `packages_gui.py` / `extras_gui.py`. ruff clean.
+
+### Files Modified
+- `configure_gui.py`
+
+---
+
 ## 2026-06-15 — Localize the desktop entry
 
 ### What Changed

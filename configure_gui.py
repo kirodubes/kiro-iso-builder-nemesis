@@ -176,7 +176,12 @@ class ConfigureScreen:
         adv.set_child(advbox)
         form.append(adv)
 
-        self.widget.append(form)
+        # Scroll the form so the screen's minimum height stays small. Without this
+        # the tall card pins the whole window's minimum height (the Stack sizes to
+        # its largest child), making the window ~1080px and unshrinkable by mouse.
+        scroller = Gtk.ScrolledWindow(vexpand=True)
+        scroller.set_child(form)
+        self.widget.append(scroller)
 
         self.status = Gtk.Label(xalign=0, wrap=True)
         self.status.add_css_class("att-orange-note")
