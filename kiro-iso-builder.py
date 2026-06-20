@@ -89,7 +89,9 @@ class BuilderWindow(Gtk.ApplicationWindow):
                     page_name = f"extras-{ed}"
                     escreen = ExtrasScreen(self, edition=ed)
                     self.screens[page_name] = escreen
-                    page = self.stack.add_titled(escreen.widget, page_name, f"{ed.capitalize()} extras")
+                    # Numbered "4 · …" like the fixed pages so the sidebar aligns; these
+                    # always slot in right after "4 · Add apps".
+                    page = self.stack.add_titled(escreen.widget, page_name, f"4 · {ed.capitalize()} extras")
                     page.set_visible(False)
                     self.page_order.append(page_name)
                     self.edition_pages[ed] = page_name
