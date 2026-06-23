@@ -53,9 +53,12 @@ class ExtrasScreen:
         toolbar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         self.search = Gtk.SearchEntry(hexpand=True, placeholder_text="Search apps…")
         self.search.connect("search-changed", lambda e: self._apply_filter(e.get_text()))
+        all_btn = Gtk.Button(label="Select all")
+        all_btn.connect("clicked", lambda _w: self._set_all(True))
         none_btn = Gtk.Button(label="Deselect all")
         none_btn.connect("clicked", lambda _w: self._set_all(False))
         toolbar.append(self.search)
+        toolbar.append(all_btn)
         toolbar.append(none_btn)
         self.widget.append(toolbar)
 
