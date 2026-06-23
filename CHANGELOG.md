@@ -4,7 +4,7 @@
 
 ---
 
-## 2026-06-23 — Strip ST-terminated OSC escapes (sudo command-tracking marker)
+## 2026-06-23 — Log OSC-escape fix + "Select all" on extras/add-apps pages
 
 ### What Changed
 - The build log was leaking the literal text `]3008;start=…;comm=sudo;targetuser=root…` and a
@@ -12,6 +12,9 @@
   escape sequences emitted by `sudo`; `strip_ansi()` was only removing OSC strings terminated by
   BEL (`\x07`), but this marker is terminated by ST (`ESC \`), so the whole sequence fell through
   and rendered as garbage. Widened the OSC branch to accept either terminator.
+- Added a **Select all** button to the extras/add-apps toolbar, beside the existing **Deselect
+  all** — the page starts with nothing ticked, so a one-click "tick everything" is the natural
+  counterpart. Both share the existing `_set_all()` helper.
 
 ### Technical Details
 - `functions.py`: `_ANSI_RE` OSC branch changed from `\x1b\][^\x07]*\x07` to
@@ -19,9 +22,13 @@
   `[^…\x1b]` guard stops the run at an embedded ESC so a stray opener can't swallow following
   escapes. CSI colour codes and BEL-terminated OSC (window-title) still strip exactly as before;
   verified against reproduced `sudo` OSC-3008, OSC-BEL, and CSI samples.
+- `extras_gui.py`: new `all_btn` wired to `self._set_all(True)`, appended to the toolbar before
+  `none_btn`. Tri-state category headers re-sync via the existing `_set_all` path, so no extra
+  state handling was needed.
 
 ### Files Modified
 - `functions.py`
+- `extras_gui.py`
 
 ## 2026-06-20 — Edition-conditional "Extras" pages (Plasma first)
 
