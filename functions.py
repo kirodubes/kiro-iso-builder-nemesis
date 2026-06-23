@@ -888,7 +888,10 @@ def max_build_phase(default=12):
     return max(nums) if nums else default
 
 
-_ANSI_RE = re.compile(r"\x1b\[[0-9;?=]*[A-Za-z]|\x1b\][^\x07]*\x07|\x1b[()][AB0-2]")
+# OSC strings (\x1b]…) terminated by either BEL (\x07) or ST (\x1b\\) — sudo's
+# command-tracking marker (]3008;start=…;comm=sudo;…) uses ST, so a BEL-only
+# match left it leaking into the log as literal text.
+_ANSI_RE = re.compile(r"\x1b\[[0-9;?=]*[A-Za-z]|\x1b\][^\x07\x1b]*(?:\x07|\x1b\\)|\x1b[()][AB0-2]")
 
 
 def strip_ansi(text):
