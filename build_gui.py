@@ -88,7 +88,7 @@ class BuildScreen:
 
         nav = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8, halign=Gtk.Align.END)
         back = Gtk.Button(label="← Back")
-        back.connect("clicked", lambda _w: self.window.navigate("extras"))
+        back.connect("clicked", lambda _w: self.window.navigate_relative(self, -1))
         nav.append(back)
         self.widget.append(nav)
 

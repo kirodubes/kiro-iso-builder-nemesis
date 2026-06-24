@@ -4,6 +4,24 @@
 
 ---
 
+## 2026-06-24 — Build screen Back button respects per-edition extras pages
+
+### What Changed
+- On the **5 · Build** screen, **← Back** jumped straight to **4 · Add apps**, skipping the
+  conditional per-edition page (e.g. **4 · Plasma extras**) that slots in between Add apps and
+  Build when an edition is ticked. Back now lands on the last *visible* page before Build.
+
+### Technical Details
+- `build_gui.py`: the Back button was hardcoded to `navigate("extras")`. Changed it to
+  `navigate_relative(self, -1)` — the same relative-step helper the Extras pages already use to
+  hop over hidden per-edition pages. From Build it steps to the previous visible page: the edition
+  extras page if shown, otherwise Add apps.
+
+### Files Modified
+- `build_gui.py`
+
+---
+
 ## 2026-06-23 — Log OSC-escape fix + "Select all" on extras/add-apps pages
 
 ### What Changed
