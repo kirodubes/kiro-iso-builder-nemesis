@@ -729,10 +729,11 @@ def run_in_pty(argv, cwd, on_line, on_done, ask_password, on_start=None):
         except OSError:
             pass
         env = dict(os.environ, SUDO_PROMPT=SUDO_SENTINEL)
-        # The PTY makes the build's `[[ -t 1 ]]` true, so it runs tput. When the
-        # app is launched from a desktop menu, TERM is unset and tput aborts the
-        # build ("No value for $TERM"). Give it a sane terminal type.
-        env.setdefault("TERM", "xterm-256color")
+        # The PTY makes the build's `[[ -t 1 ]]` true, so it runs tput. Desktop
+        # sessions (e.g. MATE) launch GUI apps with TERM unset OR set to junk
+        # ("unknown"/"dumb"), which makes tput abort the build under `set -e`.
+        # We own this PTY, so force a known-good terminal type.
+        env["TERM"] = "xterm-256color"
         try:
             proc = subprocess.Popen(
                 argv, cwd=cwd, stdin=slave, stdout=slave, stderr=slave,
