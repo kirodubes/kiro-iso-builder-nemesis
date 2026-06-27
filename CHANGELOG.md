@@ -4,6 +4,19 @@
 
 ---
 
+## 2026-06-27 — Fix `tput: unknown terminal "unknown"` build failure (exit 3)
+
+Builds launched from a desktop session (reported on Arch + MATE) failed immediately
+with `tput: unknown terminal "unknown"` and `Build failed (exit 3)`. The build runs
+under our own PTY, which makes `build-the-iso.sh`'s `[[ -t 1 ]]` true so it calls
+`tput`; MATE launches GUI apps with `TERM=unknown`, and `tput` aborts under the
+script's `set -euo pipefail`. The previous guard used `env.setdefault("TERM", ...)`,
+which only fires when `TERM` is *absent* — a junk value like `unknown` slipped
+through. Since we own the PTY, `functions.py` now **forces** `TERM=xterm-256color`
+unconditionally.
+
+- **`functions.py`** — `run_in_pty`: `env["TERM"] = "xterm-256color"` (was `setdefault`).
+
 ## 2026-06-24 — Build screen Back button respects per-edition extras pages
 
 ### What Changed
