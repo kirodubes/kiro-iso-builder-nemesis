@@ -4,6 +4,12 @@
 
 ---
 
+## 2026-06-29 — Added to the new "Kiro Apps" menu
+
+Appended `X-Kiro-Apps;` to `kiro-iso-builder.desktop` so the builder appears in the new
+Kiro Apps launcher folder (menu/directory defined in `kiro-dot-files` +
+`kiro-system-files`). Non-destructive — still shows under System/Settings.
+
 ## 2026-06-27 — Fix `tput: unknown terminal "unknown"` build failure (exit 3)
 
 Builds launched from a desktop session (reported on Arch + MATE) failed immediately

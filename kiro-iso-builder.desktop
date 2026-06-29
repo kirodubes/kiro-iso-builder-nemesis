@@ -34,5 +34,5 @@ Comment[cs]=Sestavte ISO Kiro s opravami přípravy hostitele jedním kliknutím
 Exec=kiro-iso-builder
 Icon=builder
 Terminal=false
-Categories=System;Settings;
+Categories=System;Settings;X-Kiro-Apps;
 Keywords=kiro;iso;archiso;build;
