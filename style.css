@@ -37,6 +37,15 @@
     font-size: 12px;
 }
 
+/* ♥ Support button in the header bar */
+.support-button {
+    color: #e0567a;
+}
+
+.support-button:hover {
+    background-color: alpha(#e0567a, 0.18);
+}
+
 .card {
     background-color: alpha(currentColor, 0.04);
     border: 1px solid alpha(currentColor, 0.10);

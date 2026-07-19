@@ -58,6 +58,64 @@ SCREENS = [
     ("done", "6 · Done", DoneScreen),
 ]
 
+# Funding channels — GitHub Sponsors first (~100% payout). Keep in sync with
+# kiro-website .github/FUNDING.yml and fish-tweak-tool's _FUNDING if those change.
+_FUNDING = [
+    ("GitHub Sponsors", "https://github.com/sponsors/erikdubois", "best value — almost all goes to the project"),
+    ("Ko-fi", "https://ko-fi.com/erikdubois", "buy a coffee — one-off tip"),
+    ("Patreon", "https://www.patreon.com/kiroproject", "membership tiers + perks"),
+    ("YouTube membership", "https://www.youtube.com/@ErikDubois/join", "join on YouTube"),
+    ("PayPal", "https://www.paypal.me/erikdubois", "direct one-off"),
+]
+
+
+def _open_url(parent, url):
+    Gtk.UriLauncher.new(url).launch(parent, None, None)
+
+
+def _show_support_dialog(window):
+    dlg = Gtk.Window(title="Support Kiro", transient_for=window, modal=True)
+    dlg.set_default_size(440, -1)
+    box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+    for side in ("start", "end", "top", "bottom"):
+        getattr(box, f"set_margin_{side}")(18)
+
+    heading = Gtk.Label(xalign=0)
+    heading.set_markup("<b>Support Kiro</b>")
+    box.append(heading)
+
+    intro = Gtk.Label(xalign=0)
+    intro.add_css_class("dim-label")
+    intro.set_wrap(True)
+    intro.set_max_width_chars(52)
+    intro.set_label(
+        "Kiro and its tools are built by one person, for the community — and kept free. "
+        "If Kiro ISO Builder saves you time, a little support keeps the work going. "
+        "Thank you for being here."
+    )
+    box.append(intro)
+
+    for name, url, note in _FUNDING:
+        btn = Gtk.Button()
+        content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        label = Gtk.Label(xalign=0)
+        label.set_markup(f"<b>{name}</b>")
+        sub = Gtk.Label(label=note, xalign=0)
+        sub.add_css_class("dim-label")
+        content.append(label)
+        content.append(sub)
+        btn.set_child(content)
+        btn.connect("clicked", lambda _w, u=url: _open_url(dlg, u))
+        box.append(btn)
+
+    close = Gtk.Button(label="Close")
+    close.set_halign(Gtk.Align.END)
+    close.connect("clicked", lambda _w: dlg.close())
+    box.append(close)
+
+    dlg.set_child(box)
+    dlg.present()
+
 
 class BuilderWindow(Gtk.ApplicationWindow):
     def __init__(self, app):
@@ -66,6 +124,11 @@ class BuilderWindow(Gtk.ApplicationWindow):
 
         header = Gtk.HeaderBar()
         self.set_titlebar(header)
+        support_btn = Gtk.Button(label="♥ Support")
+        support_btn.set_tooltip_text("Support Kiro's development")
+        support_btn.add_css_class("support-button")
+        support_btn.connect("clicked", lambda _w: _show_support_dialog(self))
+        header.pack_end(support_btn)
 
         outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.set_child(outer)

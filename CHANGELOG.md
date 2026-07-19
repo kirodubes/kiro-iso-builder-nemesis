@@ -4,6 +4,17 @@
 
 ---
 
+## 2026-06-30 — Added the ♥ Support button + funding dialog to the header bar
+
+The header bar had no Support action — fish-tweak-tool shipped one but the builder was
+missed. Added a `♥ Support` button (`pack_end`) to the window's `Gtk.HeaderBar`, opening
+a modal "Support Kiro" dialog with the five funding channels (GitHub Sponsors, Ko-fi,
+Patreon, YouTube membership, PayPal). Mirrors fish-tweak-tool's implementation: same
+`_FUNDING` list (kept in sync with `kiro-website .github/FUNDING.yml`), `_open_url` via
+`Gtk.UriLauncher`, and `_show_support_dialog`. New `.support-button` CSS (Kiro pink
+`#e0567a`) in `style.css`; the dialog reuses the existing `.dim-label` class. This is the
+nemesis (beta) builder — kept in lockstep with the production builder.
+
 ## 2026-06-29 — Added to the new "Kiro Apps" menu
 
 Appended `X-Kiro-Apps;` to `kiro-iso-builder.desktop` so the builder appears in the new
