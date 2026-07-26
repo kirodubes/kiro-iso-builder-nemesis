@@ -200,6 +200,7 @@ class BuilderWindow(Gtk.ApplicationWindow):
         first = self.page_order.index("extras") + 1
         moved = self.page_order[first:]
         was_visible = {n: self.stack.get_page(self.screens[n].widget).get_visible() for n in moved}
+        fixed_tail = [n for n in moved if n not in self.edition_pages.values()]
         for name in moved:
             self.stack.remove(self.screens[name].widget)
         del self.page_order[first:]
@@ -215,9 +216,8 @@ class BuilderWindow(Gtk.ApplicationWindow):
                 self.page_titles[page_name] = f"4 · {ed.capitalize()} extras"
                 self.edition_pages[ed] = page_name
             self._add_page(page_name, visible=was_visible.get(page_name, False))
-        for name in moved:
-            if name not in self.edition_pages.values():
-                self._add_page(name, visible=was_visible[name])
+        for name in fixed_tail:
+            self._add_page(name, visible=was_visible[name])
 
         if keep is not None:
             self.stack.set_visible_child_name(keep)

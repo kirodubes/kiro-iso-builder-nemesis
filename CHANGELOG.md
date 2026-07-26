@@ -26,8 +26,12 @@ rebuilds after the clone) — the pages now do too.
   Per-page visibility and the visible child are preserved across the shuffle. Titles are needed
   again on re-add, hence the new `page_titles` dict and the `_add_page()` helper that all pages
   now go through.
+- The list of pages to put back is snapshotted **before** the prune, so the removal path (an
+  edition losing its EXTRA-APP blocks, or a relocate to a clone without them) drops just that
+  page instead of taking Build and Done down with it.
 - Verified headless (window never presented): clone-present startup unchanged; clone found
-  mid-session now yields `1 · Pre-flight … 4 · Add apps, 4 · Plasma extras, 5 · Build, 6 · Done`.
+  mid-session now yields `1 · Pre-flight … 4 · Add apps, 4 · Plasma extras, 5 · Build, 6 · Done`;
+  edition-disappears leaves the six fixed pages intact.
 - Identical change applied to the nemesis (beta) builder to keep the two in lockstep.
 
 ### Files Modified
