@@ -161,31 +161,66 @@ class BuilderWindow(Gtk.ApplicationWindow):
 
         self.screens = {}
         self.page_order = []        # stack child names in wizard order
+        self.page_titles = {}       # stack child name -> sidebar title
         self.edition_pages = {}     # edition name -> its conditional page name
         for name, title, cls in SCREENS:
-            screen = cls(self)
-            self.screens[name] = screen
-            self.stack.add_titled(screen.widget, name, title)
-            self.page_order.append(name)
-            # Conditional per-edition extras pages slot in right after "Add apps".
-            # Each is hidden until its edition is ticked (update_edition_pages).
-            if name == "extras":
-                for ed in fn.edition_extras():
-                    page_name = f"extras-{ed}"
-                    escreen = ExtrasScreen(self, edition=ed)
-                    self.screens[page_name] = escreen
-                    # Numbered "4 · …" like the fixed pages so the sidebar aligns; these
-                    # always slot in right after "4 · Add apps".
-                    page = self.stack.add_titled(escreen.widget, page_name, f"4 · {ed.capitalize()} extras")
-                    page.set_visible(False)
-                    self.page_order.append(page_name)
-                    self.edition_pages[ed] = page_name
+            self.screens[name] = cls(self)
+            self.page_titles[name] = title
+            self._add_page(name)
+        self.sync_edition_pages()
 
         self.stack.connect("notify::visible-child-name", self._on_switch)
         # The first add_titled already made 'preflight' visible, so navigate()
         # emits no notify — fire on_show for the starting screen explicitly.
         self.navigate("preflight")
         self._on_switch()
+
+    def _add_page(self, name, visible=True):
+        page = self.stack.add_titled(self.screens[name].widget, name, self.page_titles[name])
+        page.set_visible(visible)
+        self.page_order.append(name)
+
+    def sync_edition_pages(self):
+        """Create a conditional extras page for every edition that has scoped EXTRA-APP
+        blocks; each stays hidden until its edition is ticked (update_edition_pages).
+
+        Re-runnable, and re-run whenever Configure loads: the edition list can only be
+        read from packages.x86_64, so on a machine without the clone yet it is empty at
+        startup and only becomes known mid-session, once Pre-flight has cloned or located
+        the repo. Without this the page would appear on the next launch only.
+        """
+        editions = fn.edition_extras()
+        if editions == sorted(self.edition_pages):
+            return
+
+        # Gtk.Stack can only append and the sidebar follows stack order, so lift out every
+        # page after "Add apps" and put it back behind the edition pages to keep the wizard
+        # order. Nothing here is ever the visible page when this runs, but restore it anyway.
+        keep = self.stack.get_visible_child_name()
+        first = self.page_order.index("extras") + 1
+        moved = self.page_order[first:]
+        was_visible = {n: self.stack.get_page(self.screens[n].widget).get_visible() for n in moved}
+        for name in moved:
+            self.stack.remove(self.screens[name].widget)
+        del self.page_order[first:]
+
+        for ed in [e for e in self.edition_pages if e not in editions]:
+            del self.screens[self.edition_pages.pop(ed)]
+        for ed in editions:
+            page_name = f"extras-{ed}"
+            if ed not in self.edition_pages:
+                self.screens[page_name] = ExtrasScreen(self, edition=ed)
+                # Numbered "4 · …" like the fixed pages so the sidebar aligns; these
+                # always slot in right after "4 · Add apps".
+                self.page_titles[page_name] = f"4 · {ed.capitalize()} extras"
+                self.edition_pages[ed] = page_name
+            self._add_page(page_name, visible=was_visible.get(page_name, False))
+        for name in moved:
+            if name not in self.edition_pages.values():
+                self._add_page(name, visible=was_visible[name])
+
+        if keep is not None:
+            self.stack.set_visible_child_name(keep)
 
     def navigate(self, name):
         self.stack.set_visible_child_name(name)
@@ -203,6 +238,8 @@ class BuilderWindow(Gtk.ApplicationWindow):
     def update_edition_pages(self):
         """Show a per-edition extras page iff its edition is ticked on Configure; purge a
         page's keys from the additions overlay when it goes hidden (kept tidy)."""
+        # Pick up editions the startup pass could not see yet (clone found mid-session).
+        self.sync_edition_pages()
         cfg = self.screens.get("configure")
         ticked = {n for n, cb in cfg.edition_checks.items() if cb.get_active()} if cfg else set()
         for ed, page_name in self.edition_pages.items():

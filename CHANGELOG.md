@@ -4,6 +4,36 @@
 
 ---
 
+## 2026-07-26 — Per-edition extras pages show up without a restart
+
+### What Changed
+On a machine that does not have the `kiro-iso-next` clone yet, ticking **plasma** on Configure did
+not reveal the **4 · Plasma extras** page in the sidebar — it appeared only on the *next*
+launch. The conditional per-edition pages were built once, in `BuilderWindow.__init__`, from
+`fn.edition_extras()`, which parses the EXTRA-APP blocks in `archiso/packages.x86_64`. With no
+clone at import time that list is empty, so the page was never created for that session;
+Pre-flight's clone/locate calls `fn.refresh_paths()`, which repairs the paths but never
+revisited the stack. The Configure checkboxes already coped with this (`_populate_editions`
+rebuilds after the clone) — the pages now do too.
+
+### Technical Details
+- New `BuilderWindow.sync_edition_pages()` — idempotent: creates a page for every edition that
+  has scoped EXTRA-APP blocks, drops pages for editions that vanished, no-ops when the set is
+  unchanged. Called once at startup and again at the top of `update_edition_pages()`, so it
+  re-runs whenever Configure loads or an edition is ticked.
+- `Gtk.Stack` can only append and `GtkStackSidebar` follows stack order, so the pages after
+  "4 · Add apps" are lifted out and re-added behind the edition pages to keep wizard order.
+  Per-page visibility and the visible child are preserved across the shuffle. Titles are needed
+  again on re-add, hence the new `page_titles` dict and the `_add_page()` helper that all pages
+  now go through.
+- Verified headless (window never presented): clone-present startup unchanged; clone found
+  mid-session now yields `1 · Pre-flight … 4 · Add apps, 4 · Plasma extras, 5 · Build, 6 · Done`.
+- Identical change applied to the nemesis (beta) builder to keep the two in lockstep.
+
+### Files Modified
+- **`kiro-iso-builder.py`** — `sync_edition_pages()`, `_add_page()`, `page_titles`; `__init__` and
+  `update_edition_pages()` now delegate page creation to the sync.
+
 ## 2026-06-30 — Added the ♥ Support button + funding dialog to the header bar
 
 The header bar had no Support action — fish-tweak-tool shipped one but the builder was
