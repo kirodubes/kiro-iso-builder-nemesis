@@ -4,6 +4,32 @@
 
 ---
 
+## 2026-09-11 — Default kernel pairing follows the monthly rotation
+
+### What Changed
+The shipped default in `DEFAULTS["kernel"]` moved from `linux-cachyos linux-zen` to
+`linux linux-lts`, matching the kernel pairing chosen for the October ISO. The Kiro ISO now
+rotates its main + backup kernel pairing each month, so this default is expected to move again
+rather than settle.
+
+### Technical Details
+No structural change was needed — the builder was already kernel-agnostic. The Configure screen
+has always exposed **First kernel (boots the live ISO)** and **Second kernel (optional)** and
+writes them as a space-separated `kernel=` line into `build.conf`, which `build-the-iso.sh` reads
+as `PRIMARY_KERNEL` + fallback. `KERNEL_FALLBACK` (the curated pre-Refresh dropdown list) already
+carried `("core", "linux")` and `("core", "linux-lts")`, and the VirtualBox DKMS headers map in
+`done_gui.py` already mapped `[linux]=linux-headers [linux-lts]=linux-lts-headers`, so both October
+kernels were selectable and buildable without further edits.
+
+This pairs with the `apply_kernel()` rework in the ISO repos, where the live fallback boot entry
+stopped being hardcoded to `linux-zen` — without that, a `linux linux-lts` build silently produced
+an ISO with no bootable entry for its backup kernel.
+
+### Files Modified
+- [configure_gui.py](configure_gui.py)
+
+---
+
 ## 2026-07-26 — Per-edition extras pages show up without a restart
 
 ### What Changed

@@ -33,7 +33,7 @@ DESKTOPS = {"xfce", "cinnamon", "plasma", "gnome", "mate", "budgie"}
 # Shipped defaults for the GUI-exposed knobs (the values build.conf ships with).
 DEFAULTS = {
     "nvidia_driver": "open",
-    "kernel": "linux-cachyos linux-zen",
+    "kernel": "linux linux-lts",
     "editions": "xfce ohmychadwm",
     "default_session": "xfce",
     "bump_version": "yes",
