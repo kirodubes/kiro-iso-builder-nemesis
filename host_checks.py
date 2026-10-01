@@ -111,8 +111,9 @@ def check_archiso():
     installed = fn.cmd_out(["pacman", "-Q", "archiso"]).split()[-1]
     required = _archiso_required()
     if required and int(fn.cmd_out(["vercmp", installed, required])) < 0:
-        # No one-click fix: upgrading archiso alone would be a partial upgrade.
-        return FAIL, f"archiso {installed} is too old — needs {required}+; run sudo pacman -Syu", None
+        # The fix is a full system upgrade: upgrading archiso alone would be a partial upgrade.
+        return (FAIL, f"archiso {installed} is too old — needs {required}+; Fix runs a full system upgrade",
+                ("hostprep", ["upgrade_system"]))
     return OK, f"archiso {installed} installed", None
 
 
