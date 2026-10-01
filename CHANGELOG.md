@@ -4,6 +4,29 @@
 
 ---
 
+## 2026.10.01
+
+### What Changed
+- The pre-flight **archiso** check now checks the version as well as whether archiso is installed. From
+  today, `build-the-iso.sh` needs archiso 91 or newer, because every boot entry ends in `%KERNEL_PARAMS%`
+  and only mkarchiso 91+ replaces it. Before, a host on archiso 90 showed green in pre-flight and the
+  build then stopped minutes in, at Phase 4. Now pre-flight shows a FAIL up front: "archiso 90-1 is too
+  old — needs 91-1+; run sudo pacman -Syu".
+
+### Technical Details
+- The minimum is not hardcoded. `_archiso_required()` reads `local required="…"` from
+  `check_archiso_version` in the clone's `build-the-iso.sh`, so the GUI and the CLI build always agree.
+  A clone without that function means no minimum, so older trees still pass.
+- The comparison uses `vercmp`, the same as the shell check.
+- The FAIL has no one-click fix on purpose: running `pacman -S archiso` alone is a partial upgrade, so the user is
+  told to run a full `pacman -Syu`.
+- Tested: real 91-1 → OK; faked 90-1 → FAIL with the message; no build script → OK.
+
+### Files Modified
+- `host_checks.py`
+- `CLAUDE.md` (kiro-iso contract: KIB reads the archiso minimum from `build-the-iso.sh`)
+- `.codespellrc` (new): allow `uptodate`, an existing check key the pre-commit spellcheck flagged
+
 ## 2026.09.28
 
 ### What Changed

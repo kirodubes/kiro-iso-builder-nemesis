@@ -38,6 +38,8 @@ to them. Design spec: `Kiro-HQ/ISO-BUILDER-GUI-SPEC.md`. Ships via `nemesis_repo
 
 This app depends on three things in `kiro-iso/build-scripts`:
 - `build-the-iso.sh` — the build entry point (runs non-root).
+  Its `check_archiso_version` holds the archiso minimum (`local required="…"`), which the
+  pre-flight `check_archiso` reads — keep that line's shape.
 - `build.conf` — the shared user-config file the Configure screen reads/writes.
 - `host-prep-run.sh` — a dispatcher that runs one host-prep function (`ensure_package`,
   `setup_chaotic`, `setup_cachyos`) in isolation under `pkexec`.

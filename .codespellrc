@@ -1,0 +1,3 @@
+[codespell]
+# check key / function name in host_checks.py, not a typo
+ignore-words-list = uptodate

@@ -6,6 +6,7 @@ identical to one prepared by the CLI build. Works on any Arch-based host.
 """
 
 import os
+import re
 import shutil
 
 import functions as fn
@@ -91,9 +92,28 @@ def check_polkit():
     return WARN, "No polkit agent detected — fix prompts may not appear", None
 
 
+def _archiso_required():
+    # build-the-iso.sh's check_archiso_version owns the minimum; read it from the
+    # clone so the GUI and the CLI build can never disagree. None = no minimum.
+    script = fn.build_script()
+    if script is None:
+        return None
+    try:
+        match = re.search(r'local required="([^"]+)"', script.read_text(encoding="utf-8"))
+    except OSError:
+        return None
+    return match.group(1) if match else None
+
+
 def check_archiso():
-    return (OK, "archiso installed", None) if _pkg("archiso") else \
-        (FAIL, "archiso missing", ("hostprep", ["ensure_package", "archiso"]))
+    if not _pkg("archiso"):
+        return FAIL, "archiso missing", ("hostprep", ["ensure_package", "archiso"])
+    installed = fn.cmd_out(["pacman", "-Q", "archiso"]).split()[-1]
+    required = _archiso_required()
+    if required and int(fn.cmd_out(["vercmp", installed, required])) < 0:
+        # No one-click fix: upgrading archiso alone would be a partial upgrade.
+        return FAIL, f"archiso {installed} is too old — needs {required}+; run sudo pacman -Syu", None
+    return OK, f"archiso {installed} installed", None
 
 
 def check_grub():
