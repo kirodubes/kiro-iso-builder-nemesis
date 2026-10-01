@@ -23,6 +23,10 @@
   the kernel was upgraded. It is never `pacman -S archiso` alone, which would be a partial upgrade. The message
   says the fix upgrades the whole system. This needs a kiro-iso-next clone that has `upgrade_system`
   (`b44e4f8`); the "up to date" check pulls it in.
+- If the clone doesn't have `upgrade_system` yet, the row says "update the kiro-iso-next clone first (row
+  above)" and offers no fix. Fix all never updates the clone (by design), so before this the archiso fix
+  failed without explanation on a stale clone. Found in a live test: archiso 90-1 → 91-1 worked once the
+  clone was updated. `_hostprep_has()` looks for `<func>() {` in the clone's `host-prep.sh`.
 - Tested: real 91-1 → OK; faked 90-1 → FAIL with the message; no build script → OK.
 
 ### Files Modified

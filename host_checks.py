@@ -105,15 +105,27 @@ def _archiso_required():
     return match.group(1) if match else None
 
 
+def _hostprep_has(func):
+    script = fn.BUILD_SCRIPTS / "host-prep.sh" if fn.BUILD_SCRIPTS else None
+    try:
+        return script is not None and f"\n{func}() {{" in script.read_text(encoding="utf-8")
+    except OSError:
+        return False
+
+
 def check_archiso():
     if not _pkg("archiso"):
         return FAIL, "archiso missing", ("hostprep", ["ensure_package", "archiso"])
     installed = fn.cmd_out(["pacman", "-Q", "archiso"]).split()[-1]
     required = _archiso_required()
     if required and int(fn.cmd_out(["vercmp", installed, required])) < 0:
+        too_old = f"archiso {installed} is too old — needs {required}+"
+        # The fix is host-prep's upgrade_system; an older clone lacks it, and Fix all never
+        # updates the clone, so say so instead of failing silently.
+        if not _hostprep_has("upgrade_system"):
+            return FAIL, f"{too_old}; update the {fn.REPO_NAME} clone first (row above)", None
         # The fix is a full system upgrade: upgrading archiso alone would be a partial upgrade.
-        return (FAIL, f"archiso {installed} is too old — needs {required}+; Fix runs a full system upgrade",
-                ("hostprep", ["upgrade_system"]))
+        return FAIL, f"{too_old}; Fix runs a full system upgrade", ("hostprep", ["upgrade_system"])
     return OK, f"archiso {installed} installed", None
 
 
