@@ -117,7 +117,7 @@ class PackagesScreen:
         self.core_expander.set_label(f"Show the core packages ({len(core)})")
         self.core_label.set_text(", ".join(core))
 
-        categories = fn.read_tier3()
+        categories = fn.read_edition_optional(self._editions()) + fn.read_tier3()
         excluded = fn.read_excludes()
         if not categories:
             self.status.set_text("No optional apps were found to choose from.")
@@ -242,7 +242,11 @@ class PackagesScreen:
                 f"Unticked, but still on the ISO: {reason}." if reason else None)
 
     def _excludes(self):
-        return {pkg for pkg, row in self.checks if not row.get_active()}
+        # Keep exclusions for rows not shown now (an edition unticked on Configure), so
+        # ticking that edition again brings back the user's earlier choice.
+        shown = {pkg for pkg, _row in self.checks}
+        hidden = fn.read_excludes() - shown
+        return hidden | {pkg for pkg, row in self.checks if not row.get_active()}
 
     @staticmethod
     def _editions():

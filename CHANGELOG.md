@@ -19,6 +19,9 @@
   removes, what comes back anyway (with the reason), the edition and add-on packages, what your choices pull
   in as dependencies, and the frozen (TIER 1) and core (TIER 2) packages. A search box filters every list.
   Each build also saves this page in its log folder.
+- With the xfce edition ticked, the Packages page shows a new "XFCE extras (xfce4-goodies)" section with its
+  36 packages, from Mousepad, Ristretto and Parole to the panel plugins. Untick one and it is really left out.
+  Before, the edition shipped the whole group, which is why the review still got Mousepad.
 
 ### Technical Details
 - `kept_packages(excludes, editions)` in `functions.py` resolves the build's package list the way pacman
@@ -41,6 +44,13 @@
 - `write_summary_html()` writes one self-contained file with inline CSS and JS, light and dark through
   `prefers-color-scheme`, to `~/.config/kiro-iso-builder-next/build-summary.html`. The button opens it with
   `xdg-open` from a daemon thread. At Start build a copy goes to the build's log folder next to `summary.txt`.
+- kiro-iso-next now lists the xfce groups member by member under `## group: NAME [optional]` headers inside
+  the edition block. `read_edition_optional()` turns the optional sections of the ticked editions into extra
+  Packages categories, shown before TIER 3. `_shipped_names()` skips excluded lines in optional sections, so the
+  "still ships" labels and the summary page match what the build script does.
+- `_excludes()` keeps saved exclusions for rows that aren't shown, so unticking the xfce edition and ticking it
+  again keeps your earlier choices. The header of `package-selection.conf` now says optional edition packages
+  belong there too.
 
 ### Files Modified
 - `functions.py`, `packages_gui.py`, `build_gui.py`, `README.md`

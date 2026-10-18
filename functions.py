@@ -450,15 +450,16 @@ def edition_extras():
 
 
 _EXCLUDE_HEADER = (
-    "# TIER 3 packages to EXCLUDE from the ISO (kiro-iso-builder package profile).\n"
+    "# Optional packages to EXCLUDE from the ISO (kiro-iso-builder package profile).\n"
     "#\n"
-    "# build-the-iso.sh's apply_package_selection() comments each one out in the\n"
-    "# build-tree copy of packages.x86_64. One package name per line; lines starting\n"
-    "# with # are ignored. An empty list ships the full TIER 3 set. This same format\n"
-    "# is build-scripts/package-selection.conf and an importable saved profile.\n"
+    "# build-the-iso.sh comments each one out in the build-tree copy of\n"
+    "# packages.x86_64: TIER 3 lines, and the lines of an edition block's\n"
+    "# \"## group: NAME optional\" section (xfce4-goodies). One package name per\n"
+    "# line; lines starting with # are ignored. An empty list ships everything.\n"
+    "# This same format is build-scripts/package-selection.conf and an importable\n"
+    "# saved profile.\n"
     "#\n"
-    "# Only TIER 3 (USER-CHANGEABLE / OPTIONAL) packages belong here — TIER 1\n"
-    "# (frozen) and TIER 2 (core) must never be excluded.\n\n"
+    "# TIER 1 (frozen), TIER 2 (core) and fixed edition packages must never be excluded.\n\n"
 )
 
 
@@ -634,17 +635,52 @@ def read_core():
     return tier1 + tier2
 
 
+# An edition block can list a package group member by member; "optional" sections can be unticked.
+_GROUP_RE = re.compile(r"^##\s+group:\s+(\S+)(\s+optional)?\s*$")
+
+
+def read_edition_optional(editions):
+    """[(category, [pkg, ...])] for the optional group sections of the ticked editions."""
+    pf = packages_file()
+    if not pf or not pf.is_file():
+        return []
+    out, block, current = [], None, None
+    for line in pf.read_text().splitlines():
+        m = re.match(r"^###\s*>>> EDITION-BLOCK (\S+) >>>", line)
+        if m:
+            block, current = m.group(1), None
+            continue
+        if line.startswith("###"):
+            block = current = None
+            continue
+        m = _GROUP_RE.match(line)
+        if m:
+            current = None
+            if block in editions and m.group(2):
+                current = (f"{block.upper()} extras ({m.group(1)})", [])
+                out.append(current)
+            continue
+        mp = _EXTRA_PKG_RE.match(line.strip())
+        if current is not None and mp:
+            current[1].append(mp.group(1))
+    return out
+
+
 def _shipped_names(excludes, editions):
     """{name: source} for every line that will be uncommented in the build's packages.x86_64."""
     pf = packages_file()
     if not pf or not pf.is_file():
         return {}
     ticked_extras = read_additions()
-    names, block, block_kind = {}, None, None
+    names, block, block_kind, optional = {}, None, None, False
     for line in pf.read_text().splitlines():
         m = re.match(r"^###\s*>>> EDITION-BLOCK (\S+) >>>", line)
         if m:
-            block, block_kind = m.group(1), "edition"
+            block, block_kind, optional = m.group(1), "edition", False
+            continue
+        m = _GROUP_RE.match(line)
+        if m:
+            optional = bool(m.group(2))
             continue
         m = _EXTRA_START_RE.match(line)
         if m:
@@ -659,6 +695,8 @@ def _shipped_names(excludes, editions):
             if not mp:
                 continue
             if block_kind == "edition" and block in editions:
+                if optional and mp.group(1) in excludes:
+                    continue
                 names.setdefault(mp.group(1), f"listed by the {block} edition")
             elif block_kind == "extra" and block in ticked_extras:
                 names.setdefault(mp.group(1), f"part of the {block} add-on")
