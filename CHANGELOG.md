@@ -33,6 +33,9 @@
 - A package that is both an edition extra and a normal optional package (baobab, gnome-disk-utility and
   simple-scan are in the gnome group and in TIER 3) shows as one row, in its TIER 3 category. Before, it showed
   twice with two checkboxes that didn't stay in sync.
+- The Packages page folds each group to one line with a ticked/total count ("GNOME extras (gnome)  27/27"),
+  opened with its arrow; Expand all and Collapse all sit next to the search box. With every desktop and window
+  manager ticked the list was very long. A search still shows matches inside folded groups.
 - New test suite: `bash tests/run-tests.sh` runs unit tests for the package logic, a contract test for the
   build-the-iso.sh functions KIB depends on, ruff, and a GUI smoke test that opens every screen.
 
@@ -78,6 +81,8 @@
   that only `gimp` brings back. 16 unit tests.
 - `package_rows(editions)` builds the Packages categories and drops edition extras that are also TIER 3 lines;
   `optional_rows()` uses it. The build script needs no change: one exclusion comments out both lines.
+- Groups start folded; `_expanded` keeps the opened ones for the session. `_apply_filter` shows a row only when
+  its group is open or a search is active, and `_sync_header` keeps the count over the rows that aren't hidden.
 - The fixture also points `CONFIG_DIR` at the fake repo before the app module loads, so the GUI smoke test no
   longer creates folders in the real `~/.config/kiro-iso-builder-next` (seen on a live VM).
 

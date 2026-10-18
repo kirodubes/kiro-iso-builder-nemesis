@@ -23,7 +23,9 @@ class PackagesScreen:
         self.window = window
         self.checks = []       # (pkg, CheckButton)
         self.groups = []       # (category_check, [child_checks])
-        self.sections = []     # ([header_widgets], [(name_lower, widget)])
+        self.sections = []     # (category, arrow_button, [header_widgets], [(name_lower, widget)])
+        self._expanded = set()  # categories folded open; kept across visits, folded by default
+        self._count_of = {}    # category CheckButton -> its 'ticked/total' Label
         self._syncing = False
         self._kept = {}
         self._kept_ready = False
@@ -71,7 +73,13 @@ class PackagesScreen:
         all_btn.connect("clicked", lambda _w: self._set_all(True))
         none_btn = Gtk.Button(label="Deselect all")
         none_btn.connect("clicked", lambda _w: self._set_all(False))
+        expand_btn = Gtk.Button(label="Expand all")
+        expand_btn.connect("clicked", lambda _w: self._set_expanded_all(True))
+        collapse_btn = Gtk.Button(label="Collapse all")
+        collapse_btn.connect("clicked", lambda _w: self._set_expanded_all(False))
         toolbar.append(self.search)
+        toolbar.append(expand_btn)
+        toolbar.append(collapse_btn)
         toolbar.append(all_btn)
         toolbar.append(none_btn)
         self.widget.append(toolbar)
@@ -115,7 +123,7 @@ class PackagesScreen:
             self.container.remove(child)
             child = nxt
         self.checks, self.groups, self.sections = [], [], []
-        self._hidden, self._pkg_of = {}, {}
+        self._hidden, self._pkg_of, self._count_of = {}, {}, {}
 
         if fn.packages_file() is None:
             self.status.set_text("packages.x86_64 not found — fix the clone on the Pre-flight screen.")
@@ -134,15 +142,23 @@ class PackagesScreen:
 
         total = 0
         for category, pkgs in categories:
+            header = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4, margin_top=10)
+            arrow = Gtk.Button(has_frame=False, tooltip_text="Show or hide the packages in this group")
+            arrow.connect("clicked", self._on_arrow_clicked, category)
             cat_check = Gtk.CheckButton(label=category)
             cat_check.add_css_class("row-title")
-            cat_check.set_margin_top(10)
-            self.container.append(cat_check)
+            count = Gtk.Label()
+            count.add_css_class("dim-label")
+            self._count_of[cat_check] = count
+            header.append(arrow)
+            header.append(cat_check)
+            header.append(count)
+            self.container.append(header)
 
             child_checks, items = [], []
             for pkg in pkgs:
                 row = Gtk.CheckButton(label=pkg)
-                row.set_margin_start(24)
+                row.set_margin_start(44)
                 row.set_active(pkg not in excluded)
                 row.connect("toggled", self._on_child_toggled, cat_check, child_checks)
                 self.container.append(row)
@@ -154,7 +170,7 @@ class PackagesScreen:
 
             cat_check.connect("toggled", self._on_category_toggled, child_checks)
             self.groups.append((cat_check, child_checks))
-            self.sections.append(([cat_check], items))
+            self.sections.append((category, arrow, [header], items))
             self._sync_header(cat_check, child_checks)
 
         self._apply_filter(self.search.get_text())
@@ -175,6 +191,9 @@ class PackagesScreen:
             cat_check.set_active(False)
             cat_check.set_inconsistent(True)
         self._syncing = False
+        shown = [c for c in child_checks if self._pkg_of.get(c) not in self._hidden]
+        if cat_check in self._count_of:
+            self._count_of[cat_check].set_text(f"{sum(c.get_active() for c in shown)}/{len(shown)}")
 
     def _on_category_toggled(self, cat_check, child_checks):
         if self._syncing:
@@ -206,16 +225,28 @@ class PackagesScreen:
 
     # ── search filter (from ATT streamline) ─────────────────────────
     def _apply_filter(self, query):
+        # A search shows its matches even inside folded groups; with no search a group shows its
+        # rows only when folded open.
         q = query.strip().lower()
-        for headers, items in self.sections:
+        for category, arrow, headers, items in self.sections:
+            is_open = category in self._expanded or bool(q)
+            arrow.set_icon_name("pan-down-symbolic" if is_open else "pan-end-symbolic")
             any_visible = False
             for name, widget in items:
                 match = ((not q) or (q in name)) and name not in self._hidden
-                widget.set_visible(match)
+                widget.set_visible(match and is_open)
                 if match:
                     any_visible = True
             for header in headers:
                 header.set_visible(any_visible)
+
+    def _on_arrow_clicked(self, _w, category):
+        self._expanded ^= {category}
+        self._apply_filter(self.search.get_text())
+
+    def _set_expanded_all(self, is_open):
+        self._expanded = {category for category, *_ in self.sections} if is_open else set()
+        self._apply_filter(self.search.get_text())
 
     def _update_status(self, total=None):
         self._refresh_kept()
