@@ -126,7 +126,7 @@ class PackagesScreen:
         self._core = fn.read_core()
         self._show_always_list()
 
-        categories = fn.read_edition_optional(self._editions()) + fn.read_tier3()
+        categories = fn.package_rows(self._editions())
         excluded = fn.read_excludes()
         if not categories:
             self.status.set_text("No optional apps were found to choose from.")

@@ -36,6 +36,14 @@ class PackageLogic(unittest.TestCase):
                          [("XFCE extras (xfce4-goodies)", ["mousepad", "ristretto"])])
         self.assertEqual(fn.read_edition_optional(["qtile"]), [])
 
+    def test_package_rows_one_row_per_package(self):
+        pf = fn.packages_file()
+        pf.write_text(pf.read_text().replace("### Utilities\n", "### Utilities\nristretto\n", 1))
+        rows = fn.package_rows(["xfce"])
+        self.assertEqual(rows[0], ("XFCE extras (xfce4-goodies)", ["mousepad"]), "ristretto keeps its TIER 3 row")
+        names = [p for _c, pkgs in rows for p in pkgs]
+        self.assertEqual(len(names), len(set(names)))
+
     def test_shipped_names_reasons(self):
         names = fn._shipped_names({"gimp", "mousepad"}, self.editions)
         self.assertNotIn("gimp", names)

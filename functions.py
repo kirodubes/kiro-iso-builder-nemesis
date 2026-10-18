@@ -781,9 +781,20 @@ def always_shipped(row_pkgs, editions):
     return kept_packages(set(row_pkgs), editions)
 
 
+def package_rows(editions):
+    """[(category, [pkg, ...])] for the Packages page: optional edition sections, then TIER 3.
+
+    One row per package: a name that is both an edition extra and a TIER 3 line (baobab in gnome)
+    keeps its TIER 3 row — one exclusion drops it from both places in the build."""
+    tier3 = read_tier3()
+    in_tier3 = {p for _c, pkgs in tier3 for p in pkgs}
+    extras = [(c, [p for p in pkgs if p not in in_tier3]) for c, pkgs in read_edition_optional(editions)]
+    return [(c, pkgs) for c, pkgs in extras if pkgs] + tier3
+
+
 def optional_rows(editions):
     """Every package name the Packages page can show for these editions."""
-    return [p for _c, pkgs in read_edition_optional(editions) + read_tier3() for p in pkgs]
+    return [p for _c, pkgs in package_rows(editions) for p in pkgs]
 
 
 def reported_kept(excludes, editions):

@@ -30,6 +30,9 @@
 - Tested on the Kiro-next live VM, which turned up two follow-ups. The Build page and the summary no longer
   report an always-shipped package that an older saved selection or an imported profile still excludes. The
   always-ship list on the Packages page now scrolls on its own; open, it used to push the window past the screen.
+- A package that is both an edition extra and a normal optional package (baobab, gnome-disk-utility and
+  simple-scan are in the gnome group and in TIER 3) shows as one row, in its TIER 3 category. Before, it showed
+  twice with two checkboxes that didn't stay in sync.
 - New test suite: `bash tests/run-tests.sh` runs unit tests for the package logic, a contract test for the
   build-the-iso.sh functions KIB depends on, ruff, and a GUI smoke test that opens every screen.
 
@@ -73,6 +76,8 @@
   `build_summary()` use it; "Removed" still subtracts the full kept set. The core label sits in a
   `Gtk.ScrolledWindow` (`max_content_height=220`, natural height). The fixture gained `babl` as an optional row
   that only `gimp` brings back. 16 unit tests.
+- `package_rows(editions)` builds the Packages categories and drops edition extras that are also TIER 3 lines;
+  `optional_rows()` uses it. The build script needs no change: one exclusion comments out both lines.
 - The fixture also points `CONFIG_DIR` at the fake repo before the app module loads, so the GUI smoke test no
   longer creates folders in the real `~/.config/kiro-iso-builder-next` (seen on a live VM).
 
