@@ -666,6 +666,30 @@ def read_edition_optional(editions):
     return out
 
 
+def read_edition_fixed(editions):
+    """{edition: [pkg, ...]} for the lines of the ticked editions that always ship (not in an optional section)."""
+    pf = packages_file()
+    if not pf or not pf.is_file():
+        return {}
+    out, block, optional = {}, None, False
+    for line in pf.read_text().splitlines():
+        m = re.match(r"^###\s*>>> EDITION-BLOCK (\S+) >>>", line)
+        if m:
+            block, optional = m.group(1), False
+            continue
+        if line.startswith("###"):
+            block = None
+            continue
+        m = _GROUP_RE.match(line)
+        if m:
+            optional = bool(m.group(2))
+            continue
+        mp = _EXTRA_PKG_RE.match(line.strip())
+        if block in editions and mp and not optional:
+            out.setdefault(block, []).append(mp.group(1))
+    return out
+
+
 def _shipped_names(excludes, editions):
     """{name: source} for every line that will be uncommented in the build's packages.x86_64."""
     pf = packages_file()

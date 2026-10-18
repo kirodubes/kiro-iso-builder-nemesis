@@ -44,6 +44,12 @@ class PackageLogic(unittest.TestCase):
         names = [p for _c, pkgs in rows for p in pkgs]
         self.assertEqual(len(names), len(set(names)))
 
+    def test_edition_fixed_lines(self):
+        fixed = fn.read_edition_fixed(self.editions)
+        self.assertEqual(fixed["xfce"], ["xfwm4", "thunar"], "optional mousepad/ristretto are not fixed")
+        self.assertEqual(fixed["qtile"], ["kiro-qtile", "thunar"])
+        self.assertNotIn("xfce", fn.read_edition_fixed(["qtile"]))
+
     def test_shipped_names_reasons(self):
         names = fn._shipped_names({"gimp", "mousepad"}, self.editions)
         self.assertNotIn("gimp", names)

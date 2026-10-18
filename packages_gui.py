@@ -30,6 +30,7 @@ class PackagesScreen:
         self._kept = {}
         self._kept_ready = False
         self._core = []
+        self._edition_fixed = {}  # edition -> packages that always ship with it
         self._hidden = {}      # pkg -> reason it always ships; its row is hidden
         self._pkg_of = {}      # CheckButton -> pkg
 
@@ -132,6 +133,7 @@ class PackagesScreen:
         self.widget.set_sensitive(True)
 
         self._core = fn.read_core()
+        self._edition_fixed = fn.read_edition_fixed(self._editions())
         self._show_always_list()
 
         categories = fn.package_rows(self._editions())
@@ -260,13 +262,19 @@ class PackagesScreen:
         self.status.set_text(text)
 
     def _show_always_list(self):
-        n = len(self._core) + len(self._hidden)
+        # Edition and dependency parts first: they are short and say why; the ~300 core names go last.
+        fixed = {p for pkgs in self._edition_fixed.values() for p in pkgs}
+        n = len(set(self._core) | fixed | set(self._hidden))
         self.core_expander.set_label(f"Show the packages that always ship ({n})")
-        text = "Core: " + ", ".join(self._core)
+        parts = []
+        if self._edition_fixed:
+            parts.append("Ships with your editions:\n" + "\n".join(
+                f"{ed}: {', '.join(pkgs)}" for ed, pkgs in sorted(self._edition_fixed.items())))
         if self._hidden:
-            text += "\n\nAlso ships because of your editions or add-ons:\n" + "\n".join(
-                f"{pkg} — {reason}" for pkg, reason in sorted(self._hidden.items()))
-        self.core_label.set_text(text)
+            parts.append("Also ships because of your editions or add-ons:\n" + "\n".join(
+                f"{pkg} — {reason}" for pkg, reason in sorted(self._hidden.items())))
+        parts.append("Core: " + ", ".join(self._core))
+        self.core_label.set_text("\n\n".join(parts))
 
     # ── unticked packages that come back anyway ─────────────────────
     def _start_kept_scan(self):

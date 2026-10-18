@@ -41,6 +41,10 @@
 - Updating kiro-iso-next from Pre-flight now keeps the apps chosen on the Add apps page. When the copy had
   local changes, the update reset it and restored only the package selection, so the add-on choices were lost
   without a word. Found while testing on the Kiro-next live VM; the confirmation dialog now names add-ons too.
+- The always-ship list on the Packages page now starts with "Ships with your editions": the fixed packages of
+  each ticked edition, such as XFCE's whiskermenu and volume plugin, which can't be unticked because Kiro's panel
+  needs them. Before, those packages appeared nowhere in the builder. The dependency part follows, and the long
+  core list comes last.
 - New test suite: `bash tests/run-tests.sh` runs unit tests for the package logic, a contract test for the
   build-the-iso.sh functions KIB depends on, ruff, and a GUI smoke test that opens every screen.
 
@@ -91,6 +95,8 @@
 - `git_force_update_argv(repo, keep_paths)` backs up every file in `keep_paths` (selection and additions)
   around `git reset --hard @{u}` and cleans up its backup folder on failure. A new test builds a real origin and
   clone and checks both files survive while the rest is reset; it fails with the old behaviour.
+- `read_edition_fixed(editions)` returns the lines of the ticked edition blocks outside optional sections; it
+  feeds the new part of the list and its count. A unit test covers it (19 tests).
 - The fixture also points `CONFIG_DIR` at the fake repo before the app module loads, so the GUI smoke test no
   longer creates folders in the real `~/.config/kiro-iso-builder-next` (seen on a live VM).
 
