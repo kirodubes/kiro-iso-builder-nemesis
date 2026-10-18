@@ -37,6 +37,11 @@ The app finds the `kiro-iso` repo automatically when it sits beside this one, at
 `~/kiro-iso`, or `/usr/share/kiro-iso`. Override with `KIRO_ISO_DIR=/path/to/kiro-iso`.
 If it isn't found, the Pre-flight screen can clone it.
 
+## Tests
+
+`bash tests/run-tests.sh` runs the unit tests, a contract test against `build-the-iso.sh`, ruff and a GUI
+smoke test (when a desktop session is available).
+
 ## Requirements
 
 `python-gobject`, `gtk4`, `polkit` (+ a polkit auth agent for your session), `pacman`,

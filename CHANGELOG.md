@@ -22,6 +22,8 @@
 - With the xfce edition ticked, the Packages page shows a new "XFCE extras (xfce4-goodies)" section with its
   36 packages, from Mousepad, Ristretto and Parole to the panel plugins. Untick one and it is really left out.
   Before, the edition shipped the whole group, which is why the review still got Mousepad.
+- New test suite: `bash tests/run-tests.sh` runs unit tests for the package logic, a contract test for the
+  build-the-iso.sh functions KIB depends on, ruff, and a GUI smoke test that opens every screen.
 
 ### Technical Details
 - `kept_packages(excludes, editions)` in `functions.py` resolves the build's package list the way pacman
@@ -51,9 +53,13 @@
 - `_excludes()` keeps saved exclusions for rows that aren't shown, so unticking the xfce edition and ticking it
   again keeps your earlier choices. The header of `package-selection.conf` now says optional edition packages
   belong there too.
+- The tests use only the standard library (`unittest`), so there's no new dependency. `tests/fixture.py` builds a
+  fake kiro-iso repo and fills the sync-db and group caches directly, so the tests never call pacman or touch
+  the user's clone. The contract test lifts the functions out of the real build-the-iso.sh and stubs `pacman`.
+  Breaking the `## group:` parser makes 4 of the 13 unit tests fail. `tests/` is not installed by the PKGBUILD.
 
 ### Files Modified
-- `functions.py`, `packages_gui.py`, `build_gui.py`, `README.md`
+- `functions.py`, `packages_gui.py`, `build_gui.py`, `README.md`, `CLAUDE.md`, `tests/`
 
 ## 2026.10.01
 

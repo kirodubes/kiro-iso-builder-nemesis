@@ -45,3 +45,18 @@ This app depends on three things in `kiro-iso/build-scripts`:
   `setup_chaotic`, `setup_cachyos`) in isolation under `pkexec`.
 
 Changing those scripts can affect this app — keep them in sync.
+
+## Tests
+
+`bash tests/run-tests.sh` runs everything; it is not shipped (the PKGBUILD installs only the top-level files).
+- `tests/test_functions.py` — `unittest` (no pytest dependency) for the package logic: tiers, edition optional
+  sections, kept reasons, the resolver, the summary data and HTML. Runs on `tests/fixture.py`, a fake kiro-iso repo
+  and a fake sync db, so it never calls pacman.
+- `tests/test_build_script.sh` — contract test for the `build-the-iso.sh` functions KIB relies on
+  (`apply_editions`, `apply_optional_edition_excludes`, `check_group_drift`), lifted from the real script in
+  `$KIRO_ISO_DIR` (default `~/KIRO-ISO-CALAMARES/kiro-iso-next`) with `pacman` stubbed.
+- `tests/gui_smoke.py [shot-dir]` — opens every screen on the fake repo and fails on any Python exception;
+  needs a desktop session, saves screenshots on X11.
+
+Add a test when you change the package logic or the kiro-iso contract.
+
