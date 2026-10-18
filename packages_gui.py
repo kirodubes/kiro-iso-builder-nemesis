@@ -3,8 +3,9 @@
 Reuses the ATT "streamline" idea: TIER 3 packages grouped by category, with
 category-level select-all (tri-state) and a search filter. Unticked packages are
 written to package-selection.conf, which the build comments out. TIER 1/2 are
-never shown, so nothing here can break the build. An unticked package that still
-ships (an edition, a dependency or a package group brings it back) says so on its row.
+never shown, so nothing here can break the build. A row that ships even with every
+row unticked (core, a ticked edition or add-on needs it) is hidden and listed under
+the core expander instead; one that only another ticked row brings back says so on its row.
 """
 
 import threading
@@ -26,6 +27,9 @@ class PackagesScreen:
         self._syncing = False
         self._kept = {}
         self._kept_ready = False
+        self._core = []
+        self._hidden = {}      # pkg -> reason it always ships; its row is hidden
+        self._pkg_of = {}      # CheckButton -> pkg
 
         self.widget = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
         for m in ("set_margin_top", "set_margin_bottom", "set_margin_start", "set_margin_end"):
@@ -42,7 +46,8 @@ class PackagesScreen:
             label="Unselect what you do not want.",
             xalign=0, wrap=True, max_width_chars=86)
         sub3 = Gtk.Label(
-            label="Core packages always ship and can't be unticked — open the list below to see them.",
+            label="Packages that always ship (core, or needed by your editions) are not listed — "
+                  "open the list below to see them.",
             xalign=0, wrap=True, max_width_chars=70)
         for s in (sub1, sub2, sub3):
             s.add_css_class("att-orange")
@@ -106,6 +111,7 @@ class PackagesScreen:
             self.container.remove(child)
             child = nxt
         self.checks, self.groups, self.sections = [], [], []
+        self._hidden, self._pkg_of = {}, {}
 
         if fn.packages_file() is None:
             self.status.set_text("packages.x86_64 not found — fix the clone on the Pre-flight screen.")
@@ -113,9 +119,8 @@ class PackagesScreen:
             return
         self.widget.set_sensitive(True)
 
-        core = fn.read_core()
-        self.core_expander.set_label(f"Show the core packages ({len(core)})")
-        self.core_label.set_text(", ".join(core))
+        self._core = fn.read_core()
+        self._show_always_list()
 
         categories = fn.read_edition_optional(self._editions()) + fn.read_tier3()
         excluded = fn.read_excludes()
@@ -138,6 +143,7 @@ class PackagesScreen:
                 row.connect("toggled", self._on_child_toggled, cat_check, child_checks)
                 self.container.append(row)
                 self.checks.append((pkg, row))
+                self._pkg_of[row] = pkg
                 child_checks.append(row)
                 items.append((pkg.lower(), row))
                 total += 1
@@ -153,7 +159,7 @@ class PackagesScreen:
 
     # ── tri-state sync (from ATT streamline) ────────────────────────
     def _sync_header(self, cat_check, child_checks):
-        states = [c.get_active() for c in child_checks]
+        states = [c.get_active() for c in child_checks if self._pkg_of.get(c) not in self._hidden] or [True]
         self._syncing = True
         if all(states):
             cat_check.set_inconsistent(False)
@@ -172,7 +178,8 @@ class PackagesScreen:
         active = cat_check.get_active()
         self._syncing = True
         for c in child_checks:
-            c.set_active(active)
+            if self._pkg_of.get(c) not in self._hidden:
+                c.set_active(active)
         cat_check.set_inconsistent(False)
         self._syncing = False
         self._update_status()
@@ -185,8 +192,9 @@ class PackagesScreen:
 
     def _set_all(self, active):
         self._syncing = True
-        for _pkg, row in self.checks:
-            row.set_active(active)
+        for pkg, row in self.checks:
+            if pkg not in self._hidden:
+                row.set_active(active)
         self._syncing = False
         for cat_check, child_checks in self.groups:
             self._sync_header(cat_check, child_checks)
@@ -198,7 +206,7 @@ class PackagesScreen:
         for headers, items in self.sections:
             any_visible = False
             for name, widget in items:
-                match = (not q) or (q in name)
+                match = ((not q) or (q in name)) and name not in self._hidden
                 widget.set_visible(match)
                 if match:
                     any_visible = True
@@ -206,35 +214,50 @@ class PackagesScreen:
                 header.set_visible(any_visible)
 
     def _update_status(self, total=None):
-        if total is None:
-            total = len(self.checks)
         self._refresh_kept()
-        shipping = sum(1 for _p, row in self.checks if row.get_active())
+        rows = [row for pkg, row in self.checks if pkg not in self._hidden]
+        total = len(rows)
+        shipping = sum(1 for row in rows if row.get_active())
         text = f"Packages that will ship: {shipping}/{total}  ({total - shipping} left out)"
         if self._kept:
             text += f" — {len(self._kept)} unticked still ship, see the rows marked 'still ships'"
         self.status.set_text(text)
 
+    def _show_always_list(self):
+        n = len(self._core) + len(self._hidden)
+        self.core_expander.set_label(f"Show the packages that always ship ({n})")
+        text = "Core: " + ", ".join(self._core)
+        if self._hidden:
+            text += "\n\nAlso ships because of your editions or add-ons:\n" + "\n".join(
+                f"{pkg} — {reason}" for pkg, reason in sorted(self._hidden.items()))
+        self.core_label.set_text(text)
+
     # ── unticked packages that come back anyway ─────────────────────
     def _start_kept_scan(self):
-        """Warm the pacman caches off the GTK thread, then mark the rows."""
-        excludes, editions = self._excludes(), self._editions()
+        """Work out (off the GTK thread) which rows always ship, then hide them and mark the rest."""
+        rows, editions = [pkg for pkg, _row in self.checks], self._editions()
 
         def worker():
-            fn.kept_packages(excludes, editions)
-            GLib.idle_add(self._on_kept_ready)
+            hidden = fn.always_shipped(rows, editions)
+            GLib.idle_add(self._on_kept_ready, hidden)
 
         threading.Thread(target=worker, daemon=True).start()
 
-    def _on_kept_ready(self):
+    def _on_kept_ready(self, hidden):
         self._kept_ready = True
+        self._hidden = hidden
+        for cat_check, child_checks in self.groups:
+            self._sync_header(cat_check, child_checks)
+        self._apply_filter(self.search.get_text())
+        self._show_always_list()
         self._update_status()
         return False
 
     def _refresh_kept(self):
         if not self._kept_ready:
             return
-        self._kept = fn.kept_packages(self._excludes(), self._editions())
+        self._kept = {p: r for p, r in fn.kept_packages(self._excludes(), self._editions()).items()
+                      if p not in self._hidden}
         for pkg, row in self.checks:
             reason = self._kept.get(pkg)
             row.set_label(f"{pkg}   — still ships: {reason}" if reason else pkg)
@@ -244,9 +267,10 @@ class PackagesScreen:
     def _excludes(self):
         # Keep exclusions for rows not shown now (an edition unticked on Configure), so
         # ticking that edition again brings back the user's earlier choice.
+        # A row hidden because it always ships is never saved as unticked.
         shown = {pkg for pkg, _row in self.checks}
         hidden = fn.read_excludes() - shown
-        return hidden | {pkg for pkg, row in self.checks if not row.get_active()}
+        return hidden | {pkg for pkg, row in self.checks if not row.get_active() and pkg not in self._hidden}
 
     @staticmethod
     def _editions():

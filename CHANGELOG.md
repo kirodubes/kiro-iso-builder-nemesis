@@ -22,6 +22,11 @@
 - With the xfce edition ticked, the Packages page shows a new "XFCE extras (xfce4-goodies)" section with its
   36 packages, from Mousepad, Ristretto and Parole to the panel plugins. Untick one and it is really left out.
   Before, the edition shipped the whole group, which is why the review still got Mousepad.
+- The Packages page no longer shows rows that would ship anyway, because core, a ticked edition or a ticked
+  add-on needs them (bat for archlinux-tweak-tool, thunar-archive-plugin for qtile). Unticking them did nothing.
+  They are listed with the reason under the renamed "Show the packages that always ship" expander. The list
+  follows the editions: untick qtile and thunar-archive-plugin is a normal row again. A row that only another
+  ticked row brings back stays visible with its "still ships" label, since unticking that row does remove it.
 - New test suite: `bash tests/run-tests.sh` runs unit tests for the package logic, a contract test for the
   build-the-iso.sh functions KIB depends on, ruff, and a GUI smoke test that opens every screen.
 
@@ -57,6 +62,10 @@
   fake kiro-iso repo and fills the sync-db and group caches directly, so the tests never call pacman or touch
   the user's clone. The contract test lifts the functions out of the real build-the-iso.sh and stubs `pacman`.
   Breaking the `## group:` parser makes 4 of the 13 unit tests fail. `tests/` is not installed by the PKGBUILD.
+- `always_shipped(rows, editions)` is `kept_packages()` with every row excluded: whatever still ships then
+  can't be removed from the Packages page. It runs in the existing background scan. Hidden rows are skipped by
+  Select/Deselect all, the category toggles and the tri-state headers, and never saved as unticked, so the Build
+  page and the summary don't report packages the user can't see. Two new unit tests cover it.
 - The fixture also points `CONFIG_DIR` at the fake repo before the app module loads, so the GUI smoke test no
   longer creates folders in the real `~/.config/kiro-iso-builder-next` (seen on a live VM).
 

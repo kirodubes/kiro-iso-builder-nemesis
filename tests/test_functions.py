@@ -71,6 +71,15 @@ class PackageLogic(unittest.TestCase):
         parent = fn._resolve({"bat": ""}, set(), fn._SYNC_DB, fn._GROUPS)
         self.assertEqual(parent["bat"], "")
 
+    def test_always_shipped_rows(self):
+        rows = [p for _c, ps in fn.read_edition_optional(self.editions) + fn.read_tier3() for p in ps]
+        hidden = fn.always_shipped(rows, self.editions)
+        self.assertEqual(hidden["bat"], "required by archlinux-tweak-tool", "core needs it")
+        self.assertIn("flameshot-git", hidden, "kiro-qtile pulls the flameshot variant in")
+        self.assertNotIn("gimp", hidden)
+        self.assertNotIn("mousepad", hidden, "an optional edition package is removable")
+        self.assertNotIn("flameshot-git", fn.always_shipped(rows, ["xfce"]), "without qtile it is removable")
+
     # ── summary ──
     def test_summary_sections(self):
         s = fn.build_summary({"bat", "gimp", "mousepad"}, self.editions)
@@ -126,7 +135,20 @@ class PackagesScreenExcludes(unittest.TestCase):
         screen = type("S", (), {})()
         # xfce unticked on Configure: mousepad has no row, gimp is shown and ticked again, bat unticked.
         screen.checks = [("gimp", Row(True)), ("bat", Row(False))]
+        screen._hidden = {}
         self.assertEqual(packages_gui.PackagesScreen._excludes(screen), {"mousepad", "bat"})
+
+    def test_hidden_rows_never_saved_as_unticked(self):
+        import packages_gui
+
+        class Row:
+            def get_active(self):
+                return False
+
+        screen = type("S", (), {})()
+        screen.checks = [("bat", Row()), ("gimp", Row())]
+        screen._hidden = {"bat": "required by archlinux-tweak-tool"}
+        self.assertEqual(packages_gui.PackagesScreen._excludes(screen), {"gimp"})
 
 
 if __name__ == "__main__":

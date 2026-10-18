@@ -773,6 +773,14 @@ def kept_packages(excludes, editions):
     return kept
 
 
+def always_shipped(row_pkgs, editions):
+    """{pkg: reason} for the optional rows that ship even with every row unticked.
+
+    Their reason is core, a ticked edition or a ticked add-on — nothing on the Packages page
+    can remove them, so the page hides them instead of offering a checkbox that does nothing."""
+    return kept_packages(set(row_pkgs), editions)
+
+
 def _resolve(shipped, excludes, db, groups):
     """{pkg: reason} for every package the selection installs, dependencies included."""
     by_group = {}
