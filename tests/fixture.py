@@ -88,8 +88,10 @@ def make_repo(build_conf=BUILD_CONF):
 
 
 def install(fn, build_scripts):
-    """Point functions.py at the fake repo and the fake sync db."""
+    """Point functions.py at the fake repo and the fake sync db, and keep its config dir inside the fake repo."""
     fn.BUILD_SCRIPTS = build_scripts
+    fn.CONFIG_DIR = build_scripts.parent.parent / "config"
+    fn.PROFILES_DIR = fn.CONFIG_DIR / "profiles"
     fn._SYNC_DB.clear()
     fn._SYNC_DB.update(SYNC_DB)
     fn._GROUPS.clear()

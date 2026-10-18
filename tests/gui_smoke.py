@@ -22,10 +22,13 @@ os.environ["KIRO_ISO_DIR"] = str(build_scripts.parent)
 
 import importlib.util  # noqa: E402
 
+import functions  # noqa: E402
+
+# Before the app module loads, so nothing it does at start-up reaches the real ~/.config.
+fixture.install(functions, build_scripts)
 spec = importlib.util.spec_from_file_location("kib", HERE.parent / "kiro-iso-builder.py")
 kib = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(kib)
-fixture.install(kib.fn, build_scripts)
 from gi.repository import GLib  # noqa: E402
 
 SHOTS = Path(sys.argv[1]) if len(sys.argv) > 1 else None

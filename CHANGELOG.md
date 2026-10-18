@@ -57,6 +57,8 @@
   fake kiro-iso repo and fills the sync-db and group caches directly, so the tests never call pacman or touch
   the user's clone. The contract test lifts the functions out of the real build-the-iso.sh and stubs `pacman`.
   Breaking the `## group:` parser makes 4 of the 13 unit tests fail. `tests/` is not installed by the PKGBUILD.
+- The fixture also points `CONFIG_DIR` at the fake repo before the app module loads, so the GUI smoke test no
+  longer creates folders in the real `~/.config/kiro-iso-builder-next` (seen on a live VM).
 
 ### Files Modified
 - `functions.py`, `packages_gui.py`, `build_gui.py`, `README.md`, `CLAUDE.md`, `tests/`
