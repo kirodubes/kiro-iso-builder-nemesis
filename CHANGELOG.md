@@ -15,6 +15,10 @@
   and the build summary records them.
 - The Packages page has a "Show the core packages (N)" expander. The always-shipped TIER 1/2 list is no
   longer hidden.
+- The Build page has a **Show summary** button. It opens a page in your browser that lists what the build
+  removes, what comes back anyway (with the reason), the edition and add-on packages, what your choices pull
+  in as dependencies, and the frozen (TIER 1) and core (TIER 2) packages. A search box filters every list.
+  Each build also saves this page in its log folder.
 
 ### Technical Details
 - `kept_packages(excludes, editions)` in `functions.py` resolves the build's package list the way pacman
@@ -30,9 +34,16 @@
 - The first run takes about 0.7 s (`pacman -Si` plus `pacman -Sg`, cached behind a lock) and runs in a daemon
   thread; after that, a toggle recomputes in about 20 ms on the GTK thread.
 - A first version used `pactree -r` for each package. It took 26 s and over-reported virtual providers.
+- The dependency walk moved out of `kept_packages()` into `_resolve()` so the summary can reuse it.
+  `build_summary()` resolves twice, once for the core alone and once for the full selection. "Pulled in"
+  is the difference, so base dependencies such as glibc stay out of it.
+- `read_tiers()` splits the core into TIER 1 and TIER 2 at the `TIER 2` header. `read_core()` now joins them.
+- `write_summary_html()` writes one self-contained file with inline CSS and JS, light and dark through
+  `prefers-color-scheme`, to `~/.config/kiro-iso-builder-next/build-summary.html`. The button opens it with
+  `xdg-open` from a daemon thread. At Start build a copy goes to the build's log folder next to `summary.txt`.
 
 ### Files Modified
-- `functions.py`, `packages_gui.py`, `build_gui.py`
+- `functions.py`, `packages_gui.py`, `build_gui.py`, `README.md`
 
 ## 2026.10.01
 
