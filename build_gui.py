@@ -165,11 +165,15 @@ class BuildScreen:
 
     def _save_summary_page(self, log_dir):
         # Written at build start so each build's log folder records exactly what it was built from.
+        # The timestamped copy in the config dir sits next to the Show summary pages, where users look.
         excludes, editions = self._summary_args()
 
         def worker():
             try:
-                fn.write_summary_html(fn.build_summary(excludes, editions), log_dir / "build-summary.html")
+                summary = fn.build_summary(excludes, editions)
+                fn.write_summary_html(summary, log_dir / "build-summary.html")
+                path = fn.write_summary_html(summary)
+                GLib.idle_add(self._log, f"Summary saved: {path}")
             except Exception as exc:
                 GLib.idle_add(self._log, f"[warn] couldn't save the summary page: {exc}")
 

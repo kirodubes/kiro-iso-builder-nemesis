@@ -47,6 +47,8 @@
   core list comes last.
 - Show summary keeps the older summaries: each click writes `build-summary-YYYY-MM-DD-HHMM.html` in
   `~/.config/kiro-iso-builder-next/` instead of overwriting one `build-summary.html`.
+- Start build also writes a timestamped summary to `~/.config/kiro-iso-builder-next/`, next to the Show summary
+  pages, without opening it, and the build log names the file (`Summary saved: ...`).
 - New test suite: `bash tests/run-tests.sh` runs unit tests for the package logic, a contract test for the
   build-the-iso.sh functions KIB depends on, ruff, and a GUI smoke test that opens every screen.
 
@@ -101,6 +103,8 @@
   feeds the new part of the list and its count. A unit test covers it (19 tests).
 - The fixture also points `CONFIG_DIR` at the fake repo before the app module loads, so the GUI smoke test no
   longer creates folders in the real `~/.config/kiro-iso-builder-next` (seen on a live VM).
+- `_save_summary_page` builds the summary once and writes it twice: `build-summary.html` in the build's log
+  folder (unchanged) and the default timestamped path from `write_summary_html`.
 
 ### Files Modified
 - `functions.py`, `packages_gui.py`, `build_gui.py`, `README.md`, `CLAUDE.md`, `tests/`
