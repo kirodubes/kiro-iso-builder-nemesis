@@ -38,6 +38,9 @@
   manager ticked the list was very long. A search still shows matches inside folded groups.
   The count sits in front of the name, right-aligned in one column, so a long category name can't push it out
   of view in a narrow window.
+- Updating kiro-iso-next from Pre-flight now keeps the apps chosen on the Add apps page. When the copy had
+  local changes, the update reset it and restored only the package selection, so the add-on choices were lost
+  without a word. Found while testing on the Kiro-next live VM; the confirmation dialog now names add-ons too.
 - New test suite: `bash tests/run-tests.sh` runs unit tests for the package logic, a contract test for the
   build-the-iso.sh functions KIB depends on, ruff, and a GUI smoke test that opens every screen.
 
@@ -85,6 +88,9 @@
   `optional_rows()` uses it. The build script needs no change: one exclusion comments out both lines.
 - Groups start folded; `_expanded` keeps the opened ones for the session. `_apply_filter` shows a row only when
   its group is open or a search is active, and `_sync_header` keeps the count over the rows that aren't hidden.
+- `git_force_update_argv(repo, keep_paths)` backs up every file in `keep_paths` (selection and additions)
+  around `git reset --hard @{u}` and cleans up its backup folder on failure. A new test builds a real origin and
+  clone and checks both files survive while the rest is reset; it fails with the old behaviour.
 - The fixture also points `CONFIG_DIR` at the fake repo before the app module loads, so the GUI smoke test no
   longer creates folders in the real `~/.config/kiro-iso-builder-next` (seen on a live VM).
 

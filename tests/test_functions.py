@@ -125,6 +125,37 @@ class PackageLogic(unittest.TestCase):
         self.assertTrue(fn.package_selection_path().read_text().startswith("# Optional packages to EXCLUDE"))
 
 
+class ForceUpdateKeepsChoices(unittest.TestCase):
+    """The dirty-tree update resets the clone but keeps the selection and add-on files."""
+
+    def test_reset_keeps_selection_and_additions(self):
+        import subprocess
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            def git(*args, cwd):
+                subprocess.run(["git", "-c", "user.name=t", "-c", "user.email=t@t", *args], cwd=cwd,
+                               check=True, capture_output=True)
+
+            origin, clone = Path(tmp) / "origin", Path(tmp) / "clone"
+            origin.mkdir()
+            git("init", "-q", "-b", "main", cwd=origin)
+            for name in ("package-selection.conf", "package-additions.conf", "other"):
+                (origin / name).write_text("upstream\n")
+            git("add", ".", cwd=origin)
+            git("commit", "-qm", "one", cwd=origin)
+            git("clone", "-q", str(origin), str(clone), cwd=tmp)
+            (origin / "other").write_text("newer\n")
+            git("commit", "-qam", "two", cwd=origin)
+            for name in ("package-selection.conf", "package-additions.conf", "other"):
+                (clone / name).write_text("mine\n")
+            argv = fn.git_force_update_argv(clone, [clone / "package-selection.conf", clone / "package-additions.conf"])
+            subprocess.run(argv, check=True, capture_output=True)
+            self.assertEqual((clone / "package-selection.conf").read_text(), "mine\n")
+            self.assertEqual((clone / "package-additions.conf").read_text(), "mine\n")
+            self.assertEqual((clone / "other").read_text(), "newer\n", "everything else is reset to upstream")
+
+
 class PackagesScreenExcludes(unittest.TestCase):
     """_excludes() keeps saved exclusions for rows that aren't on screen."""
 

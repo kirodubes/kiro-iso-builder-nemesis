@@ -239,21 +239,21 @@ def git_pull_ff_argv(repo):
     return ["git", "-C", str(repo), "pull", "--ff-only"]
 
 
-def git_force_update_argv(repo, selection_path):
-    """Reset the clone to its upstream, preserving the user's package selection.
+def git_force_update_argv(repo, keep_paths):
+    """Reset the clone to its upstream, preserving the user's package choices.
 
     Used when the tree is dirty (build byproducts block a fast-forward). build.conf
-    is gitignored so it survives reset untouched; package-selection.conf is tracked,
-    so it's backed up and restored around the reset.
+    is gitignored so it survives reset untouched; package-selection.conf and
+    package-additions.conf are tracked, so each is backed up and restored around the reset.
     """
     repo_q = shlex.quote(str(repo))
-    sel_q = shlex.quote(str(selection_path))
+    keep = " ".join(shlex.quote(str(p)) for p in keep_paths)
     script = (
-        f'sel={sel_q}; bak=""; '
-        f'[ -f "$sel" ] && bak="$(mktemp)" && cp "$sel" "$bak"; '
-        f'git -C {repo_q} fetch origin && git -C {repo_q} reset --hard @{{u}} || exit 1; '
-        f'[ -n "$bak" ] && cp "$bak" "$sel" && rm -f "$bak"; '
-        f'echo "Updated to the latest; your package selection was preserved."'
+        f'bak="$(mktemp -d)"; i=0; for f in {keep}; do i=$((i+1)); '
+        f'[ -f "$f" ] && cp "$f" "$bak/$i"; done; '
+        f'git -C {repo_q} fetch origin && git -C {repo_q} reset --hard @{{u}} || {{ rm -rf "$bak"; exit 1; }}; '
+        f'i=0; for f in {keep}; do i=$((i+1)); [ -f "$bak/$i" ] && cp "$bak/$i" "$f"; done; rm -rf "$bak"; '
+        f'echo "Updated to the latest; your package selection and add-ons were preserved."'
     )
     return ["bash", "-c", script]
 

@@ -290,8 +290,8 @@ class PreflightScreen:
         dlg.set_modal(True)
         dlg.set_message(f"Update {fn.REPO_NAME} to the latest?")
         dlg.set_detail("The clone has local changes from building. They'll be discarded and "
-                       "the repo reset to the latest. Your package selection and build.conf "
-                       "are kept.")
+                       "the repo reset to the latest. Your package selection, add-ons and "
+                       "build.conf are kept.")
         dlg.set_buttons(["Cancel", "Discard & update"])
         dlg.set_default_button(1)
         dlg.set_cancel_button(0)
@@ -306,8 +306,8 @@ class PreflightScreen:
         if idx != 1:   # Cancel
             done(0)
             return
-        self._log(f"Updating {fn.REPO_NAME} (resetting to latest, preserving your package selection)…")
-        fn.run_pipe(fn.git_force_update_argv(repo, fn.package_selection_path()), self._log,
+        self._log(f"Updating {fn.REPO_NAME} (resetting to latest, preserving your package selection and add-ons)…")
+        fn.run_pipe(fn.git_force_update_argv(repo, [fn.package_selection_path(), fn.additions_path()]), self._log,
                     lambda c: self._after_update(c, done))
 
     def _after_update(self, code, done):
