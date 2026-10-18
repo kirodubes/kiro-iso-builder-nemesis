@@ -51,6 +51,7 @@
   pages, without opening it, and the build log names the file (`Summary saved: ...`).
 - New test suite: `bash tests/run-tests.sh` runs unit tests for the package logic, a contract test for the
   build-the-iso.sh functions KIB depends on, ruff, and a GUI smoke test that opens every screen.
+- NVIDIA driver dropdown gains **470xx** (Kepler, GTX 600/700); needs the matching kiro-iso(-next) `470xx` case.
 
 ### Technical Details
 - `kept_packages(excludes, editions)` in `functions.py` resolves the build's package list the way pacman
@@ -107,6 +108,7 @@
   folder (unchanged) and the default timestamped path from `write_summary_html`.
 
 ### Files Modified
+- `configure_gui.py`
 - `functions.py`, `packages_gui.py`, `build_gui.py`, `README.md`, `CLAUDE.md`, `tests/`
 
 ## 2026.10.01

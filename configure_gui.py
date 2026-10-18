@@ -9,7 +9,7 @@ import functions as fn
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gio, GLib, Gtk  # noqa: E402
 
-NVIDIA = ["open", "580xx", "390xx", "none"]
+NVIDIA = ["open", "580xx", "470xx", "390xx", "none"]
 # Curated (repo, kernel) fallback, used until Refresh runs (or if no repo DB).
 KERNEL_FALLBACK = [
     ("chaotic-aur", "linux-cachyos"),
