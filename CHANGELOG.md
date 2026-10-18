@@ -36,6 +36,8 @@
 - The Packages page folds each group to one line with a ticked/total count ("GNOME extras (gnome)  27/27"),
   opened with its arrow; Expand all and Collapse all sit next to the search box. With every desktop and window
   manager ticked the list was very long. A search still shows matches inside folded groups.
+  The count sits in front of the name, right-aligned in one column, so a long category name can't push it out
+  of view in a narrow window.
 - New test suite: `bash tests/run-tests.sh` runs unit tests for the package logic, a contract test for the
   build-the-iso.sh functions KIB depends on, ruff, and a GUI smoke test that opens every screen.
 

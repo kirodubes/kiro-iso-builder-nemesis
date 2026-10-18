@@ -147,12 +147,13 @@ class PackagesScreen:
             arrow.connect("clicked", self._on_arrow_clicked, category)
             cat_check = Gtk.CheckButton(label=category)
             cat_check.add_css_class("row-title")
-            count = Gtk.Label()
+            # The count goes in front of the name so a long category name can't push it out of view.
+            count = Gtk.Label(width_chars=7, xalign=1)
             count.add_css_class("dim-label")
             self._count_of[cat_check] = count
             header.append(arrow)
-            header.append(cat_check)
             header.append(count)
+            header.append(cat_check)
             self.container.append(header)
 
             child_checks, items = [], []
