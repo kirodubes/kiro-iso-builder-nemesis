@@ -124,6 +124,11 @@ class PackageLogic(unittest.TestCase):
         for heading in ("Removed (", "Comes back anyway (1)", "Pulled in by your choices", "Frozen, TIER 1 (2)"):
             self.assertIn(heading, text)
 
+    def test_summary_default_name_is_timestamped(self):
+        path = fn.write_summary_html(fn.build_summary(set(), self.editions))
+        self.assertEqual(path.parent, fn.CONFIG_DIR)
+        self.assertRegex(path.name, r"^build-summary-\d{4}-\d{2}-\d{2}-\d{4}\.html$")
+
     # ── selection file ──
     def test_exclude_file_round_trip(self):
         fn.write_excludes({"gimp", "mousepad"})

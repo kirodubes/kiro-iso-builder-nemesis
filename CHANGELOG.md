@@ -45,6 +45,8 @@
   each ticked edition, such as XFCE's whiskermenu and volume plugin, which can't be unticked because Kiro's panel
   needs them. Before, those packages appeared nowhere in the builder. The dependency part follows, and the long
   core list comes last.
+- Show summary keeps the older summaries: each click writes `build-summary-YYYY-MM-DD-HHMM.html` in
+  `~/.config/kiro-iso-builder-next/` instead of overwriting one `build-summary.html`.
 - New test suite: `bash tests/run-tests.sh` runs unit tests for the package logic, a contract test for the
   build-the-iso.sh functions KIB depends on, ruff, and a GUI smoke test that opens every screen.
 

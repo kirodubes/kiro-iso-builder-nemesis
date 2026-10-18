@@ -1022,8 +1022,11 @@ def _summary_html(s):
 
 
 def write_summary_html(summary, path=None):
-    """Write the summary page (default: the config dir) and return its path."""
-    path = Path(path) if path else CONFIG_DIR / "build-summary.html"
+    """Write the summary page and return its path.
+
+    Default: a timestamped file in the config dir (build-summary-YYYY-MM-DD-HHMM.html), so older
+    summaries are kept next to the new one."""
+    path = Path(path) if path else CONFIG_DIR / f"build-summary-{time.strftime('%Y-%m-%d-%H%M')}.html"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(_summary_html(summary))
     return path
