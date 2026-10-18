@@ -3,8 +3,11 @@
 Reuses the ATT "streamline" idea: TIER 3 packages grouped by category, with
 category-level select-all (tri-state) and a search filter. Unticked packages are
 written to package-selection.conf, which the build comments out. TIER 1/2 are
-never shown, so nothing here can break the build.
+never shown, so nothing here can break the build. An unticked package that still
+ships (an edition, a dependency or a package group brings it back) says so on its row.
 """
+
+import threading
 
 import gi
 
@@ -21,6 +24,8 @@ class PackagesScreen:
         self.groups = []       # (category_check, [child_checks])
         self.sections = []     # ([header_widgets], [(name_lower, widget)])
         self._syncing = False
+        self._kept = {}
+        self._kept_ready = False
 
         self.widget = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
         for m in ("set_margin_top", "set_margin_bottom", "set_margin_start", "set_margin_end"):
@@ -37,12 +42,18 @@ class PackagesScreen:
             label="Unselect what you do not want.",
             xalign=0, wrap=True, max_width_chars=86)
         sub3 = Gtk.Label(
-            label="Core packages always ship and aren't listed here.",
+            label="Core packages always ship and can't be unticked — open the list below to see them.",
             xalign=0, wrap=True, max_width_chars=70)
         for s in (sub1, sub2, sub3):
             s.add_css_class("att-orange")
             subbox.append(s)
         self.widget.append(subbox)
+
+        self.core_expander = Gtk.Expander(label="Show the core packages")
+        self.core_label = Gtk.Label(xalign=0, wrap=True, selectable=True, max_width_chars=110)
+        self.core_label.add_css_class("dim-label")
+        self.core_expander.set_child(self.core_label)
+        self.widget.append(self.core_expander)
 
         toolbar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         self.search = Gtk.SearchEntry(hexpand=True, placeholder_text="Search packages…")
@@ -102,6 +113,10 @@ class PackagesScreen:
             return
         self.widget.set_sensitive(True)
 
+        core = fn.read_core()
+        self.core_expander.set_label(f"Show the core packages ({len(core)})")
+        self.core_label.set_text(", ".join(core))
+
         categories = fn.read_tier3()
         excluded = fn.read_excludes()
         if not categories:
@@ -134,6 +149,7 @@ class PackagesScreen:
 
         self._apply_filter(self.search.get_text())
         self._update_status(total)
+        self._start_kept_scan()
 
     # ── tri-state sync (from ATT streamline) ────────────────────────
     def _sync_header(self, cat_check, child_checks):
@@ -192,13 +208,48 @@ class PackagesScreen:
     def _update_status(self, total=None):
         if total is None:
             total = len(self.checks)
+        self._refresh_kept()
         shipping = sum(1 for _p, row in self.checks if row.get_active())
-        self.status.set_text(
-            f"Packages that will ship: {shipping}/{total}  ({total - shipping} left out)")
+        text = f"Packages that will ship: {shipping}/{total}  ({total - shipping} left out)"
+        if self._kept:
+            text += f" — {len(self._kept)} unticked still ship, see the rows marked 'still ships'"
+        self.status.set_text(text)
+
+    # ── unticked packages that come back anyway ─────────────────────
+    def _start_kept_scan(self):
+        """Warm the pacman caches off the GTK thread, then mark the rows."""
+        excludes, editions = self._excludes(), self._editions()
+
+        def worker():
+            fn.kept_packages(excludes, editions)
+            GLib.idle_add(self._on_kept_ready)
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _on_kept_ready(self):
+        self._kept_ready = True
+        self._update_status()
+        return False
+
+    def _refresh_kept(self):
+        if not self._kept_ready:
+            return
+        self._kept = fn.kept_packages(self._excludes(), self._editions())
+        for pkg, row in self.checks:
+            reason = self._kept.get(pkg)
+            row.set_label(f"{pkg}   — still ships: {reason}" if reason else pkg)
+            row.set_tooltip_text(
+                f"Unticked, but still on the ISO: {reason}." if reason else None)
+
+    def _excludes(self):
+        return {pkg for pkg, row in self.checks if not row.get_active()}
+
+    @staticmethod
+    def _editions():
+        return fn.read_conf().get("editions", "").split()
 
     def _save(self):
-        excludes = {pkg for pkg, row in self.checks if not row.get_active()}
-        fn.write_excludes(excludes)
+        fn.write_excludes(self._excludes())
         self.window.navigate("extras")
 
     # ── save / import a named profile (from ATT streamline) ─────────
@@ -224,7 +275,7 @@ class PackagesScreen:
         except GLib.Error:
             return
         if gfile:
-            excludes = {pkg for pkg, row in self.checks if not row.get_active()}
+            excludes = self._excludes()
             fn.write_exclude_file(gfile.get_path(), excludes)
             self.status.set_text(f"Saved profile ({len(excludes)} excluded) → {gfile.get_path()}")
 

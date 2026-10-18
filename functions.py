@@ -603,6 +603,166 @@ def reconcile_additions(catalog_keys, ticked_keys):
     return write_additions(kept | set(ticked_keys))
 
 
+# ── Packages that come back after being unticked ────────────────────
+# Unticking only comments out the TIER 3 line. A package still lands on the ISO when
+# a ticked edition block lists it, another shipped package depends on it, or it is a
+# member of a shipped package group (xfce4 → mousepad, ristretto, parole).
+def read_core():
+    """Uncommented TIER 1 + TIER 2 package names — the core that always ships."""
+    pf = packages_file()
+    if not pf or not pf.is_file():
+        return []
+    lines = pf.read_text().splitlines()
+    out = []
+    for i, line in enumerate(lines):
+        if _TIER3_MARKER in line and i > 0 and _RULE_RE.match(lines[i - 1]):
+            break
+        s = line.strip()
+        if s and not s.startswith("#"):
+            out.append(s)
+    return out
+
+
+def _shipped_names(excludes, editions):
+    """{name: source} for every line that will be uncommented in the build's packages.x86_64."""
+    pf = packages_file()
+    if not pf or not pf.is_file():
+        return {}
+    ticked_extras = read_additions()
+    names, block, block_kind = {}, None, None
+    for line in pf.read_text().splitlines():
+        m = re.match(r"^###\s*>>> EDITION-BLOCK (\S+) >>>", line)
+        if m:
+            block, block_kind = m.group(1), "edition"
+            continue
+        m = _EXTRA_START_RE.match(line)
+        if m:
+            block, block_kind = m.group(1), "extra"
+            continue
+        if re.match(r"^###\s*<<< (EDITION-BLOCK|EXTRA-APP) ", line):
+            block = block_kind = None
+            continue
+        s = line.strip()
+        if block is not None:
+            mp = _EXTRA_PKG_RE.match(s)
+            if not mp:
+                continue
+            if block_kind == "edition" and block in editions:
+                names.setdefault(mp.group(1), f"listed by the {block} edition")
+            elif block_kind == "extra" and block in ticked_extras:
+                names.setdefault(mp.group(1), f"part of the {block} add-on")
+        elif s and not s.startswith("#") and s not in excludes:
+            names.setdefault(s, "")
+    return names
+
+
+_SYNC_DB = {}
+_CACHE_LOCK = threading.Lock()
+_DEP_NAME_RE = re.compile(r"[<>=:].*$")
+
+
+def _sync_db():
+    """{name: (depends, provides)} for the sync db, first repo wins; cached."""
+    if not _SYNC_DB:
+        name, field = None, None
+        for line in cmd_out(["env", "LC_ALL=C", "pacman", "-Si"]).splitlines():
+            key, sep, val = line.partition(" : ")
+            if sep and not key.startswith(" "):
+                field = key.strip()
+                if field == "Name":
+                    name = val.strip()
+                    if name in _SYNC_DB:
+                        name = None
+                    else:
+                        _SYNC_DB[name] = ([], [])
+                    continue
+            elif line.startswith(" "):
+                val = line
+            else:
+                continue
+            if name and field in ("Depends On", "Provides"):
+                words = [_DEP_NAME_RE.sub("", w) for w in val.split() if w != "None"]
+                _SYNC_DB[name][0 if field == "Depends On" else 1].extend(words)
+    return _SYNC_DB
+
+
+_GROUPS = {}
+
+
+def group_members():
+    """{member: group} for every sync-db package group; cached."""
+    if _GROUPS:
+        return _GROUPS
+    members = _GROUPS
+    names = cmd_out(["pacman", "-Sg"]).split()
+    for ln in cmd_out(["pacman", "-Sg", *names]).splitlines() if names else []:
+        group, _, pkg = ln.partition(" ")
+        if pkg:
+            members.setdefault(pkg, group)
+    return members
+
+
+def kept_packages(excludes, editions):
+    """{pkg: reason} for the excluded packages the ISO will still ship (or ship a variant of).
+
+    Resolves dependencies like pacman: an already-selected package satisfies a virtual
+    dependency before any other provider is pulled in. The first call is slow (two pacman
+    queries, then cached) — make it from a thread."""
+    with _CACHE_LOCK:
+        db = _sync_db()
+        groups = group_members()
+    shipped = _shipped_names(excludes, editions)
+    by_group = {}
+    for m, g in groups.items():
+        by_group.setdefault(g, []).append(m)
+
+    parent = {}
+    for name, why in shipped.items():
+        # pacman installs a real package before a group of the same name.
+        if name in db or name not in by_group:
+            parent.setdefault(name, why)
+            continue
+        for pkg in by_group[name]:
+            parent.setdefault(pkg, f"part of the {name} group")
+    provided = {}
+    for pkg in parent:
+        for v in db.get(pkg, ((), ()))[1]:
+            provided.setdefault(v, pkg)
+    providers = {}
+    for pkg, (_deps, provs) in db.items():
+        for v in provs:
+            providers.setdefault(v, []).append(pkg)
+
+    queue = list(parent)
+    while queue:
+        pkg = queue.pop()
+        for dep in db.get(pkg, ((), ()))[0]:
+            if dep in parent or dep in provided:
+                continue
+            if dep in db:
+                pick = dep
+            else:
+                cands = providers.get(dep, [])
+                pick = next((c for c in cands if c not in excludes), cands[0] if cands else None)
+            if pick is None or pick in parent:
+                continue
+            parent[pick] = f"required by {pkg}"
+            for v in db[pick][1]:
+                provided.setdefault(v, pick)
+            queue.append(pick)
+
+    kept = {}
+    for pkg in sorted(excludes):
+        if pkg in parent:
+            kept[pkg] = parent[pkg] or "listed elsewhere in packages.x86_64"
+            continue
+        names = {pkg, *db.get(pkg, ((), ()))[1]}
+        variant = next((q for q in parent if q in names or pkg in db.get(q, ((), ()))[1]), None)
+        if variant:
+            kept[pkg] = f"{variant} ships instead ({parent[variant]})"
+    return kept
+
+
 # ── Runner 1: pipe (pkexec fixes, clone) — non-tty is fine ──────────
 def run_pipe(argv, on_line, on_done, cwd=None):
     """Run argv in a daemon thread, streaming stdout lines to the GTK loop."""

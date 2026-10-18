@@ -4,6 +4,36 @@
 
 ---
 
+## 2026.10.18
+
+### What Changed
+- The Packages page now marks every unticked package that will still be on the ISO, with the reason:
+  "bat — still ships: required by archlinux-tweak-tool". A YouTube review unticked Flameshot, Mousepad and
+  others and still found them after installing, with no warning from the builder. The status line counts
+  these packages too.
+- The Build page lists the same packages ("Unticked but still on the ISO") before you press Start build,
+  and the build summary records them.
+- The Packages page has a "Show the core packages (N)" expander. The always-shipped TIER 1/2 list is no
+  longer hidden.
+
+### Technical Details
+- `kept_packages(excludes, editions)` in `functions.py` resolves the build's package list the way pacman
+  does. Its starting set is:
+  - every uncommented line,
+  - the ticked edition blocks,
+  - the ticked EXTRA-APP blocks.
+
+  Package groups are expanded, but a real package wins over a group with the same name. The dependency walk
+  uses one `pacman -Si` dump and lets an already selected package satisfy a virtual dependency, so ttf-font
+  providers are not flagged. An excluded package that is replaced by a variant is also reported
+  (flameshot-git → "flameshot ships instead").
+- The first run takes about 0.7 s (`pacman -Si` plus `pacman -Sg`, cached behind a lock) and runs in a daemon
+  thread; after that, a toggle recomputes in about 20 ms on the GTK thread.
+- A first version used `pactree -r` for each package. It took 26 s and over-reported virtual providers.
+
+### Files Modified
+- `functions.py`, `packages_gui.py`, `build_gui.py`
+
 ## 2026.10.01
 
 ### What Changed

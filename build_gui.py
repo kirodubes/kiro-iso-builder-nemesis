@@ -4,6 +4,7 @@ import os
 import re
 import shutil
 import signal
+import threading
 import time
 
 import gi
@@ -46,6 +47,12 @@ class BuildScreen:
         self.paths = Gtk.Label(xalign=0, wrap=True, max_width_chars=78, selectable=True)
         self.paths.add_css_class("dim-label")
         self.widget.append(self.paths)
+
+        # Unticked packages that will still be on the ISO, so nobody is surprised after install.
+        self.kept = Gtk.Label(xalign=0, wrap=True, max_width_chars=110, selectable=True, visible=False)
+        self.kept.add_css_class("att-orange-note")
+        self.widget.append(self.kept)
+        self._kept_lines = []
 
         bar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         self.start_btn = Gtk.Button(label="Start build")
@@ -94,6 +101,7 @@ class BuildScreen:
 
     def on_show(self):
         self._show_paths()
+        self._scan_kept()
         if fn.build_script() is None:
             self._log(f"{fn.REPO_NAME} clone not found — fix it on the Pre-flight screen.")
             self.start_btn.set_sensitive(False)
@@ -106,6 +114,23 @@ class BuildScreen:
                 f"<b>ISO output:</b>  {GLib.markup_escape_text(str(out))}")
         else:
             self.paths.set_text("Output location unknown — set the clone path on the Pre-flight screen.")
+
+    def _scan_kept(self):
+        excludes = fn.read_excludes()
+        editions = fn.read_conf().get("editions", "").split()
+
+        def worker():
+            kept = fn.kept_packages(excludes, editions) if excludes else {}
+            GLib.idle_add(self._show_kept, kept)
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _show_kept(self, kept):
+        self._kept_lines = [f"{pkg} — {reason}" for pkg, reason in kept.items()]
+        if kept:
+            self.kept.set_text("Unticked but still on the ISO:\n" + "\n".join(self._kept_lines))
+        self.kept.set_visible(bool(kept))
+        return False
 
     def _start(self):
         script = fn.build_script()
@@ -298,6 +323,9 @@ class BuildScreen:
                 f = iso.with_name(iso.name + "." + ext)
                 if f.is_file():
                     lines.append(f"{ext}:         {f.read_text().split()[0]}")
+        if self._kept_lines:
+            lines.append("Unticked but still on the ISO:")
+            lines += [f"  {ln}" for ln in self._kept_lines]
         fn.write_build_summary(log_dir, lines)
 
     def _latest_iso(self):
