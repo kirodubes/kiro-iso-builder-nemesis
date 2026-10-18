@@ -781,6 +781,20 @@ def always_shipped(row_pkgs, editions):
     return kept_packages(set(row_pkgs), editions)
 
 
+def optional_rows(editions):
+    """Every package name the Packages page can show for these editions."""
+    return [p for _c, pkgs in read_edition_optional(editions) + read_tier3() for p in pkgs]
+
+
+def reported_kept(excludes, editions):
+    """kept_packages() minus the always-shipped rows the Packages page hides.
+
+    A selection saved before a row was hidden (or an imported profile) can still exclude it;
+    the Build page and the summary don't warn about a package the user can't see."""
+    hidden = always_shipped(optional_rows(editions), editions)
+    return {p: r for p, r in kept_packages(excludes, editions).items() if p not in hidden}
+
+
 def _resolve(shipped, excludes, db, groups):
     """{pkg: reason} for every package the selection installs, dependencies included."""
     by_group = {}
@@ -833,7 +847,8 @@ def build_summary(excludes, editions):
     conf = read_conf()
     tier1, tier2 = read_tiers()
     shipped = _shipped_names(excludes, editions)
-    kept = kept_packages(excludes, editions)
+    all_kept = kept_packages(excludes, editions)
+    kept = reported_kept(excludes, editions)
 
     by_block = {}
     for name, why in shipped.items():
@@ -857,7 +872,7 @@ def build_summary(excludes, editions):
         "frozen": tier1,
         "core": tier2,
         "blocks": by_block,
-        "removed": sorted(p for p in excludes if p not in kept),
+        "removed": sorted(p for p in excludes if p not in all_kept),
         "kept": kept,
         "pulled_in": pulled_in,
         "source": str(packages_file() or "?"),

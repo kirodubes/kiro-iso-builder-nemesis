@@ -126,7 +126,7 @@ class BuildScreen:
         editions = fn.read_conf().get("editions", "").split()
 
         def worker():
-            kept = fn.kept_packages(excludes, editions) if excludes else {}
+            kept = fn.reported_kept(excludes, editions) if excludes else {}
             GLib.idle_add(self._show_kept, kept)
 
         threading.Thread(target=worker, daemon=True).start()

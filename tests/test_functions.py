@@ -28,7 +28,7 @@ class PackageLogic(unittest.TestCase):
         self.assertEqual(fn.read_core(), tier1 + tier2)
 
     def test_tier3_categories(self):
-        self.assertEqual(fn.read_tier3(), [("Utilities", ["bat", "flameshot-git", "gimp"]),
+        self.assertEqual(fn.read_tier3(), [("Utilities", ["bat", "babl", "flameshot-git", "gimp"]),
                                            ("Fonts and groups", ["foo", "mygroup"])])
 
     def test_optional_sections_only_for_ticked_editions(self):
@@ -79,23 +79,29 @@ class PackageLogic(unittest.TestCase):
         self.assertNotIn("gimp", hidden)
         self.assertNotIn("mousepad", hidden, "an optional edition package is removable")
         self.assertNotIn("flameshot-git", fn.always_shipped(rows, ["xfce"]), "without qtile it is removable")
+        self.assertNotIn("babl", hidden, "only gimp, another row, brings it back")
+
+    def test_reported_kept_skips_always_shipped(self):
+        kept = fn.reported_kept({"bat", "babl"}, self.editions)
+        self.assertEqual(kept, {"babl": "required by gimp"})
 
     # ── summary ──
     def test_summary_sections(self):
-        s = fn.build_summary({"bat", "gimp", "mousepad"}, self.editions)
-        self.assertEqual(s["removed"], ["gimp", "mousepad"])
-        self.assertEqual(s["kept"], {"bat": "required by archlinux-tweak-tool"})
+        s = fn.build_summary({"bat", "babl", "mousepad"}, self.editions)
+        self.assertEqual(s["removed"], ["mousepad"])
+        self.assertEqual(s["kept"], {"babl": "required by gimp"},
+                         "bat always ships (core needs it), so a stale exclusion of it is not reported")
         self.assertEqual(s["frozen"], ["base", "linux"])
         self.assertIn("qtile", s["pulled_in"])
         self.assertIn("python-x", s["pulled_in"])
-        self.assertNotIn("babl", s["pulled_in"], "gimp is removed, so its dependency must not appear")
+        self.assertNotIn("babl", s["pulled_in"], "babl is a row of its own, not a pulled-in dependency")
         self.assertNotIn("font-y", s["pulled_in"], "core packages are never 'pulled in'")
         self.assertEqual(s["blocks"]["xfce edition"], ["xfwm4", "thunar", "ristretto"])
         self.assertEqual(s["settings"]["Default session"], "xfce")
 
     def test_summary_html_is_escaped_and_complete(self):
         fn.set_conf("default_session", "<script>x</script>")
-        s = fn.build_summary({"bat"}, self.editions)
+        s = fn.build_summary({"babl"}, self.editions)
         path = fn.write_summary_html(s, Path(self.tmp.name) / "out" / "summary.html")
         text = path.read_text()
         self.assertTrue(text.startswith("<!doctype html>"))

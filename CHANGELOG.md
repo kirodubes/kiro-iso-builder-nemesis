@@ -27,6 +27,9 @@
   They are listed with the reason under the renamed "Show the packages that always ship" expander. The list
   follows the editions: untick qtile and thunar-archive-plugin is a normal row again. A row that only another
   ticked row brings back stays visible with its "still ships" label, since unticking that row does remove it.
+- Tested on the Kiro-next live VM, which turned up two follow-ups. The Build page and the summary no longer
+  report an always-shipped package that an older saved selection or an imported profile still excludes. The
+  always-ship list on the Packages page now scrolls on its own; open, it used to push the window past the screen.
 - New test suite: `bash tests/run-tests.sh` runs unit tests for the package logic, a contract test for the
   build-the-iso.sh functions KIB depends on, ruff, and a GUI smoke test that opens every screen.
 
@@ -66,6 +69,10 @@
   can't be removed from the Packages page. It runs in the existing background scan. Hidden rows are skipped by
   Select/Deselect all, the category toggles and the tri-state headers, and never saved as unticked, so the Build
   page and the summary don't report packages the user can't see. Two new unit tests cover it.
+- `reported_kept()` is `kept_packages()` minus `always_shipped()` over `optional_rows()`. The Build page and
+  `build_summary()` use it; "Removed" still subtracts the full kept set. The core label sits in a
+  `Gtk.ScrolledWindow` (`max_content_height=220`, natural height). The fixture gained `babl` as an optional row
+  that only `gimp` brings back. 16 unit tests.
 - The fixture also points `CONFIG_DIR` at the fake repo before the app module loads, so the GUI smoke test no
   longer creates folders in the real `~/.config/kiro-iso-builder-next` (seen on a live VM).
 

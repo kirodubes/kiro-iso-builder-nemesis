@@ -33,6 +33,7 @@ font-y
 #############################################################################
 ### Utilities
 bat
+babl
 flameshot-git
 gimp
 ### Fonts and groups

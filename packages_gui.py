@@ -57,7 +57,11 @@ class PackagesScreen:
         self.core_expander = Gtk.Expander(label="Show the core packages")
         self.core_label = Gtk.Label(xalign=0, wrap=True, selectable=True, max_width_chars=110)
         self.core_label.add_css_class("dim-label")
-        self.core_expander.set_child(self.core_label)
+        # Scrolls on its own, so opening ~300 names never pushes the window past the screen.
+        core_scroll = Gtk.ScrolledWindow(max_content_height=220, propagate_natural_height=True)
+        core_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        core_scroll.set_child(self.core_label)
+        self.core_expander.set_child(core_scroll)
         self.widget.append(self.core_expander)
 
         toolbar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
