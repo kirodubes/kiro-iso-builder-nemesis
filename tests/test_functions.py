@@ -120,6 +120,8 @@ class PackageLogic(unittest.TestCase):
                          ["base", "linux", "linux-zen", "grub", "linux-headers", "linux-zen-headers"])
         self.assertEqual(fn._with_selected_kernels(tier1, "linux-cachyos"), tier1)
         self.assertEqual(fn._with_selected_kernels(tier1, "ask"), tier1)
+        self.assertEqual(fn._with_selected_kernels(["linux-cachyos-headers"], "linux"), ["linux-headers"],
+                         "a headers line on its own is swapped too (pulled-in deps resolve from it)")
 
     def test_summary_html_is_escaped_and_complete(self):
         fn.set_conf("default_session", "<script>x</script>")

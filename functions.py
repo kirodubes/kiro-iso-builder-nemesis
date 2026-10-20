@@ -610,7 +610,7 @@ def reconcile_additions(catalog_keys, ticked_keys):
 # a ticked edition block lists it, another shipped package depends on it, or it is a
 # member of a shipped package group (xfce4 → mousepad, ristretto, parole).
 def read_tiers():
-    """(tier1, tier2): uncommented FROZEN and KIRO CORE package names, source order."""
+    """(tier1, tier2): uncommented FROZEN and KIRO CORE package names, source order, kernel swapped in."""
     pf = packages_file()
     if not pf or not pf.is_file():
         return [], []
@@ -626,7 +626,7 @@ def read_tiers():
         s = line.strip()
         if s and not s.startswith("#"):
             current.append(s)
-    return tiers
+    return _with_selected_kernels(tiers[0], read_conf().get("kernel", "")), tiers[1]
 
 
 def read_core():
@@ -696,6 +696,7 @@ def _shipped_names(excludes, editions):
     if not pf or not pf.is_file():
         return {}
     ticked_extras = read_additions()
+    kernel = read_conf().get("kernel", "")
     names, block, block_kind, optional = {}, None, None, False
     for line in pf.read_text().splitlines():
         m = re.match(r"^###\s*>>> EDITION-BLOCK (\S+) >>>", line)
@@ -725,7 +726,8 @@ def _shipped_names(excludes, editions):
             elif block_kind == "extra" and block in ticked_extras:
                 names.setdefault(mp.group(1), f"part of the {block} add-on")
         elif s and not s.startswith("#") and s not in excludes:
-            names.setdefault(s, "")
+            for name in _with_selected_kernels([s], kernel):
+                names.setdefault(name, "")
     return names
 
 
@@ -880,7 +882,7 @@ _CANONICAL_KERNEL = "linux-cachyos"
 def _with_selected_kernels(tier1, kernel_conf):
     """tier1 with the canonical kernel and its headers replaced, in place, by the kernel(s) the build ships."""
     selected = kernel_conf.split()
-    if not selected or selected == ["ask"] or _CANONICAL_KERNEL not in tier1:
+    if not selected or selected == ["ask"]:
         return tier1
     swaps = {_CANONICAL_KERNEL: selected, f"{_CANONICAL_KERNEL}-headers": [f"{k}-headers" for k in selected]}
     return [q for p in tier1 for q in swaps.get(p, [p])]
@@ -894,7 +896,6 @@ def build_summary(excludes, editions):
         groups = group_members()
     conf = read_conf()
     tier1, tier2 = read_tiers()
-    tier1 = _with_selected_kernels(tier1, conf.get("kernel", ""))
     shipped = _shipped_names(excludes, editions)
     all_kept = kept_packages(excludes, editions)
     kept = reported_kept(excludes, editions)

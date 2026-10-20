@@ -10,11 +10,13 @@
 - **Build summary shows the kernel the ISO really ships.** The "Frozen, TIER 1" list showed `linux-cachyos` and
   `linux-cachyos-headers` even when another kernel was chosen (header said `Kernel linux`). It now lists the chosen
   kernel(s) and their headers instead.
+  The "Pulled in" list no longer shows `clang`, `lld`, `llvm` as "required by linux-cachyos-headers" either.
 
 ### Technical Details
 - The summary read the canonical `packages.x86_64`; the kernel swap only happens later in `apply_kernel()` in
   `build-the-iso.sh`. New `_with_selected_kernels()` in `functions.py` mirrors that swap, in place, for the summary
-  only. `kernel="ask"` or a kernel already in the list leaves the list untouched.
+  in `read_tiers()` (frozen list) and `_shipped_names()` (the set dependencies resolve from), so every view
+  agrees. `kernel="ask"` leaves the list untouched.
 - Test: `test_summary_swaps_canonical_kernel_for_selected`.
 
 ### Files Modified
