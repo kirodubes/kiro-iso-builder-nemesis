@@ -113,6 +113,14 @@ class PackageLogic(unittest.TestCase):
         self.assertEqual(s["blocks"]["xfce edition"], ["xfwm4", "thunar", "ristretto"])
         self.assertEqual(s["settings"]["Default session"], "xfce")
 
+    def test_summary_swaps_canonical_kernel_for_selected(self):
+        tier1 = ["base", "linux-cachyos", "grub", "linux-cachyos-headers"]
+        self.assertEqual(fn._with_selected_kernels(tier1, "linux"), ["base", "linux", "grub", "linux-headers"])
+        self.assertEqual(fn._with_selected_kernels(tier1, "linux linux-zen"),
+                         ["base", "linux", "linux-zen", "grub", "linux-headers", "linux-zen-headers"])
+        self.assertEqual(fn._with_selected_kernels(tier1, "linux-cachyos"), tier1)
+        self.assertEqual(fn._with_selected_kernels(tier1, "ask"), tier1)
+
     def test_summary_html_is_escaped_and_complete(self):
         fn.set_conf("default_session", "<script>x</script>")
         s = fn.build_summary({"babl"}, self.editions)

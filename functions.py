@@ -873,6 +873,19 @@ def _resolve(shipped, excludes, db, groups):
     return parent
 
 
+# build-the-iso.sh apply_kernel() swaps this canonical kernel for the selected one(s) at build time.
+_CANONICAL_KERNEL = "linux-cachyos"
+
+
+def _with_selected_kernels(tier1, kernel_conf):
+    """tier1 with the canonical kernel and its headers replaced, in place, by the kernel(s) the build ships."""
+    selected = kernel_conf.split()
+    if not selected or selected == ["ask"] or _CANONICAL_KERNEL not in tier1:
+        return tier1
+    swaps = {_CANONICAL_KERNEL: selected, f"{_CANONICAL_KERNEL}-headers": [f"{k}-headers" for k in selected]}
+    return [q for p in tier1 for q in swaps.get(p, [p])]
+
+
 # ── Build summary page ──────────────────────────────────────────────
 def build_summary(excludes, editions):
     """Everything the summary page shows, as one dict. Slow on the first call — use a thread."""
@@ -881,6 +894,7 @@ def build_summary(excludes, editions):
         groups = group_members()
     conf = read_conf()
     tier1, tier2 = read_tiers()
+    tier1 = _with_selected_kernels(tier1, conf.get("kernel", ""))
     shipped = _shipped_names(excludes, editions)
     all_kept = kept_packages(excludes, editions)
     kept = reported_kept(excludes, editions)
