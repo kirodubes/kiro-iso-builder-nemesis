@@ -4,6 +4,23 @@
 
 ---
 
+## 2026.10.21
+
+### What Changed
+- **Build summary groups add-on families.** A Plasma build listed every `kiro-plasma-*` and `surfn-plasma-*`
+  add-on as its own one-package section (17 sections). Add-ons sharing a name family now share one section:
+  "Kiro-plasma add-ons (11)" and "Surfn-plasma add-ons (6)". An add-on with no siblings keeps its own section.
+
+### Technical Details
+- New `_merge_addon_families()` in `functions.py`, called in `build_summary()` after the blocks are built. The family
+  is the first two dash-separated words of the add-on name. Edition blocks are left alone.
+- Test: `test_summary_merges_addon_families`.
+
+### Files Modified
+- `functions.py`
+- `tests/test_functions.py`
+- `CHANGELOG.md`
+
 ## 2026.10.20
 
 ### What Changed

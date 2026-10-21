@@ -889,6 +889,24 @@ def _with_selected_kernels(tier1, kernel_conf):
 
 
 # ── Build summary page ──────────────────────────────────────────────
+def _merge_addon_families(by_block):
+    """Fold add-ons sharing a two-word prefix (kiro-plasma-*, surfn-plasma-*) into one block each."""
+    families = {}
+    for label in by_block:
+        if label.endswith(" add-on"):
+            families.setdefault("-".join(label.removesuffix(" add-on").split("-")[:2]), []).append(label)
+    merged = {}
+    for label, pkgs in by_block.items():
+        if not label.endswith(" add-on"):
+            merged[label] = pkgs
+            continue
+        family = "-".join(label.removesuffix(" add-on").split("-")[:2])
+        members = families[family]
+        key = f"{family} add-ons" if len(members) > 1 else label
+        merged.setdefault(key, []).extend(pkgs)
+    return merged
+
+
 def build_summary(excludes, editions):
     """Everything the summary page shows, as one dict. Slow on the first call — use a thread."""
     with _CACHE_LOCK:
@@ -905,6 +923,7 @@ def build_summary(excludes, editions):
         if why:
             label = why.removeprefix("listed by the ").removeprefix("part of the ")
             by_block.setdefault(label, []).append(name)
+    by_block = _merge_addon_families(by_block)
 
     # Only what the user's choices add: the core's own dependencies (glibc, systemd…) are noise here.
     full = _resolve(shipped, excludes, db, groups)

@@ -113,6 +113,18 @@ class PackageLogic(unittest.TestCase):
         self.assertEqual(s["blocks"]["xfce edition"], ["xfwm4", "thunar", "ristretto"])
         self.assertEqual(s["settings"]["Default session"], "xfce")
 
+    def test_summary_merges_addon_families(self):
+        blocks = {"plasma edition": ["konsole"], "kiro-plasma-sweet add-on": ["kiro-plasma-sweet"],
+                  "kiro-plasma-nord add-on": ["kiro-plasma-nord"],
+                  "surfn-plasma-flow add-on": ["surfn-plasma-flow-git"],
+                  "surfn-plasma-light-icons add-on": ["surfn-plasma-light-icons-git"], "krita add-on": ["krita"]}
+        self.assertEqual(fn._merge_addon_families(blocks), {
+            "plasma edition": ["konsole"],
+            "kiro-plasma add-ons": ["kiro-plasma-sweet", "kiro-plasma-nord"],
+            "surfn-plasma add-ons": ["surfn-plasma-flow-git", "surfn-plasma-light-icons-git"],
+            "krita add-on": ["krita"],
+        })
+
     def test_summary_swaps_canonical_kernel_for_selected(self):
         tier1 = ["base", "linux-cachyos", "grub", "linux-cachyos-headers"]
         self.assertEqual(fn._with_selected_kernels(tier1, "linux"), ["base", "linux", "grub", "linux-headers"])
