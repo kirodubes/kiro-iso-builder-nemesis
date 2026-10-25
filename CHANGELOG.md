@@ -4,6 +4,18 @@
 
 ---
 
+## 2026.10.25
+
+### What Changed
+- Starting the Kiro ISO Builder while it is open brings its window to the front. Before, nothing visible happened.
+
+### Technical Details
+- GTK keeps one instance per `application_id`, so a second launch runs the activate handler again in the running app. It now presents `get_active_window()` when there is one. Same fix as ATT, ohmychadwm-tweak-tool and the KiroTux premium apps. Tested on a test box (Xvfb, own D-Bus session). `_on_activate` returns before redoing the app dirs, build.conf and CSS. Still 1 window.
+
+### Files Modified
+- `kiro-iso-builder.py`
+- `CHANGELOG.md`
+
 ## 2026.10.21
 
 ### What Changed

@@ -262,6 +262,11 @@ class BuilderApp(Gtk.Application):
         self.connect("activate", self._on_activate)
 
     def _on_activate(self, app):
+        # A second launch activates this running instance again: bring the open window forward and stop
+        window = self.get_active_window()
+        if window is not None:
+            window.present()
+            return
         fn.ensure_app_dirs()
         fn.ensure_build_conf()
         fn.normalize_build_location()
