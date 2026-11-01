@@ -68,7 +68,6 @@ class PackagesScreen:
         self.core_expander.set_child(core_scroll)
         self.widget.append(self.core_expander)
 
-        toolbar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         self.search = Gtk.SearchEntry(hexpand=True, placeholder_text=_("Search packages…"))
         self.search.connect("search-changed", lambda e: self._apply_filter(e.get_text()))
         all_btn = Gtk.Button(label=_("Select all"))
@@ -79,12 +78,7 @@ class PackagesScreen:
         expand_btn.connect("clicked", lambda _w: self._set_expanded_all(True))
         collapse_btn = Gtk.Button(label=_("Collapse all"))
         collapse_btn.connect("clicked", lambda _w: self._set_expanded_all(False))
-        toolbar.append(self.search)
-        toolbar.append(expand_btn)
-        toolbar.append(collapse_btn)
-        toolbar.append(all_btn)
-        toolbar.append(none_btn)
-        self.widget.append(toolbar)
+        self.widget.append(fn.wrap_row([self.search], [expand_btn, collapse_btn], [all_btn, none_btn]))
 
         self.container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
         scroller = Gtk.ScrolledWindow(vexpand=True)

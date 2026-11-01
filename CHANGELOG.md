@@ -13,6 +13,9 @@
 - Restart now refuses while a build runs. A restart would kill the sudo build halfway and leave its mounts behind.
 - The menu entry is translated from the same catalogs. The old hand-written entries (German in the formal register, plus
   Ukrainian, Czech and European Portuguese, which are not among the 13) are gone.
+- **Fits on half a screen.** In French the Configure page was 1128 px wide and got clipped on a half-screen
+  window. The button rows on Configure and Packages now move whole groups to a second line when space runs out, so
+  the sentences wrap instead. Widest language now: Russian, 887 px.
 - A few English texts were tidied while wrapping them (dashes → semicolons, whole sentences). "Build Stopped /
   Failed" was glued from two pieces and is now two whole sentences.
 
@@ -30,11 +33,15 @@
   ja/zh/pl/ro/hu/tr/ru). Fixes applied with guards; German "Return" key and a Dutch imperative were rejected by
   hand, plural findings fixed by hand. 266 strings, 0 fuzzy, 0 untranslated in all 13. Checked off-screen
   (Broadway) in German and Russian: no cut-off labels.
+- New `fn.wrap_row(*groups)`: a `Gtk.FlowBox` (no selection, not homogeneous) with one box per button group; the
+  last group aligns right. A plain `Gtk.Box` made the page's minimum width the sum of its buttons. Measured with
+  `Gtk.Widget.measure()` off-screen in all 14 languages; French Configure checked at 945 px.
 
 ### Files Modified
 - `kib_i18n.py` (new), `po/` (new), `locale/` (new)
 - `kiro-iso-builder.py`, `build_gui.py`, `configure_gui.py`, `done_gui.py`, `extras_gui.py`, `packages_gui.py`,
-  `preflight_gui.py`, `functions.py`, `host_checks.py`
+  `preflight_gui.py`, `functions.py`, `host_checks.py` (`configure_gui.py`, `packages_gui.py` and `functions.py`
+  again for the half-screen fix)
 - `kiro-iso-builder.desktop` (now generated)
 - `tests/run-tests.sh`, `tests/gui_smoke.py`, `.codespellrc`
 - `README.md`, `CLAUDE.md`, `CHANGELOG.md`

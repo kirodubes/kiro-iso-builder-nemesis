@@ -188,22 +188,16 @@ class ConfigureScreen:
         self.status.add_css_class("att-orange-note")
         self.widget.append(self.status)
 
-        nav = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         reset = Gtk.Button(label=_("Reset to defaults"))
         reset.connect("clicked", lambda _w: self._reset())
-        nav.append(reset)
         import_prof = Gtk.Button(label=_("Import build profile…"))
         import_prof.connect("clicked", lambda _w: self._import_profile())
-        nav.append(import_prof)
-        nav.append(Gtk.Box(hexpand=True))  # spacer: pushes Back/Save to the right
         back = Gtk.Button(label=_("← Back"))
         back.connect("clicked", lambda _w: self.window.navigate("preflight"))
         save = Gtk.Button(label=_("Save & Continue →"))
         save.add_css_class("suggested-action")
         save.connect("clicked", lambda _w: self._save())
-        nav.append(back)
-        nav.append(save)
-        self.widget.append(nav)
+        self.widget.append(fn.wrap_row([reset, import_prof], [back, save]))
 
     def on_show(self):
         # Load from build.conf only on the first successful visit; after that the

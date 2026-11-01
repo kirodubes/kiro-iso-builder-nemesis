@@ -1259,6 +1259,23 @@ def run_in_pty(argv, cwd, on_line, on_done, ask_password, on_start=None):
 
 
 # ── GTK password dialog, callable synchronously from a worker thread ─
+def wrap_row(*groups):
+    """Return a row of widget groups that moves whole groups to a new line when the window is narrow."""
+    # A plain Box pins the page's minimum width to the sum of its buttons (862 px in French), so on half a
+    # screen the page is clipped instead of its sentences wrapping.
+    flow = Gtk.FlowBox(selection_mode=Gtk.SelectionMode.NONE, homogeneous=False,
+                       column_spacing=8, row_spacing=6, max_children_per_line=len(groups))
+    for i, widgets in enumerate(groups):
+        box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        for w in widgets:
+            box.append(w)
+        last = i == len(groups) - 1
+        box.set_halign(Gtk.Align.END if last and len(groups) > 1 else Gtk.Align.FILL)
+        child = Gtk.FlowBoxChild(child=box, focusable=False, hexpand=last or any(w.get_hexpand() for w in widgets))
+        flow.append(child)
+    return flow
+
+
 def ask_password(parent, prompt):
     """Show a modal password entry; block the caller until answered.
 
