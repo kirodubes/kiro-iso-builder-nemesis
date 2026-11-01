@@ -796,7 +796,7 @@ def kept_packages(excludes, editions):
         names = {pkg, *db.get(pkg, ((), ()))[1]}
         variant = next((q for q in parent if q in names or pkg in db.get(q, ((), ()))[1]), None)
         if variant:
-            kept[pkg] = f"{variant} ships instead ({parent[variant]})"
+            kept[pkg] = f"{variant} ships instead ({parent[variant] or 'listed elsewhere in packages.x86_64'})"
     return kept
 
 
@@ -825,12 +825,14 @@ def optional_rows(editions):
 
 
 def reported_kept(excludes, editions):
-    """kept_packages() minus the always-shipped rows the Packages page hides.
+    """kept_packages() for the rows the Packages page shows, minus the always-shipped ones it hides.
 
-    A selection saved before a row was hidden (or an imported profile) can still exclude it;
-    the Build page and the summary don't warn about a package the user can't see."""
-    hidden = always_shipped(optional_rows(editions), editions)
-    return {p: r for p, r in kept_packages(excludes, editions).items() if p not in hidden}
+    A selection saved before a row was hidden or dropped from packages.x86_64 (python-pywal after the
+    pywal16 swap), or an imported profile, can still exclude it; the Build page and the summary don't
+    warn about a package the user can't see."""
+    rows = set(optional_rows(editions))
+    hidden = always_shipped(rows, editions)
+    return {p: r for p, r in kept_packages(excludes, editions).items() if p in rows and p not in hidden}
 
 
 def _resolve(shipped, excludes, db, groups):

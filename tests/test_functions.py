@@ -99,6 +99,12 @@ class PackageLogic(unittest.TestCase):
         kept = fn.reported_kept({"bat", "babl"}, self.editions)
         self.assertEqual(kept, {"babl": "required by gimp"})
 
+    def test_reported_kept_skips_stale_exclude(self):
+        # Like python-pywal after the pywal16 swap: no row any more, but a shipped package provides it.
+        self.assertEqual(fn.kept_packages({"ttf-font"}, self.editions),
+                         {"ttf-font": "font-y ships instead (listed elsewhere in packages.x86_64)"})
+        self.assertEqual(fn.reported_kept({"ttf-font"}, self.editions), {})
+
     # ── summary ──
     def test_summary_sections(self):
         s = fn.build_summary({"bat", "babl", "mousepad"}, self.editions)

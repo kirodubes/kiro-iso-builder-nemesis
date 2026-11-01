@@ -18,6 +18,9 @@
   the sentences wrap instead. Widest language now: Russian, 887 px.
 - A few English texts were tidied while wrapping them (dashes → semicolons, whole sentences). "Build Stopped /
   Failed" was glued from two pieces and is now two whole sentences.
+- **No more warning about python-pywal.** The Build page said "Unticked but still on the ISO: python-pywal —
+  python-pywal16 ships instead ()", although python-pywal left the ISO with the pywal16 swap. The old exclusion was
+  still in the saved package selection; it now only warns about packages the Packages page still shows.
 
 ### Technical Details
 - New `kib_i18n.py` (gettext domain `kiro-iso-builder`, same as production because the nemesis package installs
@@ -36,6 +39,11 @@
 - New `fn.wrap_row(*groups)`: a `Gtk.FlowBox` (no selection, not homogeneous) with one box per button group; the
   last group aligns right. A plain `Gtk.Box` made the page's minimum width the sum of its buttons. Measured with
   `Gtk.Widget.measure()` off-screen in all 14 languages; French Configure checked at 945 px.
+- `reported_kept()` keeps only names in `optional_rows(editions)`. A stale exclusion stays in
+  `package-selection.conf` on purpose (rows of an unticked edition come back with the user's choice), but a name that
+  is no row any more matched python-pywal16's `provides` and was reported as kept. A variant whose own reason is
+  empty (a plain TIER 3 line) now reads "listed elsewhere in packages.x86_64" instead of "()". New test
+  `test_reported_kept_skips_stale_exclude`.
 
 ### Files Modified
 - `kib_i18n.py` (new), `po/` (new), `locale/` (new)
@@ -43,7 +51,7 @@
   `preflight_gui.py`, `functions.py`, `host_checks.py` (`configure_gui.py`, `packages_gui.py` and `functions.py`
   again for the half-screen fix)
 - `kiro-iso-builder.desktop` (now generated)
-- `tests/run-tests.sh`, `tests/gui_smoke.py`, `.codespellrc`
+- `tests/run-tests.sh`, `tests/gui_smoke.py`, `tests/test_functions.py`, `.codespellrc`
 - `README.md`, `CLAUDE.md`, `CHANGELOG.md`
 
 ## 2026.10.25
