@@ -46,6 +46,21 @@ This app depends on three things in `kiro-iso/build-scripts`:
 
 Changing those scripts can affect this app — keep them in sync.
 
+## Translations
+
+- `kib_i18n.py` uses the `kiro-iso-builder` gettext domain (also in the nemesis twin, which installs unprefixed).
+  Catalogs: `po/<lang>.po` for `nl de es fr pt_BR ru hu it tr pl ja zh_CN ro`. Run from git it reads the repo's
+  `locale/`; installed it reads `/usr/share/locale` (the PKGBUILD copies `locale/` there).
+- Follows the system language until the user picks one in the header dropdown (before ♥ Support); the choice is
+  saved in `~/.config/kiro-iso-builder/prefs.json` (shared by both builders) and applies after **Restart now**,
+  which refuses while a build runs. `KIB_LANGUAGE` pins a catalog; the tests pin `en`.
+- Whole sentences in `_()`, counts in `ngettext()`, named placeholders. Never translate: `build.conf` keys/values,
+  package, kernel and driver names, check ids, anything passed to `host-prep-run.sh`/`build-the-iso.sh`,
+  `SUDO_SENTINEL` and any string matched against command output, log files, the build-summary HTML.
+- After changing English UI text: `bash po/make-mo.sh`, translate the new entries in all 13 catalogs (0 fuzzy,
+  0 untranslated), then commit `po/` and `locale/` together. Edit `po/kiro-iso-builder.desktop.in`, never the
+  generated `kiro-iso-builder.desktop`.
+
 ## Tests
 
 `bash tests/run-tests.sh` runs everything; it is not shipped (the PKGBUILD installs only the top-level files).

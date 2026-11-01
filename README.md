@@ -42,6 +42,16 @@ If it isn't found, the Pre-flight screen can clone it.
 `bash tests/run-tests.sh` runs the unit tests, a contract test against `build-the-iso.sh`, ruff and a GUI
 smoke test (when a desktop session is available).
 
+## Languages
+
+The interface is available in English, Dutch, German, Spanish, French, Brazilian Portuguese, Russian, Hungarian,
+Italian, Turkish, Polish, Japanese, Simplified Chinese and Romanian. It follows the system language by default.
+Pick another language from the dropdown in the header and click **Restart now**; the choice is saved for later
+launches. Build logs, `build.conf` and the build-summary page stay in English.
+
+The gettext catalogs live in `po/`. After changing English UI text, run `bash po/make-mo.sh` to refresh the
+template, compile the catalogs into `locale/` and regenerate the menu entry.
+
 ## Requirements
 
 `python-gobject`, `gtk4`, `polkit` (+ a polkit auth agent for your session), `pacman`,

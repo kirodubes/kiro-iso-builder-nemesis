@@ -1,0 +1,1307 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kiro-iso-builder\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-01 06:40+0100\n"
+"PO-Revision-Date: 2026-11-01 06:14+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: Kiro translations\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: build_gui.py:37
+msgid "Build the ISO"
+msgstr "ISO oluştur"
+
+#: build_gui.py:41
+msgid ""
+"Runs build-the-iso.sh as your user. You will be asked for your password "
+"once; if the build prompts (for example, pacman's [Y/n]), type your reply in "
+"the box below."
+msgstr ""
+"build-the-iso.sh komutu kullanıcı hesabınızla çalıştırılır. Parolanız bir "
+"kez sorulur; derleme yanıt isterse (ör. pacman'ın [Y/n] sorusu), yanıtınızı "
+"aşağıdaki kutuya yazın."
+
+#: build_gui.py:60
+msgid "Start build"
+msgstr "Derlemeyi başlat"
+
+#: build_gui.py:63
+msgid "Stop"
+msgstr "Durdur"
+
+#: build_gui.py:67 build_gui.py:162
+msgid "Show summary"
+msgstr "Özeti göster"
+
+#: build_gui.py:68
+msgid ""
+"Open a page in your browser listing what this build removes, keeps and pulls "
+"in, and why"
+msgstr ""
+"Bu derlemenin neyi kaldırdığını, koruduğunu ve eklediğini, ayrıca nedenini "
+"gösteren bir sayfayı tarayıcıda açar"
+
+#: build_gui.py:76
+msgid "Idle"
+msgstr "Boşta"
+
+#: build_gui.py:95
+msgid "Reply to a build prompt (for example, y) and press Enter"
+msgstr "Derleme isteğini yanıtlayın (ör. y) ve Enter'a basın"
+
+#: build_gui.py:97
+msgid "Send"
+msgstr "Gönder"
+
+#: build_gui.py:104 configure_gui.py:199 extras_gui.py:88 packages_gui.py:108
+msgid "← Back"
+msgstr "← Geri"
+
+#: build_gui.py:113 configure_gui.py:466
+#, python-brace-format
+msgid "{repo} clone not found; fix it on the Pre-flight screen."
+msgstr "{repo} klonu bulunamadı; bunu Ön denetim ekranında düzeltin."
+
+#: build_gui.py:120
+msgid "Work dir:"
+msgstr "Çalışma klasörü:"
+
+#: build_gui.py:121
+msgid "ISO output:"
+msgstr "ISO çıktısı:"
+
+#: build_gui.py:123
+msgid "Output location unknown; set the clone path on the Pre-flight screen."
+msgstr "Çıktı konumu bilinmiyor; Ön denetim ekranında klon yolunu ayarlayın."
+
+#: build_gui.py:138
+msgid "Unticked but still on the ISO:\n"
+msgstr "Seçilmedi ama ISO'da kalacak:\n"
+
+#: build_gui.py:147
+msgid "Preparing…"
+msgstr "Hazırlanıyor…"
+
+#: build_gui.py:154
+#, python-brace-format
+msgid "Summary opened: {path}"
+msgstr "Özet açıldı: {path}"
+
+#: build_gui.py:156
+#, python-brace-format
+msgid "Could not build the summary page: {error}"
+msgstr "Özet sayfası oluşturulamadı: {error}"
+
+#: build_gui.py:177
+#, python-brace-format
+msgid "Summary saved: {path}"
+msgstr "Özet kaydedildi: {path}"
+
+#: build_gui.py:179
+#, python-brace-format
+msgid "Could not save the summary page: {error}"
+msgstr "Özet sayfası kaydedilemedi: {error}"
+
+#: build_gui.py:199
+msgid "Starting…"
+msgstr "Başlatılıyor…"
+
+#: build_gui.py:200
+msgid "── Starting build ──"
+msgstr "── Derleme başlatılıyor ──"
+
+#: build_gui.py:245
+#, python-brace-format
+msgid "Phase {current} / {total}"
+msgstr "Aşama {current} / {total}"
+
+#: build_gui.py:256
+msgid "Done"
+msgstr "Tamamlandı"
+
+#: build_gui.py:257
+msgid "── Build finished ──"
+msgstr "── Derleme tamamlandı ──"
+
+#: build_gui.py:266
+#, python-brace-format
+msgid "Stopped (exit {code})"
+msgstr "Durduruldu (çıkış kodu {code})"
+
+#: build_gui.py:267
+#, python-brace-format
+msgid "── Build stopped (exit {code}) ──"
+msgstr "── Derleme durduruldu (çıkış kodu {code}) ──"
+
+#: build_gui.py:269
+#, python-brace-format
+msgid "Failed (exit {code})"
+msgstr "Başarısız (çıkış kodu {code})"
+
+#: build_gui.py:270
+#, python-brace-format
+msgid "── Build failed (exit {code}) ──"
+msgstr "── Derleme başarısız oldu (çıkış kodu {code}) ──"
+
+#: build_gui.py:273
+msgid "Cleaning up mounts…"
+msgstr "Bağlama noktaları temizleniyor…"
+
+#: build_gui.py:274
+msgid "── Stale build mounts found; cleaning up ──"
+msgstr "── Eski derleme bağlama noktaları bulundu; temizleniyor ──"
+
+#: build_gui.py:280
+msgid "── Mount cleanup complete ──"
+msgstr "── Bağlama noktaları temizlendi ──"
+
+#: build_gui.py:281
+#, python-brace-format
+msgid "── Mount cleanup exited with code {code} ──"
+msgstr "── Bağlama noktası temizliği {code} koduyla sona erdi ──"
+
+#: build_gui.py:282
+msgid "Cleaned up"
+msgstr "Temizlik tamamlandı"
+
+#: build_gui.py:282
+#, python-brace-format
+msgid "Cleanup failed (exit {code})"
+msgstr "Temizlik hatası (çıkış kodu {code})"
+
+#: build_gui.py:298 preflight_gui.py:330
+msgid "Remove the leftover build folder?"
+msgstr "Kalan derleme klasörü kaldırılsın mı?"
+
+#: build_gui.py:299 preflight_gui.py:331
+#, python-brace-format
+msgid ""
+"{path}{size}\n"
+"\n"
+"It is owned by root (mkarchiso ran as root), so you cannot delete it from "
+"your file manager. Keeping it is fine; the next build reuses this location."
+msgstr ""
+"{path}{size}\n"
+"\n"
+"Klasör root'a ait (mkarchiso root olarak çalıştırıldı), bu nedenle dosya "
+"yöneticisinden kaldıramazsınız. Klasörü tutabilirsiniz; sonraki derleme aynı "
+"konumu kullanır."
+
+#: build_gui.py:302 preflight_gui.py:335
+msgid "Keep"
+msgstr "Koru"
+
+#: build_gui.py:302 preflight_gui.py:335
+msgid "Remove"
+msgstr "Kaldır"
+
+#: build_gui.py:316
+msgid "Removing build folder…"
+msgstr "Derleme klasörü kaldırılıyor…"
+
+#: build_gui.py:317
+msgid "── Removing build folder (with your approval) ──"
+msgstr "── Onayınızla derleme klasörü kaldırılıyor ──"
+
+#: build_gui.py:321
+msgid "── Build folder removed ──"
+msgstr "── Derleme klasörü kaldırıldı ──"
+
+#: build_gui.py:322
+#, python-brace-format
+msgid "── Removing build folder failed (exit {code}) ──"
+msgstr "── Derleme klasörü kaldırılamadı (çıkış kodu {code}) ──"
+
+#: build_gui.py:323
+#, python-brace-format
+msgid "Remove failed (exit {code})"
+msgstr "Kaldırılamadı (çıkış kodu {code})"
+
+#: build_gui.py:323
+msgid "Removed"
+msgstr "Kaldırıldı"
+
+#: build_gui.py:335
+#, python-brace-format
+msgid "Could not open build log: {error}"
+msgstr "Derleme günlüğü açılamadı: {error}"
+
+#: configure_gui.py:24
+msgid "All"
+msgstr "Tümü"
+
+#: configure_gui.py:24
+msgid "CachyOS"
+msgstr "CachyOS"
+
+#: configure_gui.py:24
+msgid "Chaotic"
+msgstr "Chaotic"
+
+#: configure_gui.py:24
+msgid "Official Arch"
+msgstr "Resmî Arch"
+
+#: configure_gui.py:66
+msgid "Configure the build"
+msgstr "Derlemeyi yapılandır"
+
+#: configure_gui.py:69
+msgid "These write straight to build.conf; the CLI uses the same file."
+msgstr ""
+"Bu ayarlar doğrudan build.conf dosyasına yazılır; CLI da aynı dosyayı "
+"kullanır."
+
+#: configure_gui.py:78
+msgid "NVIDIA driver"
+msgstr "NVIDIA sürücüsü"
+
+#: configure_gui.py:80
+msgid ""
+"AMD / Intel / a VM (no NVIDIA card)? Pick 'none': no NVIDIA driver is baked "
+"in, and at boot choose the first entry, 'open source: AMD / Intel', which "
+"blacklists NVIDIA. The other options bake that NVIDIA driver set."
+msgstr ""
+"AMD, Intel veya sanal makine (NVIDIA kartı yok) mi kullanıyorsunuz? 'none' "
+"seçin: hiçbir NVIDIA sürücüsü eklenmez. Açılışta NVIDIA'yı engelleyen ilk "
+"seçeneği, 'open source: AMD / Intel' seçin. Diğer seçenekler, seçilen NVIDIA "
+"sürücü grubunu ekler."
+
+#: configure_gui.py:92
+msgid "Kernel source"
+msgstr "Kernel kaynağı"
+
+#: configure_gui.py:100
+msgid "First kernel (boots the live ISO)"
+msgstr "İlk kernel (canlı ISO'yu başlatır)"
+
+#: configure_gui.py:101
+msgid "Second kernel (optional)"
+msgstr "İkinci kernel (isteğe bağlı)"
+
+#: configure_gui.py:104
+msgid "Refresh kernels"
+msgstr "Kernelleri yenile"
+
+#: configure_gui.py:112
+msgid ""
+"The list includes every kernel offered by the repos that has matching "
+"-headers (those headers are installed automatically for DKMS drivers). "
+"Filter by source above, and type in a dropdown to search."
+msgstr ""
+"Liste, depolarda bulunan ve karşılık gelen -headers paketleri olan tüm "
+"kernelleri içerir (bu başlıklar DKMS sürücüleri için otomatik yüklenir). "
+"Yukarıdan kaynağa göre filtreleyin ve aramak için açılır menüye yazın."
+
+#: configure_gui.py:122
+msgid "Enable CachyOS repo"
+msgstr "CachyOS deposunu etkinleştir"
+
+#: configure_gui.py:132
+msgid "Editions (desktops and window managers)"
+msgstr "Sürümler (masaüstü ortamları ve pencere yöneticileri)"
+
+#: configure_gui.py:137
+msgid "Desktops"
+msgstr "Masaüstü ortamları"
+
+#: configure_gui.py:142
+msgid "Window managers"
+msgstr "Pencere yöneticileri"
+
+#: configure_gui.py:149
+msgid ""
+"Tick what you want; each becomes a session you can pick at the SDDM login "
+"screen. Tick at least one."
+msgstr ""
+"İstediklerinizi işaretleyin; her sürüm SDDM giriş ekranında seçebileceğiniz "
+"bir oturum olur. En az birini işaretleyin."
+
+#: configure_gui.py:162
+msgid "Default session (boots first)"
+msgstr "Varsayılan oturum (ilk başlatılır)"
+
+#: configure_gui.py:164
+msgid "Which ticked edition the live ISO logs into first."
+msgstr "Canlı ISO'da ilk başlatılan işaretli sürüm."
+
+#: configure_gui.py:169
+msgid "Advanced"
+msgstr "Gelişmiş"
+
+#: configure_gui.py:172
+msgid "Bump version before building"
+msgstr "Derlemeden önce sürümü artır"
+
+#: configure_gui.py:174
+msgid "Clean pacman cache"
+msgstr "pacman önbelleğini temizle"
+
+#: configure_gui.py:176
+msgid "Remove build folder after build"
+msgstr "Derleme klasörünü sonra kaldır"
+
+#: configure_gui.py:192
+msgid "Reset to defaults"
+msgstr "Varsayılanlara sıfırla"
+
+#: configure_gui.py:195
+msgid "Import build profile…"
+msgstr "Derleme profilini içe aktar…"
+
+#: configure_gui.py:201 extras_gui.py:90 packages_gui.py:110
+msgid "Save & Continue →"
+msgstr "Kaydet ve devam et →"
+
+#: configure_gui.py:218
+msgid "build.conf not found; fix the clone on the Pre-flight screen."
+msgstr "build.conf bulunamadı; klonu Ön denetim ekranında düzeltin."
+
+#: configure_gui.py:341
+msgid "Reset to defaults; click Save & Continue to apply."
+msgstr ""
+"Varsayılanlara sıfırlandı; uygulamak için Kaydet ve devam et'e tıklayın."
+
+#: configure_gui.py:346
+msgid "Detecting…"
+msgstr "Algılanıyor…"
+
+#: configure_gui.py:359
+msgid "None found; sync repos first. Keeping the built-in list."
+msgstr ""
+"Hiçbir şey bulunamadı; önce depoları eşitleyin. Yerleşik liste korunuyor."
+
+#: configure_gui.py:363
+#, python-brace-format
+msgid "Found {count} kernel."
+msgid_plural "Found {count} kernels."
+msgstr[0] "{count} kernel bulundu."
+msgstr[1] "{count} kernel bulundu."
+
+#: configure_gui.py:373
+msgid ""
+"CachyOS repo is disabled (Kiro's default); enable it to add the CachyOS-only "
+"kernels (eevdf, hardened, server, …)."
+msgstr ""
+"CachyOS deposu devre dışı (Kiro varsayılanı); CachyOS'a özgü kernelleri "
+"(eevdf, hardened, server, …) eklemek için etkinleştirin."
+
+#: configure_gui.py:378
+msgid "Enabling CachyOS repo…"
+msgstr "CachyOS deposu etkinleştiriliyor…"
+
+#: configure_gui.py:388
+msgid "CachyOS repo enabled; refreshing kernels…"
+msgstr "CachyOS deposu etkin; kerneller yenileniyor…"
+
+#: configure_gui.py:391
+#, python-brace-format
+msgid "Enabling CachyOS failed (exit {code})."
+msgstr "CachyOS etkinleştirilemedi (çıkış kodu {code})."
+
+#: configure_gui.py:447
+msgid "Tick at least one desktop or window manager; an ISO needs a session."
+msgstr ""
+"En az bir masaüstü ortamı veya pencere yöneticisi işaretleyin; ISO'nun bir "
+"oturuma ihtiyacı var."
+
+#: configure_gui.py:470
+msgid "Import build profile"
+msgstr "Derleme profilini içe aktar"
+
+#: configure_gui.py:473
+msgid "Kiro build profiles"
+msgstr "Kiro derleme profilleri"
+
+#: configure_gui.py:493
+#, python-brace-format
+msgid ""
+"Imported profile; {count} package to remove. Review the settings, then click "
+"Save & Continue."
+msgid_plural ""
+"Imported profile; {count} packages to remove. Review the settings, then "
+"click Save & Continue."
+msgstr[0] ""
+"Profil içe aktarıldı; {count} paket kaldırılacak. Ayarları gözden geçirin ve "
+"Kaydet ve devam et'e tıklayın."
+msgstr[1] ""
+"Profil içe aktarıldı; {count} paket kaldırılacak. Ayarları gözden geçirin ve "
+"Kaydet ve devam et'e tıklayın."
+
+#: done_gui.py:82
+msgid "Build complete"
+msgstr "Derleme tamamlandı"
+
+#: done_gui.py:98
+msgid "Open output folder"
+msgstr "Çıktı klasörünü aç"
+
+#: done_gui.py:100
+msgid "Test in VirtualBox"
+msgstr "VirtualBox'ta dene"
+
+#: done_gui.py:102
+msgid "Install VirtualBox"
+msgstr "VirtualBox'ı kur"
+
+#: done_gui.py:104
+msgid "Test in QEMU"
+msgstr "QEMU'da dene"
+
+#: done_gui.py:106
+msgid "Install QEMU"
+msgstr "QEMU'yu kur"
+
+#: done_gui.py:108
+msgid "Burn to USB"
+msgstr "USB'ye yaz"
+
+#: done_gui.py:110
+msgid "Install USB writer"
+msgstr "USB yazma aracını kur"
+
+#: done_gui.py:112
+msgid "Open build log"
+msgstr "Derleme günlüğünü aç"
+
+#: done_gui.py:114
+msgid "Save build profile…"
+msgstr "Derleme profilini kaydet…"
+
+#: done_gui.py:116
+msgid "Build again"
+msgstr "Yeniden derle"
+
+#: done_gui.py:131
+msgid ""
+"Note: the test VM only boots the ISO once to check the installer; it cannot "
+"reboot into an installed system. Test a real install on hardware."
+msgstr ""
+"Not: Test VM'si yükleyiciyi kontrol etmek için ISO'yu bir kez başlatır; "
+"yeniden başlatıldığında kurulu sisteme geçemez. Gerçek kurulumu donanım "
+"üzerinde deneyin."
+
+#: done_gui.py:141
+msgid "Output folder not found yet."
+msgstr "Çıktı klasörü henüz bulunamadı."
+
+#: done_gui.py:146
+#, python-brace-format
+msgid "No ISO found in {path}"
+msgstr "{path} içinde ISO bulunamadı"
+
+#: done_gui.py:193
+msgid "VirtualBox (VBoxManage) not installed."
+msgstr "VirtualBox (VBoxManage) kurulu değil."
+
+#: done_gui.py:196
+msgid "Creating a VirtualBox VM (UEFI + 50 GB disk) and booting the ISO…"
+msgstr ""
+"VirtualBox VM'si oluşturuluyor (UEFI + 50 GB disk) ve ISO başlatılıyor…"
+
+#: done_gui.py:223
+msgid "VirtualBox VM started."
+msgstr "VirtualBox VM'si başlatıldı."
+
+#: done_gui.py:224
+#, python-brace-format
+msgid "VirtualBox launch failed (exit {code})."
+msgstr "VirtualBox başlatılamadı (çıkış kodu {code})."
+
+#: done_gui.py:228
+msgid "Installing VirtualBox + host DKMS + kernel headers (password required)…"
+msgstr ""
+"VirtualBox + ana makine DKMS + kernel başlıkları kuruluyor (parola gerekir)…"
+
+#: done_gui.py:236
+msgid ""
+"VirtualBox installed. Reboot now (a log-out is not enough) to load the host "
+"kernel modules and join the vboxusers group. Also enable virtualization in "
+"your motherboard / BIOS-UEFI settings (Intel VT-x or AMD-V / SVM); "
+"VirtualBox cannot run virtual machines without it."
+msgstr ""
+"VirtualBox kuruldu. Kernel modüllerini yüklemek ve vboxusers grubuna "
+"katılmak için şimdi yeniden başlatın (oturumu kapatmak yeterli değildir). "
+"Anakart veya BIOS/UEFI ayarlarından sanallaştırmayı da etkinleştirin (Intel "
+"VT-x veya AMD-V / SVM); bunlar olmadan VirtualBox VM çalıştıramaz."
+
+#: done_gui.py:244
+#, python-brace-format
+msgid "VirtualBox install failed (exit {code})."
+msgstr "VirtualBox kurulamadı (çıkış kodu {code})."
+
+#: done_gui.py:255
+msgid "OVMF not found (install edk2-ovmf); booting BIOS instead of UEFI."
+msgstr "OVMF bulunamadı (edk2-ovmf kurun); UEFI yerine BIOS ile başlatılacak."
+
+#: done_gui.py:268
+msgid "qemu-img not found; the installer will have no disk to install on."
+msgstr ""
+"qemu-img bulunamadı; yükleyicinin kurulum yapabileceği bir disk olmayacak."
+
+#: done_gui.py:275
+msgid "Creating a fresh 50 GB virtual disk for the installer…"
+msgstr "Yükleyici için yeni 50 GB sanal disk oluşturuluyor…"
+
+#: done_gui.py:279
+#, python-brace-format
+msgid "Failed to create disk: {error}"
+msgstr "Disk oluşturulamadı: {error}"
+
+#: done_gui.py:285
+msgid "Installing qemu-desktop (you will be asked for your password)…"
+msgstr "qemu-desktop kuruluyor (parolanız istenecek)…"
+
+#: done_gui.py:293
+msgid "QEMU installed; you can now test in a VM."
+msgstr "QEMU kuruldu; artık VM'de deneyebilirsiniz."
+
+#: done_gui.py:298
+#, python-brace-format
+msgid "QEMU install failed (exit {code})."
+msgstr "QEMU kurulamadı (çıkış kodu {code})."
+
+#: done_gui.py:310
+msgid "Installing mintstick (you will be asked for your password)…"
+msgstr "mintstick kuruluyor (parolanız istenecek)…"
+
+#: done_gui.py:318
+msgid "USB writer installed; you can now burn to USB."
+msgstr "USB yazma aracı kuruldu; artık USB'ye yazabilirsiniz."
+
+#: done_gui.py:323
+#, python-brace-format
+msgid "USB writer install failed (exit {code})."
+msgstr "USB yazma aracı kurulamadı (çıkış kodu {code})."
+
+#: done_gui.py:331
+msgid "Save build profile"
+msgstr "Derleme profilini kaydet"
+
+#: done_gui.py:348
+#, python-brace-format
+msgid "Saved build profile ({count} package removed) → {path}"
+msgid_plural "Saved build profile ({count} packages removed) → {path}"
+msgstr[0] "Profil kaydedildi ({count} paket kaldırıldı) → {path}"
+msgstr[1] "Profil kaydedildi ({count} paket kaldırıldı) → {path}"
+
+#: extras_gui.py:35
+msgid "Add apps"
+msgstr "Uygulama ekle"
+
+#: extras_gui.py:36
+msgid "These apps are NOT on the standard Kiro; tick the ones you want added."
+msgstr ""
+"Bu uygulamalar standart Kiro'da YOK; eklemek istediklerinizi işaretleyin."
+
+#: extras_gui.py:37
+msgid ""
+"Nothing is ticked by default. Tick none and your ISO stays the standard Kiro."
+msgstr ""
+"Varsayılan olarak hiçbir şey işaretli değildir. Hiçbir şey işaretlemezseniz "
+"ISO standart Kiro olarak kalır."
+
+#: extras_gui.py:40
+#, python-brace-format
+msgid "{edition} extras"
+msgstr "{edition} ekleri"
+
+#: extras_gui.py:41
+#, python-brace-format
+msgid ""
+"Optional {edition} apps, added only to this {edition} build; tick what you "
+"want."
+msgstr ""
+"Yalnızca bu {edition} derlemesine eklenen isteğe bağlı {edition} "
+"uygulamaları; istediklerinizi işaretleyin."
+
+#: extras_gui.py:43
+msgid "Nothing is ticked by default."
+msgstr "Varsayılan olarak hiçbir şey işaretli değildir."
+
+#: extras_gui.py:44
+msgid "Consider these a work in progress."
+msgstr "Bu uygulamaların hâlâ geliştirilmekte olduğunu unutmayın."
+
+#: extras_gui.py:56
+msgid "Search apps…"
+msgstr "Uygulama ara…"
+
+#: extras_gui.py:58 packages_gui.py:74
+msgid "Select all"
+msgstr "Tümünü seç"
+
+#: extras_gui.py:60 packages_gui.py:76
+msgid "Deselect all"
+msgstr "Tüm seçimleri kaldır"
+
+#: extras_gui.py:77
+msgid "Save app list…"
+msgstr "Uygulama listesini kaydet…"
+
+#: extras_gui.py:79
+msgid "Import app list…"
+msgstr "Uygulama listesini içe aktar…"
+
+#: extras_gui.py:122 packages_gui.py:131
+msgid "packages.x86_64 not found; fix the clone on the Pre-flight screen."
+msgstr "packages.x86_64 bulunamadı; klonu Ön denetim ekranında düzeltin."
+
+#: extras_gui.py:136
+msgid "No extra apps are offered yet."
+msgstr "Şu anda ek uygulama sunulmuyor."
+
+#: extras_gui.py:226
+#, python-brace-format
+msgid "App that will be added: {added}/{total}"
+msgid_plural "Apps that will be added: {added}/{total}"
+msgstr[0] "Eklenecek uygulama: {added}/{total}"
+msgstr[1] "Eklenecek uygulamalar: {added}/{total}"
+
+#: extras_gui.py:249
+msgid "Save app list"
+msgstr "Uygulama listesini kaydet"
+
+#: extras_gui.py:263
+#, python-brace-format
+msgid "Saved app list ({count} app added) → {path}"
+msgid_plural "Saved app list ({count} apps added) → {path}"
+msgstr[0] "Uygulama listesi kaydedildi ({count} uygulama eklendi) → {path}"
+msgstr[1] "Uygulama listesi kaydedildi ({count} uygulama eklendi) → {path}"
+
+#: extras_gui.py:269
+msgid "Import app list"
+msgstr "Uygulama listesini içe aktar"
+
+#: extras_gui.py:282
+#, python-brace-format
+msgid "Imported app list; {count} app marked to add."
+msgid_plural "Imported app list; {count} apps marked to add."
+msgstr[0] "Liste içe aktarıldı; eklenecek {count} uygulama işaretlendi."
+msgstr[1] "Liste içe aktarıldı; eklenecek {count} uygulama işaretlendi."
+
+#: functions.py:1272
+msgid "Authentication required"
+msgstr "Kimlik doğrulama gerekli"
+
+#: functions.py:1273 preflight_gui.py:298
+msgid "Cancel"
+msgstr "İptal"
+
+#: functions.py:1274
+msgid "Authenticate"
+msgstr "Kimlik doğrula"
+
+#: functions.py:1282
+msgid "Enter your password"
+msgstr "Parolanızı girin"
+
+#: host_checks.py:50
+#, python-brace-format
+msgid "Found at {path}"
+msgstr "{path} konumunda bulundu"
+
+#: host_checks.py:51
+#, python-brace-format
+msgid "{repo} clone not found; everything is built from it."
+msgstr "{repo} klonu bulunamadı; her şey buradan derlenir."
+
+#: host_checks.py:59 host_checks.py:173 host_checks.py:206 host_checks.py:216
+#, python-brace-format
+msgid "Set once the {repo} clone is present."
+msgstr "{repo} klonu kullanılabilir olduğunda ayarlanır."
+
+#: host_checks.py:61
+msgid "git is unavailable; cannot check for updates."
+msgstr "git yok; güncellemeler denetlenemiyor."
+
+#: host_checks.py:63
+msgid "Could not check for updates (offline?)."
+msgstr "Güncellemeler denetlenemedi (çevrimdışı mı?)."
+
+#: host_checks.py:66
+msgid "Up to date with origin."
+msgstr "origin ile aynı sürümde."
+
+#: host_checks.py:68
+#, python-brace-format
+msgid ""
+"{count} update available; update for the latest build scripts and packages."
+msgid_plural ""
+"{count} updates available; update for the latest build scripts and packages."
+msgstr[0] ""
+"{count} güncelleme var; derleme betiklerini ve paketleri en son sürüme "
+"güncelleyin."
+msgstr[1] ""
+"{count} güncelleme var; derleme betiklerini ve paketleri en son sürüme "
+"güncelleyin."
+
+#: host_checks.py:75
+msgid "Running as a normal user"
+msgstr "Normal kullanıcı olarak çalışıyor"
+
+#: host_checks.py:76
+msgid "Do NOT run the builder as root; relaunch as your user."
+msgstr ""
+"Derleyiciyi root olarak ÇALIŞTIRMAYIN; normal kullanıcı hesabınızla yeniden "
+"başlatın."
+
+#: host_checks.py:84
+#, python-brace-format
+msgid "{name} is not Arch-based."
+msgstr "{name}, Arch tabanlı değil."
+
+#: host_checks.py:90
+msgid "pkexec is not installed; fixes cannot elevate."
+msgstr ""
+"pkexec kurulu değil; yükseltilmiş ayrıcalıklarla düzeltmeler "
+"çalıştırılamıyor."
+
+#: host_checks.py:95
+msgid "polkit agent present."
+msgstr "polkit aracısı mevcut."
+
+#: host_checks.py:96
+msgid "No polkit agent detected; fix prompts may not appear."
+msgstr "polkit aracısı algılanmadı; düzeltme istemleri görünmeyebilir."
+
+#: host_checks.py:122
+msgid "archiso is missing."
+msgstr "archiso eksik."
+
+#: host_checks.py:129
+#, python-brace-format
+msgid ""
+"archiso {installed} is too old; needs {required}+; update the {repo} clone "
+"first (row above)."
+msgstr ""
+"archiso {installed} çok eski; {required}+ gerekiyor; önce {repo} klonunu "
+"güncelleyin (önceki satır)."
+
+#: host_checks.py:133
+#, python-brace-format
+msgid ""
+"archiso {installed} is too old; needs {required}+; Fix runs a full system "
+"upgrade."
+msgstr ""
+"archiso {installed} çok eski; {required}+ gerekiyor; düzeltme tam sistem "
+"yükseltmesi yapar."
+
+#: host_checks.py:136
+#, python-brace-format
+msgid "archiso {version} installed."
+msgstr "archiso {version} kurulu."
+
+#: host_checks.py:140
+msgid "grub installed."
+msgstr "grub kurulu."
+
+#: host_checks.py:141
+msgid "grub is missing."
+msgstr "grub eksik."
+
+#: host_checks.py:146
+msgid "Chaotic-AUR keyring and mirrorlist present."
+msgstr "Chaotic-AUR anahtarlığı ve yansılar listesi mevcut."
+
+#: host_checks.py:147
+msgid "Chaotic-AUR keyring or mirrorlist is missing."
+msgstr "Chaotic-AUR anahtarlığı veya yansılar listesi eksik."
+
+#: host_checks.py:152
+msgid "CachyOS keyring and mirrorlist present."
+msgstr "CachyOS anahtarlığı ve yansılar listesi mevcut."
+
+#: host_checks.py:153
+msgid ""
+"CachyOS keyring or mirrorlist is missing (linux-cachyos is hosted there)."
+msgstr ""
+"CachyOS anahtarlığı veya yansılar listesi eksik (linux-cachyos burada)."
+
+#: host_checks.py:166
+#, python-brace-format
+msgid "{free:.0f} GB free in {path}."
+msgstr "{path} konumunda {free:.0f} GB boş alan var."
+
+#: host_checks.py:167
+#, python-brace-format
+msgid "Only {free:.0f} GB free in {path} (about 15 GB recommended)."
+msgstr ""
+"{path} konumunda yalnızca {free:.0f} GB boş alan var (yaklaşık 15 GB "
+"önerilir)."
+
+#: host_checks.py:176
+msgid "Kernel picker set to 'ask' (chosen at build time)."
+msgstr "Kernel seçicisi 'ask' olarak ayarlı (derleme sırasında seçilir)."
+
+#: host_checks.py:179
+msgid "No kernel set in build.conf."
+msgstr "build.conf içinde kernel ayarlanmamış."
+
+#: host_checks.py:181
+msgid "pacman is unavailable."
+msgstr "pacman kullanılamıyor."
+
+#: host_checks.py:194
+#, python-brace-format
+msgid ""
+"{kernels} need the [cachyos] repo; it is disabled in pacman.conf (Kiro's "
+"default). Enable it to build with this kernel."
+msgstr ""
+"{kernels} için [cachyos] deposu gerekiyor; pacman.conf içinde devre dışı "
+"(Kiro varsayılanı). Bu kernel ile derlemek için etkinleştirin."
+
+#: host_checks.py:198
+#, python-brace-format
+msgid "Kernel(s) not in synced repos: {kernels}"
+msgstr "Eşitlenmiş depolarda bulunmayan kernel(ler): {kernels}"
+
+#: host_checks.py:199
+#, python-brace-format
+msgid "Kernel(s) resolve: {kernels}"
+msgstr "Kullanılabilir kernel(ler): {kernels}"
+
+#: host_checks.py:208
+msgid "Stale build mounts under kiro-build; clean them before building."
+msgstr ""
+"kiro-build içinde eski derleme bağlama noktaları var; derlemeden önce "
+"temizleyin."
+
+#: host_checks.py:209
+msgid "No stale build mounts."
+msgstr "Eski derleme bağlama noktası yok."
+
+#: host_checks.py:218
+#, python-brace-format
+msgid "Leftover build folder {path} (owned by root); remove it."
+msgstr "Kalan derleme klasörü {path} (root'a ait); kaldırın."
+
+#: host_checks.py:220
+msgid "No leftover build folder."
+msgstr "Kalan derleme klasörü yok."
+
+#: host_checks.py:229
+#, python-brace-format
+msgid "NVIDIA GPU detected; driver set to '{driver}'."
+msgstr "NVIDIA GPU algılandı; sürücü '{driver}' olarak ayarlı."
+
+#: host_checks.py:230
+#, python-brace-format
+msgid "No NVIDIA GPU detected; driver set to '{driver}' (unused)."
+msgstr ""
+"NVIDIA GPU algılanmadı; sürücü '{driver}' olarak ayarlı (kullanılmıyor)."
+
+#: host_checks.py:236 host_checks.py:237
+msgid "Build sources"
+msgstr "Derleme kaynakları"
+
+#: host_checks.py:236
+#, python-brace-format
+msgid "{repo} (git clone)"
+msgstr "{repo} (git klonu)"
+
+#: host_checks.py:237
+#, python-brace-format
+msgid "{repo} up to date"
+msgstr "{repo} güncel"
+
+#: host_checks.py:238 host_checks.py:239 host_checks.py:240 host_checks.py:241
+#: host_checks.py:242 host_checks.py:243
+msgid "Dependencies"
+msgstr "Bağımlılıklar"
+
+#: host_checks.py:238
+msgid "polkit auth agent"
+msgstr "polkit kimlik doğrulama aracısı"
+
+#: host_checks.py:239
+msgid "archiso package"
+msgstr "archiso paketi"
+
+#: host_checks.py:240
+msgid "grub package"
+msgstr "grub paketi"
+
+#: host_checks.py:241
+msgid "Chaotic-AUR repo"
+msgstr "Chaotic-AUR deposu"
+
+#: host_checks.py:242
+msgid "CachyOS repo"
+msgstr "CachyOS deposu"
+
+#: host_checks.py:243
+msgid "Kernel package(s)"
+msgstr "Kernel paketi/paketleri"
+
+#: host_checks.py:244 host_checks.py:245 host_checks.py:246 host_checks.py:247
+#: host_checks.py:248 host_checks.py:249
+msgid "Host and workspace"
+msgstr "Ana makine ve çalışma alanı"
+
+#: host_checks.py:244
+msgid "Not running as root"
+msgstr "Root olarak çalışmıyor"
+
+#: host_checks.py:245
+msgid "Arch-based host"
+msgstr "Arch tabanlı ana makine"
+
+#: host_checks.py:246
+msgid "Free disk space"
+msgstr "Boş disk alanı"
+
+#: host_checks.py:247
+msgid "Stale build mounts"
+msgstr "Eski derleme bağlama noktaları"
+
+#: host_checks.py:248
+msgid "Leftover build folder"
+msgstr "Kalan derleme klasörü"
+
+#: host_checks.py:249
+msgid "NVIDIA driver choice"
+msgstr "NVIDIA sürücüsü seçimi"
+
+#: kiro-iso-builder.py:56
+msgid "1 · Pre-flight"
+msgstr "1 · Ön denetim"
+
+#: kiro-iso-builder.py:57
+msgid "2 · Configure"
+msgstr "2 · Yapılandır"
+
+#: kiro-iso-builder.py:58
+msgid "3 · Packages"
+msgstr "3 · Paketler"
+
+#: kiro-iso-builder.py:59
+msgid "4 · Add apps"
+msgstr "4 · Uygulama ekle"
+
+#: kiro-iso-builder.py:60
+msgid "5 · Build"
+msgstr "5 · Derle"
+
+#: kiro-iso-builder.py:61
+msgid "6 · Done"
+msgstr "6 · Tamamlandı"
+
+#: kiro-iso-builder.py:67
+msgid "Best value; almost all goes to the project"
+msgstr "En avantajlı seçenek; neredeyse tamamı projeye gider"
+
+#: kiro-iso-builder.py:68
+msgid "Buy a coffee; one-off tip"
+msgstr "Bir kahve ısmarlayın; tek seferlik bahşiş"
+
+#: kiro-iso-builder.py:69
+msgid "Membership tiers and perks"
+msgstr "Üyelik seviyeleri ve avantajlar"
+
+#: kiro-iso-builder.py:70
+msgid "Join on YouTube"
+msgstr "YouTube'da katılın"
+
+#: kiro-iso-builder.py:71
+msgid "Direct one-off tip"
+msgstr "Doğrudan tek seferlik katkı"
+
+#: kiro-iso-builder.py:80 kiro-iso-builder.py:87
+msgid "Support Kiro"
+msgstr "Kiro'yu destekleyin"
+
+#: kiro-iso-builder.py:95
+msgid ""
+"Kiro and its tools are built by one person, for the community, and kept "
+"free. If Kiro ISO Builder saves you time, a little support keeps the work "
+"going. Thank you for being here."
+msgstr ""
+"Kiro ve araçları topluluk için tek kişi tarafından geliştiriliyor ve "
+"ücretsiz kalmaya devam ediyor. Kiro ISO Builder size zaman kazandırıyorsa, "
+"küçük bir katkı bu çalışmanın sürmesine yardımcı olur. Burada olduğunuz için "
+"teşekkürler."
+
+#: kiro-iso-builder.py:114
+msgid "Close"
+msgstr "Kapat"
+
+#: kiro-iso-builder.py:134
+msgid "♥ Support"
+msgstr "♥ Destekle"
+
+#: kiro-iso-builder.py:135
+msgid "Support Kiro's development"
+msgstr "Kiro'nun geliştirilmesini destekleyin"
+
+#: kiro-iso-builder.py:168
+msgid "Quit"
+msgstr "Çık"
+
+#: kiro-iso-builder.py:193
+#, python-brace-format
+msgid "System ({language})"
+msgstr "Sistem ({language})"
+
+#: kiro-iso-builder.py:196
+msgid "Language"
+msgstr "Dil"
+
+#: kiro-iso-builder.py:198
+msgid "Saved. The app shows the new language when it starts again."
+msgstr "Kaydedildi. Uygulama yeniden başladığında yeni dili gösterir."
+
+#: kiro-iso-builder.py:200
+msgid "Restart now"
+msgstr "Şimdi yeniden başlat"
+
+#: kiro-iso-builder.py:213
+msgid "A build is running. Restart after it finishes or after you stop it."
+msgstr ""
+"Bir derleme çalışıyor. Bittiğinde veya durdurduktan sonra yeniden başlatın."
+
+#: kiro-iso-builder.py:261
+#, python-brace-format
+msgid "{step} · {edition} extras"
+msgstr "{step} · {edition} ekleri"
+
+#: packages_gui.py:42
+msgid "Choose packages"
+msgstr "Paketleri seçin"
+
+#: packages_gui.py:47
+msgid ""
+"If everything is selected, you get the packages from the default Kiro ISO."
+msgstr "Tümünü seçmek, standart Kiro ISO paketlerini sağlar."
+
+#: packages_gui.py:50
+msgid "Unselect what you do not want."
+msgstr "İstemediğiniz öğelerin işaretini kaldırın."
+
+#: packages_gui.py:53
+msgid ""
+"Packages that always ship (core or needed by your editions) are not listed; "
+"open the list below to see them."
+msgstr ""
+"Her zaman dahil edilen paketler (temel veya sürümleriniz için gerekli) "
+"listede gösterilmez; görmek için aşağıdan açın."
+
+#: packages_gui.py:61
+msgid "Show the core packages"
+msgstr "Temel paketleri göster"
+
+#: packages_gui.py:72
+msgid "Search packages…"
+msgstr "Paket ara…"
+
+#: packages_gui.py:78
+msgid "Expand all"
+msgstr "Tümünü genişlet"
+
+#: packages_gui.py:80
+msgid "Collapse all"
+msgstr "Tümünü daralt"
+
+#: packages_gui.py:99
+msgid "Save package list…"
+msgstr "Paket listesini kaydet…"
+
+#: packages_gui.py:101
+msgid "Import package list…"
+msgstr "Paket listesini içe aktar…"
+
+#: packages_gui.py:143
+msgid "No optional apps were found to choose from."
+msgstr "Seçilebilecek isteğe bağlı uygulama yok."
+
+#: packages_gui.py:149
+msgid "Show or hide the packages in this group"
+msgstr "Bu grubun paketlerini göster veya gizle"
+
+#: packages_gui.py:261
+#, python-brace-format
+msgid "Package that will ship: {shipping}/{total} ({left_out} left out)"
+msgid_plural ""
+"Packages that will ship: {shipping}/{total} ({left_out} left out)"
+msgstr[0] "Dahil edilecek paket: {shipping}/{total} ({left_out} hariç)"
+msgstr[1] "Dahil edilecek paketler: {shipping}/{total} ({left_out} hariç)"
+
+#: packages_gui.py:266
+#, python-brace-format
+msgid ""
+"{count} unticked package still ships; see the rows marked 'still ships'."
+msgid_plural ""
+"{count} unticked packages still ship; see the rows marked 'still ships'."
+msgstr[0] ""
+"İşaretini kaldırdığınız {count} paket yine de dahil edilecek; “yine de "
+"dahil” olarak işaretli satırlara bakın."
+msgstr[1] ""
+"İşaretini kaldırdığınız {count} paket yine de dahil edilecek; “yine de "
+"dahil” olarak işaretli satırlara bakın."
+
+#: packages_gui.py:276
+#, python-brace-format
+msgid "Show the package that always ships ({count})"
+msgid_plural "Show the packages that always ship ({count})"
+msgstr[0] "Her zaman dahil edilen paketi göster ({count})"
+msgstr[1] "Her zaman dahil edilen paketleri göster ({count})"
+
+#: packages_gui.py:280
+msgid "Ships with your editions:\n"
+msgstr "Sürümlerinizle dahil:\n"
+
+#: packages_gui.py:283
+msgid "Also ships because of your editions or add-ons:\n"
+msgstr "Sürümleriniz veya ekleriniz nedeniyle de dahil:\n"
+
+#: packages_gui.py:285
+msgid "Core: "
+msgstr "Temel: "
+
+#: packages_gui.py:316
+#, python-brace-format
+msgid "Still ships: {package} ({reason})"
+msgstr "Yine de dahil: {package} ({reason})"
+
+#: packages_gui.py:318
+#, python-brace-format
+msgid "Unticked, but still on the ISO: {reason}."
+msgstr "İşaretli değil ama ISO'da kalıyor: {reason}."
+
+#: packages_gui.py:348
+msgid "Save package profile"
+msgstr "Paket profilini kaydet"
+
+#: packages_gui.py:362
+#, python-brace-format
+msgid "Saved profile ({count} package excluded) → {path}"
+msgid_plural "Saved profile ({count} packages excluded) → {path}"
+msgstr[0] "Profil kaydedildi ({count} paket hariç) → {path}"
+msgstr[1] "Profil kaydedildi ({count} paket hariç) → {path}"
+
+#: packages_gui.py:368
+msgid "Import package profile"
+msgstr "Paket profilini içe aktar"
+
+#: packages_gui.py:381
+#, python-brace-format
+msgid "Imported profile; {count} package marked for exclusion."
+msgid_plural "Imported profile; {count} packages marked for exclusion."
+msgstr[0] "Profil içe aktarıldı; hariç tutulacak {count} paket işaretlendi."
+msgstr[1] "Profil içe aktarıldı; hariç tutulacak {count} paket işaretlendi."
+
+#: preflight_gui.py:31
+msgid "Pre-flight checks"
+msgstr "Ön denetimler"
+
+#: preflight_gui.py:39
+msgid "Where should Kiro build?"
+msgstr "Kiro nerede derleme yapmalı?"
+
+#: preflight_gui.py:46
+msgid "Browse…"
+msgstr "Göz at…"
+
+#: preflight_gui.py:54
+msgid ""
+"The clone, the build files (kiro-build) and the finished ISO (kiro-Out) all "
+"live in this one folder."
+msgstr ""
+"Klon, derleme dosyaları (kiro-build) ve tamamlanmış ISO (kiro-Out) bu "
+"klasördedir."
+
+#: preflight_gui.py:62
+msgid "Then confirm the host is ready and fix anything red before building."
+msgstr ""
+"Ardından ana makinenin hazır olduğunu doğrulayın ve derlemeden önce kırmızı "
+"görünen her şeyi düzeltin."
+
+#: preflight_gui.py:68
+msgid "Re-check"
+msgstr "Yeniden denetle"
+
+#: preflight_gui.py:70
+msgid "Fix all"
+msgstr "Tümünü düzelt"
+
+#: preflight_gui.py:84
+msgid "Fix log"
+msgstr "Düzeltme günlüğü"
+
+#: preflight_gui.py:92
+msgid "Continue to Configure →"
+msgstr "Yapılandırmaya devam et →"
+
+#: preflight_gui.py:107
+msgid "Running checks…"
+msgstr "Denetimler çalıştırılıyor…"
+
+#: preflight_gui.py:143
+#, python-brace-format
+msgid "Not found; will clone to {path}"
+msgstr "Bulunamadı; {path} konumuna klonlanacak"
+
+#: preflight_gui.py:147
+#, python-brace-format
+msgid "Choose where {repo} lives (or should be cloned)"
+msgstr "{repo} konumunu seçin (veya klonlanacağı yeri)"
+
+#: preflight_gui.py:163
+#, python-brace-format
+msgid "{repo} location set to {path}"
+msgstr "{repo} konumu {path} olarak ayarlandı"
+
+#: preflight_gui.py:167
+#, python-brace-format
+msgid "{path} already exists but is not a {repo} clone. Pick another folder."
+msgstr "{path} zaten var ancak {repo} klonu değil. Başka bir klasör seçin."
+
+#: preflight_gui.py:173
+#, python-brace-format
+msgid "{repo} location set to {path}; it will be cloned here."
+msgstr "{repo} konumu {path} olarak ayarlandı; buraya klonlanacak."
+
+#: preflight_gui.py:217
+msgid "Fix"
+msgstr "Düzelt"
+
+#: preflight_gui.py:294
+#, python-brace-format
+msgid "Update {repo} to the latest?"
+msgstr "{repo} en son sürüme güncellensin mi?"
+
+#: preflight_gui.py:295
+msgid ""
+"The clone has local changes from building. They will be discarded and the "
+"repo reset to the latest. Your package selection, add-ons and build.conf are "
+"kept."
+msgstr ""
+"Klon yerel derleme değişiklikleri içeriyor. Bunlar atılacak ve depo en son "
+"sürüme sıfırlanacak. Paket seçiminiz, ekleriniz ve build.conf korunacak."
+
+#: preflight_gui.py:298
+msgid "Discard & update"
+msgstr "At ve güncelle"
+
+#: po/kiro-iso-builder.desktop.in:3
+msgid "Kiro ISO Builder"
+msgstr "Kiro ISO Builder"
+
+#: po/kiro-iso-builder.desktop.in:4
+msgid "ISO Builder"
+msgstr "ISO oluşturucu"
+
+#: po/kiro-iso-builder.desktop.in:5
+msgid "Build the Kiro ISO with one-click host pre-flight fixes"
+msgstr ""
+"Ana makinedeki ön denetim sorunlarını tek tıklamayla düzelterek Kiro ISO'su "
+"oluşturun"
+
+#: po/kiro-iso-builder.desktop.in:10
+msgid "kiro;iso;archiso;build;"
+msgstr "kiro;iso;archiso;build;install;linux;derle;kur;"

@@ -16,6 +16,7 @@ import functions as fn
 
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gio, GLib, Gtk  # noqa: E402
+from kib_i18n import _, ngettext  # noqa: E402
 
 
 class PackagesScreen:
@@ -38,26 +39,26 @@ class PackagesScreen:
         for m in ("set_margin_top", "set_margin_bottom", "set_margin_start", "set_margin_end"):
             getattr(self.widget, m)(18)
 
-        title = Gtk.Label(label="Choose packages", xalign=0)
+        title = Gtk.Label(label=_("Choose packages"), xalign=0)
         title.add_css_class("screen-title")
         self.widget.append(title)
         subbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
         sub1 = Gtk.Label(
-            label="If everything is selected you get the packages from the default Kiro ISO.",
+            label=_("If everything is selected, you get the packages from the default Kiro ISO."),
             xalign=0, wrap=True, max_width_chars=86)
         sub2 = Gtk.Label(
-            label="Unselect what you do not want.",
+            label=_("Unselect what you do not want."),
             xalign=0, wrap=True, max_width_chars=86)
         sub3 = Gtk.Label(
-            label="Packages that always ship (core, or needed by your editions) are not listed — "
-                  "open the list below to see them.",
+            label=_("Packages that always ship (core or needed by your editions) are not listed; "
+                    "open the list below to see them."),
             xalign=0, wrap=True, max_width_chars=70)
         for s in (sub1, sub2, sub3):
             s.add_css_class("att-orange")
             subbox.append(s)
         self.widget.append(subbox)
 
-        self.core_expander = Gtk.Expander(label="Show the core packages")
+        self.core_expander = Gtk.Expander(label=_("Show the core packages"))
         self.core_label = Gtk.Label(xalign=0, wrap=True, selectable=True, max_width_chars=110)
         self.core_label.add_css_class("dim-label")
         # Scrolls on its own, so opening ~300 names never pushes the window past the screen.
@@ -68,15 +69,15 @@ class PackagesScreen:
         self.widget.append(self.core_expander)
 
         toolbar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
-        self.search = Gtk.SearchEntry(hexpand=True, placeholder_text="Search packages…")
+        self.search = Gtk.SearchEntry(hexpand=True, placeholder_text=_("Search packages…"))
         self.search.connect("search-changed", lambda e: self._apply_filter(e.get_text()))
-        all_btn = Gtk.Button(label="Select all")
+        all_btn = Gtk.Button(label=_("Select all"))
         all_btn.connect("clicked", lambda _w: self._set_all(True))
-        none_btn = Gtk.Button(label="Deselect all")
+        none_btn = Gtk.Button(label=_("Deselect all"))
         none_btn.connect("clicked", lambda _w: self._set_all(False))
-        expand_btn = Gtk.Button(label="Expand all")
+        expand_btn = Gtk.Button(label=_("Expand all"))
         expand_btn.connect("clicked", lambda _w: self._set_expanded_all(True))
-        collapse_btn = Gtk.Button(label="Collapse all")
+        collapse_btn = Gtk.Button(label=_("Collapse all"))
         collapse_btn.connect("clicked", lambda _w: self._set_expanded_all(False))
         toolbar.append(self.search)
         toolbar.append(expand_btn)
@@ -95,18 +96,18 @@ class PackagesScreen:
         self.widget.append(self.status)
 
         profile = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
-        save_prof = Gtk.Button(label="Save package list…")
+        save_prof = Gtk.Button(label=_("Save package list…"))
         save_prof.connect("clicked", lambda _w: self._save_profile())
-        import_prof = Gtk.Button(label="Import package list…")
+        import_prof = Gtk.Button(label=_("Import package list…"))
         import_prof.connect("clicked", lambda _w: self._import_profile())
         profile.append(save_prof)
         profile.append(import_prof)
         self.widget.append(profile)
 
         nav = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8, halign=Gtk.Align.END)
-        back = Gtk.Button(label="← Back")
+        back = Gtk.Button(label=_("← Back"))
         back.connect("clicked", lambda _w: self.window.navigate("configure"))
-        save = Gtk.Button(label="Save & Continue →")
+        save = Gtk.Button(label=_("Save & Continue →"))
         save.add_css_class("suggested-action")
         save.connect("clicked", lambda _w: self._save())
         nav.append(back)
@@ -127,7 +128,7 @@ class PackagesScreen:
         self._hidden, self._pkg_of, self._count_of = {}, {}, {}
 
         if fn.packages_file() is None:
-            self.status.set_text("packages.x86_64 not found — fix the clone on the Pre-flight screen.")
+            self.status.set_text(_("packages.x86_64 not found; fix the clone on the Pre-flight screen."))
             self.widget.set_sensitive(False)
             return
         self.widget.set_sensitive(True)
@@ -139,13 +140,13 @@ class PackagesScreen:
         categories = fn.package_rows(self._editions())
         excluded = fn.read_excludes()
         if not categories:
-            self.status.set_text("No optional apps were found to choose from.")
+            self.status.set_text(_("No optional apps were found to choose from."))
             return
 
         total = 0
         for category, pkgs in categories:
             header = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4, margin_top=10)
-            arrow = Gtk.Button(has_frame=False, tooltip_text="Show or hide the packages in this group")
+            arrow = Gtk.Button(has_frame=False, tooltip_text=_("Show or hide the packages in this group"))
             arrow.connect("clicked", self._on_arrow_clicked, category)
             cat_check = Gtk.CheckButton(label=category)
             cat_check.add_css_class("row-title")
@@ -256,24 +257,32 @@ class PackagesScreen:
         rows = [row for pkg, row in self.checks if pkg not in self._hidden]
         total = len(rows)
         shipping = sum(1 for row in rows if row.get_active())
-        text = f"Packages that will ship: {shipping}/{total}  ({total - shipping} left out)"
+        text = ngettext(
+            "Package that will ship: {shipping}/{total} ({left_out} left out)",
+            "Packages that will ship: {shipping}/{total} ({left_out} left out)",
+            total).format(shipping=shipping, total=total, left_out=total - shipping)
         if self._kept:
-            text += f" — {len(self._kept)} unticked still ship, see the rows marked 'still ships'"
+            text += " " + ngettext(
+                "{count} unticked package still ships; see the rows marked 'still ships'.",
+                "{count} unticked packages still ship; see the rows marked 'still ships'.",
+                len(self._kept)).format(count=len(self._kept))
         self.status.set_text(text)
 
     def _show_always_list(self):
         # Edition and dependency parts first: they are short and say why; the ~300 core names go last.
         fixed = {p for pkgs in self._edition_fixed.values() for p in pkgs}
         n = len(set(self._core) | fixed | set(self._hidden))
-        self.core_expander.set_label(f"Show the packages that always ship ({n})")
+        self.core_expander.set_label(ngettext(
+            "Show the package that always ships ({count})",
+            "Show the packages that always ship ({count})", n).format(count=n))
         parts = []
         if self._edition_fixed:
-            parts.append("Ships with your editions:\n" + "\n".join(
+            parts.append(_("Ships with your editions:\n") + "\n".join(
                 f"{ed}: {', '.join(pkgs)}" for ed, pkgs in sorted(self._edition_fixed.items())))
         if self._hidden:
-            parts.append("Also ships because of your editions or add-ons:\n" + "\n".join(
+            parts.append(_("Also ships because of your editions or add-ons:\n") + "\n".join(
                 f"{pkg} — {reason}" for pkg, reason in sorted(self._hidden.items())))
-        parts.append("Core: " + ", ".join(self._core))
+        parts.append(_("Core: ") + ", ".join(self._core))
         self.core_label.set_text("\n\n".join(parts))
 
     # ── unticked packages that come back anyway ─────────────────────
@@ -304,9 +313,9 @@ class PackagesScreen:
                       if p not in self._hidden}
         for pkg, row in self.checks:
             reason = self._kept.get(pkg)
-            row.set_label(f"{pkg}   — still ships: {reason}" if reason else pkg)
+            row.set_label(_("Still ships: {package} ({reason})").format(package=pkg, reason=reason) if reason else pkg)
             row.set_tooltip_text(
-                f"Unticked, but still on the ISO: {reason}." if reason else None)
+                _("Unticked, but still on the ISO: {reason}.").format(reason=reason) if reason else None)
 
     def _excludes(self):
         # Keep exclusions for rows not shown now (an edition unticked on Configure), so
@@ -336,7 +345,7 @@ class PackagesScreen:
 
     def _save_profile(self):
         dialog = Gtk.FileDialog()
-        dialog.set_title("Save package profile")
+        dialog.set_title(_("Save package profile"))
         dialog.set_initial_name("kiro-packages.txt")
         dialog.set_initial_folder(Gio.File.new_for_path(str(fn.profiles_dir())))
         dialog.save(self.window, None, self._on_save_ready)
@@ -349,11 +358,14 @@ class PackagesScreen:
         if gfile:
             excludes = self._excludes()
             fn.write_exclude_file(gfile.get_path(), excludes)
-            self.status.set_text(f"Saved profile ({len(excludes)} excluded) → {gfile.get_path()}")
+            self.status.set_text(ngettext(
+                "Saved profile ({count} package excluded) → {path}",
+                "Saved profile ({count} packages excluded) → {path}",
+                len(excludes)).format(count=len(excludes), path=gfile.get_path()))
 
     def _import_profile(self):
         dialog = Gtk.FileDialog()
-        dialog.set_title("Import package profile")
+        dialog.set_title(_("Import package profile"))
         dialog.set_initial_folder(Gio.File.new_for_path(str(fn.profiles_dir())))
         dialog.open(self.window, None, self._on_open_ready)
 
@@ -365,5 +377,7 @@ class PackagesScreen:
         if gfile:
             excludes = fn.read_exclude_file(gfile.get_path())
             self._apply_excludes(excludes)
-            self.status.set_text(
-                f"Imported profile — {len(excludes)} package(s) marked for exclusion.")
+            self.status.set_text(ngettext(
+                "Imported profile; {count} package marked for exclusion.",
+                "Imported profile; {count} packages marked for exclusion.",
+                len(excludes)).format(count=len(excludes)))

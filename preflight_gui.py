@@ -9,6 +9,7 @@ import host_checks as hc
 
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gio, GLib, Gtk  # noqa: E402
+from kib_i18n import _  # noqa: E402
 
 _ICON = {hc.OK: "emblem-ok-symbolic",
          hc.WARN: "dialog-warning-symbolic",
@@ -27,7 +28,7 @@ class PreflightScreen:
         self.widget.set_margin_start(18)
         self.widget.set_margin_end(18)
 
-        title = Gtk.Label(label="Pre-flight checks", xalign=0)
+        title = Gtk.Label(label=_("Pre-flight checks"), xalign=0)
         title.add_css_class("screen-title")
         self.widget.append(title)
 
@@ -35,14 +36,14 @@ class PreflightScreen:
         # clone, the build files and the finished ISO.
         folder_card = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         folder_card.add_css_class("card")
-        folder_heading = Gtk.Label(label="Where should Kiro build?", xalign=0)
+        folder_heading = Gtk.Label(label=_("Where should Kiro build?"), xalign=0)
         folder_heading.add_css_class("row-title")
         folder_card.append(folder_heading)
 
         folder_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         self.repo_label = Gtk.Label(xalign=0, hexpand=True, wrap=True, selectable=True)
         self.repo_label.add_css_class("dim-label")
-        browse_btn = Gtk.Button(label="Browse…")
+        browse_btn = Gtk.Button(label=_("Browse…"))
         browse_btn.set_valign(Gtk.Align.CENTER)
         browse_btn.connect("clicked", lambda _w: self._browse_repo())
         folder_row.append(self.repo_label)
@@ -50,23 +51,23 @@ class PreflightScreen:
         folder_card.append(folder_row)
 
         folder_help = Gtk.Label(
-            label="The clone, the build files (kiro-build) and the finished ISO (kiro-Out) "
-                  "all live in this one folder.",
+            label=_("The clone, the build files (kiro-build) and the finished ISO (kiro-Out) "
+                    "all live in this one folder."),
             xalign=0, wrap=True, max_width_chars=70)
         folder_help.add_css_class("dim-label")
         folder_card.append(folder_help)
         self.widget.append(folder_card)
 
         subtitle = Gtk.Label(
-            label="Then confirm the host is ready and fix anything red before building.",
+            label=_("Then confirm the host is ready and fix anything red before building."),
             xalign=0, wrap=True, max_width_chars=70)
         subtitle.add_css_class("dim-label")
         self.widget.append(subtitle)
 
         toolbar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
-        self.recheck_btn = Gtk.Button(label="Re-check")
+        self.recheck_btn = Gtk.Button(label=_("Re-check"))
         self.recheck_btn.connect("clicked", lambda _w: self.refresh())
-        self.fixall_btn = Gtk.Button(label="Fix all")
+        self.fixall_btn = Gtk.Button(label=_("Fix all"))
         self.fixall_btn.add_css_class("suggested-action")
         self.fixall_btn.connect("clicked", lambda _w: self._fix_all())
         toolbar.append(self.recheck_btn)
@@ -80,7 +81,7 @@ class PreflightScreen:
         scroller.set_child(self.listbox)
         self.widget.append(scroller)
 
-        log_exp = Gtk.Expander(label="Fix log")
+        log_exp = Gtk.Expander(label=_("Fix log"))
         self.log_view = Gtk.TextView(editable=False, monospace=True, cursor_visible=False)
         self.log_buf = self.log_view.get_buffer()
         log_scroll = Gtk.ScrolledWindow(min_content_height=140)
@@ -88,7 +89,7 @@ class PreflightScreen:
         log_exp.set_child(log_scroll)
         self.widget.append(log_exp)
 
-        self.continue_btn = Gtk.Button(label="Continue to Configure →")
+        self.continue_btn = Gtk.Button(label=_("Continue to Configure →"))
         self.continue_btn.add_css_class("suggested-action")
         self.continue_btn.set_halign(Gtk.Align.END)
         self.continue_btn.connect("clicked", lambda _w: self.window.navigate("configure"))
@@ -103,7 +104,7 @@ class PreflightScreen:
     # ── checks ──────────────────────────────────────────────────────
     def refresh(self):
         self.recheck_btn.set_sensitive(False)
-        self._log("Running checks…")
+        self._log(_("Running checks…"))
 
         def worker():
             # Re-discover the clone first so a folder deleted on disk since the
@@ -139,11 +140,11 @@ class PreflightScreen:
             self.repo_label.set_text(str(fn.BUILD_SCRIPTS.parent))
         else:
             target = fn.saved_repo_path() or fn.default_repo_dir()
-            self.repo_label.set_text(f"not found — will clone to {target}")
+            self.repo_label.set_text(_("Not found; will clone to {path}").format(path=target))
 
     def _browse_repo(self):
         dialog = Gtk.FileDialog()
-        dialog.set_title(f"Choose where {fn.REPO_NAME} lives (or should be cloned)")
+        dialog.set_title(_("Choose where {repo} lives (or should be cloned)").format(repo=fn.REPO_NAME))
         start = fn.saved_repo_path() or fn.default_repo_dir()
         parent = start.parent if not start.is_dir() else start
         dialog.set_initial_folder(Gio.File.new_for_path(str(parent)))
@@ -159,16 +160,18 @@ class PreflightScreen:
         target = fn.resolve_repo_dir(gfile.get_path())
         # Already a clone at the chosen spot → just point the app there.
         if (target / "build-scripts" / "build-the-iso.sh").is_file():
-            self._set_repo_location(target, f"{fn.REPO_NAME} location set to {target}")
+            self._set_repo_location(target, _("{repo} location set to {path}").format(
+                repo=fn.REPO_NAME, path=target))
             return
         if target.exists():
-            self._log(f"[error] {target} already exists but isn't a {fn.REPO_NAME} clone — "
-                      "pick another folder.")
+            self._log(_("{path} already exists but is not a {repo} clone. Pick another folder.").format(
+                path=target, repo=fn.REPO_NAME))
             return
         # Never move an existing repo — it may be a source checkout (on the dev
         # box, a Kiro-HQ folder). Just point the app at the chosen target;
         # Pre-flight clones a fresh copy there if one isn't already present.
-        self._set_repo_location(target, f"{fn.REPO_NAME} location set to {target} (will clone here).")
+        self._set_repo_location(target, _("{repo} location set to {path}; it will be cloned here.").format(
+            repo=fn.REPO_NAME, path=target))
 
     def _set_repo_location(self, repo, msg):
         fn.save_repo_path(repo)
@@ -180,7 +183,7 @@ class PreflightScreen:
         row = Gtk.ListBoxRow()
         row.set_selectable(False)
         row.set_activatable(False)
-        label = Gtk.Label(label=text, xalign=0)
+        label = Gtk.Label(label=_(text), xalign=0)
         label.add_css_class("section-header")
         label.set_margin_top(12)
         label.set_margin_bottom(4)
@@ -211,7 +214,7 @@ class PreflightScreen:
         box.append(text)
 
         if r["fix"]:
-            btn = Gtk.Button(label="Fix")
+            btn = Gtk.Button(label=_("Fix"))
             btn.set_valign(Gtk.Align.CENTER)
             btn.connect("clicked", lambda _w, key=r["key"]: self._fix_one(key))
             box.append(btn)
@@ -288,11 +291,11 @@ class PreflightScreen:
         # Dirty tree (build byproducts) — confirm a reset that keeps the user's data.
         dlg = Gtk.AlertDialog()
         dlg.set_modal(True)
-        dlg.set_message(f"Update {fn.REPO_NAME} to the latest?")
-        dlg.set_detail("The clone has local changes from building. They'll be discarded and "
-                       "the repo reset to the latest. Your package selection, add-ons and "
-                       "build.conf are kept.")
-        dlg.set_buttons(["Cancel", "Discard & update"])
+        dlg.set_message(_("Update {repo} to the latest?").format(repo=fn.REPO_NAME))
+        dlg.set_detail(_("The clone has local changes from building. They will be discarded and "
+                         "the repo reset to the latest. Your package selection, add-ons and "
+                         "build.conf are kept."))
+        dlg.set_buttons([_("Cancel"), _("Discard & update")])
         dlg.set_default_button(1)
         dlg.set_cancel_button(0)
         dlg.choose(self.window, None, lambda d, r: self._on_update_confirmed(d, r, repo, done))
@@ -324,11 +327,12 @@ class PreflightScreen:
         size_txt = f"  (~{size})" if size else ""
         dlg = Gtk.AlertDialog()
         dlg.set_modal(True)
-        dlg.set_message("Remove the leftover build folder?")
-        dlg.set_detail(f"{fn.build_folder()}{size_txt}\n\nIt's root-owned (mkarchiso ran as root), "
-                       "so you can't delete it from your file manager. Keeping it is fine — the "
-                       "next build reuses this location.")
-        dlg.set_buttons(["Keep", "Remove"])
+        dlg.set_message(_("Remove the leftover build folder?"))
+        dlg.set_detail(_("{path}{size}\n\nIt is owned by root (mkarchiso ran as root), "
+                         "so you cannot delete it from your file manager. Keeping it is fine; "
+                         "the next build reuses this location.").format(
+                             path=fn.build_folder(), size=size_txt))
+        dlg.set_buttons([_("Keep"), _("Remove")])
         dlg.set_default_button(0)   # safe default = Keep
         dlg.set_cancel_button(0)
         dlg.choose(self.window, None, lambda d, r: self._on_remove_build_confirmed(d, r, done))

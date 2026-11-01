@@ -1,0 +1,1317 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kiro-iso-builder\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-01 06:40+0100\n"
+"PO-Revision-Date: 2026-11-01 06:14+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: Kiro translations\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: build_gui.py:37
+msgid "Build the ISO"
+msgstr "Bouw de ISO"
+
+#: build_gui.py:41
+msgid ""
+"Runs build-the-iso.sh as your user. You will be asked for your password "
+"once; if the build prompts (for example, pacman's [Y/n]), type your reply in "
+"the box below."
+msgstr ""
+"Voert build-the-iso.sh uit onder je gebruikersaccount. Je wordt één keer om "
+"je wachtwoord gevraagd; als de build om invoer vraagt (bijvoorbeeld bij "
+"pacman's [Y/n]), typ je antwoord dan in het vak hieronder."
+
+#: build_gui.py:60
+msgid "Start build"
+msgstr "Build starten"
+
+#: build_gui.py:63
+msgid "Stop"
+msgstr "Stoppen"
+
+#: build_gui.py:67 build_gui.py:162
+msgid "Show summary"
+msgstr "Samenvatting tonen"
+
+#: build_gui.py:68
+msgid ""
+"Open a page in your browser listing what this build removes, keeps and pulls "
+"in, and why"
+msgstr ""
+"Open een pagina in je browser waarop staat wat deze build verwijdert, "
+"behoudt en toevoegt, en waarom."
+
+#: build_gui.py:76
+msgid "Idle"
+msgstr "Inactief"
+
+#: build_gui.py:95
+msgid "Reply to a build prompt (for example, y) and press Enter"
+msgstr "Beantwoord een buildvraag (bijvoorbeeld y) en druk op Enter"
+
+#: build_gui.py:97
+msgid "Send"
+msgstr "Verzenden"
+
+#: build_gui.py:104 configure_gui.py:199 extras_gui.py:88 packages_gui.py:108
+msgid "← Back"
+msgstr "← Terug"
+
+#: build_gui.py:113 configure_gui.py:466
+#, python-brace-format
+msgid "{repo} clone not found; fix it on the Pre-flight screen."
+msgstr ""
+"De {repo}-kloon niet gevonden; los dit op via het scherm Voorbereiding."
+
+#: build_gui.py:120
+msgid "Work dir:"
+msgstr "Werkmap:"
+
+#: build_gui.py:121
+msgid "ISO output:"
+msgstr "ISO-uitvoer:"
+
+#: build_gui.py:123
+msgid "Output location unknown; set the clone path on the Pre-flight screen."
+msgstr ""
+"Uitvoerlocatie onbekend; stel het pad van de kloon in op het scherm "
+"Voorbereiding."
+
+#: build_gui.py:138
+msgid "Unticked but still on the ISO:\n"
+msgstr "Niet aangevinkt, maar staat nog steeds op de ISO:\n"
+
+#: build_gui.py:147
+msgid "Preparing…"
+msgstr "Voorbereiden…"
+
+#: build_gui.py:154
+#, python-brace-format
+msgid "Summary opened: {path}"
+msgstr "Samenvatting geopend: {path}"
+
+#: build_gui.py:156
+#, python-brace-format
+msgid "Could not build the summary page: {error}"
+msgstr "Kan de samenvattingspagina niet maken: {error}"
+
+#: build_gui.py:177
+#, python-brace-format
+msgid "Summary saved: {path}"
+msgstr "Samenvatting opgeslagen: {path}"
+
+#: build_gui.py:179
+#, python-brace-format
+msgid "Could not save the summary page: {error}"
+msgstr "Kan de samenvattingspagina niet opslaan: {error}"
+
+#: build_gui.py:199
+msgid "Starting…"
+msgstr "Starten…"
+
+#: build_gui.py:200
+msgid "── Starting build ──"
+msgstr "── Build starten ──"
+
+#: build_gui.py:245
+#, python-brace-format
+msgid "Phase {current} / {total}"
+msgstr "Fase {current} / {total}"
+
+#: build_gui.py:256
+msgid "Done"
+msgstr "Klaar"
+
+#: build_gui.py:257
+msgid "── Build finished ──"
+msgstr "── Build voltooid ──"
+
+#: build_gui.py:266
+#, python-brace-format
+msgid "Stopped (exit {code})"
+msgstr "Gestopt (afsluitcode {code})"
+
+#: build_gui.py:267
+#, python-brace-format
+msgid "── Build stopped (exit {code}) ──"
+msgstr "── Build gestopt (afsluitcode {code}) ──"
+
+#: build_gui.py:269
+#, python-brace-format
+msgid "Failed (exit {code})"
+msgstr "Mislukt (afsluitcode {code})"
+
+#: build_gui.py:270
+#, python-brace-format
+msgid "── Build failed (exit {code}) ──"
+msgstr "── Build mislukt (afsluitcode {code}) ──"
+
+#: build_gui.py:273
+msgid "Cleaning up mounts…"
+msgstr "Aankoppelingen opruimen…"
+
+#: build_gui.py:274
+msgid "── Stale build mounts found; cleaning up ──"
+msgstr "── Verouderde aankoppelingen van de build gevonden; opruimen ──"
+
+#: build_gui.py:280
+msgid "── Mount cleanup complete ──"
+msgstr "── Opruimen van aankoppelingen voltooid ──"
+
+#: build_gui.py:281
+#, python-brace-format
+msgid "── Mount cleanup exited with code {code} ──"
+msgstr "── Opruimen van aankoppelingen beëindigd met code {code} ──"
+
+#: build_gui.py:282
+msgid "Cleaned up"
+msgstr "Opgeruimd"
+
+#: build_gui.py:282
+#, python-brace-format
+msgid "Cleanup failed (exit {code})"
+msgstr "Opruimen van aankoppelingen mislukt (afsluitcode {code})"
+
+#: build_gui.py:298 preflight_gui.py:330
+msgid "Remove the leftover build folder?"
+msgstr "De overgebleven buildmap verwijderen?"
+
+#: build_gui.py:299 preflight_gui.py:331
+#, python-brace-format
+msgid ""
+"{path}{size}\n"
+"\n"
+"It is owned by root (mkarchiso ran as root), so you cannot delete it from "
+"your file manager. Keeping it is fine; the next build reuses this location."
+msgstr ""
+"{path}{size}\\n\\nDeze map is van root (mkarchiso is als root uitgevoerd), "
+"dus je kunt hem niet verwijderen via je bestandsbeheerder. Bewaren is prima; "
+"de volgende build gebruikt deze locatie opnieuw."
+
+#: build_gui.py:302 preflight_gui.py:335
+msgid "Keep"
+msgstr "Behouden"
+
+#: build_gui.py:302 preflight_gui.py:335
+msgid "Remove"
+msgstr "Verwijderen"
+
+#: build_gui.py:316
+msgid "Removing build folder…"
+msgstr "Buildmap verwijderen…"
+
+#: build_gui.py:317
+msgid "── Removing build folder (with your approval) ──"
+msgstr "── Buildmap verwijderen (na je toestemming) ──"
+
+#: build_gui.py:321
+msgid "── Build folder removed ──"
+msgstr "── Buildmap verwijderd ──"
+
+#: build_gui.py:322
+#, python-brace-format
+msgid "── Removing build folder failed (exit {code}) ──"
+msgstr "── Verwijderen van buildmap mislukt (afsluitcode {code}) ──"
+
+#: build_gui.py:323
+#, python-brace-format
+msgid "Remove failed (exit {code})"
+msgstr "Verwijderen mislukt (afsluitcode {code})"
+
+#: build_gui.py:323
+msgid "Removed"
+msgstr "Verwijderd"
+
+#: build_gui.py:335
+#, python-brace-format
+msgid "Could not open build log: {error}"
+msgstr "Kan buildlog niet openen: {error}"
+
+#: configure_gui.py:24
+msgid "All"
+msgstr "Alle"
+
+#: configure_gui.py:24
+msgid "CachyOS"
+msgstr "CachyOS"
+
+#: configure_gui.py:24
+msgid "Chaotic"
+msgstr "Chaotic"
+
+#: configure_gui.py:24
+msgid "Official Arch"
+msgstr "Officiële Arch"
+
+#: configure_gui.py:66
+msgid "Configure the build"
+msgstr "Build configureren"
+
+#: configure_gui.py:69
+msgid "These write straight to build.conf; the CLI uses the same file."
+msgstr ""
+"Deze instellingen worden rechtstreeks naar build.conf geschreven; de CLI "
+"gebruikt hetzelfde bestand."
+
+#: configure_gui.py:78
+msgid "NVIDIA driver"
+msgstr "NVIDIA-stuurprogramma"
+
+#: configure_gui.py:80
+msgid ""
+"AMD / Intel / a VM (no NVIDIA card)? Pick 'none': no NVIDIA driver is baked "
+"in, and at boot choose the first entry, 'open source: AMD / Intel', which "
+"blacklists NVIDIA. The other options bake that NVIDIA driver set."
+msgstr ""
+"AMD / Intel / een VM (geen NVIDIA-kaart)? Kies 'none': er wordt geen NVIDIA-"
+"driver in de ISO opgenomen. Kies bij het opstarten de eerste optie, 'open "
+"source: AMD / Intel', die NVIDIA blokkeert. De andere opties nemen de "
+"bijbehorende NVIDIA-driver mee."
+
+#: configure_gui.py:92
+msgid "Kernel source"
+msgstr "Kernelbron"
+
+#: configure_gui.py:100
+msgid "First kernel (boots the live ISO)"
+msgstr "Eerste kernel (start de live-ISO op)"
+
+#: configure_gui.py:101
+msgid "Second kernel (optional)"
+msgstr "Tweede kernel (optioneel)"
+
+#: configure_gui.py:104
+msgid "Refresh kernels"
+msgstr "Kernels vernieuwen"
+
+#: configure_gui.py:112
+msgid ""
+"The list includes every kernel offered by the repos that has matching "
+"-headers (those headers are installed automatically for DKMS drivers). "
+"Filter by source above, and type in a dropdown to search."
+msgstr ""
+"De lijst bevat elke kernel die de pakketbronnen aanbieden en waarvoor "
+"passende -headers bestaan (die headers worden automatisch geïnstalleerd voor "
+"DKMS-stuurprogramma's). Filter hierboven op bron en typ in een keuzelijst om "
+"te zoeken."
+
+#: configure_gui.py:122
+msgid "Enable CachyOS repo"
+msgstr "CachyOS-pakketbron inschakelen"
+
+#: configure_gui.py:132
+msgid "Editions (desktops and window managers)"
+msgstr "Edities (desktopomgevingen en windowmanagers)"
+
+#: configure_gui.py:137
+msgid "Desktops"
+msgstr "Desktopomgevingen"
+
+#: configure_gui.py:142
+msgid "Window managers"
+msgstr "Windowmanagers"
+
+#: configure_gui.py:149
+msgid ""
+"Tick what you want; each becomes a session you can pick at the SDDM login "
+"screen. Tick at least one."
+msgstr ""
+"Vink aan wat je wilt; elke editie wordt een sessie die je kunt kiezen op het "
+"SDDM-aanmeldscherm. Vink er minstens één aan."
+
+#: configure_gui.py:162
+msgid "Default session (boots first)"
+msgstr "Standaardsessie (start als eerste)"
+
+#: configure_gui.py:164
+msgid "Which ticked edition the live ISO logs into first."
+msgstr "Welke aangevinkte editie de live-ISO als eerste start."
+
+#: configure_gui.py:169
+msgid "Advanced"
+msgstr "Geavanceerd"
+
+#: configure_gui.py:172
+msgid "Bump version before building"
+msgstr "Versie verhogen vóór het bouwen"
+
+#: configure_gui.py:174
+msgid "Clean pacman cache"
+msgstr "pacman-cache opschonen"
+
+#: configure_gui.py:176
+msgid "Remove build folder after build"
+msgstr "Buildmap verwijderen na het bouwen"
+
+#: configure_gui.py:192
+msgid "Reset to defaults"
+msgstr "Standaardwaarden herstellen"
+
+#: configure_gui.py:195
+msgid "Import build profile…"
+msgstr "Buildprofiel importeren…"
+
+#: configure_gui.py:201 extras_gui.py:90 packages_gui.py:110
+msgid "Save & Continue →"
+msgstr "Opslaan en doorgaan →"
+
+#: configure_gui.py:218
+msgid "build.conf not found; fix the clone on the Pre-flight screen."
+msgstr "build.conf niet gevonden; herstel de kloon op het scherm Voorbereiding."
+
+#: configure_gui.py:341
+msgid "Reset to defaults; click Save & Continue to apply."
+msgstr "Standaardwaarden hersteld; klik op Opslaan en doorgaan om ze toe te passen."
+
+#: configure_gui.py:346
+msgid "Detecting…"
+msgstr "Detecteren…"
+
+#: configure_gui.py:359
+msgid "None found; sync repos first. Keeping the built-in list."
+msgstr ""
+"Niets gevonden; synchroniseer eerst de pakketbronnen. De ingebouwde lijst "
+"blijft behouden."
+
+#: configure_gui.py:363
+#, python-brace-format
+msgid "Found {count} kernel."
+msgid_plural "Found {count} kernels."
+msgstr[0] "{count} kernel gevonden."
+msgstr[1] "{count} kernels gevonden."
+
+#: configure_gui.py:373
+msgid ""
+"CachyOS repo is disabled (Kiro's default); enable it to add the CachyOS-only "
+"kernels (eevdf, hardened, server, …)."
+msgstr ""
+"De CachyOS-pakketbron is uitgeschakeld (de standaard van Kiro); schakel deze "
+"in om de alleen door CachyOS aangeboden kernels toe te voegen (eevdf, "
+"hardened, server, …)."
+
+#: configure_gui.py:378
+msgid "Enabling CachyOS repo…"
+msgstr "CachyOS-pakketbron inschakelen…"
+
+#: configure_gui.py:388
+msgid "CachyOS repo enabled; refreshing kernels…"
+msgstr "CachyOS-pakketbron ingeschakeld; kernels vernieuwen…"
+
+#: configure_gui.py:391
+#, python-brace-format
+msgid "Enabling CachyOS failed (exit {code})."
+msgstr "Inschakelen van de CachyOS-pakketbron mislukt (afsluitcode {code})."
+
+#: configure_gui.py:447
+msgid "Tick at least one desktop or window manager; an ISO needs a session."
+msgstr ""
+"Vink minstens één desktopomgeving of windowmanager aan; een ISO heeft een "
+"sessie nodig."
+
+#: configure_gui.py:470
+msgid "Import build profile"
+msgstr "Buildprofiel importeren"
+
+#: configure_gui.py:473
+msgid "Kiro build profiles"
+msgstr "Kiro-buildprofielen"
+
+#: configure_gui.py:493
+#, python-brace-format
+msgid ""
+"Imported profile; {count} package to remove. Review the settings, then click "
+"Save & Continue."
+msgid_plural ""
+"Imported profile; {count} packages to remove. Review the settings, then "
+"click Save & Continue."
+msgstr[0] ""
+"Profiel geïmporteerd; {count} pakket wordt verwijderd. Controleer de "
+"instellingen en klik daarna op Opslaan en doorgaan."
+msgstr[1] ""
+"Profiel geïmporteerd; {count} pakketten worden verwijderd. Controleer de "
+"instellingen en klik daarna op Opslaan en doorgaan."
+
+#: done_gui.py:82
+msgid "Build complete"
+msgstr "Build voltooid"
+
+#: done_gui.py:98
+msgid "Open output folder"
+msgstr "Uitvoermap openen"
+
+#: done_gui.py:100
+msgid "Test in VirtualBox"
+msgstr "Testen in VirtualBox"
+
+#: done_gui.py:102
+msgid "Install VirtualBox"
+msgstr "VirtualBox installeren"
+
+#: done_gui.py:104
+msgid "Test in QEMU"
+msgstr "Testen in QEMU"
+
+#: done_gui.py:106
+msgid "Install QEMU"
+msgstr "QEMU installeren"
+
+#: done_gui.py:108
+msgid "Burn to USB"
+msgstr "Naar USB schrijven"
+
+#: done_gui.py:110
+msgid "Install USB writer"
+msgstr "USB-schrijver installeren"
+
+#: done_gui.py:112
+msgid "Open build log"
+msgstr "Buildlog openen"
+
+#: done_gui.py:114
+msgid "Save build profile…"
+msgstr "Buildprofiel opslaan…"
+
+#: done_gui.py:116
+msgid "Build again"
+msgstr "Opnieuw bouwen"
+
+#: done_gui.py:131
+msgid ""
+"Note: the test VM only boots the ISO once to check the installer; it cannot "
+"reboot into an installed system. Test a real install on hardware."
+msgstr ""
+"Let op: de test-VM start de ISO slechts één keer om het installatieprogramma "
+"te controleren; je kunt de VM niet opnieuw opstarten om een geïnstalleerd "
+"systeem te starten. Test een echte installatie op hardware."
+
+#: done_gui.py:141
+msgid "Output folder not found yet."
+msgstr "Uitvoermap nog niet gevonden."
+
+#: done_gui.py:146
+#, python-brace-format
+msgid "No ISO found in {path}"
+msgstr "Geen ISO gevonden in {path}"
+
+#: done_gui.py:193
+msgid "VirtualBox (VBoxManage) not installed."
+msgstr "VirtualBox (VBoxManage) is niet geïnstalleerd."
+
+#: done_gui.py:196
+msgid "Creating a VirtualBox VM (UEFI + 50 GB disk) and booting the ISO…"
+msgstr "Een VirtualBox-VM maken (UEFI + schijf van 50 GB) en de ISO opstarten…"
+
+#: done_gui.py:223
+msgid "VirtualBox VM started."
+msgstr "VirtualBox-VM gestart."
+
+#: done_gui.py:224
+#, python-brace-format
+msgid "VirtualBox launch failed (exit {code})."
+msgstr "VirtualBox starten mislukt (afsluitcode {code})."
+
+#: done_gui.py:228
+msgid "Installing VirtualBox + host DKMS + kernel headers (password required)…"
+msgstr ""
+"VirtualBox + host-DKMS + kernelheaders installeren (wachtwoord vereist)…"
+
+#: done_gui.py:236
+msgid ""
+"VirtualBox installed. Reboot now (a log-out is not enough) to load the host "
+"kernel modules and join the vboxusers group. Also enable virtualization in "
+"your motherboard / BIOS-UEFI settings (Intel VT-x or AMD-V / SVM); "
+"VirtualBox cannot run virtual machines without it."
+msgstr ""
+"VirtualBox is geïnstalleerd. Start nu opnieuw op (afmelden is niet genoeg) "
+"om de hostkernelmodules te laden en lid te worden van de groep vboxusers. "
+"Schakel ook virtualisatie in via de instellingen van je moederbord of BIOS/"
+"UEFI (Intel VT-x of AMD-V / SVM); zonder virtualisatie kan VirtualBox geen "
+"virtuele machines uitvoeren."
+
+#: done_gui.py:244
+#, python-brace-format
+msgid "VirtualBox install failed (exit {code})."
+msgstr "Installatie van VirtualBox mislukt (afsluitcode {code})."
+
+#: done_gui.py:255
+msgid "OVMF not found (install edk2-ovmf); booting BIOS instead of UEFI."
+msgstr ""
+"OVMF niet gevonden (installeer edk2-ovmf); opstarten met BIOS in plaats van "
+"UEFI."
+
+#: done_gui.py:268
+msgid "qemu-img not found; the installer will have no disk to install on."
+msgstr ""
+"qemu-img niet gevonden; het installatieprogramma heeft geen schijf waarop je "
+"kunt installeren."
+
+#: done_gui.py:275
+msgid "Creating a fresh 50 GB virtual disk for the installer…"
+msgstr ""
+"Een nieuwe virtuele schijf van 50 GB maken voor het installatieprogramma…"
+
+#: done_gui.py:279
+#, python-brace-format
+msgid "Failed to create disk: {error}"
+msgstr "Schijf maken mislukt: {error}"
+
+#: done_gui.py:285
+msgid "Installing qemu-desktop (you will be asked for your password)…"
+msgstr "qemu-desktop installeren (je wordt om je wachtwoord gevraagd)…"
+
+#: done_gui.py:293
+msgid "QEMU installed; you can now test in a VM."
+msgstr "QEMU is geïnstalleerd; je kunt nu testen in een VM."
+
+#: done_gui.py:298
+#, python-brace-format
+msgid "QEMU install failed (exit {code})."
+msgstr "Installatie van QEMU mislukt (afsluitcode {code})."
+
+#: done_gui.py:310
+msgid "Installing mintstick (you will be asked for your password)…"
+msgstr "mintstick installeren (je wordt om je wachtwoord gevraagd)…"
+
+#: done_gui.py:318
+msgid "USB writer installed; you can now burn to USB."
+msgstr "USB-schrijver is geïnstalleerd; je kunt nu naar USB schrijven."
+
+#: done_gui.py:323
+#, python-brace-format
+msgid "USB writer install failed (exit {code})."
+msgstr "Installatie van USB-schrijver mislukt (afsluitcode {code})."
+
+#: done_gui.py:331
+msgid "Save build profile"
+msgstr "Buildprofiel opslaan"
+
+#: done_gui.py:348
+#, python-brace-format
+msgid "Saved build profile ({count} package removed) → {path}"
+msgid_plural "Saved build profile ({count} packages removed) → {path}"
+msgstr[0] "Buildprofiel opgeslagen ({count} pakket verwijderd) → {path}"
+msgstr[1] "Buildprofiel opgeslagen ({count} pakketten verwijderd) → {path}"
+
+#: extras_gui.py:35
+msgid "Add apps"
+msgstr "Apps toevoegen"
+
+#: extras_gui.py:36
+msgid "These apps are NOT on the standard Kiro; tick the ones you want added."
+msgstr ""
+"Deze apps staan NIET op de standaard-Kiro; vink aan welke je wilt toevoegen."
+
+#: extras_gui.py:37
+msgid ""
+"Nothing is ticked by default. Tick none and your ISO stays the standard Kiro."
+msgstr ""
+"Standaard is niets aangevinkt. Vink niets aan en je ISO blijft de standaard-"
+"Kiro."
+
+#: extras_gui.py:40
+#, python-brace-format
+msgid "{edition} extras"
+msgstr "{edition}-extra's"
+
+#: extras_gui.py:41
+#, python-brace-format
+msgid ""
+"Optional {edition} apps, added only to this {edition} build; tick what you "
+"want."
+msgstr ""
+"Optionele {edition}-apps, alleen toegevoegd aan deze {edition}-build; vink "
+"aan wat je wilt."
+
+#: extras_gui.py:43
+msgid "Nothing is ticked by default."
+msgstr "Standaard is niets aangevinkt."
+
+#: extras_gui.py:44
+msgid "Consider these a work in progress."
+msgstr "Beschouw deze apps als werk in uitvoering."
+
+#: extras_gui.py:56
+msgid "Search apps…"
+msgstr "Apps zoeken…"
+
+#: extras_gui.py:58 packages_gui.py:74
+msgid "Select all"
+msgstr "Selecteer alles"
+
+#: extras_gui.py:60 packages_gui.py:76
+msgid "Deselect all"
+msgstr "Deselecteer alles"
+
+#: extras_gui.py:77
+msgid "Save app list…"
+msgstr "Applijst opslaan…"
+
+#: extras_gui.py:79
+msgid "Import app list…"
+msgstr "Applijst importeren…"
+
+#: extras_gui.py:122 packages_gui.py:131
+msgid "packages.x86_64 not found; fix the clone on the Pre-flight screen."
+msgstr ""
+"packages.x86_64 niet gevonden; los dit op via het scherm Voorbereiding."
+
+#: extras_gui.py:136
+msgid "No extra apps are offered yet."
+msgstr "Er zijn nog geen extra apps beschikbaar."
+
+#: extras_gui.py:226
+#, python-brace-format
+msgid "App that will be added: {added}/{total}"
+msgid_plural "Apps that will be added: {added}/{total}"
+msgstr[0] "App die wordt toegevoegd: {added}/{total}"
+msgstr[1] "Apps die worden toegevoegd: {added}/{total}"
+
+#: extras_gui.py:249
+msgid "Save app list"
+msgstr "Applijst opslaan"
+
+#: extras_gui.py:263
+#, python-brace-format
+msgid "Saved app list ({count} app added) → {path}"
+msgid_plural "Saved app list ({count} apps added) → {path}"
+msgstr[0] "Applijst opgeslagen ({count} app toegevoegd) → {path}"
+msgstr[1] "Applijst opgeslagen ({count} apps toegevoegd) → {path}"
+
+#: extras_gui.py:269
+msgid "Import app list"
+msgstr "Applijst importeren"
+
+#: extras_gui.py:282
+#, python-brace-format
+msgid "Imported app list; {count} app marked to add."
+msgid_plural "Imported app list; {count} apps marked to add."
+msgstr[0] "Applijst geïmporteerd; {count} app gemarkeerd om toe te voegen."
+msgstr[1] "Applijst geïmporteerd; {count} apps gemarkeerd om toe te voegen."
+
+#: functions.py:1272
+msgid "Authentication required"
+msgstr "Authenticatie vereist"
+
+#: functions.py:1273 preflight_gui.py:298
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: functions.py:1274
+msgid "Authenticate"
+msgstr "Authenticeren"
+
+#: functions.py:1282
+msgid "Enter your password"
+msgstr "Voer je wachtwoord in"
+
+#: host_checks.py:50
+#, python-brace-format
+msgid "Found at {path}"
+msgstr "Gevonden op {path}"
+
+#: host_checks.py:51
+#, python-brace-format
+msgid "{repo} clone not found; everything is built from it."
+msgstr "De {repo}-kloon niet gevonden; alles wordt daaruit gebouwd."
+
+#: host_checks.py:59 host_checks.py:173 host_checks.py:206 host_checks.py:216
+#, python-brace-format
+msgid "Set once the {repo} clone is present."
+msgstr "Wordt ingesteld zodra de {repo}-kloon aanwezig is."
+
+#: host_checks.py:61
+msgid "git is unavailable; cannot check for updates."
+msgstr "git is niet beschikbaar; kan niet controleren op updates."
+
+#: host_checks.py:63
+msgid "Could not check for updates (offline?)."
+msgstr "Kan niet controleren op updates (offline?)."
+
+#: host_checks.py:66
+msgid "Up to date with origin."
+msgstr "Up-to-date met origin."
+
+#: host_checks.py:68
+#, python-brace-format
+msgid ""
+"{count} update available; update for the latest build scripts and packages."
+msgid_plural ""
+"{count} updates available; update for the latest build scripts and packages."
+msgstr[0] ""
+"{count} update beschikbaar; werk bij voor de nieuwste buildscripts en "
+"pakketten."
+msgstr[1] ""
+"{count} updates beschikbaar; werk bij voor de nieuwste buildscripts en "
+"pakketten."
+
+#: host_checks.py:75
+msgid "Running as a normal user"
+msgstr "Draait als gewone gebruiker"
+
+#: host_checks.py:76
+msgid "Do NOT run the builder as root; relaunch as your user."
+msgstr ""
+"Voer de builder NIET uit als root; start hem opnieuw onder je "
+"gebruikersaccount."
+
+#: host_checks.py:84
+#, python-brace-format
+msgid "{name} is not Arch-based."
+msgstr "{name} is niet Arch-gebaseerd."
+
+#: host_checks.py:90
+msgid "pkexec is not installed; fixes cannot elevate."
+msgstr ""
+"pkexec is niet geïnstalleerd; fixes kunnen niet met verhoogde rechten worden "
+"uitgevoerd."
+
+#: host_checks.py:95
+msgid "polkit agent present."
+msgstr "polkit-agent aanwezig."
+
+#: host_checks.py:96
+msgid "No polkit agent detected; fix prompts may not appear."
+msgstr ""
+"Geen polkit-agent gevonden; meldingen voor fixes verschijnen mogelijk niet."
+
+#: host_checks.py:122
+msgid "archiso is missing."
+msgstr "archiso ontbreekt."
+
+#: host_checks.py:129
+#, python-brace-format
+msgid ""
+"archiso {installed} is too old; needs {required}+; update the {repo} clone "
+"first (row above)."
+msgstr ""
+"archiso {installed} is te oud; vereist {required}+; werk eerst de {repo}-"
+"kloon bij (rij hierboven)."
+
+#: host_checks.py:133
+#, python-brace-format
+msgid ""
+"archiso {installed} is too old; needs {required}+; Fix runs a full system "
+"upgrade."
+msgstr ""
+"archiso {installed} is te oud; vereist {required}+; Fix voert een volledige "
+"systeemupgrade uit."
+
+#: host_checks.py:136
+#, python-brace-format
+msgid "archiso {version} installed."
+msgstr "archiso {version} geïnstalleerd."
+
+#: host_checks.py:140
+msgid "grub installed."
+msgstr "grub geïnstalleerd."
+
+#: host_checks.py:141
+msgid "grub is missing."
+msgstr "grub ontbreekt."
+
+#: host_checks.py:146
+msgid "Chaotic-AUR keyring and mirrorlist present."
+msgstr "Chaotic-AUR-sleutelring en mirrorlist aanwezig."
+
+#: host_checks.py:147
+msgid "Chaotic-AUR keyring or mirrorlist is missing."
+msgstr "Chaotic-AUR-sleutelring of mirrorlist ontbreekt."
+
+#: host_checks.py:152
+msgid "CachyOS keyring and mirrorlist present."
+msgstr "CachyOS-sleutelring en mirrorlist aanwezig."
+
+#: host_checks.py:153
+msgid ""
+"CachyOS keyring or mirrorlist is missing (linux-cachyos is hosted there)."
+msgstr ""
+"CachyOS-sleutelring of mirrorlist ontbreekt (linux-cachyos wordt daar gehost)"
+"."
+
+#: host_checks.py:166
+#, python-brace-format
+msgid "{free:.0f} GB free in {path}."
+msgstr "{free:.0f} GB vrij op {path}."
+
+#: host_checks.py:167
+#, python-brace-format
+msgid "Only {free:.0f} GB free in {path} (about 15 GB recommended)."
+msgstr "Slechts {free:.0f} GB vrij op {path} (ongeveer 15 GB aanbevolen)."
+
+#: host_checks.py:176
+msgid "Kernel picker set to 'ask' (chosen at build time)."
+msgstr "Kernelkiezer ingesteld op 'ask' (keuze tijdens het bouwen)."
+
+#: host_checks.py:179
+msgid "No kernel set in build.conf."
+msgstr "Geen kernel ingesteld in build.conf."
+
+#: host_checks.py:181
+msgid "pacman is unavailable."
+msgstr "pacman is niet beschikbaar."
+
+#: host_checks.py:194
+#, python-brace-format
+msgid ""
+"{kernels} need the [cachyos] repo; it is disabled in pacman.conf (Kiro's "
+"default). Enable it to build with this kernel."
+msgstr ""
+"{kernels} vereisen de [cachyos]-pakketbron; die is uitgeschakeld in "
+"pacman.conf (de standaard van Kiro). Schakel deze in om met deze kernel te "
+"bouwen."
+
+#: host_checks.py:198
+#, python-brace-format
+msgid "Kernel(s) not in synced repos: {kernels}"
+msgstr "Kernel(s) niet in gesynchroniseerde pakketbronnen: {kernels}"
+
+#: host_checks.py:199
+#, python-brace-format
+msgid "Kernel(s) resolve: {kernels}"
+msgstr "Kernel(s) beschikbaar: {kernels}"
+
+#: host_checks.py:208
+msgid "Stale build mounts under kiro-build; clean them before building."
+msgstr ""
+"Verouderde aankoppelingen onder kiro-build; ruim ze op voordat je bouwt."
+
+#: host_checks.py:209
+msgid "No stale build mounts."
+msgstr "Geen verouderde aankoppelingen."
+
+#: host_checks.py:218
+#, python-brace-format
+msgid "Leftover build folder {path} (owned by root); remove it."
+msgstr "Overgebleven buildmap {path} (eigendom van root); verwijder deze."
+
+#: host_checks.py:220
+msgid "No leftover build folder."
+msgstr "Geen overgebleven buildmap."
+
+#: host_checks.py:229
+#, python-brace-format
+msgid "NVIDIA GPU detected; driver set to '{driver}'."
+msgstr "NVIDIA-GPU gevonden; stuurprogramma ingesteld op '{driver}'."
+
+#: host_checks.py:230
+#, python-brace-format
+msgid "No NVIDIA GPU detected; driver set to '{driver}' (unused)."
+msgstr ""
+"Geen NVIDIA-GPU gevonden; stuurprogramma ingesteld op '{driver}' (niet "
+"gebruikt)."
+
+#: host_checks.py:236 host_checks.py:237
+msgid "Build sources"
+msgstr "Buildbronnen"
+
+#: host_checks.py:236
+#, python-brace-format
+msgid "{repo} (git clone)"
+msgstr "{repo} (git-kloon)"
+
+#: host_checks.py:237
+#, python-brace-format
+msgid "{repo} up to date"
+msgstr "{repo} up-to-date"
+
+#: host_checks.py:238 host_checks.py:239 host_checks.py:240 host_checks.py:241
+#: host_checks.py:242 host_checks.py:243
+msgid "Dependencies"
+msgstr "Afhankelijkheden"
+
+#: host_checks.py:238
+msgid "polkit auth agent"
+msgstr "polkit-authenticatieagent"
+
+#: host_checks.py:239
+msgid "archiso package"
+msgstr "archiso-pakket"
+
+#: host_checks.py:240
+msgid "grub package"
+msgstr "grub-pakket"
+
+#: host_checks.py:241
+msgid "Chaotic-AUR repo"
+msgstr "Chaotic-AUR-pakketbron"
+
+#: host_checks.py:242
+msgid "CachyOS repo"
+msgstr "CachyOS-pakketbron"
+
+#: host_checks.py:243
+msgid "Kernel package(s)"
+msgstr "Kernelpakket(ten)"
+
+#: host_checks.py:244 host_checks.py:245 host_checks.py:246 host_checks.py:247
+#: host_checks.py:248 host_checks.py:249
+msgid "Host and workspace"
+msgstr "Host en werkruimte"
+
+#: host_checks.py:244
+msgid "Not running as root"
+msgstr "Niet uitgevoerd als root"
+
+#: host_checks.py:245
+msgid "Arch-based host"
+msgstr "Arch-gebaseerde host"
+
+#: host_checks.py:246
+msgid "Free disk space"
+msgstr "Vrije schijfruimte"
+
+#: host_checks.py:247
+msgid "Stale build mounts"
+msgstr "Verouderde buildkoppelingen"
+
+#: host_checks.py:248
+msgid "Leftover build folder"
+msgstr "Overgebleven buildmap"
+
+#: host_checks.py:249
+msgid "NVIDIA driver choice"
+msgstr "Keuze van NVIDIA-stuurprogramma"
+
+#: kiro-iso-builder.py:56
+msgid "1 · Pre-flight"
+msgstr "1 · Voorbereiding"
+
+#: kiro-iso-builder.py:57
+msgid "2 · Configure"
+msgstr "2 · Configureren"
+
+#: kiro-iso-builder.py:58
+msgid "3 · Packages"
+msgstr "3 · Pakketten"
+
+#: kiro-iso-builder.py:59
+msgid "4 · Add apps"
+msgstr "4 · Apps toevoegen"
+
+#: kiro-iso-builder.py:60
+msgid "5 · Build"
+msgstr "5 · Bouwen"
+
+#: kiro-iso-builder.py:61
+msgid "6 · Done"
+msgstr "6 · Klaar"
+
+#: kiro-iso-builder.py:67
+msgid "Best value; almost all goes to the project"
+msgstr "Beste keuze; bijna alles gaat naar het project"
+
+#: kiro-iso-builder.py:68
+msgid "Buy a coffee; one-off tip"
+msgstr "Trakteer eenmalig op koffie"
+
+#: kiro-iso-builder.py:69
+msgid "Membership tiers and perks"
+msgstr "Lidmaatschapsniveaus en extra's"
+
+#: kiro-iso-builder.py:70
+msgid "Join on YouTube"
+msgstr "Word lid op YouTube"
+
+#: kiro-iso-builder.py:71
+msgid "Direct one-off tip"
+msgstr "Direct eenmalig doneren"
+
+#: kiro-iso-builder.py:80 kiro-iso-builder.py:87
+msgid "Support Kiro"
+msgstr "Steun Kiro"
+
+#: kiro-iso-builder.py:95
+msgid ""
+"Kiro and its tools are built by one person, for the community, and kept "
+"free. If Kiro ISO Builder saves you time, a little support keeps the work "
+"going. Thank you for being here."
+msgstr ""
+"Kiro en de bijbehorende tools worden door één persoon voor de gemeenschap "
+"gebouwd en blijven gratis. Als Kiro ISO Builder je tijd bespaart, helpt een "
+"kleine bijdrage om het werk voort te zetten. Fijn dat je er bent."
+
+#: kiro-iso-builder.py:114
+msgid "Close"
+msgstr "Sluiten"
+
+#: kiro-iso-builder.py:134
+msgid "♥ Support"
+msgstr "♥ Steun"
+
+#: kiro-iso-builder.py:135
+msgid "Support Kiro's development"
+msgstr "Steun de ontwikkeling van Kiro"
+
+#: kiro-iso-builder.py:168
+msgid "Quit"
+msgstr "Afsluiten"
+
+#: kiro-iso-builder.py:193
+#, python-brace-format
+msgid "System ({language})"
+msgstr "Systeem ({language})"
+
+#: kiro-iso-builder.py:196
+msgid "Language"
+msgstr "Taal"
+
+#: kiro-iso-builder.py:198
+msgid "Saved. The app shows the new language when it starts again."
+msgstr "Bewaard. De app toont de nieuwe taal bij de volgende start."
+
+#: kiro-iso-builder.py:200
+msgid "Restart now"
+msgstr "Nu herstarten"
+
+#: kiro-iso-builder.py:213
+msgid "A build is running. Restart after it finishes or after you stop it."
+msgstr "Er loopt een build. Herstart na afloop of nadat je hem stopt."
+
+#: kiro-iso-builder.py:261
+#, python-brace-format
+msgid "{step} · {edition} extras"
+msgstr "{step} · {edition}-extra's"
+
+#: packages_gui.py:42
+msgid "Choose packages"
+msgstr "Pakketten kiezen"
+
+#: packages_gui.py:47
+msgid ""
+"If everything is selected, you get the packages from the default Kiro ISO."
+msgstr ""
+"Als alles is geselecteerd, krijg je de pakketten van de standaard-Kiro-ISO."
+
+#: packages_gui.py:50
+msgid "Unselect what you do not want."
+msgstr "Deselecteer wat je niet wilt."
+
+#: packages_gui.py:53
+msgid ""
+"Packages that always ship (core or needed by your editions) are not listed; "
+"open the list below to see them."
+msgstr ""
+"Pakketten die altijd worden meegeleverd (de basis of nodig voor je edities) "
+"staan niet in de lijst; open de lijst hieronder om ze te bekijken."
+
+#: packages_gui.py:61
+msgid "Show the core packages"
+msgstr "De basispakketten tonen"
+
+#: packages_gui.py:72
+msgid "Search packages…"
+msgstr "Pakketten zoeken…"
+
+#: packages_gui.py:78
+msgid "Expand all"
+msgstr "Alles uitklappen"
+
+#: packages_gui.py:80
+msgid "Collapse all"
+msgstr "Alles inklappen"
+
+#: packages_gui.py:99
+msgid "Save package list…"
+msgstr "Pakketlijst opslaan…"
+
+#: packages_gui.py:101
+msgid "Import package list…"
+msgstr "Pakketlijst importeren…"
+
+#: packages_gui.py:143
+msgid "No optional apps were found to choose from."
+msgstr "Er zijn geen optionele apps gevonden om uit te kiezen."
+
+#: packages_gui.py:149
+msgid "Show or hide the packages in this group"
+msgstr "Pakketten in deze groep tonen of verbergen"
+
+#: packages_gui.py:261
+#, python-brace-format
+msgid "Package that will ship: {shipping}/{total} ({left_out} left out)"
+msgid_plural ""
+"Packages that will ship: {shipping}/{total} ({left_out} left out)"
+msgstr[0] ""
+"Pakket dat wordt meegeleverd: {shipping}/{total} ({left_out} weggelaten)"
+msgstr[1] ""
+"Pakketten die worden meegeleverd: {shipping}/{total} ({left_out} weggelaten)"
+
+#: packages_gui.py:266
+#, python-brace-format
+msgid ""
+"{count} unticked package still ships; see the rows marked 'still ships'."
+msgid_plural ""
+"{count} unticked packages still ship; see the rows marked 'still ships'."
+msgstr[0] ""
+"{count} niet-aangevinkt pakket wordt toch meegeleverd; zie de rijen met "
+"'wordt toch meegeleverd'."
+msgstr[1] ""
+"{count} niet-aangevinkte pakketten worden toch meegeleverd; zie de rijen met "
+"'wordt toch meegeleverd'."
+
+#: packages_gui.py:276
+#, python-brace-format
+msgid "Show the package that always ships ({count})"
+msgid_plural "Show the packages that always ship ({count})"
+msgstr[0] "Toon het pakket dat altijd wordt meegeleverd ({count})"
+msgstr[1] "Toon de pakketten die altijd worden meegeleverd ({count})"
+
+#: packages_gui.py:280
+msgid "Ships with your editions:\n"
+msgstr "Wordt meegeleverd met je edities:\n"
+
+#: packages_gui.py:283
+msgid "Also ships because of your editions or add-ons:\n"
+msgstr "Wordt ook meegeleverd vanwege je edities of add-ons:\n"
+
+#: packages_gui.py:285
+msgid "Core: "
+msgstr "Basis: "
+
+#: packages_gui.py:316
+#, python-brace-format
+msgid "Still ships: {package} ({reason})"
+msgstr "Wordt toch meegeleverd: {package} ({reason})"
+
+#: packages_gui.py:318
+#, python-brace-format
+msgid "Unticked, but still on the ISO: {reason}."
+msgstr "Niet aangevinkt, maar staat nog steeds op de ISO: {reason}."
+
+#: packages_gui.py:348
+msgid "Save package profile"
+msgstr "Pakketprofiel opslaan"
+
+#: packages_gui.py:362
+#, python-brace-format
+msgid "Saved profile ({count} package excluded) → {path}"
+msgid_plural "Saved profile ({count} packages excluded) → {path}"
+msgstr[0] "Profiel opgeslagen ({count} pakket uitgesloten) → {path}"
+msgstr[1] "Profiel opgeslagen ({count} pakketten uitgesloten) → {path}"
+
+#: packages_gui.py:368
+msgid "Import package profile"
+msgstr "Pakketprofiel importeren"
+
+#: packages_gui.py:381
+#, python-brace-format
+msgid "Imported profile; {count} package marked for exclusion."
+msgid_plural "Imported profile; {count} packages marked for exclusion."
+msgstr[0] "Profiel geïmporteerd; {count} pakket gemarkeerd voor uitsluiting."
+msgstr[1] ""
+"Profiel geïmporteerd; {count} pakketten gemarkeerd voor uitsluiting."
+
+#: preflight_gui.py:31
+msgid "Pre-flight checks"
+msgstr "Controles vooraf"
+
+#: preflight_gui.py:39
+msgid "Where should Kiro build?"
+msgstr "Waar moet Kiro bouwen?"
+
+#: preflight_gui.py:46
+msgid "Browse…"
+msgstr "Bladeren…"
+
+#: preflight_gui.py:54
+msgid ""
+"The clone, the build files (kiro-build) and the finished ISO (kiro-Out) all "
+"live in this one folder."
+msgstr ""
+"De kloon, de buildbestanden (kiro-build) en de voltooide ISO (kiro-Out) "
+"staan allemaal in deze map."
+
+#: preflight_gui.py:62
+msgid "Then confirm the host is ready and fix anything red before building."
+msgstr ""
+"Controleer daarna of de host klaar is en los rode punten op voordat je bouwt."
+
+#: preflight_gui.py:68
+msgid "Re-check"
+msgstr "Opnieuw controleren"
+
+#: preflight_gui.py:70
+msgid "Fix all"
+msgstr "Alles herstellen"
+
+#: preflight_gui.py:84
+msgid "Fix log"
+msgstr "Herstellog"
+
+#: preflight_gui.py:92
+msgid "Continue to Configure →"
+msgstr "Doorgaan naar Configureren →"
+
+#: preflight_gui.py:107
+msgid "Running checks…"
+msgstr "Controles uitvoeren…"
+
+#: preflight_gui.py:143
+#, python-brace-format
+msgid "Not found; will clone to {path}"
+msgstr "Niet gevonden; wordt gekloond naar {path}"
+
+#: preflight_gui.py:147
+#, python-brace-format
+msgid "Choose where {repo} lives (or should be cloned)"
+msgstr "Kies waar {repo} staat (of moet worden gekloond)"
+
+#: preflight_gui.py:163
+#, python-brace-format
+msgid "{repo} location set to {path}"
+msgstr "Locatie van {repo} ingesteld op {path}"
+
+#: preflight_gui.py:167
+#, python-brace-format
+msgid "{path} already exists but is not a {repo} clone. Pick another folder."
+msgstr "{path} bestaat al, maar is geen {repo}-kloon. Kies een andere map."
+
+#: preflight_gui.py:173
+#, python-brace-format
+msgid "{repo} location set to {path}; it will be cloned here."
+msgstr ""
+"Locatie van {repo} ingesteld op {path}; de kloon wordt hier aangemaakt."
+
+#: preflight_gui.py:217
+msgid "Fix"
+msgstr "Fix"
+
+#: preflight_gui.py:294
+#, python-brace-format
+msgid "Update {repo} to the latest?"
+msgstr "{repo} bijwerken naar de nieuwste versie?"
+
+#: preflight_gui.py:295
+msgid ""
+"The clone has local changes from building. They will be discarded and the "
+"repo reset to the latest. Your package selection, add-ons and build.conf are "
+"kept."
+msgstr ""
+"De kloon bevat lokale wijzigingen van het bouwen. Die worden weggegooid en "
+"de repo wordt teruggezet naar de nieuwste versie. Je pakketselectie, add-ons "
+"en build.conf blijven behouden."
+
+#: preflight_gui.py:298
+msgid "Discard & update"
+msgstr "Wijzigingen weggooien en bijwerken"
+
+#: po/kiro-iso-builder.desktop.in:3
+msgid "Kiro ISO Builder"
+msgstr "Kiro ISO Builder"
+
+#: po/kiro-iso-builder.desktop.in:4
+msgid "ISO Builder"
+msgstr "ISO-bouwer"
+
+#: po/kiro-iso-builder.desktop.in:5
+msgid "Build the Kiro ISO with one-click host pre-flight fixes"
+msgstr "Bouw de Kiro-ISO en voer vooraf met één klik fixes op de host uit"
+
+#: po/kiro-iso-builder.desktop.in:10
+msgid "kiro;iso;archiso;build;"
+msgstr "kiro;iso;archiso;build;bouwen;installeren;linux;"

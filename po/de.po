@@ -1,0 +1,1318 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kiro-iso-builder\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-01 06:40+0100\n"
+"PO-Revision-Date: 2026-11-01 06:14+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: Kiro translations\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: build_gui.py:37
+msgid "Build the ISO"
+msgstr "ISO erstellen"
+
+#: build_gui.py:41
+msgid ""
+"Runs build-the-iso.sh as your user. You will be asked for your password "
+"once; if the build prompts (for example, pacman's [Y/n]), type your reply in "
+"the box below."
+msgstr ""
+"Führt build-the-iso.sh als normaler Benutzer aus. Du wirst einmal nach "
+"deinem Passwort gefragt. Wenn der Build eine Eingabe anfordert (zum Beispiel "
+"pacman's [Y/n]), gib deine Antwort unten ein."
+
+#: build_gui.py:60
+msgid "Start build"
+msgstr "Build starten"
+
+#: build_gui.py:63
+msgid "Stop"
+msgstr "Anhalten"
+
+#: build_gui.py:67 build_gui.py:162
+msgid "Show summary"
+msgstr "Zusammenfassung anzeigen"
+
+#: build_gui.py:68
+msgid ""
+"Open a page in your browser listing what this build removes, keeps and pulls "
+"in, and why"
+msgstr ""
+"Öffnet eine Seite in deinem Browser, die auflistet, was dieser Build "
+"entfernt, beibehält und hinzufügt und warum."
+
+#: build_gui.py:76
+msgid "Idle"
+msgstr "Leerlauf"
+
+#: build_gui.py:95
+msgid "Reply to a build prompt (for example, y) and press Enter"
+msgstr "Auf eine Build-Abfrage antworten (zum Beispiel y) und Enter drücken"
+
+#: build_gui.py:97
+msgid "Send"
+msgstr "Senden"
+
+#: build_gui.py:104 configure_gui.py:199 extras_gui.py:88 packages_gui.py:108
+msgid "← Back"
+msgstr "← Zurück"
+
+#: build_gui.py:113 configure_gui.py:466
+#, python-brace-format
+msgid "{repo} clone not found; fix it on the Pre-flight screen."
+msgstr "{repo}-Klon nicht gefunden; behebe das auf der Seite Vorabprüfung."
+
+#: build_gui.py:120
+msgid "Work dir:"
+msgstr "Arbeitsverzeichnis:"
+
+#: build_gui.py:121
+msgid "ISO output:"
+msgstr "ISO-Ausgabe:"
+
+#: build_gui.py:123
+msgid "Output location unknown; set the clone path on the Pre-flight screen."
+msgstr ""
+"Ausgabepfad unbekannt; lege den Klonpfad auf der Seite Vorabprüfung fest."
+
+#: build_gui.py:138
+msgid "Unticked but still on the ISO:\n"
+msgstr "Nicht ausgewählt, aber weiterhin auf der ISO:\n"
+
+#: build_gui.py:147
+msgid "Preparing…"
+msgstr "Wird vorbereitet…"
+
+#: build_gui.py:154
+#, python-brace-format
+msgid "Summary opened: {path}"
+msgstr "Zusammenfassung geöffnet: {path}"
+
+#: build_gui.py:156
+#, python-brace-format
+msgid "Could not build the summary page: {error}"
+msgstr "Zusammenfassungsseite konnte nicht erstellt werden: {error}"
+
+#: build_gui.py:177
+#, python-brace-format
+msgid "Summary saved: {path}"
+msgstr "Zusammenfassung gespeichert: {path}"
+
+#: build_gui.py:179
+#, python-brace-format
+msgid "Could not save the summary page: {error}"
+msgstr "Zusammenfassungsseite konnte nicht gespeichert werden: {error}"
+
+#: build_gui.py:199
+msgid "Starting…"
+msgstr "Wird gestartet…"
+
+#: build_gui.py:200
+msgid "── Starting build ──"
+msgstr "── Build wird gestartet ──"
+
+#: build_gui.py:245
+#, python-brace-format
+msgid "Phase {current} / {total}"
+msgstr "Phase {current} / {total}"
+
+#: build_gui.py:256
+msgid "Done"
+msgstr "Fertig"
+
+#: build_gui.py:257
+msgid "── Build finished ──"
+msgstr "── Build abgeschlossen ──"
+
+#: build_gui.py:266
+#, python-brace-format
+msgid "Stopped (exit {code})"
+msgstr "Gestoppt (Exit-Code {code})"
+
+#: build_gui.py:267
+#, python-brace-format
+msgid "── Build stopped (exit {code}) ──"
+msgstr "── Build gestoppt (Exit-Code {code}) ──"
+
+#: build_gui.py:269
+#, python-brace-format
+msgid "Failed (exit {code})"
+msgstr "Fehlgeschlagen (Exit-Code {code})"
+
+#: build_gui.py:270
+#, python-brace-format
+msgid "── Build failed (exit {code}) ──"
+msgstr "── Build fehlgeschlagen (Exit-Code {code}) ──"
+
+#: build_gui.py:273
+msgid "Cleaning up mounts…"
+msgstr "Einhängungen werden bereinigt…"
+
+#: build_gui.py:274
+msgid "── Stale build mounts found; cleaning up ──"
+msgstr "── Veraltete Build-Einhängungen gefunden; Bereinigung läuft ──"
+
+#: build_gui.py:280
+msgid "── Mount cleanup complete ──"
+msgstr "── Bereinigung der Einhängungen abgeschlossen ──"
+
+#: build_gui.py:281
+#, python-brace-format
+msgid "── Mount cleanup exited with code {code} ──"
+msgstr "── Bereinigung der Einhängungen mit Code {code} beendet ──"
+
+#: build_gui.py:282
+msgid "Cleaned up"
+msgstr "Bereinigt"
+
+#: build_gui.py:282
+#, python-brace-format
+msgid "Cleanup failed (exit {code})"
+msgstr "Bereinigung fehlgeschlagen (Exit-Code {code})"
+
+#: build_gui.py:298 preflight_gui.py:330
+msgid "Remove the leftover build folder?"
+msgstr "Verbliebenen Build-Ordner entfernen?"
+
+#: build_gui.py:299 preflight_gui.py:331
+#, python-brace-format
+msgid ""
+"{path}{size}\n"
+"\n"
+"It is owned by root (mkarchiso ran as root), so you cannot delete it from "
+"your file manager. Keeping it is fine; the next build reuses this location."
+msgstr ""
+"{path}{size}\\n\\nDer Ordner gehört root (mkarchiso lief als root), deshalb "
+"kannst du ihn nicht im Dateimanager löschen. Du kannst ihn behalten; der "
+"nächste Build verwendet diesen Ort erneut."
+
+#: build_gui.py:302 preflight_gui.py:335
+msgid "Keep"
+msgstr "Behalten"
+
+#: build_gui.py:302 preflight_gui.py:335
+msgid "Remove"
+msgstr "Entfernen"
+
+#: build_gui.py:316
+msgid "Removing build folder…"
+msgstr "Build-Ordner wird entfernt…"
+
+#: build_gui.py:317
+msgid "── Removing build folder (with your approval) ──"
+msgstr "── Build-Ordner wird mit deiner Zustimmung entfernt ──"
+
+#: build_gui.py:321
+msgid "── Build folder removed ──"
+msgstr "── Build-Ordner entfernt ──"
+
+#: build_gui.py:322
+#, python-brace-format
+msgid "── Removing build folder failed (exit {code}) ──"
+msgstr "── Entfernen des Build-Ordners fehlgeschlagen (Exit-Code {code}) ──"
+
+#: build_gui.py:323
+#, python-brace-format
+msgid "Remove failed (exit {code})"
+msgstr "Entfernen fehlgeschlagen (Exit-Code {code})"
+
+#: build_gui.py:323
+msgid "Removed"
+msgstr "Entfernt"
+
+#: build_gui.py:335
+#, python-brace-format
+msgid "Could not open build log: {error}"
+msgstr "Build-Protokoll konnte nicht geöffnet werden: {error}"
+
+#: configure_gui.py:24
+msgid "All"
+msgstr "Alle"
+
+#: configure_gui.py:24
+msgid "CachyOS"
+msgstr "CachyOS"
+
+#: configure_gui.py:24
+msgid "Chaotic"
+msgstr "Chaotic"
+
+#: configure_gui.py:24
+msgid "Official Arch"
+msgstr "Offizielles Arch"
+
+#: configure_gui.py:66
+msgid "Configure the build"
+msgstr "Build konfigurieren"
+
+#: configure_gui.py:69
+msgid "These write straight to build.conf; the CLI uses the same file."
+msgstr ""
+"Diese Einstellungen werden direkt in build.conf geschrieben; die CLI "
+"verwendet dieselbe Datei."
+
+#: configure_gui.py:78
+msgid "NVIDIA driver"
+msgstr "NVIDIA-Treiber"
+
+#: configure_gui.py:80
+msgid ""
+"AMD / Intel / a VM (no NVIDIA card)? Pick 'none': no NVIDIA driver is baked "
+"in, and at boot choose the first entry, 'open source: AMD / Intel', which "
+"blacklists NVIDIA. The other options bake that NVIDIA driver set."
+msgstr ""
+"AMD / Intel / eine VM (keine NVIDIA-Karte)? Wähle 'none': Es wird kein "
+"NVIDIA-Treiber eingebunden. Wähle beim Start den ersten Eintrag 'open "
+"source: AMD / Intel', der NVIDIA auf die Sperrliste setzt. Die anderen "
+"Optionen binden das jeweilige NVIDIA-Treiberset ein."
+
+#: configure_gui.py:92
+msgid "Kernel source"
+msgstr "Kernelquelle"
+
+#: configure_gui.py:100
+msgid "First kernel (boots the live ISO)"
+msgstr "Erster Kernel (startet das Live-ISO)"
+
+#: configure_gui.py:101
+msgid "Second kernel (optional)"
+msgstr "Zweiter Kernel (optional)"
+
+#: configure_gui.py:104
+msgid "Refresh kernels"
+msgstr "Kernel aktualisieren"
+
+#: configure_gui.py:112
+msgid ""
+"The list includes every kernel offered by the repos that has matching "
+"-headers (those headers are installed automatically for DKMS drivers). "
+"Filter by source above, and type in a dropdown to search."
+msgstr ""
+"Die Liste enthält alle Kernel aus den Paketquellen, für die passende "
+"-headers verfügbar sind (diese Header werden automatisch für DKMS-Treiber "
+"installiert). Filtere oben nach Quelle und tippe in ein Auswahlfeld, um zu "
+"suchen."
+
+#: configure_gui.py:122
+msgid "Enable CachyOS repo"
+msgstr "CachyOS-Repository aktivieren"
+
+#: configure_gui.py:132
+msgid "Editions (desktops and window managers)"
+msgstr "Editionen (Desktop-Umgebungen und Fenstermanager)"
+
+#: configure_gui.py:137
+msgid "Desktops"
+msgstr "Desktop-Umgebungen"
+
+#: configure_gui.py:142
+msgid "Window managers"
+msgstr "Fenstermanager"
+
+#: configure_gui.py:149
+msgid ""
+"Tick what you want; each becomes a session you can pick at the SDDM login "
+"screen. Tick at least one."
+msgstr ""
+"Wähle die gewünschten Editionen aus. Jede wird zu einer Sitzung, die du im "
+"SDDM-Anmeldebildschirm auswählen kannst. Wähle mindestens eine aus."
+
+#: configure_gui.py:162
+msgid "Default session (boots first)"
+msgstr "Standardsitzung (startet zuerst)"
+
+#: configure_gui.py:164
+msgid "Which ticked edition the live ISO logs into first."
+msgstr "Bei welcher ausgewählten Edition du dich im Live-ISO zuerst anmeldest."
+
+#: configure_gui.py:169
+msgid "Advanced"
+msgstr "Erweitert"
+
+#: configure_gui.py:172
+msgid "Bump version before building"
+msgstr "Version vor dem Build erhöhen"
+
+#: configure_gui.py:174
+msgid "Clean pacman cache"
+msgstr "Pacman-Cache bereinigen"
+
+#: configure_gui.py:176
+msgid "Remove build folder after build"
+msgstr "Build-Ordner nach dem Build entfernen"
+
+#: configure_gui.py:192
+msgid "Reset to defaults"
+msgstr "Auf Standardwerte zurücksetzen"
+
+#: configure_gui.py:195
+msgid "Import build profile…"
+msgstr "Buildprofil importieren…"
+
+#: configure_gui.py:201 extras_gui.py:90 packages_gui.py:110
+msgid "Save & Continue →"
+msgstr "Speichern und weiter →"
+
+#: configure_gui.py:218
+msgid "build.conf not found; fix the clone on the Pre-flight screen."
+msgstr "build.conf nicht gefunden; behebe das auf der Seite Vorabprüfung."
+
+#: configure_gui.py:341
+msgid "Reset to defaults; click Save & Continue to apply."
+msgstr ""
+"Auf Standardwerte zurückgesetzt; klicke auf Speichern und weiter, um sie "
+"anzuwenden."
+
+#: configure_gui.py:346
+msgid "Detecting…"
+msgstr "Erkennung läuft…"
+
+#: configure_gui.py:359
+msgid "None found; sync repos first. Keeping the built-in list."
+msgstr ""
+"Nichts gefunden; synchronisiere zuerst die Paketquellen. Die integrierte "
+"Liste bleibt erhalten."
+
+#: configure_gui.py:363
+#, python-brace-format
+msgid "Found {count} kernel."
+msgid_plural "Found {count} kernels."
+msgstr[0] "{count} Kernel gefunden."
+msgstr[1] "{count} Kernel gefunden."
+
+#: configure_gui.py:373
+msgid ""
+"CachyOS repo is disabled (Kiro's default); enable it to add the CachyOS-only "
+"kernels (eevdf, hardened, server, …)."
+msgstr ""
+"Das CachyOS-Repository ist deaktiviert (Kiros Standard); aktiviere es, um "
+"die nur dort verfügbaren Kernel hinzuzufügen (eevdf, hardened, server, …)."
+
+#: configure_gui.py:378
+msgid "Enabling CachyOS repo…"
+msgstr "CachyOS-Repository wird aktiviert…"
+
+#: configure_gui.py:388
+msgid "CachyOS repo enabled; refreshing kernels…"
+msgstr "CachyOS-Repository aktiviert; Kernel werden aktualisiert…"
+
+#: configure_gui.py:391
+#, python-brace-format
+msgid "Enabling CachyOS failed (exit {code})."
+msgstr "CachyOS konnte nicht aktiviert werden (Exit-Code {code})."
+
+#: configure_gui.py:447
+msgid "Tick at least one desktop or window manager; an ISO needs a session."
+msgstr ""
+"Wähle mindestens eine Desktop-Umgebung oder einen Fenstermanager aus; ein "
+"ISO benötigt eine Sitzung."
+
+#: configure_gui.py:470
+msgid "Import build profile"
+msgstr "Buildprofil importieren"
+
+#: configure_gui.py:473
+msgid "Kiro build profiles"
+msgstr "Kiro-Buildprofile"
+
+#: configure_gui.py:493
+#, python-brace-format
+msgid ""
+"Imported profile; {count} package to remove. Review the settings, then click "
+"Save & Continue."
+msgid_plural ""
+"Imported profile; {count} packages to remove. Review the settings, then "
+"click Save & Continue."
+msgstr[0] ""
+"Profil importiert; {count} Paket wird entfernt. Prüfe die Einstellungen und "
+"klicke dann auf Speichern und weiter."
+msgstr[1] ""
+"Profil importiert; {count} Pakete werden entfernt. Prüfe die Einstellungen "
+"und klicke dann auf Speichern und weiter."
+
+#: done_gui.py:82
+msgid "Build complete"
+msgstr "Build abgeschlossen"
+
+#: done_gui.py:98
+msgid "Open output folder"
+msgstr "Ausgabeordner öffnen"
+
+#: done_gui.py:100
+msgid "Test in VirtualBox"
+msgstr "In VirtualBox testen"
+
+#: done_gui.py:102
+msgid "Install VirtualBox"
+msgstr "VirtualBox installieren"
+
+#: done_gui.py:104
+msgid "Test in QEMU"
+msgstr "In QEMU testen"
+
+#: done_gui.py:106
+msgid "Install QEMU"
+msgstr "QEMU installieren"
+
+#: done_gui.py:108
+msgid "Burn to USB"
+msgstr "Auf USB schreiben"
+
+#: done_gui.py:110
+msgid "Install USB writer"
+msgstr "USB-Schreibprogramm installieren"
+
+#: done_gui.py:112
+msgid "Open build log"
+msgstr "Build-Protokoll öffnen"
+
+#: done_gui.py:114
+msgid "Save build profile…"
+msgstr "Buildprofil speichern…"
+
+#: done_gui.py:116
+msgid "Build again"
+msgstr "Erneut bauen"
+
+#: done_gui.py:131
+msgid ""
+"Note: the test VM only boots the ISO once to check the installer; it cannot "
+"reboot into an installed system. Test a real install on hardware."
+msgstr ""
+"Hinweis: Die Test-VM startet das ISO nur einmal, um den Installer zu prüfen; "
+"sie kann nicht in ein installiertes System neu starten. Teste eine echte "
+"Installation auf Hardware."
+
+#: done_gui.py:141
+msgid "Output folder not found yet."
+msgstr "Ausgabeordner noch nicht gefunden."
+
+#: done_gui.py:146
+#, python-brace-format
+msgid "No ISO found in {path}"
+msgstr "Kein ISO unter {path} gefunden"
+
+#: done_gui.py:193
+msgid "VirtualBox (VBoxManage) not installed."
+msgstr "VirtualBox (VBoxManage) ist nicht installiert."
+
+#: done_gui.py:196
+msgid "Creating a VirtualBox VM (UEFI + 50 GB disk) and booting the ISO…"
+msgstr ""
+"VirtualBox-VM (UEFI + 50-GB-Festplatte) wird erstellt und das ISO gestartet…"
+
+#: done_gui.py:223
+msgid "VirtualBox VM started."
+msgstr "VirtualBox-VM gestartet."
+
+#: done_gui.py:224
+#, python-brace-format
+msgid "VirtualBox launch failed (exit {code})."
+msgstr "VirtualBox konnte nicht gestartet werden (Exit-Code {code})."
+
+#: done_gui.py:228
+msgid "Installing VirtualBox + host DKMS + kernel headers (password required)…"
+msgstr ""
+"VirtualBox + Host-DKMS + Kernel-Header werden installiert (Passwort "
+"erforderlich)…"
+
+#: done_gui.py:236
+msgid ""
+"VirtualBox installed. Reboot now (a log-out is not enough) to load the host "
+"kernel modules and join the vboxusers group. Also enable virtualization in "
+"your motherboard / BIOS-UEFI settings (Intel VT-x or AMD-V / SVM); "
+"VirtualBox cannot run virtual machines without it."
+msgstr ""
+"VirtualBox wurde installiert. Starte jetzt neu (Abmelden reicht nicht), "
+"damit die Kernelmodule geladen werden und du der Gruppe vboxusers "
+"beitrittst. Aktiviere außerdem die Virtualisierung in den Mainboard- oder "
+"BIOS-UEFI-Einstellungen (Intel VT-x oder AMD-V / SVM); ohne sie kann "
+"VirtualBox keine virtuellen Maschinen ausführen."
+
+#: done_gui.py:244
+#, python-brace-format
+msgid "VirtualBox install failed (exit {code})."
+msgstr "VirtualBox-Installation fehlgeschlagen (Exit-Code {code})."
+
+#: done_gui.py:255
+msgid "OVMF not found (install edk2-ovmf); booting BIOS instead of UEFI."
+msgstr ""
+"OVMF nicht gefunden (edk2-ovmf installieren); Start im BIOS-Modus statt UEFI."
+
+#: done_gui.py:268
+msgid "qemu-img not found; the installer will have no disk to install on."
+msgstr ""
+"qemu-img nicht gefunden; dem Installer steht keine Installationsfestplatte "
+"zur Verfügung."
+
+#: done_gui.py:275
+msgid "Creating a fresh 50 GB virtual disk for the installer…"
+msgstr "Neue virtuelle 50-GB-Festplatte für den Installer wird erstellt…"
+
+#: done_gui.py:279
+#, python-brace-format
+msgid "Failed to create disk: {error}"
+msgstr "Festplatte konnte nicht erstellt werden: {error}"
+
+#: done_gui.py:285
+msgid "Installing qemu-desktop (you will be asked for your password)…"
+msgstr "qemu-desktop wird installiert (du wirst nach deinem Passwort gefragt)…"
+
+#: done_gui.py:293
+msgid "QEMU installed; you can now test in a VM."
+msgstr "QEMU installiert; du kannst jetzt in einer VM testen."
+
+#: done_gui.py:298
+#, python-brace-format
+msgid "QEMU install failed (exit {code})."
+msgstr "QEMU-Installation fehlgeschlagen (Exit-Code {code})."
+
+#: done_gui.py:310
+msgid "Installing mintstick (you will be asked for your password)…"
+msgstr "mintstick wird installiert (du wirst nach deinem Passwort gefragt)…"
+
+#: done_gui.py:318
+msgid "USB writer installed; you can now burn to USB."
+msgstr "USB-Schreibprogramm installiert; du kannst jetzt auf USB schreiben."
+
+#: done_gui.py:323
+#, python-brace-format
+msgid "USB writer install failed (exit {code})."
+msgstr ""
+"Installation des USB-Schreibprogramms fehlgeschlagen (Exit-Code {code})."
+
+#: done_gui.py:331
+msgid "Save build profile"
+msgstr "Buildprofil speichern"
+
+#: done_gui.py:348
+#, python-brace-format
+msgid "Saved build profile ({count} package removed) → {path}"
+msgid_plural "Saved build profile ({count} packages removed) → {path}"
+msgstr[0] "Buildprofil gespeichert ({count} Paket entfernt) → {path}"
+msgstr[1] "Buildprofil gespeichert ({count} Pakete entfernt) → {path}"
+
+#: extras_gui.py:35
+msgid "Add apps"
+msgstr "Apps hinzufügen"
+
+#: extras_gui.py:36
+msgid "These apps are NOT on the standard Kiro; tick the ones you want added."
+msgstr ""
+"Diese Apps sind NICHT im Standard-Kiro enthalten. Wähle die gewünschten Apps "
+"aus."
+
+#: extras_gui.py:37
+msgid ""
+"Nothing is ticked by default. Tick none and your ISO stays the standard Kiro."
+msgstr ""
+"Standardmäßig ist nichts ausgewählt. Wenn du nichts auswählst, entspricht "
+"dein ISO weiterhin dem Standard-Kiro-ISO."
+
+#: extras_gui.py:40
+#, python-brace-format
+msgid "{edition} extras"
+msgstr "{edition}-Extras"
+
+#: extras_gui.py:41
+#, python-brace-format
+msgid ""
+"Optional {edition} apps, added only to this {edition} build; tick what you "
+"want."
+msgstr ""
+"Optionale {edition}-Apps, die nur zu diesem {edition}-Build hinzugefügt "
+"werden. Wähle aus, was du möchtest."
+
+#: extras_gui.py:43
+msgid "Nothing is ticked by default."
+msgstr "Standardmäßig ist nichts ausgewählt."
+
+#: extras_gui.py:44
+msgid "Consider these a work in progress."
+msgstr "Betrachte diese Apps als noch in Arbeit."
+
+#: extras_gui.py:56
+msgid "Search apps…"
+msgstr "Apps suchen…"
+
+#: extras_gui.py:58 packages_gui.py:74
+msgid "Select all"
+msgstr "Alle auswählen"
+
+#: extras_gui.py:60 packages_gui.py:76
+msgid "Deselect all"
+msgstr "Auswahl aufheben"
+
+#: extras_gui.py:77
+msgid "Save app list…"
+msgstr "App-Liste speichern…"
+
+#: extras_gui.py:79
+msgid "Import app list…"
+msgstr "App-Liste importieren…"
+
+#: extras_gui.py:122 packages_gui.py:131
+msgid "packages.x86_64 not found; fix the clone on the Pre-flight screen."
+msgstr "packages.x86_64 nicht gefunden; behebe das auf der Seite Vorabprüfung."
+
+#: extras_gui.py:136
+msgid "No extra apps are offered yet."
+msgstr "Es werden noch keine zusätzlichen Apps angeboten."
+
+#: extras_gui.py:226
+#, python-brace-format
+msgid "App that will be added: {added}/{total}"
+msgid_plural "Apps that will be added: {added}/{total}"
+msgstr[0] "App, die hinzugefügt wird: {added}/{total}"
+msgstr[1] "Apps, die hinzugefügt werden: {added}/{total}"
+
+#: extras_gui.py:249
+msgid "Save app list"
+msgstr "App-Liste speichern"
+
+#: extras_gui.py:263
+#, python-brace-format
+msgid "Saved app list ({count} app added) → {path}"
+msgid_plural "Saved app list ({count} apps added) → {path}"
+msgstr[0] "App-Liste gespeichert ({count} App hinzugefügt) → {path}"
+msgstr[1] "App-Liste gespeichert ({count} Apps hinzugefügt) → {path}"
+
+#: extras_gui.py:269
+msgid "Import app list"
+msgstr "App-Liste importieren"
+
+#: extras_gui.py:282
+#, python-brace-format
+msgid "Imported app list; {count} app marked to add."
+msgid_plural "Imported app list; {count} apps marked to add."
+msgstr[0] "App-Liste importiert; {count} App zum Hinzufügen markiert."
+msgstr[1] "App-Liste importiert; {count} Apps zum Hinzufügen markiert."
+
+#: functions.py:1272
+msgid "Authentication required"
+msgstr "Authentifizierung erforderlich"
+
+#: functions.py:1273 preflight_gui.py:298
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: functions.py:1274
+msgid "Authenticate"
+msgstr "Authentifizieren"
+
+#: functions.py:1282
+msgid "Enter your password"
+msgstr "Passwort eingeben"
+
+#: host_checks.py:50
+#, python-brace-format
+msgid "Found at {path}"
+msgstr "Gefunden unter {path}"
+
+#: host_checks.py:51
+#, python-brace-format
+msgid "{repo} clone not found; everything is built from it."
+msgstr "{repo}-Klon nicht gefunden; daraus wird alles erstellt."
+
+#: host_checks.py:59 host_checks.py:173 host_checks.py:206 host_checks.py:216
+#, python-brace-format
+msgid "Set once the {repo} clone is present."
+msgstr "Wird eingerichtet, sobald der {repo}-Klon vorhanden ist."
+
+#: host_checks.py:61
+msgid "git is unavailable; cannot check for updates."
+msgstr "git nicht verfügbar; Updates können nicht geprüft werden."
+
+#: host_checks.py:63
+msgid "Could not check for updates (offline?)."
+msgstr "Updates konnten nicht geprüft werden (offline?)."
+
+#: host_checks.py:66
+msgid "Up to date with origin."
+msgstr "Mit origin auf dem neuesten Stand."
+
+#: host_checks.py:68
+#, python-brace-format
+msgid ""
+"{count} update available; update for the latest build scripts and packages."
+msgid_plural ""
+"{count} updates available; update for the latest build scripts and packages."
+msgstr[0] ""
+"{count} Update verfügbar; aktualisiere die Buildskripte und Pakete auf die "
+"neueste Version."
+msgstr[1] ""
+"{count} Updates verfügbar; aktualisiere die Buildskripte und Pakete auf die "
+"neueste Version."
+
+#: host_checks.py:75
+msgid "Running as a normal user"
+msgstr "Läuft als normaler Benutzer"
+
+#: host_checks.py:76
+msgid "Do NOT run the builder as root; relaunch as your user."
+msgstr ""
+"Führe den Builder NICHT als root aus; starte ihn als normaler Benutzer neu."
+
+#: host_checks.py:84
+#, python-brace-format
+msgid "{name} is not Arch-based."
+msgstr "{name} basiert nicht auf Arch."
+
+#: host_checks.py:90
+msgid "pkexec is not installed; fixes cannot elevate."
+msgstr ""
+"pkexec ist nicht installiert; Fehlerbehebungen können nicht mit erhöhten "
+"Rechten ausgeführt werden."
+
+#: host_checks.py:95
+msgid "polkit agent present."
+msgstr "polkit-Agent vorhanden."
+
+#: host_checks.py:96
+msgid "No polkit agent detected; fix prompts may not appear."
+msgstr ""
+"Kein polkit-Agent erkannt; Aufforderungen zur Fehlerbehebung werden "
+"möglicherweise nicht angezeigt."
+
+#: host_checks.py:122
+msgid "archiso is missing."
+msgstr "archiso fehlt."
+
+#: host_checks.py:129
+#, python-brace-format
+msgid ""
+"archiso {installed} is too old; needs {required}+; update the {repo} clone "
+"first (row above)."
+msgstr ""
+"archiso {installed} ist zu alt; benötigt wird {required}+; aktualisiere "
+"zuerst den {repo}-Klon (Zeile oben)."
+
+#: host_checks.py:133
+#, python-brace-format
+msgid ""
+"archiso {installed} is too old; needs {required}+; Fix runs a full system "
+"upgrade."
+msgstr ""
+"archiso {installed} ist zu alt; benötigt wird {required}+; Fix führt ein "
+"vollständiges Systemupgrade aus."
+
+#: host_checks.py:136
+#, python-brace-format
+msgid "archiso {version} installed."
+msgstr "archiso {version} installiert."
+
+#: host_checks.py:140
+msgid "grub installed."
+msgstr "grub installiert."
+
+#: host_checks.py:141
+msgid "grub is missing."
+msgstr "grub fehlt."
+
+#: host_checks.py:146
+msgid "Chaotic-AUR keyring and mirrorlist present."
+msgstr "Chaotic-AUR-Schlüsselbund und Mirrorliste vorhanden."
+
+#: host_checks.py:147
+msgid "Chaotic-AUR keyring or mirrorlist is missing."
+msgstr "Chaotic-AUR-Schlüsselbund oder Mirrorliste fehlt."
+
+#: host_checks.py:152
+msgid "CachyOS keyring and mirrorlist present."
+msgstr "CachyOS-Schlüsselbund und Mirrorliste vorhanden."
+
+#: host_checks.py:153
+msgid ""
+"CachyOS keyring or mirrorlist is missing (linux-cachyos is hosted there)."
+msgstr ""
+"CachyOS-Schlüsselbund oder Mirrorliste fehlt (linux-cachyos wird dort "
+"bereitgestellt)."
+
+#: host_checks.py:166
+#, python-brace-format
+msgid "{free:.0f} GB free in {path}."
+msgstr "{free:.0f} GB frei auf {path}."
+
+#: host_checks.py:167
+#, python-brace-format
+msgid "Only {free:.0f} GB free in {path} (about 15 GB recommended)."
+msgstr "Nur {free:.0f} GB frei auf {path} (etwa 15 GB empfohlen)."
+
+#: host_checks.py:176
+msgid "Kernel picker set to 'ask' (chosen at build time)."
+msgstr "Kernel-Auswahl auf 'ask' gesetzt (Auswahl beim Build)."
+
+#: host_checks.py:179
+msgid "No kernel set in build.conf."
+msgstr "Kein Kernel in build.conf festgelegt."
+
+#: host_checks.py:181
+msgid "pacman is unavailable."
+msgstr "pacman nicht verfügbar."
+
+#: host_checks.py:194
+#, python-brace-format
+msgid ""
+"{kernels} need the [cachyos] repo; it is disabled in pacman.conf (Kiro's "
+"default). Enable it to build with this kernel."
+msgstr ""
+"{kernels} benötigen das [cachyos]-Repository; es ist in pacman.conf "
+"deaktiviert (Kiros Standard). Aktiviere es, um mit diesem Kernel zu bauen."
+
+#: host_checks.py:198
+#, python-brace-format
+msgid "Kernel(s) not in synced repos: {kernels}"
+msgstr "Kernel nicht in synchronisierten Paketquellen: {kernels}"
+
+#: host_checks.py:199
+#, python-brace-format
+msgid "Kernel(s) resolve: {kernels}"
+msgstr "Kernel verfügbar: {kernels}"
+
+#: host_checks.py:208
+msgid "Stale build mounts under kiro-build; clean them before building."
+msgstr ""
+"Veraltete Build-Einhängungen unter kiro-build; bereinige sie vor dem Build."
+
+#: host_checks.py:209
+msgid "No stale build mounts."
+msgstr "Keine veralteten Build-Einhängungen."
+
+#: host_checks.py:218
+#, python-brace-format
+msgid "Leftover build folder {path} (owned by root); remove it."
+msgstr "Verbliebener Build-Ordner {path} (gehört root); entferne ihn."
+
+#: host_checks.py:220
+msgid "No leftover build folder."
+msgstr "Kein verbliebener Build-Ordner."
+
+#: host_checks.py:229
+#, python-brace-format
+msgid "NVIDIA GPU detected; driver set to '{driver}'."
+msgstr "NVIDIA-GPU erkannt; Treiber auf '{driver}' gesetzt."
+
+#: host_checks.py:230
+#, python-brace-format
+msgid "No NVIDIA GPU detected; driver set to '{driver}' (unused)."
+msgstr "Keine NVIDIA-GPU erkannt; Treiber auf '{driver}' gesetzt (ungenutzt)."
+
+#: host_checks.py:236 host_checks.py:237
+msgid "Build sources"
+msgstr "Buildquellen"
+
+#: host_checks.py:236
+#, python-brace-format
+msgid "{repo} (git clone)"
+msgstr "{repo} (Git-Klon)"
+
+#: host_checks.py:237
+#, python-brace-format
+msgid "{repo} up to date"
+msgstr "{repo} auf dem neuesten Stand"
+
+#: host_checks.py:238 host_checks.py:239 host_checks.py:240 host_checks.py:241
+#: host_checks.py:242 host_checks.py:243
+msgid "Dependencies"
+msgstr "Abhängigkeiten"
+
+#: host_checks.py:238
+msgid "polkit auth agent"
+msgstr "polkit-Authentifizierungsagent"
+
+#: host_checks.py:239
+msgid "archiso package"
+msgstr "archiso-Paket"
+
+#: host_checks.py:240
+msgid "grub package"
+msgstr "grub-Paket"
+
+#: host_checks.py:241
+msgid "Chaotic-AUR repo"
+msgstr "Chaotic-AUR-Repository"
+
+#: host_checks.py:242
+msgid "CachyOS repo"
+msgstr "CachyOS-Repository"
+
+#: host_checks.py:243
+msgid "Kernel package(s)"
+msgstr "Kernelpaket(e)"
+
+#: host_checks.py:244 host_checks.py:245 host_checks.py:246 host_checks.py:247
+#: host_checks.py:248 host_checks.py:249
+msgid "Host and workspace"
+msgstr "Host und Arbeitsbereich"
+
+#: host_checks.py:244
+msgid "Not running as root"
+msgstr "Nicht als root ausgeführt"
+
+#: host_checks.py:245
+msgid "Arch-based host"
+msgstr "Arch-basierter Host"
+
+#: host_checks.py:246
+msgid "Free disk space"
+msgstr "Freier Speicherplatz"
+
+#: host_checks.py:247
+msgid "Stale build mounts"
+msgstr "Veraltete Build-Einhängungen"
+
+#: host_checks.py:248
+msgid "Leftover build folder"
+msgstr "Verbliebener Build-Ordner"
+
+#: host_checks.py:249
+msgid "NVIDIA driver choice"
+msgstr "NVIDIA-Treiberauswahl"
+
+#: kiro-iso-builder.py:56
+msgid "1 · Pre-flight"
+msgstr "1 · Vorabprüfung"
+
+#: kiro-iso-builder.py:57
+msgid "2 · Configure"
+msgstr "2 · Konfigurieren"
+
+#: kiro-iso-builder.py:58
+msgid "3 · Packages"
+msgstr "3 · Pakete"
+
+#: kiro-iso-builder.py:59
+msgid "4 · Add apps"
+msgstr "4 · Apps hinzufügen"
+
+#: kiro-iso-builder.py:60
+msgid "5 · Build"
+msgstr "5 · Bauen"
+
+#: kiro-iso-builder.py:61
+msgid "6 · Done"
+msgstr "6 · Fertig"
+
+#: kiro-iso-builder.py:67
+msgid "Best value; almost all goes to the project"
+msgstr "Bester Wert; fast alles fließt ins Projekt"
+
+#: kiro-iso-builder.py:68
+msgid "Buy a coffee; one-off tip"
+msgstr "Kaffee spendieren; einmalige Unterstützung"
+
+#: kiro-iso-builder.py:69
+msgid "Membership tiers and perks"
+msgstr "Mitgliedschaftsstufen und Vorteile"
+
+#: kiro-iso-builder.py:70
+msgid "Join on YouTube"
+msgstr "Auf YouTube Mitglied werden"
+
+#: kiro-iso-builder.py:71
+msgid "Direct one-off tip"
+msgstr "Direkte Einzelspende"
+
+#: kiro-iso-builder.py:80 kiro-iso-builder.py:87
+msgid "Support Kiro"
+msgstr "Kiro unterstützen"
+
+#: kiro-iso-builder.py:95
+msgid ""
+"Kiro and its tools are built by one person, for the community, and kept "
+"free. If Kiro ISO Builder saves you time, a little support keeps the work "
+"going. Thank you for being here."
+msgstr ""
+"Kiro und seine Tools werden von einer Person für die Community entwickelt "
+"und bleiben kostenlos. Wenn dir Kiro ISO Builder Zeit spart, hilft eine "
+"kleine Unterstützung dabei, die Arbeit fortzusetzen. Schön, dass du dabei "
+"bist."
+
+#: kiro-iso-builder.py:114
+msgid "Close"
+msgstr "Schließen"
+
+#: kiro-iso-builder.py:134
+msgid "♥ Support"
+msgstr "♥ Unterstützen"
+
+#: kiro-iso-builder.py:135
+msgid "Support Kiro's development"
+msgstr "Die Entwicklung von Kiro unterstützen"
+
+#: kiro-iso-builder.py:168
+msgid "Quit"
+msgstr "Beenden"
+
+#: kiro-iso-builder.py:193
+#, python-brace-format
+msgid "System ({language})"
+msgstr "System ({language})"
+
+#: kiro-iso-builder.py:196
+msgid "Language"
+msgstr "Sprache"
+
+#: kiro-iso-builder.py:198
+msgid "Saved. The app shows the new language when it starts again."
+msgstr "Gespeichert. Die App zeigt die neue Sprache beim nächsten Start."
+
+#: kiro-iso-builder.py:200
+msgid "Restart now"
+msgstr "Jetzt neu starten"
+
+#: kiro-iso-builder.py:213
+msgid "A build is running. Restart after it finishes or after you stop it."
+msgstr ""
+"Ein Build läuft. Starte neu, wenn er fertig ist oder nachdem du ihn gestoppt "
+"hast."
+
+#: kiro-iso-builder.py:261
+#, python-brace-format
+msgid "{step} · {edition} extras"
+msgstr "{step} · {edition}-Extras"
+
+#: packages_gui.py:42
+msgid "Choose packages"
+msgstr "Pakete auswählen"
+
+#: packages_gui.py:47
+msgid ""
+"If everything is selected, you get the packages from the default Kiro ISO."
+msgstr ""
+"Wenn alles ausgewählt ist, erhältst du die Pakete des Standard-Kiro-ISOs."
+
+#: packages_gui.py:50
+msgid "Unselect what you do not want."
+msgstr "Wähle ab, was du nicht möchtest."
+
+#: packages_gui.py:53
+msgid ""
+"Packages that always ship (core or needed by your editions) are not listed; "
+"open the list below to see them."
+msgstr ""
+"Pakete, die immer enthalten sind (Grundausstattung oder für deine Editionen "
+"erforderlich), werden nicht aufgeführt. Öffne die Liste unten, um sie "
+"anzusehen."
+
+#: packages_gui.py:61
+msgid "Show the core packages"
+msgstr "Grundpakete anzeigen"
+
+#: packages_gui.py:72
+msgid "Search packages…"
+msgstr "Pakete suchen…"
+
+#: packages_gui.py:78
+msgid "Expand all"
+msgstr "Alle ausklappen"
+
+#: packages_gui.py:80
+msgid "Collapse all"
+msgstr "Alle einklappen"
+
+#: packages_gui.py:99
+msgid "Save package list…"
+msgstr "Paketliste speichern…"
+
+#: packages_gui.py:101
+msgid "Import package list…"
+msgstr "Paketliste importieren…"
+
+#: packages_gui.py:143
+msgid "No optional apps were found to choose from."
+msgstr "Es wurden keine optionalen Apps gefunden."
+
+#: packages_gui.py:149
+msgid "Show or hide the packages in this group"
+msgstr "Pakete in dieser Gruppe ein- oder ausblenden"
+
+#: packages_gui.py:261
+#, python-brace-format
+msgid "Package that will ship: {shipping}/{total} ({left_out} left out)"
+msgid_plural ""
+"Packages that will ship: {shipping}/{total} ({left_out} left out)"
+msgstr[0] "Enthaltenes Paket: {shipping}/{total} ({left_out} nicht enthalten)"
+msgstr[1] "Enthaltene Pakete: {shipping}/{total} ({left_out} nicht enthalten)"
+
+#: packages_gui.py:266
+#, python-brace-format
+msgid ""
+"{count} unticked package still ships; see the rows marked 'still ships'."
+msgid_plural ""
+"{count} unticked packages still ship; see the rows marked 'still ships'."
+msgstr[0] ""
+"{count} abgewähltes Paket wird trotzdem mitgeliefert; siehe die Zeilen mit "
+"„wird mitgeliefert“."
+msgstr[1] ""
+"{count} abgewählte Pakete werden trotzdem mitgeliefert; siehe die Zeilen mit "
+"„wird mitgeliefert“."
+
+#: packages_gui.py:276
+#, python-brace-format
+msgid "Show the package that always ships ({count})"
+msgid_plural "Show the packages that always ship ({count})"
+msgstr[0] "Paket anzeigen, das immer mitgeliefert wird ({count})"
+msgstr[1] "Pakete anzeigen, die immer mitgeliefert werden ({count})"
+
+#: packages_gui.py:280
+msgid "Ships with your editions:\n"
+msgstr "Wird mit deinen Editionen ausgeliefert:\n"
+
+#: packages_gui.py:283
+msgid "Also ships because of your editions or add-ons:\n"
+msgstr "Wird auch wegen deiner Editionen oder Add-ons ausgeliefert:\n"
+
+#: packages_gui.py:285
+msgid "Core: "
+msgstr "Grundausstattung:"
+
+#: packages_gui.py:316
+#, python-brace-format
+msgid "Still ships: {package} ({reason})"
+msgstr "Wird mitgeliefert: {package} ({reason})"
+
+#: packages_gui.py:318
+#, python-brace-format
+msgid "Unticked, but still on the ISO: {reason}."
+msgstr "Nicht ausgewählt, aber weiterhin im ISO: {reason}."
+
+#: packages_gui.py:348
+msgid "Save package profile"
+msgstr "Paketprofil speichern"
+
+#: packages_gui.py:362
+#, python-brace-format
+msgid "Saved profile ({count} package excluded) → {path}"
+msgid_plural "Saved profile ({count} packages excluded) → {path}"
+msgstr[0] "Profil gespeichert ({count} Paket ausgeschlossen) → {path}"
+msgstr[1] "Profil gespeichert ({count} Pakete ausgeschlossen) → {path}"
+
+#: packages_gui.py:368
+msgid "Import package profile"
+msgstr "Paketprofil importieren"
+
+#: packages_gui.py:381
+#, python-brace-format
+msgid "Imported profile; {count} package marked for exclusion."
+msgid_plural "Imported profile; {count} packages marked for exclusion."
+msgstr[0] "Profil importiert; {count} Paket zum Ausschluss markiert."
+msgstr[1] "Profil importiert; {count} Pakete zum Ausschluss markiert."
+
+#: preflight_gui.py:31
+msgid "Pre-flight checks"
+msgstr "Vorabprüfungen"
+
+#: preflight_gui.py:39
+msgid "Where should Kiro build?"
+msgstr "Wo soll Kiro bauen?"
+
+#: preflight_gui.py:46
+msgid "Browse…"
+msgstr "Durchsuchen…"
+
+#: preflight_gui.py:54
+msgid ""
+"The clone, the build files (kiro-build) and the finished ISO (kiro-Out) all "
+"live in this one folder."
+msgstr ""
+"Der Klon, die Build-Dateien (kiro-build) und das fertige ISO befinden sich "
+"alle in diesem Ordner."
+
+#: preflight_gui.py:62
+msgid "Then confirm the host is ready and fix anything red before building."
+msgstr ""
+"Prüfe anschließend, ob der Host bereit ist, und behebe alle roten Punkte vor "
+"dem Build."
+
+#: preflight_gui.py:68
+msgid "Re-check"
+msgstr "Erneut prüfen"
+
+#: preflight_gui.py:70
+msgid "Fix all"
+msgstr "Alle beheben"
+
+#: preflight_gui.py:84
+msgid "Fix log"
+msgstr "Fix-Protokoll"
+
+#: preflight_gui.py:92
+msgid "Continue to Configure →"
+msgstr "Weiter zu Konfigurieren →"
+
+#: preflight_gui.py:107
+msgid "Running checks…"
+msgstr "Prüfungen laufen…"
+
+#: preflight_gui.py:143
+#, python-brace-format
+msgid "Not found; will clone to {path}"
+msgstr "Nicht gefunden; wird nach {path} geklont"
+
+#: preflight_gui.py:147
+#, python-brace-format
+msgid "Choose where {repo} lives (or should be cloned)"
+msgstr "Wähle, wo sich {repo} befindet (oder geklont werden soll)"
+
+#: preflight_gui.py:163
+#, python-brace-format
+msgid "{repo} location set to {path}"
+msgstr "{repo}-Speicherort auf {path} gesetzt"
+
+#: preflight_gui.py:167
+#, python-brace-format
+msgid "{path} already exists but is not a {repo} clone. Pick another folder."
+msgstr ""
+"{path} existiert bereits, ist aber kein {repo}-Klon. Wähle einen anderen "
+"Ordner."
+
+#: preflight_gui.py:173
+#, python-brace-format
+msgid "{repo} location set to {path}; it will be cloned here."
+msgstr "{repo}-Speicherort auf {path} gesetzt; der Klon wird hier erstellt."
+
+#: preflight_gui.py:217
+msgid "Fix"
+msgstr "Beheben"
+
+#: preflight_gui.py:294
+#, python-brace-format
+msgid "Update {repo} to the latest?"
+msgstr "{repo} auf die neueste Version aktualisieren?"
+
+#: preflight_gui.py:295
+msgid ""
+"The clone has local changes from building. They will be discarded and the "
+"repo reset to the latest. Your package selection, add-ons and build.conf are "
+"kept."
+msgstr ""
+"Der Klon enthält lokale Änderungen vom Build. Sie werden verworfen und das "
+"Repository wird auf den neuesten Stand zurückgesetzt. Deine Paketauswahl, "
+"Add-ons und build.conf bleiben erhalten."
+
+#: preflight_gui.py:298
+msgid "Discard & update"
+msgstr "Verwerfen und aktualisieren"
+
+#: po/kiro-iso-builder.desktop.in:3
+msgid "Kiro ISO Builder"
+msgstr "Kiro ISO Builder"
+
+#: po/kiro-iso-builder.desktop.in:4
+msgid "ISO Builder"
+msgstr "ISO-Ersteller"
+
+#: po/kiro-iso-builder.desktop.in:5
+msgid "Build the Kiro ISO with one-click host pre-flight fixes"
+msgstr ""
+"Kiro-ISO mit Ein-Klick-Fehlerbehebungen für die Hostvorbereitung erstellen"
+
+#: po/kiro-iso-builder.desktop.in:10
+msgid "kiro;iso;archiso;build;"
+msgstr "kiro;iso;archiso;build;bauen;installation;linux;"

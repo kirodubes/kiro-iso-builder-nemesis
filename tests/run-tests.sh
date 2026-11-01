@@ -22,6 +22,7 @@ run() {
 }
 
 cd "${APP_DIR}"
+export KIB_LANGUAGE=en
 run "unit tests" python3 -B -m unittest discover -s tests -v
 run "build script contract" bash tests/test_build_script.sh
 if command -v ruff >/dev/null; then

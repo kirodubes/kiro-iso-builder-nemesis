@@ -15,6 +15,7 @@ import functions as fn
 
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gio, GLib, Gtk  # noqa: E402
+from kib_i18n import _, ngettext  # noqa: E402
 
 # UEFI firmware images shipped by edk2-ovmf (paths vary by version).
 _OVMF_CANDIDATES = (
@@ -78,7 +79,7 @@ class DoneScreen:
         for m in ("set_margin_top", "set_margin_bottom", "set_margin_start", "set_margin_end"):
             getattr(self.widget, m)(18)
 
-        title = Gtk.Label(label="Build complete", xalign=0)
+        title = Gtk.Label(label=_("Build complete"), xalign=0)
         title.add_css_class("screen-title")
         self.widget.append(title)
 
@@ -94,25 +95,25 @@ class DoneScreen:
         bar = Gtk.FlowBox(selection_mode=Gtk.SelectionMode.NONE, homogeneous=False,
                           min_children_per_line=1, max_children_per_line=8,
                           column_spacing=8, row_spacing=8)
-        self.open_btn = Gtk.Button(label="Open output folder")
+        self.open_btn = Gtk.Button(label=_("Open output folder"))
         self.open_btn.connect("clicked", lambda _w: self._open())
-        self.vbox_btn = Gtk.Button(label="Test in VirtualBox")
+        self.vbox_btn = Gtk.Button(label=_("Test in VirtualBox"))
         self.vbox_btn.connect("clicked", lambda _w: self._test_virtualbox())
-        self.vbox_install_btn = Gtk.Button(label="Install VirtualBox")
+        self.vbox_install_btn = Gtk.Button(label=_("Install VirtualBox"))
         self.vbox_install_btn.connect("clicked", lambda _w: self._install_virtualbox())
-        self.vm_btn = Gtk.Button(label="Test in QEMU")
+        self.vm_btn = Gtk.Button(label=_("Test in QEMU"))
         self.vm_btn.connect("clicked", lambda _w: self._test_vm())
-        self.install_btn = Gtk.Button(label="Install QEMU")
+        self.install_btn = Gtk.Button(label=_("Install QEMU"))
         self.install_btn.connect("clicked", lambda _w: self._install_qemu())
-        self.burn_btn = Gtk.Button(label="Burn to USB")
+        self.burn_btn = Gtk.Button(label=_("Burn to USB"))
         self.burn_btn.connect("clicked", lambda _w: self._burn())
-        self.burn_install_btn = Gtk.Button(label="Install USB writer")
+        self.burn_install_btn = Gtk.Button(label=_("Install USB writer"))
         self.burn_install_btn.connect("clicked", lambda _w: self._install_mintstick())
-        self.log_btn = Gtk.Button(label="Open build log")
+        self.log_btn = Gtk.Button(label=_("Open build log"))
         self.log_btn.connect("clicked", lambda _w: self._open_log())
-        self.save_profile_btn = Gtk.Button(label="Save build profile…")
+        self.save_profile_btn = Gtk.Button(label=_("Save build profile…"))
         self.save_profile_btn.connect("clicked", lambda _w: self._save_profile())
-        again = Gtk.Button(label="Build again")
+        again = Gtk.Button(label=_("Build again"))
         again.connect("clicked", lambda _w: self.window.navigate("preflight"))
         bar.append(self.open_btn)
         bar.append(self.vbox_btn)
@@ -127,8 +128,8 @@ class DoneScreen:
         self.widget.append(bar)
 
         note = Gtk.Label(
-            label="Note: the test VM only boots the ISO once to check the installer — it "
-                  "cannot reboot into an installed system. Test a real install on hardware.",
+            label=_("Note: the test VM only boots the ISO once to check the installer; it "
+                    "cannot reboot into an installed system. Test a real install on hardware."),
             xalign=0, wrap=True)
         note.add_css_class("att-orange-note")
         self.widget.append(note)
@@ -137,12 +138,12 @@ class DoneScreen:
         folder = _out_folder()
         self.checks_buf.set_text("")
         if folder is None or not folder.is_dir():
-            self.info.set_text("Output folder not found yet.")
+            self.info.set_text(_("Output folder not found yet."))
             self._enable(False)
             return
         self.iso = _latest_iso(folder)
         if self.iso is None:
-            self.info.set_text(f"No ISO found in {folder}")
+            self.info.set_text(_("No ISO found in {path}").format(path=folder))
             self._enable(False)
             return
         size_gb = self.iso.stat().st_size / 1_000_000_000
@@ -189,10 +190,10 @@ class DoneScreen:
 
     def _test_virtualbox(self):
         if not self.iso or not fn.have("VBoxManage"):
-            self._log("VirtualBox (VBoxManage) not installed.")
+            self._log(_("VirtualBox (VBoxManage) not installed."))
             return
         self.vbox_btn.set_sensitive(False)
-        self._log("Creating a VirtualBox VM (UEFI + 50 GB disk) and booting the ISO…")
+        self._log(_("Creating a VirtualBox VM (UEFI + 50 GB disk) and booting the ISO…"))
         # A throwaway VM, recreated fresh each run so the install disk is clean.
         script = (
             'set -e\n'
@@ -219,12 +220,12 @@ class DoneScreen:
 
     def _on_vbox_done(self, code):
         self.vbox_btn.set_sensitive(True)
-        self._log("VirtualBox VM started." if code == 0
-                  else f"VirtualBox launch failed (exit {code}).")
+        self._log(_("VirtualBox VM started.") if code == 0
+                  else _("VirtualBox launch failed (exit {code}).").format(code=code))
 
     def _install_virtualbox(self):
         self.vbox_install_btn.set_sensitive(False)
-        self._log("Installing VirtualBox + host DKMS + kernel headers (password required)…")
+        self._log(_("Installing VirtualBox + host DKMS + kernel headers (password required)…"))
         fn.run_pipe(
             ["pkexec", "bash", "-c", _VBOX_INSTALL, "kiro-vbox-install", getpass.getuser()],
             lambda line: self._log(fn.strip_ansi(line)),
@@ -232,15 +233,15 @@ class DoneScreen:
 
     def _on_vbox_installed(self, code):
         if code == 0 and fn.have("VBoxManage"):
-            self._log("VirtualBox installed. REBOOT now (a log-out is not enough) to load the "
-                      "host kernel modules and join the vboxusers group. Also: enable "
-                      "virtualization in your motherboard / BIOS-UEFI settings (Intel VT-x or "
-                      "AMD-V / SVM) — VirtualBox cannot run virtual machines without it.")
+            self._log(_("VirtualBox installed. Reboot now (a log-out is not enough) to load the "
+                        "host kernel modules and join the vboxusers group. Also enable "
+                        "virtualization in your motherboard / BIOS-UEFI settings (Intel VT-x or "
+                        "AMD-V / SVM); VirtualBox cannot run virtual machines without it."))
             self.vbox_install_btn.set_visible(False)
             self.vbox_btn.set_visible(True)
             self.vbox_btn.set_sensitive(True)
         else:
-            self._log(f"VirtualBox install failed (exit {code}).")
+            self._log(_("VirtualBox install failed (exit {code}).").format(code=code))
             self.vbox_install_btn.set_sensitive(True)
 
     def _test_vm(self):
@@ -251,7 +252,7 @@ class DoneScreen:
         if ovmf:
             cmd += ["-bios", ovmf]   # UEFI boot, not legacy BIOS
         else:
-            self._log("OVMF not found (install edk2-ovmf) — booting BIOS instead of UEFI.")
+            self._log(_("OVMF not found (install edk2-ovmf); booting BIOS instead of UEFI."))
         disk = self._test_disk()
         if disk:
             cmd += ["-drive", f"file={disk},format=qcow2"]   # install target (>=25 GiB)
@@ -264,24 +265,24 @@ class DoneScreen:
     def _test_disk(self):
         """A FRESH 50 GB qcow2 each run, so every test starts with a clean target."""
         if not fn.have("qemu-img"):
-            self._log("qemu-img not found — the installer will have no disk to install on.")
+            self._log(_("qemu-img not found; the installer will have no disk to install on."))
             return None
         cache = Path.home() / ".cache" / "kiro-iso-builder"
         cache.mkdir(parents=True, exist_ok=True)
         disk = cache / "kiro-test.qcow2"
         if disk.exists():
             disk.unlink()   # overwrite: a clean disk every test (matches VirtualBox)
-        self._log("Creating a fresh 50 GB virtual disk for the installer…")
+        self._log(_("Creating a fresh 50 GB virtual disk for the installer…"))
         r = subprocess.run(["qemu-img", "create", "-f", "qcow2", str(disk), "50G"],
                            capture_output=True, text=True)
         if r.returncode != 0:
-            self._log(f"Failed to create disk: {r.stderr.strip()}")
+            self._log(_("Failed to create disk: {error}").format(error=r.stderr.strip()))
             return None
         return disk
 
     def _install_qemu(self):
         self.install_btn.set_sensitive(False)
-        self._log("Installing qemu-desktop (you'll be asked for your password)…")
+        self._log(_("Installing qemu-desktop (you will be asked for your password)…"))
         fn.run_pipe(
             ["pkexec", "pacman", "-S", "--needed", "--noconfirm", "qemu-desktop"],
             lambda line: self._log(fn.strip_ansi(line)),
@@ -289,12 +290,12 @@ class DoneScreen:
 
     def _on_qemu_installed(self, code):
         if code == 0 and fn.have("qemu-system-x86_64"):
-            self._log("QEMU installed — you can now Test in a VM.")
+            self._log(_("QEMU installed; you can now test in a VM."))
             self.install_btn.set_visible(False)
             self.vm_btn.set_visible(True)
             self.vm_btn.set_sensitive(True)
         else:
-            self._log(f"QEMU install failed (exit {code}).")
+            self._log(_("QEMU install failed (exit {code}).").format(code=code))
             self.install_btn.set_sensitive(True)
 
     # ── burn the ISO to a USB stick via mintstick ──────────────────────
@@ -306,7 +307,7 @@ class DoneScreen:
 
     def _install_mintstick(self):
         self.burn_install_btn.set_sensitive(False)
-        self._log("Installing mintstick (you'll be asked for your password)…")
+        self._log(_("Installing mintstick (you will be asked for your password)…"))
         fn.run_pipe(
             ["pkexec", "pacman", "-S", "--needed", "--noconfirm", "mintstick"],
             lambda line: self._log(fn.strip_ansi(line)),
@@ -314,12 +315,12 @@ class DoneScreen:
 
     def _on_mintstick_installed(self, code):
         if code == 0 and fn.have("mintstick"):
-            self._log("USB writer installed — you can now Burn to USB.")
+            self._log(_("USB writer installed; you can now burn to USB."))
             self.burn_install_btn.set_visible(False)
             self.burn_btn.set_visible(True)
             self.burn_btn.set_sensitive(True)
         else:
-            self._log(f"USB writer install failed (exit {code}).")
+            self._log(_("USB writer install failed (exit {code}).").format(code=code))
             self.burn_install_btn.set_sensitive(True)
 
     # ── save a shareable build profile (settings + package selection) ─
@@ -327,7 +328,7 @@ class DoneScreen:
         kernel = fn.read_conf().get("kernel", "").split()
         suggested = f"kiro-{kernel[0]}{fn.PROFILE_EXT}" if kernel else f"kiro-build{fn.PROFILE_EXT}"
         dialog = Gtk.FileDialog()
-        dialog.set_title("Save build profile")
+        dialog.set_title(_("Save build profile"))
         dialog.set_initial_name(suggested)
         dialog.set_initial_folder(Gio.File.new_for_path(str(fn.profiles_dir())))
         dialog.save(self.window, None, self._on_profile_save_ready)
@@ -343,7 +344,10 @@ class DoneScreen:
         settings = {k: conf[k] for k in fn.PROFILE_SETTINGS_KEYS if k in conf}
         excludes = fn.read_excludes()
         fn.write_build_profile(gfile.get_path(), settings, excludes)
-        self._log(f"Saved build profile ({len(excludes)} package(s) removed) → {gfile.get_path()}")
+        self._log(ngettext(
+            "Saved build profile ({count} package removed) → {path}",
+            "Saved build profile ({count} packages removed) → {path}",
+            len(excludes)).format(count=len(excludes), path=gfile.get_path()))
 
     def _log(self, line):
         self.checks_buf.insert(self.checks_buf.get_end_iter(), line + "\n")

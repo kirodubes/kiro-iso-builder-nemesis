@@ -1,3 +1,5 @@
 [codespell]
+# The generated menu entry and catalogs carry translations; codespell checks the English sources.
+skip = *.desktop,*.po,*.pot,./locale
 # check key / function name in host_checks.py, not a typo
 ignore-words-list = uptodate

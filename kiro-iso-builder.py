@@ -21,6 +21,8 @@ if codecs.lookup(sys.getfilesystemencoding()).name != "utf-8":
     os.environ["PYTHONUTF8"] = "1"
     os.execv(sys.executable, [sys.executable, "-X", "utf8", *sys.argv])
 
+import kib_i18n
+
 # The build script we spawn inherits our locale; if it is not UTF-8 its output
 # renders as mojibake in the Build log view. Keep the user's locale when it is
 # already UTF-8, otherwise fall back to C.UTF-8 so child output stays readable.
@@ -44,28 +46,29 @@ from done_gui import DoneScreen  # noqa: E402
 from extras_gui import ExtrasScreen  # noqa: E402
 from packages_gui import PackagesScreen  # noqa: E402
 from preflight_gui import PreflightScreen  # noqa: E402
+from kib_i18n import _  # noqa: E402
 
 APP_DIR = Path(__file__).resolve().parent
 APP_ID = "be.kiroproject.kiro-iso-builder"
 
 # Sidebar order = wizard order.
 SCREENS = [
-    ("preflight", "1 · Pre-flight", PreflightScreen),
-    ("configure", "2 · Configure", ConfigureScreen),
-    ("packages", "3 · Packages", PackagesScreen),
-    ("extras", "4 · Add apps", ExtrasScreen),
-    ("build", "5 · Build", BuildScreen),
-    ("done", "6 · Done", DoneScreen),
+    ("preflight", _("1 · Pre-flight"), PreflightScreen),
+    ("configure", _("2 · Configure"), ConfigureScreen),
+    ("packages", _("3 · Packages"), PackagesScreen),
+    ("extras", _("4 · Add apps"), ExtrasScreen),
+    ("build", _("5 · Build"), BuildScreen),
+    ("done", _("6 · Done"), DoneScreen),
 ]
 
 # Funding channels — GitHub Sponsors first (~100% payout). Keep in sync with
 # kiro-website .github/FUNDING.yml and fish-tweak-tool's _FUNDING if those change.
 _FUNDING = [
-    ("GitHub Sponsors", "https://github.com/sponsors/erikdubois", "best value — almost all goes to the project"),
-    ("Ko-fi", "https://ko-fi.com/erikdubois", "buy a coffee — one-off tip"),
-    ("Patreon", "https://www.patreon.com/kiroproject", "membership tiers + perks"),
-    ("YouTube membership", "https://www.youtube.com/@ErikDubois/join", "join on YouTube"),
-    ("PayPal", "https://www.paypal.me/erikdubois", "direct one-off"),
+    ("GitHub Sponsors", "https://github.com/sponsors/erikdubois", _("Best value; almost all goes to the project")),
+    ("Ko-fi", "https://ko-fi.com/erikdubois", _("Buy a coffee; one-off tip")),
+    ("Patreon", "https://www.patreon.com/kiroproject", _("Membership tiers and perks")),
+    ("YouTube membership", "https://www.youtube.com/@ErikDubois/join", _("Join on YouTube")),
+    ("PayPal", "https://www.paypal.me/erikdubois", _("Direct one-off tip")),
 ]
 
 
@@ -74,14 +77,14 @@ def _open_url(parent, url):
 
 
 def _show_support_dialog(window):
-    dlg = Gtk.Window(title="Support Kiro", transient_for=window, modal=True)
+    dlg = Gtk.Window(title=_("Support Kiro"), transient_for=window, modal=True)
     dlg.set_default_size(440, -1)
     box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
     for side in ("start", "end", "top", "bottom"):
         getattr(box, f"set_margin_{side}")(18)
 
     heading = Gtk.Label(xalign=0)
-    heading.set_markup("<b>Support Kiro</b>")
+    heading.set_markup(f"<b>{_('Support Kiro')}</b>")
     box.append(heading)
 
     intro = Gtk.Label(xalign=0)
@@ -89,9 +92,9 @@ def _show_support_dialog(window):
     intro.set_wrap(True)
     intro.set_max_width_chars(52)
     intro.set_label(
-        "Kiro and its tools are built by one person, for the community — and kept free. "
-        "If Kiro ISO Builder saves you time, a little support keeps the work going. "
-        "Thank you for being here."
+        _("Kiro and its tools are built by one person, for the community, and kept free. "
+          "If Kiro ISO Builder saves you time, a little support keeps the work going. "
+          "Thank you for being here.")
     )
     box.append(intro)
 
@@ -108,7 +111,7 @@ def _show_support_dialog(window):
         btn.connect("clicked", lambda _w, u=url: _open_url(dlg, u))
         box.append(btn)
 
-    close = Gtk.Button(label="Close")
+    close = Gtk.Button(label=_("Close"))
     close.set_halign(Gtk.Align.END)
     close.connect("clicked", lambda _w: dlg.close())
     box.append(close)
@@ -124,14 +127,24 @@ class BuilderWindow(Gtk.ApplicationWindow):
 
         header = Gtk.HeaderBar()
         self.set_titlebar(header)
-        support_btn = Gtk.Button(label="♥ Support")
-        support_btn.set_tooltip_text("Support Kiro's development")
+        language_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        self.language_dropdown, self.restart_btn, self.language_note = self._language_controls()
+        language_box.append(self.language_dropdown)
+        language_box.append(self.restart_btn)
+        support_btn = Gtk.Button(label=_("♥ Support"))
+        support_btn.set_tooltip_text(_("Support Kiro's development"))
         support_btn.add_css_class("support-button")
         support_btn.connect("clicked", lambda _w: _show_support_dialog(self))
-        header.pack_end(support_btn)
+        language_box.append(support_btn)
+        header.pack_end(language_box)
 
         outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.set_child(outer)
+        self.language_note.set_margin_start(18)
+        self.language_note.set_margin_end(18)
+        self.language_note.set_margin_top(6)
+        self.language_note.set_visible(False)
+        outer.append(self.language_note)
 
         body = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, vexpand=True)
         outer.append(body)
@@ -152,7 +165,7 @@ class BuilderWindow(Gtk.ApplicationWindow):
         footer = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         for m in ("set_margin_top", "set_margin_bottom", "set_margin_start", "set_margin_end"):
             getattr(footer, m)(8)
-        quit_btn = Gtk.Button(label="Quit")
+        quit_btn = Gtk.Button(label=_("Quit"))
         quit_btn.set_hexpand(True)
         quit_btn.set_halign(Gtk.Align.END)
         quit_btn.connect("clicked", lambda _w: self.close())
@@ -174,6 +187,38 @@ class BuilderWindow(Gtk.ApplicationWindow):
         # emits no notify — fire on_show for the starting screen explicitly.
         self.navigate("preflight")
         self._on_switch()
+
+    def _language_controls(self):
+        codes = [None, *kib_i18n.available()]
+        labels = [_("System ({language})").format(language=kib_i18n.name(kib_i18n.SYSTEM))]
+        labels.extend(kib_i18n.name(code) for code in codes[1:])
+        dropdown = Gtk.DropDown.new_from_strings(labels)
+        dropdown.set_tooltip_text(_("Language"))
+        dropdown.set_selected(codes.index(kib_i18n.chosen()))
+        note = Gtk.Label(label=_("Saved. The app shows the new language when it starts again."), xalign=0)
+        note.add_css_class("dim-label")
+        restart = Gtk.Button(label=_("Restart now"), visible=False)
+
+        def on_language_changed(_dropdown, _pspec):
+            code = codes[dropdown.get_selected()]
+            kib_i18n.save_choice(code)
+            changed = (code or kib_i18n.SYSTEM) != (kib_i18n.ACTIVE or kib_i18n.SYSTEM)
+            note.set_visible(changed)
+            restart.set_visible(changed)
+
+        def on_restart(_widget):
+            # execv would orphan a running sudo build mid-way (mounts, half-written work dir)
+            proc = getattr(self.screens.get("build"), "proc", None)
+            if proc is not None and proc.poll() is None:
+                note.set_label(_("A build is running. Restart after it finishes or after you stop it."))
+                return
+            argv = [sys.executable, os.path.abspath(sys.argv[0]), *sys.argv[1:]]
+            kib_i18n.restore_environment()
+            os.execv(sys.executable, argv)
+
+        dropdown.connect("notify::selected", on_language_changed)
+        restart.connect("clicked", on_restart)
+        return dropdown, restart, note
 
     def _add_page(self, name, visible=True):
         page = self.stack.add_titled(self.screens[name].widget, name, self.page_titles[name])
@@ -213,7 +258,8 @@ class BuilderWindow(Gtk.ApplicationWindow):
                 self.screens[page_name] = ExtrasScreen(self, edition=ed)
                 # Numbered "4 · …" like the fixed pages so the sidebar aligns; these
                 # always slot in right after "4 · Add apps".
-                self.page_titles[page_name] = f"4 · {ed.capitalize()} extras"
+                self.page_titles[page_name] = _("{step} · {edition} extras").format(
+                    step=4, edition=ed.capitalize())
                 self.edition_pages[ed] = page_name
             self._add_page(page_name, visible=was_visible.get(page_name, False))
         for name in fixed_tail:

@@ -4,6 +4,41 @@
 
 ---
 
+## 2026.11.01
+
+### What Changed
+- **The builder speaks 14 languages.** English plus Dutch, German, Spanish, French, Brazilian Portuguese, Russian,
+  Hungarian, Italian, Turkish, Polish, Japanese, Simplified Chinese and Romanian. It follows the system language;
+  a language dropdown in the header (before ♥ Support) picks another, with **Restart now** to apply it.
+- Restart now refuses while a build runs. A restart would kill the sudo build halfway and leave its mounts behind.
+- The menu entry is translated from the same catalogs. The old hand-written entries (German in the formal register, plus
+  Ukrainian, Czech and European Portuguese, which are not among the 13) are gone.
+- A few English texts were tidied while wrapping them (dashes → semicolons, whole sentences). "Build Stopped /
+  Failed" was glued from two pieces and is now two whole sentences.
+
+### Technical Details
+- New `kib_i18n.py` (gettext domain `kiro-iso-builder`, same as production because the nemesis package installs
+  unprefixed). Reads the repo's `locale/` when run from git, `/usr/share/locale` when installed. Choice saved in
+  `~/.config/kiro-iso-builder/prefs.json`; `KIB_LANGUAGE` pins a catalog and the tests pin `en`. Sibling fallback
+  `pt` → `pt_BR`, `zh` → `zh_CN`.
+- Never translated: `build.conf`, package/kernel/driver names, check ids, host-prep arguments, `SUDO_SENTINEL` and
+  strings matched against command output, log files and the build-summary HTML. Child processes keep their own
+  locale handling (sudo sentinel, `LC_ALL=C` pacman), so a German UI doesn't break output parsing.
+- `po/make-mo.sh` (Kiro bash template) extracts the strings, merges and compiles 13 catalogs into `locale/`, and
+  writes `kiro-iso-builder.desktop` from `po/kiro-iso-builder.desktop.in`.
+- Drafted by GitHub Copilot CLI (gpt-6-luna), reviewed by a second Copilot pass per language (terra for
+  ja/zh/pl/ro/hu/tr/ru). Fixes applied with guards; German "Return" key and a Dutch imperative were rejected by
+  hand, plural findings fixed by hand. 266 strings, 0 fuzzy, 0 untranslated in all 13. Checked off-screen
+  (Broadway) in German and Russian: no cut-off labels.
+
+### Files Modified
+- `kib_i18n.py` (new), `po/` (new), `locale/` (new)
+- `kiro-iso-builder.py`, `build_gui.py`, `configure_gui.py`, `done_gui.py`, `extras_gui.py`, `packages_gui.py`,
+  `preflight_gui.py`, `functions.py`, `host_checks.py`
+- `kiro-iso-builder.desktop` (now generated)
+- `tests/run-tests.sh`, `tests/gui_smoke.py`, `.codespellrc`
+- `README.md`, `CLAUDE.md`, `CHANGELOG.md`
+
 ## 2026.10.25
 
 ### What Changed

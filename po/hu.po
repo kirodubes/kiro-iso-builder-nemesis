@@ -1,0 +1,1318 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kiro-iso-builder\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-01 06:40+0100\n"
+"PO-Revision-Date: 2026-11-01 06:14+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: Kiro translations\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: build_gui.py:37
+msgid "Build the ISO"
+msgstr "ISO-készítés"
+
+#: build_gui.py:41
+msgid ""
+"Runs build-the-iso.sh as your user. You will be asked for your password "
+"once; if the build prompts (for example, pacman's [Y/n]), type your reply in "
+"the box below."
+msgstr ""
+"A build-the-iso.sh futtatása a saját felhasználóddal. A jelszavadat egyszer "
+"kell megadnod. Ha a folyamat választ kér (például a pacman [Y/n] kérdésére), "
+"írd be a válaszodat az alábbi mezőbe."
+
+#: build_gui.py:60
+msgid "Start build"
+msgstr "Fordítás indítása"
+
+#: build_gui.py:63
+msgid "Stop"
+msgstr "Leállítás"
+
+#: build_gui.py:67 build_gui.py:162
+msgid "Show summary"
+msgstr "Összefoglaló megtekintése"
+
+#: build_gui.py:68
+msgid ""
+"Open a page in your browser listing what this build removes, keeps and pulls "
+"in, and why"
+msgstr ""
+"Megnyit egy oldalt a böngésződben arról, hogy ez a fordítás mit távolít el, "
+"tart meg és ad hozzá, és miért"
+
+#: build_gui.py:76
+msgid "Idle"
+msgstr "Tétlen"
+
+#: build_gui.py:95
+msgid "Reply to a build prompt (for example, y) and press Enter"
+msgstr "Válaszolj a fordítás kérdésére (például y), majd nyomj Entert"
+
+#: build_gui.py:97
+msgid "Send"
+msgstr "Küldés"
+
+#: build_gui.py:104 configure_gui.py:199 extras_gui.py:88 packages_gui.py:108
+msgid "← Back"
+msgstr "← Vissza"
+
+#: build_gui.py:113 configure_gui.py:466
+#, python-brace-format
+msgid "{repo} clone not found; fix it on the Pre-flight screen."
+msgstr ""
+"A(z) {repo} klón nem található; javítsd az Előzetes ellenőrzés oldalon."
+
+#: build_gui.py:120
+msgid "Work dir:"
+msgstr "Munkamappa:"
+
+#: build_gui.py:121
+msgid "ISO output:"
+msgstr "ISO kimenete:"
+
+#: build_gui.py:123
+msgid "Output location unknown; set the clone path on the Pre-flight screen."
+msgstr ""
+"A kimenet helye ismeretlen; állítsd be a klón útvonalát az Előzetes "
+"ellenőrzés oldalon."
+
+#: build_gui.py:138
+msgid "Unticked but still on the ISO:\n"
+msgstr "Nincs kijelölve, de az ISO-ban marad:\n"
+
+#: build_gui.py:147
+msgid "Preparing…"
+msgstr "Előkészítés…"
+
+#: build_gui.py:154
+#, python-brace-format
+msgid "Summary opened: {path}"
+msgstr "Összefoglaló megnyitva: {path}"
+
+#: build_gui.py:156
+#, python-brace-format
+msgid "Could not build the summary page: {error}"
+msgstr "Nem sikerült létrehozni az összefoglaló oldalát: {error}"
+
+#: build_gui.py:177
+#, python-brace-format
+msgid "Summary saved: {path}"
+msgstr "Összefoglaló mentve: {path}"
+
+#: build_gui.py:179
+#, python-brace-format
+msgid "Could not save the summary page: {error}"
+msgstr "Nem sikerült menteni az összefoglaló oldalát: {error}"
+
+#: build_gui.py:199
+msgid "Starting…"
+msgstr "Indítás…"
+
+#: build_gui.py:200
+msgid "── Starting build ──"
+msgstr "── Fordítás indítása ──"
+
+#: build_gui.py:245
+#, python-brace-format
+msgid "Phase {current} / {total}"
+msgstr "{current} / {total}. lépés"
+
+#: build_gui.py:256
+msgid "Done"
+msgstr "Kész"
+
+#: build_gui.py:257
+msgid "── Build finished ──"
+msgstr "── A fordítás befejeződött ──"
+
+#: build_gui.py:266
+#, python-brace-format
+msgid "Stopped (exit {code})"
+msgstr "Leállítva (kilépési kód: {code})"
+
+#: build_gui.py:267
+#, python-brace-format
+msgid "── Build stopped (exit {code}) ──"
+msgstr "── A fordítás leállítva (kilépési kód: {code}) ──"
+
+#: build_gui.py:269
+#, python-brace-format
+msgid "Failed (exit {code})"
+msgstr "Sikertelen (kilépési kód: {code})"
+
+#: build_gui.py:270
+#, python-brace-format
+msgid "── Build failed (exit {code}) ──"
+msgstr "── A fordítás sikertelen (kilépési kód: {code}) ──"
+
+#: build_gui.py:273
+msgid "Cleaning up mounts…"
+msgstr "Csatolások tisztítása…"
+
+#: build_gui.py:274
+msgid "── Stale build mounts found; cleaning up ──"
+msgstr "── Régi fordítási csatolások találhatók; tisztítás ──"
+
+#: build_gui.py:280
+msgid "── Mount cleanup complete ──"
+msgstr "── A csatolások tisztítása befejeződött ──"
+
+#: build_gui.py:281
+#, python-brace-format
+msgid "── Mount cleanup exited with code {code} ──"
+msgstr "── A csatolások tisztítása {code} kóddal ért véget ──"
+
+#: build_gui.py:282
+msgid "Cleaned up"
+msgstr "Tisztítás kész"
+
+#: build_gui.py:282
+#, python-brace-format
+msgid "Cleanup failed (exit {code})"
+msgstr "Tisztítási hiba (kilépési kód: {code})"
+
+#: build_gui.py:298 preflight_gui.py:330
+msgid "Remove the leftover build folder?"
+msgstr "Eltávolítod a megmaradt fordítási mappát?"
+
+#: build_gui.py:299 preflight_gui.py:331
+#, python-brace-format
+msgid ""
+"{path}{size}\n"
+"\n"
+"It is owned by root (mkarchiso ran as root), so you cannot delete it from "
+"your file manager. Keeping it is fine; the next build reuses this location."
+msgstr ""
+"{path}{size}\n"
+"\n"
+"A mappa tulajdonosa a root (a mkarchiso rootként futott), ezért a "
+"fájlkezelőből nem távolíthatod el. Megtarthatod; a következő fordítás újra "
+"ezt a helyet használja."
+
+#: build_gui.py:302 preflight_gui.py:335
+msgid "Keep"
+msgstr "Megtartás"
+
+#: build_gui.py:302 preflight_gui.py:335
+msgid "Remove"
+msgstr "Eltávolítás"
+
+#: build_gui.py:316
+msgid "Removing build folder…"
+msgstr "Fordítási mappa eltávolítása…"
+
+#: build_gui.py:317
+msgid "── Removing build folder (with your approval) ──"
+msgstr "── Fordítási mappa eltávolítása a jóváhagyásoddal ──"
+
+#: build_gui.py:321
+msgid "── Build folder removed ──"
+msgstr "── Fordítási mappa eltávolítva ──"
+
+#: build_gui.py:322
+#, python-brace-format
+msgid "── Removing build folder failed (exit {code}) ──"
+msgstr "── A fordítási mappa eltávolítása sikertelen (kilépési kód: {code}) ──"
+
+#: build_gui.py:323
+#, python-brace-format
+msgid "Remove failed (exit {code})"
+msgstr "Eltávolítás sikertelen (kilépési kód: {code})"
+
+#: build_gui.py:323
+msgid "Removed"
+msgstr "Eltávolítva"
+
+#: build_gui.py:335
+#, python-brace-format
+msgid "Could not open build log: {error}"
+msgstr "Nem sikerült megnyitni a fordítási naplót: {error}"
+
+#: configure_gui.py:24
+msgid "All"
+msgstr "Összes"
+
+#: configure_gui.py:24
+msgid "CachyOS"
+msgstr "CachyOS"
+
+#: configure_gui.py:24
+msgid "Chaotic"
+msgstr "Chaotic"
+
+#: configure_gui.py:24
+msgid "Official Arch"
+msgstr "Hivatalos Arch"
+
+#: configure_gui.py:66
+msgid "Configure the build"
+msgstr "Fordítás beállítása"
+
+#: configure_gui.py:69
+msgid "These write straight to build.conf; the CLI uses the same file."
+msgstr ""
+"Ezek a beállítások közvetlenül a build.conf fájlba kerülnek; a parancssori "
+"felület is ezt a fájlt használja."
+
+#: configure_gui.py:78
+msgid "NVIDIA driver"
+msgstr "NVIDIA illesztőprogram"
+
+#: configure_gui.py:80
+msgid ""
+"AMD / Intel / a VM (no NVIDIA card)? Pick 'none': no NVIDIA driver is baked "
+"in, and at boot choose the first entry, 'open source: AMD / Intel', which "
+"blacklists NVIDIA. The other options bake that NVIDIA driver set."
+msgstr ""
+"AMD, Intel vagy virtuális gép (NVIDIA GPU nélkül)? Válaszd a 'none' "
+"lehetőséget: így nem kerül be NVIDIA-illesztőprogram. Indításkor válaszd az "
+"első, 'open source: AMD / Intel' lehetőséget, amely letiltja az NVIDIA-t. A "
+"többi lehetőség a hozzá tartozó NVIDIA-illesztőprogramokat építi be."
+
+#: configure_gui.py:92
+msgid "Kernel source"
+msgstr "Kernel forrása"
+
+#: configure_gui.py:100
+msgid "First kernel (boots the live ISO)"
+msgstr "Első kernel (elindítja az élő ISO-t)"
+
+#: configure_gui.py:101
+msgid "Second kernel (optional)"
+msgstr "Második kernel (nem kötelező)"
+
+#: configure_gui.py:104
+msgid "Refresh kernels"
+msgstr "Kernelek frissítése"
+
+#: configure_gui.py:112
+msgid ""
+"The list includes every kernel offered by the repos that has matching "
+"-headers (those headers are installed automatically for DKMS drivers). "
+"Filter by source above, and type in a dropdown to search."
+msgstr ""
+"A lista az összes olyan, tárolóban elérhető kernelt tartalmazza, amelyhez "
+"van megfelelő -headers csomag (ezeket a fejléceket a rendszer automatikusan "
+"telepíti a DKMS-illesztőprogramokhoz). Szűrj a fenti forrás szerint, és a "
+"kereséshez kezdj el gépelni a legördülő listában."
+
+#: configure_gui.py:122
+msgid "Enable CachyOS repo"
+msgstr "CachyOS tároló engedélyezése"
+
+#: configure_gui.py:132
+msgid "Editions (desktops and window managers)"
+msgstr "Kiadások (asztali környezetek és ablakkezelők)"
+
+#: configure_gui.py:137
+msgid "Desktops"
+msgstr "Asztali környezetek"
+
+#: configure_gui.py:142
+msgid "Window managers"
+msgstr "Ablakkezelők"
+
+#: configure_gui.py:149
+msgid ""
+"Tick what you want; each becomes a session you can pick at the SDDM login "
+"screen. Tick at least one."
+msgstr ""
+"Jelöld be, amit szeretnél; minden kiadás egy munkamenetként jelenik meg az "
+"SDDM bejelentkezési képernyőjén. Legalább egyet jelölj be."
+
+#: configure_gui.py:162
+msgid "Default session (boots first)"
+msgstr "Alapértelmezett munkamenet (ez indul először)"
+
+#: configure_gui.py:164
+msgid "Which ticked edition the live ISO logs into first."
+msgstr "A bejelölt kiadás, amely először indul el az élő ISO-ban."
+
+#: configure_gui.py:169
+msgid "Advanced"
+msgstr "Speciális"
+
+#: configure_gui.py:172
+msgid "Bump version before building"
+msgstr "Verzió növelése fordítás előtt"
+
+#: configure_gui.py:174
+msgid "Clean pacman cache"
+msgstr "pacman-gyorsítótár törlése"
+
+#: configure_gui.py:176
+msgid "Remove build folder after build"
+msgstr "Fordítási mappa eltávolítása utána"
+
+#: configure_gui.py:192
+msgid "Reset to defaults"
+msgstr "Alapértékek visszaállítása"
+
+#: configure_gui.py:195
+msgid "Import build profile…"
+msgstr "Fordítási profil importálása…"
+
+#: configure_gui.py:201 extras_gui.py:90 packages_gui.py:110
+msgid "Save & Continue →"
+msgstr "Mentés és folytatás →"
+
+#: configure_gui.py:218
+msgid "build.conf not found; fix the clone on the Pre-flight screen."
+msgstr ""
+"A build.conf nem található; javítsd a klónt az Előzetes ellenőrzés oldalon."
+
+#: configure_gui.py:341
+msgid "Reset to defaults; click Save & Continue to apply."
+msgstr ""
+"Alapértelmezések visszaállítva; alkalmazásukhoz kattints a Mentés és "
+"folytatás gombra."
+
+#: configure_gui.py:346
+msgid "Detecting…"
+msgstr "Észlelés…"
+
+#: configure_gui.py:359
+msgid "None found; sync repos first. Keeping the built-in list."
+msgstr ""
+"Nincs találat; először szinkronizáld a tárolókat. A beépített lista marad."
+
+#: configure_gui.py:363
+#, python-brace-format
+msgid "Found {count} kernel."
+msgid_plural "Found {count} kernels."
+msgstr[0] "{count} kernel található."
+msgstr[1] "{count} kernel található."
+
+#: configure_gui.py:373
+msgid ""
+"CachyOS repo is disabled (Kiro's default); enable it to add the CachyOS-only "
+"kernels (eevdf, hardened, server, …)."
+msgstr ""
+"A CachyOS tároló le van tiltva (ez a Kiro alapértelmezése); engedélyezd, "
+"hogy CachyOS-specifikus kerneleket adj hozzá (eevdf, hardened, server, …)."
+
+#: configure_gui.py:378
+msgid "Enabling CachyOS repo…"
+msgstr "CachyOS tároló engedélyezése…"
+
+#: configure_gui.py:388
+msgid "CachyOS repo enabled; refreshing kernels…"
+msgstr "CachyOS tároló engedélyezve; kernelek frissítése…"
+
+#: configure_gui.py:391
+#, python-brace-format
+msgid "Enabling CachyOS failed (exit {code})."
+msgstr "Nem sikerült engedélyezni a CachyOS-t (kilépési kód: {code})."
+
+#: configure_gui.py:447
+msgid "Tick at least one desktop or window manager; an ISO needs a session."
+msgstr ""
+"Jelölj be legalább egy asztali környezetet vagy ablakkezelőt; az ISO-nak "
+"szüksége van munkamenetre."
+
+#: configure_gui.py:470
+msgid "Import build profile"
+msgstr "Fordítási profil importálása"
+
+#: configure_gui.py:473
+msgid "Kiro build profiles"
+msgstr "Kiro fordítási profilok"
+
+#: configure_gui.py:493
+#, python-brace-format
+msgid ""
+"Imported profile; {count} package to remove. Review the settings, then click "
+"Save & Continue."
+msgid_plural ""
+"Imported profile; {count} packages to remove. Review the settings, then "
+"click Save & Continue."
+msgstr[0] ""
+"Profil importálva; {count} csomag eltávolításra kerül. Nézd át a "
+"beállításokat, majd kattints a Mentés és folytatás gombra."
+msgstr[1] ""
+"Profil importálva; {count} csomag eltávolításra kerül. Nézd át a "
+"beállításokat, majd kattints a Mentés és folytatás gombra."
+
+#: done_gui.py:82
+msgid "Build complete"
+msgstr "Fordítás kész"
+
+#: done_gui.py:98
+msgid "Open output folder"
+msgstr "Kimeneti mappa megnyitása"
+
+#: done_gui.py:100
+msgid "Test in VirtualBox"
+msgstr "Tesztelés VirtualBoxban"
+
+#: done_gui.py:102
+msgid "Install VirtualBox"
+msgstr "VirtualBox telepítése"
+
+#: done_gui.py:104
+msgid "Test in QEMU"
+msgstr "Tesztelés QEMU-ban"
+
+#: done_gui.py:106
+msgid "Install QEMU"
+msgstr "QEMU telepítése"
+
+#: done_gui.py:108
+msgid "Burn to USB"
+msgstr "Kiírás USB-re"
+
+#: done_gui.py:110
+msgid "Install USB writer"
+msgstr "USB-író telepítése"
+
+#: done_gui.py:112
+msgid "Open build log"
+msgstr "Fordítási napló megnyitása"
+
+#: done_gui.py:114
+msgid "Save build profile…"
+msgstr "Fordítási profil mentése…"
+
+#: done_gui.py:116
+msgid "Build again"
+msgstr "Újrafordítás"
+
+#: done_gui.py:131
+msgid ""
+"Note: the test VM only boots the ISO once to check the installer; it cannot "
+"reboot into an installed system. Test a real install on hardware."
+msgstr ""
+"Megjegyzés: a teszt-VM egyszer indítja el az ISO-t a telepítő "
+"ellenőrzéséhez; nem tud újraindulni a telepített rendszerbe. A valódi "
+"telepítést hardveren próbáld ki."
+
+#: done_gui.py:141
+msgid "Output folder not found yet."
+msgstr "A kimeneti mappa még nem található."
+
+#: done_gui.py:146
+#, python-brace-format
+msgid "No ISO found in {path}"
+msgstr "Nem található ISO itt: {path}"
+
+#: done_gui.py:193
+msgid "VirtualBox (VBoxManage) not installed."
+msgstr "A VirtualBox (VBoxManage) nincs telepítve."
+
+#: done_gui.py:196
+msgid "Creating a VirtualBox VM (UEFI + 50 GB disk) and booting the ISO…"
+msgstr ""
+"VirtualBox-VM létrehozása (UEFI + 50 GB-os lemez), majd az ISO indítása…"
+
+#: done_gui.py:223
+msgid "VirtualBox VM started."
+msgstr "VirtualBox-VM elindult."
+
+#: done_gui.py:224
+#, python-brace-format
+msgid "VirtualBox launch failed (exit {code})."
+msgstr "Nem sikerült elindítani a VirtualBoxot (kilépési kód: {code})."
+
+#: done_gui.py:228
+msgid "Installing VirtualBox + host DKMS + kernel headers (password required)…"
+msgstr ""
+"VirtualBox + host DKMS + kernel-fejlécek telepítése (jelszó szükséges)…"
+
+#: done_gui.py:236
+msgid ""
+"VirtualBox installed. Reboot now (a log-out is not enough) to load the host "
+"kernel modules and join the vboxusers group. Also enable virtualization in "
+"your motherboard / BIOS-UEFI settings (Intel VT-x or AMD-V / SVM); "
+"VirtualBox cannot run virtual machines without it."
+msgstr ""
+"A VirtualBox telepítve van. Indítsd újra most (a kijelentkezés nem elég), "
+"hogy betöltődjenek a kernelmodulok és csatlakozz a vboxusers csoporthoz. A "
+"virtualizációt az alaplap vagy a BIOS/UEFI beállításaiban is engedélyezd "
+"(Intel VT-x vagy AMD-V / SVM); enélkül a VirtualBox nem tud VM-eket futtatni."
+
+#: done_gui.py:244
+#, python-brace-format
+msgid "VirtualBox install failed (exit {code})."
+msgstr "Nem sikerült telepíteni a VirtualBoxot (kilépési kód: {code})."
+
+#: done_gui.py:255
+msgid "OVMF not found (install edk2-ovmf); booting BIOS instead of UEFI."
+msgstr ""
+"Az OVMF nem található (telepítsd az edk2-ovmf csomagot); UEFI helyett BIOS "
+"módban indul."
+
+#: done_gui.py:268
+msgid "qemu-img not found; the installer will have no disk to install on."
+msgstr ""
+"A qemu-img nem található; a telepítőnek nem lesz lemeze, ahová telepíthet."
+
+#: done_gui.py:275
+msgid "Creating a fresh 50 GB virtual disk for the installer…"
+msgstr "Új, 50 GB-os virtuális lemez létrehozása a telepítő számára…"
+
+#: done_gui.py:279
+#, python-brace-format
+msgid "Failed to create disk: {error}"
+msgstr "Nem sikerült létrehozni a lemezt: {error}"
+
+#: done_gui.py:285
+msgid "Installing qemu-desktop (you will be asked for your password)…"
+msgstr "A qemu-desktop telepítése (a rendszer kéri a jelszót)…"
+
+#: done_gui.py:293
+msgid "QEMU installed; you can now test in a VM."
+msgstr "A QEMU telepítve van; most már tesztelhetsz VM-ben."
+
+#: done_gui.py:298
+#, python-brace-format
+msgid "QEMU install failed (exit {code})."
+msgstr "Nem sikerült telepíteni a QEMU-t (kilépési kód: {code})."
+
+#: done_gui.py:310
+msgid "Installing mintstick (you will be asked for your password)…"
+msgstr "A mintstick telepítése (a rendszer kéri a jelszót)…"
+
+#: done_gui.py:318
+msgid "USB writer installed; you can now burn to USB."
+msgstr "Az USB-író telepítve van; most már kiírhatod USB-re."
+
+#: done_gui.py:323
+#, python-brace-format
+msgid "USB writer install failed (exit {code})."
+msgstr "Nem sikerült telepíteni az USB-írót (kilépési kód: {code})."
+
+#: done_gui.py:331
+msgid "Save build profile"
+msgstr "Fordítási profil mentése"
+
+#: done_gui.py:348
+#, python-brace-format
+msgid "Saved build profile ({count} package removed) → {path}"
+msgid_plural "Saved build profile ({count} packages removed) → {path}"
+msgstr[0] "Profil mentve ({count} csomag eltávolítva) → {path}"
+msgstr[1] "Profil mentve ({count} csomag eltávolítva) → {path}"
+
+#: extras_gui.py:35
+msgid "Add apps"
+msgstr "Alkalmazások hozzáadása"
+
+#: extras_gui.py:36
+msgid "These apps are NOT on the standard Kiro; tick the ones you want added."
+msgstr ""
+"Ezek az alkalmazások NINCSENEK benne a normál Kiroban; jelöld be, amit hozzá "
+"szeretnél adni."
+
+#: extras_gui.py:37
+msgid ""
+"Nothing is ticked by default. Tick none and your ISO stays the standard Kiro."
+msgstr ""
+"Alapértelmezés szerint semmi sincs kijelölve. Ha nem jelölsz be semmit, az "
+"ISO a normál Kiro marad."
+
+#: extras_gui.py:40
+#, python-brace-format
+msgid "{edition} extras"
+msgstr "{edition} extrák"
+
+#: extras_gui.py:41
+#, python-brace-format
+msgid ""
+"Optional {edition} apps, added only to this {edition} build; tick what you "
+"want."
+msgstr ""
+"Opcionális {edition} alkalmazások, csak ehhez a {edition} fordításhoz "
+"hozzáadva; jelöld be a kívántakat."
+
+#: extras_gui.py:43
+msgid "Nothing is ticked by default."
+msgstr "Alapértelmezés szerint semmi sincs kijelölve."
+
+#: extras_gui.py:44
+msgid "Consider these a work in progress."
+msgstr ""
+"Vedd figyelembe, hogy ezek az alkalmazások még fejlesztés alatt állnak."
+
+#: extras_gui.py:56
+msgid "Search apps…"
+msgstr "Alkalmazások keresése…"
+
+#: extras_gui.py:58 packages_gui.py:74
+msgid "Select all"
+msgstr "Összes kijelölése"
+
+#: extras_gui.py:60 packages_gui.py:76
+msgid "Deselect all"
+msgstr "Kijelölés megszüntetése"
+
+#: extras_gui.py:77
+msgid "Save app list…"
+msgstr "Alkalmazáslista mentése…"
+
+#: extras_gui.py:79
+msgid "Import app list…"
+msgstr "Alkalmazáslista importálása…"
+
+#: extras_gui.py:122 packages_gui.py:131
+msgid "packages.x86_64 not found; fix the clone on the Pre-flight screen."
+msgstr ""
+"A packages.x86_64 nem található; javítsd a klónt az Előzetes ellenőrzés "
+"oldalon."
+
+#: extras_gui.py:136
+msgid "No extra apps are offered yet."
+msgstr "Jelenleg nincs elérhető extra alkalmazás."
+
+#: extras_gui.py:226
+#, python-brace-format
+msgid "App that will be added: {added}/{total}"
+msgid_plural "Apps that will be added: {added}/{total}"
+msgstr[0] "Hozzáadandó alkalmazás: {added}/{total}"
+msgstr[1] "Hozzáadandó alkalmazások: {added}/{total}"
+
+#: extras_gui.py:249
+msgid "Save app list"
+msgstr "Alkalmazáslista mentése"
+
+#: extras_gui.py:263
+#, python-brace-format
+msgid "Saved app list ({count} app added) → {path}"
+msgid_plural "Saved app list ({count} apps added) → {path}"
+msgstr[0] "Alkalmazáslista mentve ({count} alkalmazás hozzáadva) → {path}"
+msgstr[1] "Alkalmazáslista mentve ({count} alkalmazás hozzáadva) → {path}"
+
+#: extras_gui.py:269
+msgid "Import app list"
+msgstr "Alkalmazáslista importálása"
+
+#: extras_gui.py:282
+#, python-brace-format
+msgid "Imported app list; {count} app marked to add."
+msgid_plural "Imported app list; {count} apps marked to add."
+msgstr[0] "Lista importálva; {count} alkalmazás kijelölve hozzáadásra."
+msgstr[1] "Lista importálva; {count} alkalmazás kijelölve hozzáadásra."
+
+#: functions.py:1272
+msgid "Authentication required"
+msgstr "Hitelesítés szükséges"
+
+#: functions.py:1273 preflight_gui.py:298
+msgid "Cancel"
+msgstr "Mégse"
+
+#: functions.py:1274
+msgid "Authenticate"
+msgstr "Hitelesítés"
+
+#: functions.py:1282
+msgid "Enter your password"
+msgstr "Írd be a jelszavadat"
+
+#: host_checks.py:50
+#, python-brace-format
+msgid "Found at {path}"
+msgstr "Találat itt: {path}"
+
+#: host_checks.py:51
+#, python-brace-format
+msgid "{repo} clone not found; everything is built from it."
+msgstr "A(z) {repo} klón nem található; minden innen kerül lefordításra."
+
+#: host_checks.py:59 host_checks.py:173 host_checks.py:206 host_checks.py:216
+#, python-brace-format
+msgid "Set once the {repo} clone is present."
+msgstr "Beállításra kerül, amint a(z) {repo} klón elérhető."
+
+#: host_checks.py:61
+msgid "git is unavailable; cannot check for updates."
+msgstr "A git nem érhető el; nem ellenőrizhetők a frissítések."
+
+#: host_checks.py:63
+msgid "Could not check for updates (offline?)."
+msgstr "Nem sikerült ellenőrizni a frissítéseket (nincs internet?)."
+
+#: host_checks.py:66
+msgid "Up to date with origin."
+msgstr "Naprakész az origin alapján."
+
+#: host_checks.py:68
+#, python-brace-format
+msgid ""
+"{count} update available; update for the latest build scripts and packages."
+msgid_plural ""
+"{count} updates available; update for the latest build scripts and packages."
+msgstr[0] ""
+"{count} frissítés érhető el; frissítsd a build szkripteket és csomagokat a "
+"legújabb verzióra."
+msgstr[1] ""
+"{count} frissítés érhető el; frissítsd a build szkripteket és csomagokat a "
+"legújabb verzióra."
+
+#: host_checks.py:75
+msgid "Running as a normal user"
+msgstr "Normál felhasználóként fut"
+
+#: host_checks.py:76
+msgid "Do NOT run the builder as root; relaunch as your user."
+msgstr "NE rootként futtasd a buildet; indítsd újra a saját felhasználóddal."
+
+#: host_checks.py:84
+#, python-brace-format
+msgid "{name} is not Arch-based."
+msgstr "A(z) {name} nem Arch-alapú."
+
+#: host_checks.py:90
+msgid "pkexec is not installed; fixes cannot elevate."
+msgstr ""
+"A pkexec nincs telepítve; nem futtathatók emelt jogosultságú javítások."
+
+#: host_checks.py:95
+msgid "polkit agent present."
+msgstr "A polkit agent elérhető."
+
+#: host_checks.py:96
+msgid "No polkit agent detected; fix prompts may not appear."
+msgstr ""
+"Nem található polkit agent; lehet, hogy a javítási kérések nem jelennek meg."
+
+#: host_checks.py:122
+msgid "archiso is missing."
+msgstr "Az archiso hiányzik."
+
+#: host_checks.py:129
+#, python-brace-format
+msgid ""
+"archiso {installed} is too old; needs {required}+; update the {repo} clone "
+"first (row above)."
+msgstr ""
+"Az archiso {installed} túl régi; legalább {required} szükséges; először "
+"frissítsd a(z) {repo} klónját (előző sor)."
+
+#: host_checks.py:133
+#, python-brace-format
+msgid ""
+"archiso {installed} is too old; needs {required}+; Fix runs a full system "
+"upgrade."
+msgstr ""
+"Az archiso {installed} túl régi; legalább {required} szükséges; a Javítás "
+"teljes rendszerfrissítést hajt végre."
+
+#: host_checks.py:136
+#, python-brace-format
+msgid "archiso {version} installed."
+msgstr "Az archiso {version} telepítve van."
+
+#: host_checks.py:140
+msgid "grub installed."
+msgstr "A grub telepítve van."
+
+#: host_checks.py:141
+msgid "grub is missing."
+msgstr "A grub hiányzik."
+
+#: host_checks.py:146
+msgid "Chaotic-AUR keyring and mirrorlist present."
+msgstr "A Chaotic-AUR kulcstartója és tükörlistája elérhető."
+
+#: host_checks.py:147
+msgid "Chaotic-AUR keyring or mirrorlist is missing."
+msgstr "Hiányzik a Chaotic-AUR kulcstartója vagy tükörlistája."
+
+#: host_checks.py:152
+msgid "CachyOS keyring and mirrorlist present."
+msgstr "A CachyOS kulcstartója és tükörlistája elérhető."
+
+#: host_checks.py:153
+msgid ""
+"CachyOS keyring or mirrorlist is missing (linux-cachyos is hosted there)."
+msgstr ""
+"Hiányzik a CachyOS kulcstartója vagy tükörlistája (a linux-cachyos ott "
+"érhető el)."
+
+#: host_checks.py:166
+#, python-brace-format
+msgid "{free:.0f} GB free in {path}."
+msgstr "Szabad hely itt: {path}: {free:.0f} GB."
+
+#: host_checks.py:167
+#, python-brace-format
+msgid "Only {free:.0f} GB free in {path} (about 15 GB recommended)."
+msgstr "Szabad hely itt: {path}: csak {free:.0f} GB (kb. 15 GB ajánlott)."
+
+#: host_checks.py:176
+msgid "Kernel picker set to 'ask' (chosen at build time)."
+msgstr "A kernelválasztó 'ask' értékre van állítva (választás fordításkor)."
+
+#: host_checks.py:179
+msgid "No kernel set in build.conf."
+msgstr "Nincs kernel beállítva a build.conf fájlban."
+
+#: host_checks.py:181
+msgid "pacman is unavailable."
+msgstr "A pacman nem érhető el."
+
+#: host_checks.py:194
+#, python-brace-format
+msgid ""
+"{kernels} need the [cachyos] repo; it is disabled in pacman.conf (Kiro's "
+"default). Enable it to build with this kernel."
+msgstr ""
+"A(z) {kernels} kernelhez szükséges a [cachyos] tároló, amely le van tiltva a "
+"pacman.conf fájlban (Kiro-alapértelmezés); engedélyezd a kernel "
+"használatához."
+
+#: host_checks.py:198
+#, python-brace-format
+msgid "Kernel(s) not in synced repos: {kernels}"
+msgstr "Nem elérhető kernel(ek) a szinkronizált tárolókban: {kernels}"
+
+#: host_checks.py:199
+#, python-brace-format
+msgid "Kernel(s) resolve: {kernels}"
+msgstr "Elérhető kernel(ek): {kernels}"
+
+#: host_checks.py:208
+msgid "Stale build mounts under kiro-build; clean them before building."
+msgstr ""
+"Régi fordítási csatolások vannak a kiro-build mappában; fordítás előtt "
+"tisztítsd meg őket."
+
+#: host_checks.py:209
+msgid "No stale build mounts."
+msgstr "Nincsenek régi fordítási csatolások."
+
+#: host_checks.py:218
+#, python-brace-format
+msgid "Leftover build folder {path} (owned by root); remove it."
+msgstr "Megmaradt fordítási mappa: {path} (tulajdonosa root); távolítsd el."
+
+#: host_checks.py:220
+msgid "No leftover build folder."
+msgstr "Nincs megmaradt fordítási mappa."
+
+#: host_checks.py:229
+#, python-brace-format
+msgid "NVIDIA GPU detected; driver set to '{driver}'."
+msgstr "NVIDIA GPU észlelve; illesztőprogram beállítva: '{driver}'."
+
+#: host_checks.py:230
+#, python-brace-format
+msgid "No NVIDIA GPU detected; driver set to '{driver}' (unused)."
+msgstr ""
+"Nincs NVIDIA GPU; az illesztőprogram beállítva: '{driver}' (nem használatos)."
+
+#: host_checks.py:236 host_checks.py:237
+msgid "Build sources"
+msgstr "Fordítási források"
+
+#: host_checks.py:236
+#, python-brace-format
+msgid "{repo} (git clone)"
+msgstr "{repo} (git klón)"
+
+#: host_checks.py:237
+#, python-brace-format
+msgid "{repo} up to date"
+msgstr "A(z) {repo} naprakész"
+
+#: host_checks.py:238 host_checks.py:239 host_checks.py:240 host_checks.py:241
+#: host_checks.py:242 host_checks.py:243
+msgid "Dependencies"
+msgstr "Függőségek"
+
+#: host_checks.py:238
+msgid "polkit auth agent"
+msgstr "polkit hitelesítő agent"
+
+#: host_checks.py:239
+msgid "archiso package"
+msgstr "archiso csomag"
+
+#: host_checks.py:240
+msgid "grub package"
+msgstr "grub csomag"
+
+#: host_checks.py:241
+msgid "Chaotic-AUR repo"
+msgstr "Chaotic-AUR tároló"
+
+#: host_checks.py:242
+msgid "CachyOS repo"
+msgstr "CachyOS tároló"
+
+#: host_checks.py:243
+msgid "Kernel package(s)"
+msgstr "Kernelcsomag(ok)"
+
+#: host_checks.py:244 host_checks.py:245 host_checks.py:246 host_checks.py:247
+#: host_checks.py:248 host_checks.py:249
+msgid "Host and workspace"
+msgstr "Gazdagép és munkaterület"
+
+#: host_checks.py:244
+msgid "Not running as root"
+msgstr "Nem rootként fut"
+
+#: host_checks.py:245
+msgid "Arch-based host"
+msgstr "Arch-alapú gazdagép"
+
+#: host_checks.py:246
+msgid "Free disk space"
+msgstr "Szabad lemezterület"
+
+#: host_checks.py:247
+msgid "Stale build mounts"
+msgstr "Régi fordítási csatolások"
+
+#: host_checks.py:248
+msgid "Leftover build folder"
+msgstr "Megmaradt fordítási mappa"
+
+#: host_checks.py:249
+msgid "NVIDIA driver choice"
+msgstr "NVIDIA illesztőprogram választása"
+
+#: kiro-iso-builder.py:56
+msgid "1 · Pre-flight"
+msgstr "1 · Előzetes ellenőrzés"
+
+#: kiro-iso-builder.py:57
+msgid "2 · Configure"
+msgstr "2 · Beállítás"
+
+#: kiro-iso-builder.py:58
+msgid "3 · Packages"
+msgstr "3 · Csomagok"
+
+#: kiro-iso-builder.py:59
+msgid "4 · Add apps"
+msgstr "4 · Alkalmazások hozzáadása"
+
+#: kiro-iso-builder.py:60
+msgid "5 · Build"
+msgstr "5 · Fordítás"
+
+#: kiro-iso-builder.py:61
+msgid "6 · Done"
+msgstr "6 · Kész"
+
+#: kiro-iso-builder.py:67
+msgid "Best value; almost all goes to the project"
+msgstr "Legjobb választás; szinte minden a projektet támogatja"
+
+#: kiro-iso-builder.py:68
+msgid "Buy a coffee; one-off tip"
+msgstr "Kávéra való; egyszeri borravaló"
+
+#: kiro-iso-builder.py:69
+msgid "Membership tiers and perks"
+msgstr "Tagsági szintek és előnyök"
+
+#: kiro-iso-builder.py:70
+msgid "Join on YouTube"
+msgstr "Csatlakozás a YouTube-on"
+
+#: kiro-iso-builder.py:71
+msgid "Direct one-off tip"
+msgstr "Közvetlen, egyszeri támogatás"
+
+#: kiro-iso-builder.py:80 kiro-iso-builder.py:87
+msgid "Support Kiro"
+msgstr "A Kiro támogatása"
+
+#: kiro-iso-builder.py:95
+msgid ""
+"Kiro and its tools are built by one person, for the community, and kept "
+"free. If Kiro ISO Builder saves you time, a little support keeps the work "
+"going. Thank you for being here."
+msgstr ""
+"A Kirot és eszközeit egy ember készíti a közösségnek, és továbbra is "
+"ingyenesek. Ha a Kiro ISO Builder időt takarít meg neked, egy kis támogatás "
+"segít a munka folytatásában. Köszönjük, hogy itt vagy."
+
+#: kiro-iso-builder.py:114
+msgid "Close"
+msgstr "Bezárás"
+
+#: kiro-iso-builder.py:134
+msgid "♥ Support"
+msgstr "♥ Támogatás"
+
+#: kiro-iso-builder.py:135
+msgid "Support Kiro's development"
+msgstr "A Kiro fejlesztésének támogatása"
+
+#: kiro-iso-builder.py:168
+msgid "Quit"
+msgstr "Kilépés"
+
+#: kiro-iso-builder.py:193
+#, python-brace-format
+msgid "System ({language})"
+msgstr "Rendszer ({language})"
+
+#: kiro-iso-builder.py:196
+msgid "Language"
+msgstr "Nyelv"
+
+#: kiro-iso-builder.py:198
+msgid "Saved. The app shows the new language when it starts again."
+msgstr "Mentve. Az alkalmazás a következő indításkor az új nyelvet mutatja."
+
+#: kiro-iso-builder.py:200
+msgid "Restart now"
+msgstr "Újraindítás most"
+
+#: kiro-iso-builder.py:213
+msgid "A build is running. Restart after it finishes or after you stop it."
+msgstr ""
+"Egy build fut. Indítsd újra, ha befejeződött, vagy miután leállítottad."
+
+#: kiro-iso-builder.py:261
+#, python-brace-format
+msgid "{step} · {edition} extras"
+msgstr "{step} · {edition} extrák"
+
+#: packages_gui.py:42
+msgid "Choose packages"
+msgstr "Csomagok kiválasztása"
+
+#: packages_gui.py:47
+msgid ""
+"If everything is selected, you get the packages from the default Kiro ISO."
+msgstr "Az összes kijelölésével a normál Kiro ISO csomagjait kapod."
+
+#: packages_gui.py:50
+msgid "Unselect what you do not want."
+msgstr "Töröld annak kijelölését, amit nem szeretnél."
+
+#: packages_gui.py:53
+msgid ""
+"Packages that always ship (core or needed by your editions) are not listed; "
+"open the list below to see them."
+msgstr ""
+"A mindig bekerülő csomagok (alapcsomagok vagy a kiadásokhoz szükségesek) nem "
+"jelennek meg a listában; az alábbi listát megnyitva megtekintheted őket."
+
+#: packages_gui.py:61
+msgid "Show the core packages"
+msgstr "Alapcsomagok megjelenítése"
+
+#: packages_gui.py:72
+msgid "Search packages…"
+msgstr "Csomagok keresése…"
+
+#: packages_gui.py:78
+msgid "Expand all"
+msgstr "Összes kibontása"
+
+#: packages_gui.py:80
+msgid "Collapse all"
+msgstr "Összes összecsukása"
+
+#: packages_gui.py:99
+msgid "Save package list…"
+msgstr "Csomaglista mentése…"
+
+#: packages_gui.py:101
+msgid "Import package list…"
+msgstr "Csomaglista importálása…"
+
+#: packages_gui.py:143
+msgid "No optional apps were found to choose from."
+msgstr "Nincs választható opcionális alkalmazás."
+
+#: packages_gui.py:149
+msgid "Show or hide the packages in this group"
+msgstr "A csoport csomagjainak megjelenítése vagy elrejtése"
+
+#: packages_gui.py:261
+#, python-brace-format
+msgid "Package that will ship: {shipping}/{total} ({left_out} left out)"
+msgid_plural ""
+"Packages that will ship: {shipping}/{total} ({left_out} left out)"
+msgstr[0] "Bekerülő csomag: {shipping}/{total} ({left_out} kizárva)"
+msgstr[1] "Bekerülő csomagok: {shipping}/{total} ({left_out} kizárva)"
+
+#: packages_gui.py:266
+#, python-brace-format
+msgid ""
+"{count} unticked package still ships; see the rows marked 'still ships'."
+msgid_plural ""
+"{count} unticked packages still ship; see the rows marked 'still ships'."
+msgstr[0] ""
+"A kijelölés ellenére {count} csomag bekerül; nézd meg a „továbbra is benne "
+"marad” sorokat."
+msgstr[1] ""
+"A kijelölés ellenére {count} csomag bekerül; nézd meg a „továbbra is benne "
+"marad” sorokat."
+
+#: packages_gui.py:276
+#, python-brace-format
+msgid "Show the package that always ships ({count})"
+msgid_plural "Show the packages that always ship ({count})"
+msgstr[0] "Mindig bekerülő csomag megjelenítése ({count})"
+msgstr[1] "Mindig bekerülő csomag megjelenítése ({count})"
+
+#: packages_gui.py:280
+msgid "Ships with your editions:\n"
+msgstr "A kiadásokkal együtt bekerül:\n"
+
+#: packages_gui.py:283
+msgid "Also ships because of your editions or add-ons:\n"
+msgstr "A kiadások vagy extrák miatt szintén bekerül:\n"
+
+#: packages_gui.py:285
+msgid "Core: "
+msgstr "Alap: "
+
+#: packages_gui.py:316
+#, python-brace-format
+msgid "Still ships: {package} ({reason})"
+msgstr "Továbbra is bekerül: {package} ({reason})"
+
+#: packages_gui.py:318
+#, python-brace-format
+msgid "Unticked, but still on the ISO: {reason}."
+msgstr "Nincs kijelölve, de az ISO-ban marad: {reason}."
+
+#: packages_gui.py:348
+msgid "Save package profile"
+msgstr "Csomagprofil mentése"
+
+#: packages_gui.py:362
+#, python-brace-format
+msgid "Saved profile ({count} package excluded) → {path}"
+msgid_plural "Saved profile ({count} packages excluded) → {path}"
+msgstr[0] "Profil mentve ({count} kizárt csomag) → {path}"
+msgstr[1] "Profil mentve ({count} kizárt csomag) → {path}"
+
+#: packages_gui.py:368
+msgid "Import package profile"
+msgstr "Csomagprofil importálása"
+
+#: packages_gui.py:381
+#, python-brace-format
+msgid "Imported profile; {count} package marked for exclusion."
+msgid_plural "Imported profile; {count} packages marked for exclusion."
+msgstr[0] "Profil importálva; {count} csomag kijelölve kizárásra."
+msgstr[1] "Profil importálva; {count} csomag kijelölve kizárásra."
+
+#: preflight_gui.py:31
+msgid "Pre-flight checks"
+msgstr "Előzetes ellenőrzések"
+
+#: preflight_gui.py:39
+msgid "Where should Kiro build?"
+msgstr "Hol dolgozzon a Kiro?"
+
+#: preflight_gui.py:46
+msgid "Browse…"
+msgstr "Tallózás…"
+
+#: preflight_gui.py:54
+msgid ""
+"The clone, the build files (kiro-build) and the finished ISO (kiro-Out) all "
+"live in this one folder."
+msgstr ""
+"A klón, a fordítási fájlok (kiro-build) és a kész ISO (kiro-Out) ebben a "
+"mappában találhatók."
+
+#: preflight_gui.py:62
+msgid "Then confirm the host is ready and fix anything red before building."
+msgstr ""
+"Ezután ellenőrizd, hogy a gazdagép készen áll-e, és a fordítás előtt javíts "
+"ki mindent, ami piros."
+
+#: preflight_gui.py:68
+msgid "Re-check"
+msgstr "Újraellenőrzés"
+
+#: preflight_gui.py:70
+msgid "Fix all"
+msgstr "Összes javítása"
+
+#: preflight_gui.py:84
+msgid "Fix log"
+msgstr "Javítási napló"
+
+#: preflight_gui.py:92
+msgid "Continue to Configure →"
+msgstr "Tovább a Beállításhoz →"
+
+#: preflight_gui.py:107
+msgid "Running checks…"
+msgstr "Ellenőrzések futtatása…"
+
+#: preflight_gui.py:143
+#, python-brace-format
+msgid "Not found; will clone to {path}"
+msgstr "Nem található; klónozás ide: {path}"
+
+#: preflight_gui.py:147
+#, python-brace-format
+msgid "Choose where {repo} lives (or should be cloned)"
+msgstr "Válaszd ki a(z) {repo} helyét (vagy a klónozás célmappáját)"
+
+#: preflight_gui.py:163
+#, python-brace-format
+msgid "{repo} location set to {path}"
+msgstr "A(z) {repo} helye beállítva: {path}"
+
+#: preflight_gui.py:167
+#, python-brace-format
+msgid "{path} already exists but is not a {repo} clone. Pick another folder."
+msgstr ""
+"A(z) {path} már létezik, de nem a(z) {repo} klónja. Válassz másik mappát."
+
+#: preflight_gui.py:173
+#, python-brace-format
+msgid "{repo} location set to {path}; it will be cloned here."
+msgstr "A(z) {repo} helye beállítva: {path}; ide kerül a klón."
+
+#: preflight_gui.py:217
+msgid "Fix"
+msgstr "Javítás"
+
+#: preflight_gui.py:294
+#, python-brace-format
+msgid "Update {repo} to the latest?"
+msgstr "Frissíted a(z) {repo} tárolót a legújabb verzióra?"
+
+#: preflight_gui.py:295
+msgid ""
+"The clone has local changes from building. They will be discarded and the "
+"repo reset to the latest. Your package selection, add-ons and build.conf are "
+"kept."
+msgstr ""
+"A klón helyi fordítási módosításokat tartalmaz. Ezek elvesznek, a tároló "
+"pedig visszaáll a legújabb verzióra. A csomagválasztásod, extráid és "
+"build.conf fájlod megmarad."
+
+#: preflight_gui.py:298
+msgid "Discard & update"
+msgstr "Módosítások eldobása és frissítés"
+
+#: po/kiro-iso-builder.desktop.in:3
+msgid "Kiro ISO Builder"
+msgstr "Kiro ISO Builder"
+
+#: po/kiro-iso-builder.desktop.in:4
+msgid "ISO Builder"
+msgstr "ISO-készítő"
+
+#: po/kiro-iso-builder.desktop.in:5
+msgid "Build the Kiro ISO with one-click host pre-flight fixes"
+msgstr ""
+"Készítsd el a Kiro ISO-t a gazdagép előkészítését javító lépésekkel, "
+"egyetlen kattintással"
+
+#: po/kiro-iso-builder.desktop.in:10
+msgid "kiro;iso;archiso;build;"
+msgstr "kiro;iso;archiso;build;install;linux;fordítás;telepítés;"

@@ -13,6 +13,7 @@ import functions as fn
 
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gio, GLib, Gtk  # noqa: E402
+from kib_i18n import _, ngettext  # noqa: E402
 
 
 class ExtrasScreen:
@@ -31,15 +32,16 @@ class ExtrasScreen:
             getattr(self.widget, m)(18)
 
         if edition is None:
-            title_text = "Add apps"
-            subs = ("These apps are NOT on the standard Kiro — tick the ones you want added.",
-                    "Nothing is ticked by default. Tick none and your ISO stays the standard Kiro.")
+            title_text = _("Add apps")
+            subs = (_("These apps are NOT on the standard Kiro; tick the ones you want added."),
+                    _("Nothing is ticked by default. Tick none and your ISO stays the standard Kiro."))
         else:
             ed = edition.capitalize()
-            title_text = f"{ed} extras"
-            subs = (f"Optional {ed} apps, added only to this {ed} build — tick what you want.",
-                    "Nothing is ticked by default.",
-                    "Consider these a work in progress.")
+            title_text = _("{edition} extras").format(edition=ed)
+            subs = (_("Optional {edition} apps, added only to this {edition} build; tick what you want.").format(
+                        edition=ed),
+                    _("Nothing is ticked by default."),
+                    _("Consider these a work in progress."))
         title = Gtk.Label(label=title_text, xalign=0)
         title.add_css_class("screen-title")
         self.widget.append(title)
@@ -51,11 +53,11 @@ class ExtrasScreen:
         self.widget.append(subbox)
 
         toolbar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
-        self.search = Gtk.SearchEntry(hexpand=True, placeholder_text="Search apps…")
+        self.search = Gtk.SearchEntry(hexpand=True, placeholder_text=_("Search apps…"))
         self.search.connect("search-changed", lambda e: self._apply_filter(e.get_text()))
-        all_btn = Gtk.Button(label="Select all")
+        all_btn = Gtk.Button(label=_("Select all"))
         all_btn.connect("clicked", lambda _w: self._set_all(True))
-        none_btn = Gtk.Button(label="Deselect all")
+        none_btn = Gtk.Button(label=_("Deselect all"))
         none_btn.connect("clicked", lambda _w: self._set_all(False))
         toolbar.append(self.search)
         toolbar.append(all_btn)
@@ -72,9 +74,9 @@ class ExtrasScreen:
         self.widget.append(self.status)
 
         profile = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
-        save_prof = Gtk.Button(label="Save app list…")
+        save_prof = Gtk.Button(label=_("Save app list…"))
         save_prof.connect("clicked", lambda _w: self._save_profile())
-        import_prof = Gtk.Button(label="Import app list…")
+        import_prof = Gtk.Button(label=_("Import app list…"))
         import_prof.connect("clicked", lambda _w: self._import_profile())
         profile.append(save_prof)
         profile.append(import_prof)
@@ -83,9 +85,9 @@ class ExtrasScreen:
         nav = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8, halign=Gtk.Align.END)
         # Relative nav: edition pages slot in dynamically between "Add apps" and "Build",
         # so step to the adjacent VISIBLE page rather than a hardcoded name.
-        back = Gtk.Button(label="← Back")
+        back = Gtk.Button(label=_("← Back"))
         back.connect("clicked", lambda _w: self.window.navigate_relative(self, -1))
-        save = Gtk.Button(label="Save & Continue →")
+        save = Gtk.Button(label=_("Save & Continue →"))
         save.add_css_class("suggested-action")
         save.connect("clicked", lambda _w: self._save())
         nav.append(back)
@@ -117,7 +119,7 @@ class ExtrasScreen:
         self.checks, self.groups, self.sections = [], [], []
 
         if fn.packages_file() is None:
-            self.status.set_text("packages.x86_64 not found — fix the clone on the Pre-flight screen.")
+            self.status.set_text(_("packages.x86_64 not found; fix the clone on the Pre-flight screen."))
             self.widget.set_sensitive(False)
             return
         self.widget.set_sensitive(True)
@@ -131,7 +133,7 @@ class ExtrasScreen:
                 categories.append((category, scoped))
         added = fn.read_additions()
         if not categories:
-            self.status.set_text("No extra apps are offered yet.")
+            self.status.set_text(_("No extra apps are offered yet."))
             return
 
         total = 0
@@ -220,7 +222,10 @@ class ExtrasScreen:
         if total is None:
             total = len(self.checks)
         added = sum(1 for _k, row in self.checks if row.get_active())
-        self.status.set_text(f"Apps that will be added: {added}/{total}")
+        self.status.set_text(ngettext(
+            "App that will be added: {added}/{total}",
+            "Apps that will be added: {added}/{total}",
+            total).format(added=added, total=total))
 
     def _save(self):
         keys = {key for key, row in self.checks if row.get_active()}
@@ -241,7 +246,7 @@ class ExtrasScreen:
 
     def _save_profile(self):
         dialog = Gtk.FileDialog()
-        dialog.set_title("Save app list")
+        dialog.set_title(_("Save app list"))
         dialog.set_initial_name("kiro-extra-apps.txt")
         dialog.set_initial_folder(Gio.File.new_for_path(str(fn.profiles_dir())))
         dialog.save(self.window, None, self._on_save_ready)
@@ -254,11 +259,14 @@ class ExtrasScreen:
         if gfile:
             keys = {key for key, row in self.checks if row.get_active()}
             fn.write_additions_file(gfile.get_path(), keys)
-            self.status.set_text(f"Saved app list ({len(keys)} added) → {gfile.get_path()}")
+            self.status.set_text(ngettext(
+                "Saved app list ({count} app added) → {path}",
+                "Saved app list ({count} apps added) → {path}",
+                len(keys)).format(count=len(keys), path=gfile.get_path()))
 
     def _import_profile(self):
         dialog = Gtk.FileDialog()
-        dialog.set_title("Import app list")
+        dialog.set_title(_("Import app list"))
         dialog.set_initial_folder(Gio.File.new_for_path(str(fn.profiles_dir())))
         dialog.open(self.window, None, self._on_open_ready)
 
@@ -270,4 +278,7 @@ class ExtrasScreen:
         if gfile:
             keys = fn.read_additions_file(gfile.get_path())
             self._apply_keys(keys)
-            self.status.set_text(f"Imported app list — {len(keys)} app(s) marked to add.")
+            self.status.set_text(ngettext(
+                "Imported app list; {count} app marked to add.",
+                "Imported app list; {count} apps marked to add.",
+                len(keys)).format(count=len(keys)))

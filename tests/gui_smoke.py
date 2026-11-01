@@ -12,6 +12,7 @@ import traceback
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+os.environ["KIB_LANGUAGE"] = "en"
 sys.path.insert(0, str(HERE.parent))
 sys.path.insert(0, str(HERE))
 

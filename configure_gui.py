@@ -8,6 +8,7 @@ import functions as fn
 
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gio, GLib, Gtk  # noqa: E402
+from kib_i18n import _, N_, ngettext  # noqa: E402
 
 NVIDIA = ["open", "580xx", "470xx", "390xx", "none"]
 # Curated (repo, kernel) fallback, used until Refresh runs (or if no repo DB).
@@ -20,7 +21,7 @@ KERNEL_FALLBACK = [
 ]
 KERNELS = [name for _, name in KERNEL_FALLBACK]
 # Source filter shown above the kernel dropdowns (tames the full repo list).
-KERNEL_SOURCES = ["All", "Official Arch", "CachyOS", "Chaotic"]
+KERNEL_SOURCES = [N_("All"), N_("Official Arch"), N_("CachyOS"), N_("Chaotic")]
 # Repos that count as "Official Arch" (everything cachyos-named is bucketed by
 # name instead, since cachyos kernels are served from both cachyos and chaotic-aur).
 OFFICIAL_REPOS = {"core", "extra", "multilib",
@@ -62,10 +63,10 @@ class ConfigureScreen:
         for m in ("set_margin_top", "set_margin_bottom", "set_margin_start", "set_margin_end"):
             getattr(self.widget, m)(18)
 
-        title = Gtk.Label(label="Configure the build", xalign=0)
+        title = Gtk.Label(label=_("Configure the build"), xalign=0)
         title.add_css_class("screen-title")
         self.widget.append(title)
-        sub = Gtk.Label(label="These write straight to build.conf — the CLI uses the same file.",
+        sub = Gtk.Label(label=_("These write straight to build.conf; the CLI uses the same file."),
                         xalign=0, wrap=True, max_width_chars=70)
         sub.add_css_class("dim-label")
         self.widget.append(sub)
@@ -74,11 +75,11 @@ class ConfigureScreen:
         form.add_css_class("card")
 
         self.nvidia = Gtk.DropDown.new_from_strings(NVIDIA)
-        form.append(_labelled("NVIDIA driver", self.nvidia))
+        form.append(_labelled(_("NVIDIA driver"), self.nvidia))
         nv_hint = Gtk.Label(
-            label="AMD / Intel / a VM (no NVIDIA card)? Pick 'none' — no NVIDIA driver is baked "
-                  "in, and at boot choose the first entry, 'open source: AMD / Intel', which "
-                  "blacklists NVIDIA. The other options bake that NVIDIA driver set.",
+            label=_("AMD / Intel / a VM (no NVIDIA card)? Pick 'none': no NVIDIA driver is baked "
+                    "in, and at boot choose the first entry, 'open source: AMD / Intel', which "
+                    "blacklists NVIDIA. The other options bake that NVIDIA driver set."),
             xalign=0, wrap=True)
         nv_hint.add_css_class("dim-label")
         form.append(nv_hint)
@@ -86,9 +87,9 @@ class ConfigureScreen:
         # Master (repo, kernel) list driving both dropdowns; replaced by Refresh.
         self._kernel_pairs = list(KERNEL_FALLBACK)
         self._kern_updating = False
-        self.kernel_source = Gtk.DropDown.new_from_strings(KERNEL_SOURCES)
+        self.kernel_source = Gtk.DropDown.new_from_strings([_(source) for source in KERNEL_SOURCES])
         self.kernel_source.connect("notify::selected", self._on_kernel_source_changed)
-        form.append(_labelled("Kernel source", self.kernel_source))
+        form.append(_labelled(_("Kernel source"), self.kernel_source))
 
         self.kernel1 = Gtk.DropDown()
         self.kernel2 = Gtk.DropDown()
@@ -96,11 +97,11 @@ class ConfigureScreen:
             dd.set_expression(Gtk.PropertyExpression.new(Gtk.StringObject, None, "string"))
             dd.set_enable_search(True)
         self._populate_kernels(KERNELS[0], NONE)
-        form.append(_labelled("First kernel (boots the live ISO)", self.kernel1))
-        form.append(_labelled("Second kernel (optional)", self.kernel2))
+        form.append(_labelled(_("First kernel (boots the live ISO)"), self.kernel1))
+        form.append(_labelled(_("Second kernel (optional)"), self.kernel2))
 
         detect_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        self.detect_btn = Gtk.Button(label="Refresh kernels")
+        self.detect_btn = Gtk.Button(label=_("Refresh kernels"))
         self.detect_btn.connect("clicked", lambda _w: self._detect())
         detect_row.append(self.detect_btn)
         self.kernel_status = Gtk.Label(xalign=0, hexpand=True, wrap=True)
@@ -108,9 +109,9 @@ class ConfigureScreen:
         detect_row.append(self.kernel_status)
         form.append(detect_row)
         hint = Gtk.Label(
-            label="The list is every kernel the repos offer that has a matching -headers "
-                  "(those headers are installed automatically for the DKMS drivers). "
-                  "Filter by source above, and type in a dropdown to search.",
+            label=_("The list includes every kernel offered by the repos that has matching -headers "
+                    "(those headers are installed automatically for DKMS drivers). "
+                    "Filter by source above, and type in a dropdown to search."),
             xalign=0, wrap=True)
         hint.add_css_class("dim-label")
         form.append(hint)
@@ -118,7 +119,7 @@ class ConfigureScreen:
         # Opt-in row, shown only when [cachyos] is off: a few CachyOS flavors live
         # only in that repo (Kiro ships it disabled), so offer to enable it on demand.
         self.cachyos_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        self.cachyos_btn = Gtk.Button(label="Enable CachyOS repo")
+        self.cachyos_btn = Gtk.Button(label=_("Enable CachyOS repo"))
         self.cachyos_btn.add_css_class("suggested-action")
         self.cachyos_btn.connect("clicked", lambda _w: self._enable_cachyos())
         self.cachyos_row.append(self.cachyos_btn)
@@ -128,25 +129,25 @@ class ConfigureScreen:
         self.cachyos_row.set_visible(False)
         form.append(self.cachyos_row)
 
-        ed_title = Gtk.Label(label="Editions (desktops & window managers)", xalign=0)
+        ed_title = Gtk.Label(label=_("Editions (desktops and window managers)"), xalign=0)
         ed_title.add_css_class("row-title")
         form.append(ed_title)
         # The "T": desktops in a horizontal row (top bar), window managers in a
         # vertical column (stem). Both feed the Default-session dropdown below.
-        dt_lbl = Gtk.Label(label="Desktops", xalign=0)
+        dt_lbl = Gtk.Label(label=_("Desktops"), xalign=0)
         dt_lbl.add_css_class("dim-label")
         form.append(dt_lbl)
         self.desktops_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=16)
         form.append(self.desktops_box)
-        wm_lbl = Gtk.Label(label="Window managers", xalign=0)
+        wm_lbl = Gtk.Label(label=_("Window managers"), xalign=0)
         wm_lbl.add_css_class("dim-label")
         form.append(wm_lbl)
         self.wms_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
         form.append(self.wms_box)
         self.edition_checks = {}
         ed_note = Gtk.Label(
-            label="Tick what you want — each becomes a session you can pick at the SDDM login "
-                  "screen. Tick at least one.",
+            label=_("Tick what you want; each becomes a session you can pick at the SDDM login "
+                    "screen. Tick at least one."),
             xalign=0, wrap=True)
         ed_note.add_css_class("dim-label")
         form.append(ed_note)
@@ -158,21 +159,21 @@ class ConfigureScreen:
         self._ds_user_override = False
         self._ds_updating = False
         self.default_session.connect("notify::selected", self._on_default_session_changed)
-        form.append(_labelled("Default session (boots first)", self.default_session))
+        form.append(_labelled(_("Default session (boots first)"), self.default_session))
         ds_note = Gtk.Label(
-            label="Which of the ticked editions the live ISO logs into first.",
+            label=_("Which ticked edition the live ISO logs into first."),
             xalign=0, wrap=True)
         ds_note.add_css_class("dim-label")
         form.append(ds_note)
 
-        adv = Gtk.Expander(label="Advanced")
+        adv = Gtk.Expander(label=_("Advanced"))
         advbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
         self.bump = Gtk.Switch(valign=Gtk.Align.CENTER)
-        advbox.append(_labelled("Bump version before building", self.bump))
+        advbox.append(_labelled(_("Bump version before building"), self.bump))
         self.clean = Gtk.Switch(valign=Gtk.Align.CENTER)
-        advbox.append(_labelled("Clean pacman cache", self.clean))
+        advbox.append(_labelled(_("Clean pacman cache"), self.clean))
         self.remove_build = Gtk.Switch(valign=Gtk.Align.CENTER)
-        advbox.append(_labelled("Remove build folder after build", self.remove_build))
+        advbox.append(_labelled(_("Remove build folder after build"), self.remove_build))
         adv.set_child(advbox)
         form.append(adv)
 
@@ -188,16 +189,16 @@ class ConfigureScreen:
         self.widget.append(self.status)
 
         nav = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
-        reset = Gtk.Button(label="Reset to defaults")
+        reset = Gtk.Button(label=_("Reset to defaults"))
         reset.connect("clicked", lambda _w: self._reset())
         nav.append(reset)
-        import_prof = Gtk.Button(label="Import build profile…")
+        import_prof = Gtk.Button(label=_("Import build profile…"))
         import_prof.connect("clicked", lambda _w: self._import_profile())
         nav.append(import_prof)
         nav.append(Gtk.Box(hexpand=True))  # spacer: pushes Back/Save to the right
-        back = Gtk.Button(label="← Back")
+        back = Gtk.Button(label=_("← Back"))
         back.connect("clicked", lambda _w: self.window.navigate("preflight"))
-        save = Gtk.Button(label="Save & Continue →")
+        save = Gtk.Button(label=_("Save & Continue →"))
         save.add_css_class("suggested-action")
         save.connect("clicked", lambda _w: self._save())
         nav.append(back)
@@ -214,7 +215,7 @@ class ConfigureScreen:
 
     def _load(self):
         if not fn.build_conf_path():
-            self.status.set_text("build.conf not found — fix the clone on the Pre-flight screen.")
+            self.status.set_text(_("build.conf not found; fix the clone on the Pre-flight screen."))
             self.widget.set_sensitive(False)
             return
         self.widget.set_sensitive(True)
@@ -337,12 +338,12 @@ class ConfigureScreen:
 
     def _reset(self):
         self._apply(DEFAULTS)
-        self.status.set_text("Reset to defaults — click Save & Continue to apply.")
+        self.status.set_text(_("Reset to defaults; click Save & Continue to apply."))
 
     # ── kernel detection ────────────────────────────────────────────
     def _detect(self):
         self.detect_btn.set_sensitive(False)
-        self.kernel_status.set_text("Detecting…")
+        self.kernel_status.set_text(_("Detecting…"))
         cur1, cur2 = self._selected(self.kernel1), self._selected(self.kernel2)
 
         def worker():
@@ -355,11 +356,12 @@ class ConfigureScreen:
         self.detect_btn.set_sensitive(True)
         self._update_cachyos_row()
         if not pairs:
-            self.kernel_status.set_text("None found — sync repos first; keeping the built-in list.")
+            self.kernel_status.set_text(_("None found; sync repos first. Keeping the built-in list."))
             return
         self._kernel_pairs = pairs
         self._populate_kernels(cur1, cur2)
-        self.kernel_status.set_text(f"Found {len(pairs)} kernels.")
+        self.kernel_status.set_text(ngettext("Found {count} kernel.", "Found {count} kernels.", len(pairs)).format(
+            count=len(pairs)))
 
     def _update_cachyos_row(self):
         """Show the opt-in 'Enable CachyOS repo' row only when the repo is off (and
@@ -368,12 +370,12 @@ class ConfigureScreen:
         self.cachyos_row.set_visible(off)
         if off:
             self.cachyos_note.set_text(
-                "CachyOS repo is disabled (Kiro's default) — enable it to add the "
-                "CachyOS-only kernels (eevdf, hardened, server, …).")
+                _("CachyOS repo is disabled (Kiro's default); enable it to add the "
+                  "CachyOS-only kernels (eevdf, hardened, server, …)."))
 
     def _enable_cachyos(self):
         self.cachyos_btn.set_sensitive(False)
-        self.kernel_status.set_text("Enabling CachyOS repo…")
+        self.kernel_status.set_text(_("Enabling CachyOS repo…"))
 
         def on_line(line):
             text = line.strip()
@@ -383,10 +385,10 @@ class ConfigureScreen:
         def on_done(code):
             self.cachyos_btn.set_sensitive(True)
             if code == 0:
-                self.kernel_status.set_text("CachyOS repo enabled — refreshing kernels…")
+                self.kernel_status.set_text(_("CachyOS repo enabled; refreshing kernels…"))
                 self._detect()  # re-detects and hides the row (repo now active)
             else:
-                self.kernel_status.set_text(f"Enabling CachyOS failed (exit {code}).")
+                self.kernel_status.set_text(_("Enabling CachyOS failed (exit {code}).").format(code=code))
                 self._update_cachyos_row()
 
         fn.run_hostprep_fix(["enable_cachyos"], on_line, on_done)
@@ -442,7 +444,7 @@ class ConfigureScreen:
     def _save(self):
         checked = [n for n, cb in self.edition_checks.items() if cb.get_active()]
         if not checked:
-            self.status.set_text("Tick at least one desktop or window manager — an ISO needs a session.")
+            self.status.set_text(_("Tick at least one desktop or window manager; an ISO needs a session."))
             return
         fn.set_conf("nvidia_driver", NVIDIA[self.nvidia.get_selected()])
         first = self._selected(self.kernel1)
@@ -461,13 +463,14 @@ class ConfigureScreen:
     # ── import a shareable build profile (settings + package selection) ─
     def _import_profile(self):
         if not fn.build_conf_path():
-            self.status.set_text(f"{fn.REPO_NAME} clone not found — fix it on the Pre-flight screen.")
+            self.status.set_text(_("{repo} clone not found; fix it on the Pre-flight screen.").format(
+                repo=fn.REPO_NAME))
             return
         dialog = Gtk.FileDialog()
-        dialog.set_title("Import build profile")
+        dialog.set_title(_("Import build profile"))
         dialog.set_initial_folder(Gio.File.new_for_path(str(fn.profiles_dir())))
         flt = Gtk.FileFilter()
-        flt.set_name("Kiro build profiles")
+        flt.set_name(_("Kiro build profiles"))
         flt.add_pattern(f"*{fn.PROFILE_EXT}")
         filters = Gio.ListStore.new(Gtk.FileFilter)
         filters.append(flt)
@@ -486,6 +489,7 @@ class ConfigureScreen:
         conf.update(settings)
         self._apply(conf)
         fn.write_excludes(excludes)
-        self.status.set_text(
-            f"Imported profile — {len(excludes)} package(s) to remove. "
-            "Review the settings, then click Save & Continue.")
+        self.status.set_text(ngettext(
+            "Imported profile; {count} package to remove. Review the settings, then click Save & Continue.",
+            "Imported profile; {count} packages to remove. Review the settings, then click Save & Continue.",
+            len(excludes)).format(count=len(excludes)))

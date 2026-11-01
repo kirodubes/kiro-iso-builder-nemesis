@@ -24,6 +24,7 @@ import gi
 
 gi.require_version("Gtk", "4.0")
 from gi.repository import GLib, Gtk  # noqa: E402
+from kib_i18n import _  # noqa: E402
 
 # ── Paths / repo discovery ──────────────────────────────────────────
 # This is the NEMESIS (beta) builder, so it ALWAYS targets the beta repo,
@@ -1268,9 +1269,9 @@ def ask_password(parent, prompt):
     done = threading.Event()
 
     def show():
-        dialog = Gtk.Dialog(title="Authentication required", transient_for=parent, modal=True)
-        dialog.add_button("Cancel", Gtk.ResponseType.CANCEL)
-        dialog.add_button("Authenticate", Gtk.ResponseType.OK)
+        dialog = Gtk.Dialog(title=_("Authentication required"), transient_for=parent, modal=True)
+        dialog.add_button(_("Cancel"), Gtk.ResponseType.CANCEL)
+        dialog.add_button(_("Authenticate"), Gtk.ResponseType.OK)
         dialog.set_default_response(Gtk.ResponseType.OK)
         box = dialog.get_content_area()
         box.set_margin_top(12)
@@ -1278,7 +1279,7 @@ def ask_password(parent, prompt):
         box.set_margin_start(12)
         box.set_margin_end(12)
         box.set_spacing(8)
-        box.append(Gtk.Label(label=prompt or "Enter your password", xalign=0))
+        box.append(Gtk.Label(label=prompt or _("Enter your password"), xalign=0))
         entry = Gtk.PasswordEntry(show_peek_icon=True, activates_default=True)
         box.append(entry)
 
