@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kiro-iso-builder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-01 06:40+0100\n"
+"POT-Creation-Date: 2026-11-01 08:06+0100\n"
 "PO-Revision-Date: 2026-11-01 06:14+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: Kiro translations\n"
@@ -58,11 +58,11 @@ msgstr "Responde a una solicitud de compilación (por ejemplo, y) y pulsa Enter"
 msgid "Send"
 msgstr "Enviar"
 
-#: build_gui.py:104 configure_gui.py:199 extras_gui.py:88 packages_gui.py:108
+#: build_gui.py:104 configure_gui.py:195 extras_gui.py:88 packages_gui.py:102
 msgid "← Back"
 msgstr "← Volver"
 
-#: build_gui.py:113 configure_gui.py:466
+#: build_gui.py:113 configure_gui.py:460
 #, python-brace-format
 msgid "{repo} clone not found; fix it on the Pre-flight screen."
 msgstr ""
@@ -227,7 +227,7 @@ msgstr ""
 msgid "Remove failed (exit {code})"
 msgstr "Error al eliminar (código de salida {code})"
 
-#: build_gui.py:323
+#: build_gui.py:323 functions.py:1084 functions.py:1105
 msgid "Removed"
 msgstr "Eliminada"
 
@@ -262,7 +262,7 @@ msgstr ""
 "Estos ajustes se escriben directamente en build.conf; la CLI usa el mismo "
 "archivo."
 
-#: configure_gui.py:78
+#: configure_gui.py:78 functions.py:944
 msgid "NVIDIA driver"
 msgstr "Controlador NVIDIA"
 
@@ -352,47 +352,47 @@ msgstr "Limpiar la caché de pacman"
 msgid "Remove build folder after build"
 msgstr "Eliminar la carpeta de compilación después de compilar"
 
-#: configure_gui.py:192
+#: configure_gui.py:191
 msgid "Reset to defaults"
 msgstr "Restablecer valores predeterminados"
 
-#: configure_gui.py:195
+#: configure_gui.py:193
 msgid "Import build profile…"
 msgstr "Importar perfil de compilación…"
 
-#: configure_gui.py:201 extras_gui.py:90 packages_gui.py:110
+#: configure_gui.py:197 extras_gui.py:90 packages_gui.py:104
 msgid "Save & Continue →"
 msgstr "Guardar y continuar →"
 
-#: configure_gui.py:218
+#: configure_gui.py:212
 msgid "build.conf not found; fix the clone on the Pre-flight screen."
 msgstr ""
 "No se encontró build.conf; corrígelo en la pantalla de Revisión previa."
 
-#: configure_gui.py:341
+#: configure_gui.py:335
 msgid "Reset to defaults; click Save & Continue to apply."
 msgstr ""
 "Se restablecieron los valores predeterminados; pulsa Guardar y continuar "
 "para aplicarlos."
 
-#: configure_gui.py:346
+#: configure_gui.py:340
 msgid "Detecting…"
 msgstr "Detectando…"
 
-#: configure_gui.py:359
+#: configure_gui.py:353
 msgid "None found; sync repos first. Keeping the built-in list."
 msgstr ""
 "No se encontró nada; sincroniza primero los repositorios. Se conservará la "
 "lista integrada."
 
-#: configure_gui.py:363
+#: configure_gui.py:357
 #, python-brace-format
 msgid "Found {count} kernel."
 msgid_plural "Found {count} kernels."
 msgstr[0] "Se encontró {count} kernel."
 msgstr[1] "Se encontraron {count} kernels."
 
-#: configure_gui.py:373
+#: configure_gui.py:367
 msgid ""
 "CachyOS repo is disabled (Kiro's default); enable it to add the CachyOS-only "
 "kernels (eevdf, hardened, server, …)."
@@ -401,34 +401,34 @@ msgstr ""
 "habilítalo para añadir kernels exclusivos de CachyOS (eevdf, hardened, "
 "server, …)."
 
-#: configure_gui.py:378
+#: configure_gui.py:372
 msgid "Enabling CachyOS repo…"
 msgstr "Habilitando el repositorio de CachyOS…"
 
-#: configure_gui.py:388
+#: configure_gui.py:382
 msgid "CachyOS repo enabled; refreshing kernels…"
 msgstr "Repositorio de CachyOS habilitado; actualizando kernels…"
 
-#: configure_gui.py:391
+#: configure_gui.py:385
 #, python-brace-format
 msgid "Enabling CachyOS failed (exit {code})."
 msgstr "No se pudo habilitar CachyOS (código de salida {code})."
 
-#: configure_gui.py:447
+#: configure_gui.py:441
 msgid "Tick at least one desktop or window manager; an ISO needs a session."
 msgstr ""
 "Marca al menos un entorno de escritorio o gestor de ventanas; una ISO "
 "necesita una sesión."
 
-#: configure_gui.py:470
+#: configure_gui.py:464
 msgid "Import build profile"
 msgstr "Importar perfil de compilación"
 
-#: configure_gui.py:473
+#: configure_gui.py:467
 msgid "Kiro build profiles"
 msgstr "Perfiles de compilación de Kiro"
 
-#: configure_gui.py:493
+#: configure_gui.py:487
 #, python-brace-format
 msgid ""
 "Imported profile; {count} package to remove. Review the settings, then click "
@@ -647,11 +647,11 @@ msgstr "Ten en cuenta que esta selección aún está en desarrollo."
 msgid "Search apps…"
 msgstr "Buscar aplicaciones…"
 
-#: extras_gui.py:58 packages_gui.py:74
+#: extras_gui.py:58 packages_gui.py:73
 msgid "Select all"
 msgstr "Seleccionar todo"
 
-#: extras_gui.py:60 packages_gui.py:76
+#: extras_gui.py:60 packages_gui.py:75
 msgid "Deselect all"
 msgstr "Deseleccionar todo"
 
@@ -663,7 +663,7 @@ msgstr "Guardar lista de aplicaciones…"
 msgid "Import app list…"
 msgstr "Importar lista de aplicaciones…"
 
-#: extras_gui.py:122 packages_gui.py:131
+#: extras_gui.py:122 packages_gui.py:125
 msgid "packages.x86_64 not found; fix the clone on the Pre-flight screen."
 msgstr ""
 "No se encontró packages.x86_64; corrígelo en la pantalla de Revisión previa."
@@ -703,19 +703,121 @@ msgid_plural "Imported app list; {count} apps marked to add."
 msgstr[0] "Lista importada; se marcó {count} aplicación para añadir."
 msgstr[1] "Lista importada; se marcaron {count} aplicaciones para añadir."
 
-#: functions.py:1272
+#: functions.py:941
+msgid "Editions"
+msgstr "Ediciones"
+
+#: functions.py:942
+msgid "Default session"
+msgstr "Sesión predeterminada"
+
+#: functions.py:943
+msgid "Kernel"
+msgstr "Kernel"
+
+#: functions.py:1084
+msgid "Core"
+msgstr "Base"
+
+#: functions.py:1084
+msgid "Frozen"
+msgstr "Congelados"
+
+#: functions.py:1085
+msgid "Comes back"
+msgstr "Vuelven"
+
+#: functions.py:1085
+msgid "Pulled in"
+msgstr "Arrastrados"
+
+#: functions.py:1087
+msgid "Search packages or reasons..."
+msgstr "Buscar paquetes o motivos…"
+
+#: functions.py:1093
+msgid "Kiro ISO build summary"
+msgstr "Resumen de la compilación de la ISO de Kiro"
+
+#: functions.py:1094
+msgid "What this build puts on the ISO, and why."
+msgstr "Lo que esta compilación pone en la ISO, y por qué."
+
+#: functions.py:1097
+msgid "This build"
+msgstr "Esta compilación"
+
+#: functions.py:1106
+msgid ""
+"You unticked these and nothing else needs them, so they are not on the ISO."
+msgstr "Los desmarcaste y nada más los necesita, así que no están en la ISO."
+
+#: functions.py:1107
+msgid "Nothing removed."
+msgstr "No se quitó nada."
+
+#: functions.py:1109
+msgid "Comes back anyway"
+msgstr "Vuelven de todos modos"
+
+#: functions.py:1110
+msgid "You unticked these, but they still ship. The reason is on the right."
+msgstr "Los desmarcaste, pero se incluyen igual. El motivo está a la derecha."
+
+#: functions.py:1111
+msgid "Every unticked package is really gone."
+msgstr "Cada paquete desmarcado se ha ido de verdad."
+
+#: functions.py:1115
+msgid "Pulled in by your choices"
+msgstr "Arrastrados por tus elecciones"
+
+#: functions.py:1116
+msgid ""
+"Dependencies of your editions, add-ons and optional apps that the core alone "
+"would not bring."
+msgstr ""
+"Dependencias de tus ediciones, complementos y apps opcionales que la base "
+"sola no traería."
+
+#: functions.py:1119
+msgid "Frozen, TIER 1"
+msgstr "Congelados, TIER 1"
+
+#: functions.py:1120
+msgid ""
+"Always ship. Removing any of these breaks the build, the live boot or the "
+"installer."
+msgstr ""
+"Siempre se incluyen. Quitar cualquiera rompe la compilación, el arranque "
+"live o el instalador."
+
+#: functions.py:1123
+msgid "Core, TIER 2"
+msgstr "Base, TIER 2"
+
+#: functions.py:1124
+msgid "Always ship. The base of every Kiro system."
+msgstr "Siempre se incluyen. La base de todo sistema Kiro."
+
+#: functions.py:1126
+#, python-brace-format
+msgid "Generated {date} from {source}"
+msgstr "Generado el {date} a partir de {source}"
+
+#: functions.py:1365
 msgid "Authentication required"
 msgstr "Se requiere autenticación"
 
-#: functions.py:1273 preflight_gui.py:298
+#: functions.py:1366 preflight_gui.py:298
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: functions.py:1274
+#: functions.py:1367
 msgid "Authenticate"
 msgstr "Autenticar"
 
-#: functions.py:1282
+#: functions.py:1375
 msgid "Enter your password"
 msgstr "Introduce tu contraseña"
 
@@ -1117,35 +1219,35 @@ msgstr ""
 msgid "Show the core packages"
 msgstr "Mostrar paquetes básicos"
 
-#: packages_gui.py:72
+#: packages_gui.py:71
 msgid "Search packages…"
 msgstr "Buscar paquetes…"
 
-#: packages_gui.py:78
+#: packages_gui.py:77
 msgid "Expand all"
 msgstr "Expandir todo"
 
-#: packages_gui.py:80
+#: packages_gui.py:79
 msgid "Collapse all"
 msgstr "Contraer todo"
 
-#: packages_gui.py:99
+#: packages_gui.py:93
 msgid "Save package list…"
 msgstr "Guardar lista de paquetes…"
 
-#: packages_gui.py:101
+#: packages_gui.py:95
 msgid "Import package list…"
 msgstr "Importar lista de paquetes…"
 
-#: packages_gui.py:143
+#: packages_gui.py:137
 msgid "No optional apps were found to choose from."
 msgstr "No se encontraron aplicaciones opcionales para elegir."
 
-#: packages_gui.py:149
+#: packages_gui.py:143
 msgid "Show or hide the packages in this group"
 msgstr "Mostrar u ocultar los paquetes de este grupo"
 
-#: packages_gui.py:261
+#: packages_gui.py:255
 #, python-brace-format
 msgid "Package that will ship: {shipping}/{total} ({left_out} left out)"
 msgid_plural ""
@@ -1154,7 +1256,7 @@ msgstr[0] "Paquete que se incluirá: {shipping}/{total} ({left_out} excluidos)"
 msgstr[1] ""
 "Paquetes que se incluirán: {shipping}/{total} ({left_out} excluidos)"
 
-#: packages_gui.py:266
+#: packages_gui.py:260
 #, python-brace-format
 msgid ""
 "{count} unticked package still ships; see the rows marked 'still ships'."
@@ -1167,51 +1269,51 @@ msgstr[1] ""
 "Se incluirán {count} paquetes desmarcados; consulta las filas marcadas como "
 "«se sigue incluyendo»."
 
-#: packages_gui.py:276
+#: packages_gui.py:270
 #, python-brace-format
 msgid "Show the package that always ships ({count})"
 msgid_plural "Show the packages that always ship ({count})"
 msgstr[0] "Mostrar el paquete que siempre se incluye ({count})"
 msgstr[1] "Mostrar los paquetes que siempre se incluyen ({count})"
 
-#: packages_gui.py:280
+#: packages_gui.py:274
 msgid "Ships with your editions:\n"
 msgstr "Se incluye con tus ediciones:\n"
 
-#: packages_gui.py:283
+#: packages_gui.py:277
 msgid "Also ships because of your editions or add-ons:\n"
 msgstr "También se incluye por tus ediciones o complementos:\n"
 
-#: packages_gui.py:285
+#: packages_gui.py:279
 msgid "Core: "
 msgstr "Base: "
 
-#: packages_gui.py:316
+#: packages_gui.py:310
 #, python-brace-format
 msgid "Still ships: {package} ({reason})"
 msgstr "Se sigue incluyendo: {package} ({reason})"
 
-#: packages_gui.py:318
+#: packages_gui.py:312
 #, python-brace-format
 msgid "Unticked, but still on the ISO: {reason}."
 msgstr "Desmarcado, pero sigue en la ISO: {reason}."
 
-#: packages_gui.py:348
+#: packages_gui.py:342
 msgid "Save package profile"
 msgstr "Guardar perfil de paquetes"
 
-#: packages_gui.py:362
+#: packages_gui.py:356
 #, python-brace-format
 msgid "Saved profile ({count} package excluded) → {path}"
 msgid_plural "Saved profile ({count} packages excluded) → {path}"
 msgstr[0] "Perfil guardado ({count} paquete excluido) → {path}"
 msgstr[1] "Perfil guardado ({count} paquetes excluidos) → {path}"
 
-#: packages_gui.py:368
+#: packages_gui.py:362
 msgid "Import package profile"
 msgstr "Importar perfil de paquetes"
 
-#: packages_gui.py:381
+#: packages_gui.py:375
 #, python-brace-format
 msgid "Imported profile; {count} package marked for exclusion."
 msgid_plural "Imported profile; {count} packages marked for exclusion."

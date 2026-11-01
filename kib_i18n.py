@@ -91,6 +91,22 @@ _ = _translation.gettext
 ngettext = _translation.ngettext
 
 
+CURRENT = ACTIVE or SYSTEM
+_CATALOGS = {}
+
+
+def every_language(text):
+    """Return {code: text} for English and every catalog that translates it."""
+    texts = {"en": text}
+    for code in available()[1:]:
+        if code not in _CATALOGS:
+            _CATALOGS[code] = gettext.translation(DOMAIN, localedir=LOCALE_DIR, languages=[code], fallback=True)
+        translated = _CATALOGS[code].gettext(text)
+        if translated != text:
+            texts[code] = translated
+    return texts
+
+
 def N_(text):
     """Mark a string for translation without translating it here."""
     return text

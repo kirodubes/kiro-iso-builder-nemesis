@@ -56,7 +56,8 @@ Changing those scripts can affect this app — keep them in sync.
   which refuses while a build runs. `KIB_LANGUAGE` pins a catalog; the tests pin `en`.
 - Whole sentences in `_()`, counts in `ngettext()`, named placeholders. Never translate: `build.conf` keys/values,
   package, kernel and driver names, check ids, anything passed to `host-prep-run.sh`/`build-the-iso.sh`,
-  `SUDO_SENTINEL` and any string matched against command output, log files, the build-summary HTML.
+  `SUDO_SENTINEL` and any string matched against command output, log files. The build-summary HTML is translated:
+  every language at once with a globe switch (`_every_language()` in `functions.py`); its package data stays English.
 - After changing English UI text: `bash po/make-mo.sh`, translate the new entries in all 13 catalogs (0 fuzzy,
   0 untranslated), then commit `po/` and `locale/` together. Edit `po/kiro-iso-builder.desktop.in`, never the
   generated `kiro-iso-builder.desktop`.

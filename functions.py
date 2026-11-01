@@ -8,6 +8,7 @@ specific user, home path, or distro — it works on any Arch-based system.
 
 import fcntl
 import html
+import json
 import os
 import pty
 import re
@@ -24,7 +25,8 @@ import gi
 
 gi.require_version("Gtk", "4.0")
 from gi.repository import GLib, Gtk  # noqa: E402
-from kib_i18n import _  # noqa: E402
+import kib_i18n  # noqa: E402
+from kib_i18n import _, N_  # noqa: E402
 
 # ── Paths / repo discovery ──────────────────────────────────────────
 # This is the NEMESIS (beta) builder, so it ALWAYS targets the beta repo,
@@ -936,10 +938,10 @@ def build_summary(excludes, editions):
 
     return {
         "settings": {
-            "Editions": " ".join(editions) or "-",
-            "Default session": conf.get("default_session", "-"),
-            "Kernel": conf.get("kernel", "-"),
-            "NVIDIA driver": conf.get("nvidia_driver", "-"),
+            N_("Editions"): " ".join(editions) or "-",
+            N_("Default session"): conf.get("default_session", "-"),
+            N_("Kernel"): conf.get("kernel", "-"),
+            N_("NVIDIA driver"): conf.get("nvidia_driver", "-"),
         },
         "frozen": tier1,
         "core": tier2,
@@ -961,12 +963,25 @@ _SUMMARY_CSS = """
 * { box-sizing: border-box; }
 body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.5 system-ui, sans-serif; }
 main { max-width: 980px; margin: 0 auto; padding: 24px 16px 48px; }
+header { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }
 h1 { margin: 0 0 4px; font-size: 26px; }
 h2 { margin: 0 0 10px; font-size: 18px; }
 .sub, footer { color: var(--dim); }
-section, details { background:var(--card); border:1px solid var(--line); border-radius:10px;
-                   padding:16px 18px; margin-top:16px; }
-summary { cursor:pointer; font-weight:600; font-size:17px; }
+section, main > details { background:var(--card); border:1px solid var(--line); border-radius:10px;
+                          padding:16px 18px; margin-top:16px; }
+main > details > summary { cursor:pointer; font-weight:600; font-size:17px; }
+details.lang { position:relative; flex:none; }
+details.lang summary { list-style:none; cursor:pointer; display:inline-flex; align-items:center; gap:6px;
+                       padding:6px 9px; border-radius:6px; color:var(--dim); font-size:13px; font-weight:700; }
+details.lang summary::-webkit-details-marker { display:none; }
+details.lang summary:hover, details.lang[open] summary { background:var(--card); color:var(--fg); }
+details.lang summary svg { width:16px; height:16px; }
+.menu { position:absolute; right:0; z-index:5; margin-top:6px; background:var(--card); border:1px solid var(--line);
+        border-radius:8px; padding:6px; min-width:180px; box-shadow:0 8px 24px #0003; }
+.menu a { display:block; padding:5px 11px; border-radius:6px; white-space:nowrap; color:var(--fg);
+          text-decoration:none; }
+.menu a:hover { background:var(--bg); }
+.menu a[aria-current] { color:var(--green); font-weight:700; }
 .tiles { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:10px; margin-top:12px; }
 .tile { border:1px solid var(--line); border-radius:8px; padding:10px 12px; }
 .tile b { display:block; font-size:24px; }
@@ -988,18 +1003,63 @@ table { border-collapse: collapse; width:100%; }
 .hide { display:none !important; }
 """
 
+# The language switch: in each .tr group show the chosen language's child, else the English one. The choice is kept
+# in localStorage, shared by every summary page; try/catch because a browser may block it on file://.
 _SUMMARY_JS = """
 document.getElementById('q').addEventListener('input', e => {
   const q = e.target.value.trim().toLowerCase();
   document.querySelectorAll('[data-text]').forEach(el =>
     el.classList.toggle('hide', q !== '' && !el.dataset.text.includes(q)));
-  if (q) document.querySelectorAll('details').forEach(d => d.open = true);
+  if (q) document.querySelectorAll('main > details').forEach(d => d.open = true);
 });
+(function () {
+  const d = document.documentElement, m = document.querySelector('details.lang'), key = 'kib-summary-lang';
+  const q = document.getElementById('q'), ph = JSON.parse(q.dataset.ph);
+  function apply(l) {
+    d.lang = l.replace('_', '-');
+    document.querySelectorAll('.tr').forEach(g => {
+      const c = g.querySelectorAll(':scope>[data-l]');
+      const has = [...c].some(e => e.dataset.l === l);
+      c.forEach(e => { e.hidden = e.dataset.l !== (has ? l : 'en'); });
+    });
+    q.placeholder = ph[l] || ph.en;
+    document.title = document.querySelector('h1').innerText.trim();
+    m.querySelector('summary b').textContent = l.split('_')[0].toUpperCase();
+    m.querySelectorAll('a[data-set]').forEach(a => a.toggleAttribute('aria-current', a.dataset.set === l));
+  }
+  let l = d.dataset.lang;
+  try { l = localStorage.getItem(key) || l; } catch (e) {}
+  if (m.querySelector('a[data-set="' + l + '"]')) apply(l);
+  m.addEventListener('click', e => {
+    const a = e.target.closest('a[data-set]');
+    if (!a) return;
+    e.preventDefault(); apply(a.dataset.set); m.open = false;
+    try { localStorage.setItem(key, a.dataset.set); } catch (x) {}
+  });
+  document.addEventListener('click', e => { if (m.open && !m.contains(e.target)) m.open = false; });
+})();
 """
+
+_GLOBE = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
+          'stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/>'
+          '<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>'
+          '</svg>')
+
+
+def _every_language(text, **values):
+    """A UI text in every language as data-l spans; only the starting language is visible."""
+    texts = kib_i18n.every_language(text)
+    start = kib_i18n.CURRENT if kib_i18n.CURRENT in texts else "en"
+    esc_values = {k: html.escape(str(v)) for k, v in values.items()}
+    return "".join(
+        f'<span data-l="{code}"{"" if code == start else " hidden"}>{html.escape(t).format(**esc_values)}</span>'
+        for code, t in texts.items())
 
 
 def _summary_html(s):
     esc = html.escape
+    tr = _every_language
+    start = kib_i18n.CURRENT if kib_i18n.CURRENT in kib_i18n.available() else "en"
 
     def chips(pkgs):
         return '<div class="chips">' + "".join(
@@ -1010,49 +1070,63 @@ def _summary_html(s):
             f'<tr data-text="{esc((p + " " + why).lower())}"><td>{esc(p)}</td><td>{esc(why)}</td></tr>'
             for p, why in mapping.items()) + "</table>"
 
-    def section(cls, title, note, body):
-        note_html = f'<p class="note">{note}</p>' if note else ""
-        return f'<section class="{cls}"><h2>{title}</h2>{note_html}{body}</section>'
+    def section(cls, title, count, note, body):
+        note_html = f'<p class="note tr">{tr(note)}</p>' if note else ""
+        return f'<section class="{cls}"><h2><span class="tr">{tr(title)}</span> ({count})</h2>{note_html}{body}</section>'
 
-    def folded(title, note, body):
-        return f'<details><summary>{title}</summary><p class="note">{note}</p>{body}</details>'
+    def folded(title, count, note, body):
+        return (f'<details><summary><span class="tr">{tr(title)}</span> ({count})</summary>'
+                f'<p class="note tr">{tr(note)}</p>{body}</details>')
 
-    tiles = [("Frozen", len(s["frozen"])), ("Core", len(s["core"])), ("Removed", len(s["removed"])),
-             ("Comes back", len(s["kept"])), ("Pulled in", len(s["pulled_in"]))]
-    settings = "".join(f"<tr><td>{esc(k)}</td><td>{esc(v)}</td></tr>" for k, v in s["settings"].items())
+    def empty(text):
+        return f'<p class="tr">{tr(text)}</p>'
+
+    tiles = [(N_("Frozen"), len(s["frozen"])), (N_("Core"), len(s["core"])), (N_("Removed"), len(s["removed"])),
+             (N_("Comes back"), len(s["kept"])), (N_("Pulled in"), len(s["pulled_in"]))]
+    settings = "".join(f'<tr><td class="tr">{tr(k)}</td><td>{esc(v)}</td></tr>' for k, v in s["settings"].items())
+    placeholders = kib_i18n.every_language(N_("Search packages or reasons..."))
+    menu = "".join(
+        f'<a href="#" data-set="{code}" lang="{code.replace("_", "-")}"'
+        f'{" aria-current" if code == start else ""}>{esc(kib_i18n.name(code))}</a>'
+        for code in kib_i18n.available())
     parts = [
-        "<h1>Kiro ISO build summary</h1>",
-        '<p class="sub">What this build puts on the ISO, and why.</p>',
-        f'<section><h2>This build</h2><table class="settings">{settings}</table>'
-        '<div class="tiles">' + "".join(f"<div class=\"tile\"><b>{n}</b>{t}</div>" for t, n in tiles)
+        f'<header><div><h1 class="tr">{tr(N_("Kiro ISO build summary"))}</h1>'
+        f'<p class="sub tr">{tr(N_("What this build puts on the ISO, and why."))}</p></div>'
+        f'<details class="lang"><summary aria-label="Language" title="Language">{_GLOBE}'
+        f'<b>{start.split("_")[0].upper()}</b></summary><div class="menu">{menu}</div></details></header>',
+        f'<section><h2 class="tr">{tr(N_("This build"))}</h2><table class="settings">{settings}</table>'
+        '<div class="tiles">' + "".join(f'<div class="tile"><b>{n}</b><span class="tr">{tr(t)}</span></div>'
+                                        for t, n in tiles)
         + "</div></section>",
-        '<input id="q" type="search" placeholder="Search packages or reasons...">',
+        f'<input id="q" type="search" placeholder="{esc(placeholders.get(start, placeholders["en"]))}" '
+        f'data-ph="{esc(json.dumps(placeholders, ensure_ascii=False))}">',
     ]
     parts.append(section(
-        "removed", f"Removed ({len(s['removed'])})",
-        "You unticked these and nothing else needs them, so they are not on the ISO.",
-        chips(s["removed"]) if s["removed"] else "<p>Nothing removed.</p>"))
+        "removed", N_("Removed"), len(s["removed"]),
+        N_("You unticked these and nothing else needs them, so they are not on the ISO."),
+        chips(s["removed"]) if s["removed"] else empty(N_("Nothing removed."))))
     parts.append(section(
-        "kept", f"Comes back anyway ({len(s['kept'])})",
-        "You unticked these, but they still ship. The reason is on the right.",
-        rows(s["kept"]) if s["kept"] else "<p>Every unticked package is really gone.</p>"))
+        "kept", N_("Comes back anyway"), len(s["kept"]),
+        N_("You unticked these, but they still ship. The reason is on the right."),
+        rows(s["kept"]) if s["kept"] else empty(N_("Every unticked package is really gone."))))
     for label, pkgs in s["blocks"].items():
-        parts.append(section("", f"{esc(label[0].upper() + label[1:])} ({len(pkgs)})", "", chips(pkgs)))
+        parts.append(f'<section><h2>{esc(label[0].upper() + label[1:])} ({len(pkgs)})</h2>{chips(pkgs)}</section>')
     parts.append(folded(
-        f"Pulled in by your choices ({len(s['pulled_in'])})",
-        "Dependencies of your editions, add-ons and optional apps that the core alone would not bring.",
+        N_("Pulled in by your choices"), len(s["pulled_in"]),
+        N_("Dependencies of your editions, add-ons and optional apps that the core alone would not bring."),
         rows(s["pulled_in"])))
     parts.append(folded(
-        f"Frozen, TIER 1 ({len(s['frozen'])})",
-        "Always ship. Removing any of these breaks the build, the live boot or the installer.",
+        N_("Frozen, TIER 1"), len(s["frozen"]),
+        N_("Always ship. Removing any of these breaks the build, the live boot or the installer."),
         chips(s["frozen"])))
     parts.append(folded(
-        f"Core, TIER 2 ({len(s['core'])})",
-        "Always ship. The base of every Kiro system.",
+        N_("Core, TIER 2"), len(s["core"]),
+        N_("Always ship. The base of every Kiro system."),
         chips(s["core"])))
-    parts.append(f"<footer><p>Generated {esc(time.strftime('%Y-%m-%d %H:%M'))} from {esc(s['source'])}</p></footer>")
+    generated = tr(N_("Generated {date} from {source}"), date=time.strftime("%Y-%m-%d %H:%M"), source=s["source"])
+    parts.append(f'<footer><p class="tr">{generated}</p></footer>')
 
-    return ("<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">"
+    return (f'<!doctype html><html lang="{start.replace("_", "-")}" data-lang="{start}"><head><meta charset="utf-8">'
             "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
             f"<title>Kiro ISO build summary</title><style>{_SUMMARY_CSS}</style></head>"
             f"<body><main>{''.join(parts)}</main><script>{_SUMMARY_JS}</script></body></html>\n")

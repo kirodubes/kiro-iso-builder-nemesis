@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kiro-iso-builder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-01 06:40+0100\n"
+"POT-Creation-Date: 2026-11-01 08:06+0100\n"
 "PO-Revision-Date: 2026-11-01 06:14+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: Kiro translations\n"
@@ -56,11 +56,11 @@ msgstr "ビルドの要求に応答（例: y）して Enter を押してくだ�
 msgid "Send"
 msgstr "送信"
 
-#: build_gui.py:104 configure_gui.py:199 extras_gui.py:88 packages_gui.py:108
+#: build_gui.py:104 configure_gui.py:195 extras_gui.py:88 packages_gui.py:102
 msgid "← Back"
 msgstr "← 戻る"
 
-#: build_gui.py:113 configure_gui.py:466
+#: build_gui.py:113 configure_gui.py:460
 #, python-brace-format
 msgid "{repo} clone not found; fix it on the Pre-flight screen."
 msgstr ""
@@ -221,7 +221,7 @@ msgstr "── ビルドフォルダーを削除できませんでした（終�
 msgid "Remove failed (exit {code})"
 msgstr "削除に失敗しました（終了コード {code}）"
 
-#: build_gui.py:323
+#: build_gui.py:323 functions.py:1084 functions.py:1105
 msgid "Removed"
 msgstr "削除しました"
 
@@ -256,7 +256,7 @@ msgstr ""
 "これらの設定は build.conf に直接書き込まれます。CLI も同じファイルを使用しま"
 "す。"
 
-#: configure_gui.py:78
+#: configure_gui.py:78 functions.py:944
 msgid "NVIDIA driver"
 msgstr "NVIDIA ドライバー"
 
@@ -267,9 +267,9 @@ msgid ""
 "blacklists NVIDIA. The other options bake that NVIDIA driver set."
 msgstr ""
 "AMD、Intel、または VM（NVIDIA GPU なし）ですか？「none」を選択すると NVIDIA "
-"ドライバーは含まれません。起動時は NVIDIA をブラックリストに登録する最初の"
-"オプション「open source: AMD / Intel」を選択してください。それ以外の"
-"オプションでは、選択した NVIDIA ドライバーセットが含まれます。"
+"ドライバーは含まれません。起動時は NVIDIA をブラックリストに登録する最初のオ"
+"プション「open source: AMD / Intel」を選択してください。それ以外のオプション"
+"では、選択した NVIDIA ドライバーセットが含まれます。"
 
 #: configure_gui.py:92
 msgid "Kernel source"
@@ -345,45 +345,45 @@ msgstr "pacman キャッシュを消去"
 msgid "Remove build folder after build"
 msgstr "ビルド後にフォルダーを削除"
 
-#: configure_gui.py:192
+#: configure_gui.py:191
 msgid "Reset to defaults"
 msgstr "デフォルトに戻す"
 
-#: configure_gui.py:195
+#: configure_gui.py:193
 msgid "Import build profile…"
 msgstr "ビルドプロファイルをインポート…"
 
-#: configure_gui.py:201 extras_gui.py:90 packages_gui.py:110
+#: configure_gui.py:197 extras_gui.py:90 packages_gui.py:104
 msgid "Save & Continue →"
 msgstr "保存して続行 →"
 
-#: configure_gui.py:218
+#: configure_gui.py:212
 msgid "build.conf not found; fix the clone on the Pre-flight screen."
 msgstr ""
 "build.conf が見つかりません。事前チェック画面でクローンを修正してください。"
 
-#: configure_gui.py:341
+#: configure_gui.py:335
 msgid "Reset to defaults; click Save & Continue to apply."
 msgstr ""
 "デフォルトに戻しました。適用するには「保存して続行」をクリックしてください。"
 
-#: configure_gui.py:346
+#: configure_gui.py:340
 msgid "Detecting…"
 msgstr "検出中…"
 
-#: configure_gui.py:359
+#: configure_gui.py:353
 msgid "None found; sync repos first. Keeping the built-in list."
 msgstr ""
 "見つかりませんでした。先にリポジトリを同期してください。組み込みの一覧を維持"
 "します。"
 
-#: configure_gui.py:363
+#: configure_gui.py:357
 #, python-brace-format
 msgid "Found {count} kernel."
 msgid_plural "Found {count} kernels."
 msgstr[0] "カーネルが {count} 個見つかりました。"
 
-#: configure_gui.py:373
+#: configure_gui.py:367
 msgid ""
 "CachyOS repo is disabled (Kiro's default); enable it to add the CachyOS-only "
 "kernels (eevdf, hardened, server, …)."
@@ -391,34 +391,34 @@ msgstr ""
 "CachyOS リポジトリは無効です（Kiro のデフォルト）。CachyOS 専用のカーネル"
 "（eevdf、hardened、server、…）を追加するには有効にしてください。"
 
-#: configure_gui.py:378
+#: configure_gui.py:372
 msgid "Enabling CachyOS repo…"
 msgstr "CachyOS リポジトリを有効化中…"
 
-#: configure_gui.py:388
+#: configure_gui.py:382
 msgid "CachyOS repo enabled; refreshing kernels…"
 msgstr "CachyOS リポジトリを有効にしました。カーネルを更新中…"
 
-#: configure_gui.py:391
+#: configure_gui.py:385
 #, python-brace-format
 msgid "Enabling CachyOS failed (exit {code})."
 msgstr "CachyOS を有効にできませんでした（終了コード {code}）。"
 
-#: configure_gui.py:447
+#: configure_gui.py:441
 msgid "Tick at least one desktop or window manager; an ISO needs a session."
 msgstr ""
 "少なくとも1つのデスクトップ環境またはウィンドウマネージャーを選択してくださ"
 "い。ISO にはセッションが必要です。"
 
-#: configure_gui.py:470
+#: configure_gui.py:464
 msgid "Import build profile"
 msgstr "ビルドプロファイルをインポート"
 
-#: configure_gui.py:473
+#: configure_gui.py:467
 msgid "Kiro build profiles"
 msgstr "Kiro ビルドプロファイル"
 
-#: configure_gui.py:493
+#: configure_gui.py:487
 #, python-brace-format
 msgid ""
 "Imported profile; {count} package to remove. Review the settings, then click "
@@ -631,11 +631,11 @@ msgstr "これらはまだ作業途中です。"
 msgid "Search apps…"
 msgstr "アプリを検索…"
 
-#: extras_gui.py:58 packages_gui.py:74
+#: extras_gui.py:58 packages_gui.py:73
 msgid "Select all"
 msgstr "すべて選択"
 
-#: extras_gui.py:60 packages_gui.py:76
+#: extras_gui.py:60 packages_gui.py:75
 msgid "Deselect all"
 msgstr "すべて解除"
 
@@ -647,7 +647,7 @@ msgstr "アプリ一覧を保存…"
 msgid "Import app list…"
 msgstr "アプリ一覧をインポート…"
 
-#: extras_gui.py:122 packages_gui.py:131
+#: extras_gui.py:122 packages_gui.py:125
 msgid "packages.x86_64 not found; fix the clone on the Pre-flight screen."
 msgstr ""
 "packages.x86_64 が見つかりません。事前チェック画面でクローンを修正してくださ"
@@ -684,19 +684,121 @@ msgid_plural "Imported app list; {count} apps marked to add."
 msgstr[0] ""
 "一覧をインポートしました。{count} 個のアプリを追加対象に選択しました。"
 
-#: functions.py:1272
+#: functions.py:941
+msgid "Editions"
+msgstr "エディション"
+
+#: functions.py:942
+msgid "Default session"
+msgstr "既定のセッション"
+
+#: functions.py:943
+msgid "Kernel"
+msgstr "カーネル"
+
+#: functions.py:1084
+msgid "Core"
+msgstr "コア"
+
+#: functions.py:1084
+msgid "Frozen"
+msgstr "固定"
+
+#: functions.py:1085
+msgid "Comes back"
+msgstr "戻るもの"
+
+#: functions.py:1085
+msgid "Pulled in"
+msgstr "追加で入るもの"
+
+#: functions.py:1087
+msgid "Search packages or reasons..."
+msgstr "パッケージや理由を検索…"
+
+#: functions.py:1093
+msgid "Kiro ISO build summary"
+msgstr "Kiro ISO ビルドの概要"
+
+#: functions.py:1094
+msgid "What this build puts on the ISO, and why."
+msgstr "このビルドが ISO に入れるものとその理由。"
+
+#: functions.py:1097
+msgid "This build"
+msgstr "このビルド"
+
+#: functions.py:1106
+msgid ""
+"You unticked these and nothing else needs them, so they are not on the ISO."
+msgstr "選択を外し、ほかに必要とするものもないため、ISO には入りません。"
+
+#: functions.py:1107
+msgid "Nothing removed."
+msgstr "削除されたものはありません。"
+
+#: functions.py:1109
+msgid "Comes back anyway"
+msgstr "それでも戻るもの"
+
+#: functions.py:1110
+msgid "You unticked these, but they still ship. The reason is on the right."
+msgstr "選択を外しましたが、それでも ISO に入ります。理由は右側にあります。"
+
+#: functions.py:1111
+msgid "Every unticked package is really gone."
+msgstr "選択を外したパッケージはすべて本当に削除されています。"
+
+#: functions.py:1115
+msgid "Pulled in by your choices"
+msgstr "選択によって追加で入るもの"
+
+#: functions.py:1116
+msgid ""
+"Dependencies of your editions, add-ons and optional apps that the core alone "
+"would not bring."
+msgstr ""
+"コアだけでは入らない、エディション・アドオン・オプションアプリの依存パッケー"
+"ジです。"
+
+#: functions.py:1119
+msgid "Frozen, TIER 1"
+msgstr "固定、TIER 1"
+
+#: functions.py:1120
+msgid ""
+"Always ship. Removing any of these breaks the build, the live boot or the "
+"installer."
+msgstr ""
+"常に入ります。どれかを削除すると、ビルド、ライブ起動、またはインストーラーが"
+"壊れます。"
+
+#: functions.py:1123
+msgid "Core, TIER 2"
+msgstr "コア、TIER 2"
+
+#: functions.py:1124
+msgid "Always ship. The base of every Kiro system."
+msgstr "常に入ります。すべての Kiro システムの土台です。"
+
+#: functions.py:1126
+#, python-brace-format
+msgid "Generated {date} from {source}"
+msgstr "{date} に {source} から生成"
+
+#: functions.py:1365
 msgid "Authentication required"
 msgstr "認証が必要です"
 
-#: functions.py:1273 preflight_gui.py:298
+#: functions.py:1366 preflight_gui.py:298
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: functions.py:1274
+#: functions.py:1367
 msgid "Authenticate"
 msgstr "認証"
 
-#: functions.py:1282
+#: functions.py:1375
 msgid "Enter your password"
 msgstr "パスワードを入力"
 
@@ -890,7 +992,8 @@ msgstr "NVIDIA GPU を検出しました。ドライバーは「{driver}」で�
 #: host_checks.py:230
 #, python-brace-format
 msgid "No NVIDIA GPU detected; driver set to '{driver}' (unused)."
-msgstr "NVIDIA GPU は検出されませんでした。ドライバーは「{driver}」です（未使用）。"
+msgstr ""
+"NVIDIA GPU は検出されませんでした。ドライバーは「{driver}」です（未使用）。"
 
 #: host_checks.py:236 host_checks.py:237
 msgid "Build sources"
@@ -1082,49 +1185,49 @@ msgid ""
 "Packages that always ship (core or needed by your editions) are not listed; "
 "open the list below to see them."
 msgstr ""
-"常に含まれるパッケージ（基本パッケージまたは選択したエディションで必要なもの"
-"）は一覧に表示されません。下の一覧を開くと確認できます。"
+"常に含まれるパッケージ（基本パッケージまたは選択したエディションで必要なも"
+"の）は一覧に表示されません。下の一覧を開くと確認できます。"
 
 #: packages_gui.py:61
 msgid "Show the core packages"
 msgstr "基本パッケージを表示"
 
-#: packages_gui.py:72
+#: packages_gui.py:71
 msgid "Search packages…"
 msgstr "パッケージを検索…"
 
-#: packages_gui.py:78
+#: packages_gui.py:77
 msgid "Expand all"
 msgstr "すべて展開"
 
-#: packages_gui.py:80
+#: packages_gui.py:79
 msgid "Collapse all"
 msgstr "すべて折りたたむ"
 
-#: packages_gui.py:99
+#: packages_gui.py:93
 msgid "Save package list…"
 msgstr "パッケージ一覧を保存…"
 
-#: packages_gui.py:101
+#: packages_gui.py:95
 msgid "Import package list…"
 msgstr "パッケージ一覧をインポート…"
 
-#: packages_gui.py:143
+#: packages_gui.py:137
 msgid "No optional apps were found to choose from."
 msgstr "選択できる任意のアプリはありません。"
 
-#: packages_gui.py:149
+#: packages_gui.py:143
 msgid "Show or hide the packages in this group"
 msgstr "このグループのパッケージを表示または非表示"
 
-#: packages_gui.py:261
+#: packages_gui.py:255
 #, python-brace-format
 msgid "Package that will ship: {shipping}/{total} ({left_out} left out)"
 msgid_plural ""
 "Packages that will ship: {shipping}/{total} ({left_out} left out)"
 msgstr[0] "含まれるパッケージ: {shipping}/{total}（{left_out} 個を除外）"
 
-#: packages_gui.py:266
+#: packages_gui.py:260
 #, python-brace-format
 msgid ""
 "{count} unticked package still ships; see the rows marked 'still ships'."
@@ -1134,49 +1237,49 @@ msgstr[0] ""
 "選択を解除しても {count} 個のパッケージが含まれます。「引き続き含まれる」と表"
 "示された行を確認してください。"
 
-#: packages_gui.py:276
+#: packages_gui.py:270
 #, python-brace-format
 msgid "Show the package that always ships ({count})"
 msgid_plural "Show the packages that always ship ({count})"
 msgstr[0] "常に含まれるパッケージを表示（{count}）"
 
-#: packages_gui.py:280
+#: packages_gui.py:274
 msgid "Ships with your editions:\n"
 msgstr "選択したエディションに含まれるもの:\n"
 
-#: packages_gui.py:283
+#: packages_gui.py:277
 msgid "Also ships because of your editions or add-ons:\n"
 msgstr "エディションまたは追加アプリにより含まれるもの:\n"
 
-#: packages_gui.py:285
+#: packages_gui.py:279
 msgid "Core: "
 msgstr "基本: "
 
-#: packages_gui.py:316
+#: packages_gui.py:310
 #, python-brace-format
 msgid "Still ships: {package} ({reason})"
 msgstr "引き続き含まれる: {package}（{reason}）"
 
-#: packages_gui.py:318
+#: packages_gui.py:312
 #, python-brace-format
 msgid "Unticked, but still on the ISO: {reason}."
 msgstr "選択されていませんが ISO に残ります: {reason}。"
 
-#: packages_gui.py:348
+#: packages_gui.py:342
 msgid "Save package profile"
 msgstr "パッケージプロファイルを保存"
 
-#: packages_gui.py:362
+#: packages_gui.py:356
 #, python-brace-format
 msgid "Saved profile ({count} package excluded) → {path}"
 msgid_plural "Saved profile ({count} packages excluded) → {path}"
 msgstr[0] "プロファイルを保存しました（{count} 個のパッケージを除外）→ {path}"
 
-#: packages_gui.py:368
+#: packages_gui.py:362
 msgid "Import package profile"
 msgstr "パッケージプロファイルをインポート"
 
-#: packages_gui.py:381
+#: packages_gui.py:375
 #, python-brace-format
 msgid "Imported profile; {count} package marked for exclusion."
 msgid_plural "Imported profile; {count} packages marked for exclusion."

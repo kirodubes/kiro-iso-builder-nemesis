@@ -21,6 +21,10 @@
 - **No more warning about python-pywal.** The Build page said "Unticked but still on the ISO: python-pywal —
   python-pywal16 ships instead ()", although python-pywal left the ISO with the pywal16 swap. The old exclusion was
   still in the saved package selection; it now only warns about packages the Packages page still shows.
+- **The build summary page is translated too, with a language switch** (same change as kiro-iso-builder).
+  "Show summary" opens the page in the app's language; a globe menu top right (like the Kiro News page) switches to
+  any of the 14 languages without regenerating, and the browser remembers the choice. Package names and the reasons
+  next to them stay English.
 
 ### Technical Details
 - New `kib_i18n.py` (gettext domain `kiro-iso-builder`, same as production because the nemesis package installs
@@ -28,7 +32,7 @@
   `~/.config/kiro-iso-builder/prefs.json`; `KIB_LANGUAGE` pins a catalog and the tests pin `en`. Sibling fallback
   `pt` → `pt_BR`, `zh` → `zh_CN`.
 - Never translated: `build.conf`, package/kernel/driver names, check ids, host-prep arguments, `SUDO_SENTINEL` and
-  strings matched against command output, log files and the build-summary HTML. Child processes keep their own
+  strings matched against command output and log files. Child processes keep their own
   locale handling (sudo sentinel, `LC_ALL=C` pacman), so a German UI doesn't break output parsing.
 - `po/make-mo.sh` (Kiro bash template) extracts the strings, merges and compiles 13 catalogs into `locale/`, and
   writes `kiro-iso-builder.desktop` from `po/kiro-iso-builder.desktop.in`.
@@ -44,6 +48,14 @@
   is no row any more matched python-pywal16's `provides` and was reported as kept. A variant whose own reason is
   empty (a plain TIER 3 line) now reads "listed elsewhere in packages.x86_64" instead of "()". New test
   `test_reported_kept_skips_stale_exclude`.
+- Summary page: every UI text is written in all languages as `<span data-l="…">` children of a `.tr` group, only the
+  starting language visible (`kib_i18n.CURRENT`); the search placeholder carries its languages as JSON in `data-ph`.
+  New `kib_i18n.every_language(text)` reads each catalog once. The page script shows the chosen language's child or
+  falls back to English, sets `document.title` from the h1, and keeps the choice in `localStorage`
+  (`kib-summary-lang`, try/catch for file://). Counts stay outside the translated heading. The settings keys in
+  `build_summary()` are `N_()`-marked English and translated at render time. 23 new strings, drafted by Claude
+  (not Copilot-reviewed), 289 translated / 0 fuzzy in all 13; catalogs identical to kiro-iso-builder's.
+  New test `test_summary_html_carries_every_language`.
 
 ### Files Modified
 - `kib_i18n.py` (new), `po/` (new), `locale/` (new)

@@ -149,8 +149,18 @@ class PackageLogic(unittest.TestCase):
         self.assertTrue(text.startswith("<!doctype html>"))
         self.assertNotIn("<script>x</script>", text)
         self.assertIn("&lt;script&gt;x&lt;/script&gt;", text)
-        for heading in ("Removed (", "Comes back anyway (1)", "Pulled in by your choices", "Frozen, TIER 1 (2)"):
+        for heading in ('<span data-l="en">Removed</span>', '<span data-l="en">Comes back anyway</span>',
+                        '<span data-l="en">Pulled in by your choices</span>', '<span data-l="en">Frozen, TIER 1</span>'):
             self.assertIn(heading, text)
+        self.assertIn("</span> (1)</h2>", text, "the count sits outside the translated heading")
+
+    def test_summary_html_carries_every_language(self):
+        text = fn._summary_html(fn.build_summary(set(), self.editions))
+        self.assertIn('<details class="lang">', text)
+        for code in fn.kib_i18n.available():
+            self.assertIn(f'data-set="{code}"', text)
+        self.assertIn('<span data-l="nl" hidden>Niets verwijderd.</span>', text,
+                      "other languages ship hidden; the switch shows them")
 
     def test_summary_default_name_is_timestamped(self):
         path = fn.write_summary_html(fn.build_summary(set(), self.editions))
