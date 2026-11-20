@@ -149,12 +149,9 @@ class DoneScreen:
         size_gb = self.iso.stat().st_size / 1_000_000_000
         self.info.set_text(f"{self.iso.name}\n{size_gb:.2f} GB  ·  {folder}")
         self._enable(True)
-        labels = {"sha256": "SHA256", "sha1": "SHA1", "md5": "MD5"}
-        for ext in ("sha256", "sha1", "md5"):
-            f = self.iso.with_name(self.iso.name + "." + ext)
-            if f.is_file():
-                self.checks_buf.insert(
-                    self.checks_buf.get_end_iter(), _filename_first(f.read_text(), labels[ext]))
+        f = self.iso.with_name(self.iso.name + ".sha256")
+        if f.is_file():
+            self.checks_buf.insert(self.checks_buf.get_end_iter(), _filename_first(f.read_text(), "SHA256"))
 
     def _enable(self, on):
         self.open_btn.set_sensitive(on)

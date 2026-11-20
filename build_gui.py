@@ -374,10 +374,9 @@ class BuildScreen:
             f"ISO size:       {f'{iso.stat().st_size / 1_000_000_000:.2f} GB' if iso else '-'}",
         ]
         if iso:
-            for ext in ("sha256", "sha1", "md5"):
-                f = iso.with_name(iso.name + "." + ext)
-                if f.is_file():
-                    lines.append(f"{ext}:         {f.read_text().split()[0]}")
+            f = iso.with_name(iso.name + ".sha256")
+            if f.is_file():
+                lines.append(f"sha256:         {f.read_text().split()[0]}")
         if self._kept_lines:
             lines.append("Unticked but still on the ISO:")
             lines += [f"  {ln}" for ln in self._kept_lines]

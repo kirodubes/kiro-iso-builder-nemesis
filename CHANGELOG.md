@@ -4,6 +4,19 @@
 
 ---
 
+## 2026.11.20
+
+### What Changed
+- **The build and Done screens show only the SHA256 checksum.** The Kiro ISO build no longer writes `.md5` and
+  `.sha1` files (broken hashes; the `.sig` proves where the ISO comes from), so KIB stops looking for them.
+
+### Technical Details
+- `done_gui.py` reads only `<iso>.sha256` into the checksum box; `build_gui.py` writes only the sha256 line into the
+  build summary. Both still skip silently when the file is missing.
+
+### Files Modified
+- `done_gui.py`, `build_gui.py`, `CHANGELOG.md`
+
 ## 2026.11.01
 
 ### What Changed
