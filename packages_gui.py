@@ -79,6 +79,11 @@ class PackagesScreen:
         collapse_btn = Gtk.Button(label=_("Collapse all"))
         collapse_btn.connect("clicked", lambda _w: self._set_expanded_all(False))
         self.widget.append(fn.wrap_row([self.search], [expand_btn, collapse_btn], [all_btn, none_btn]))
+        # Searching for a package that always ships found nothing before, so users concluded it
+        # could not be removed at all; this names it and says why it is not in the list.
+        self.search_note = Gtk.Label(xalign=0, wrap=True, max_width_chars=110, visible=False)
+        self.search_note.add_css_class("dim-label")
+        self.widget.append(self.search_note)
 
         self.container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
         scroller = Gtk.ScrolledWindow(vexpand=True)
@@ -237,6 +242,15 @@ class PackagesScreen:
                     any_visible = True
             for header in headers:
                 header.set_visible(any_visible)
+        self._update_search_note(q)
+
+    def _update_search_note(self, q):
+        always = set(self._core) | set(self._hidden) | {p for pkgs in self._edition_fixed.values() for p in pkgs}
+        found = sorted(p for p in always if q in p.lower()) if len(q) >= 2 else []
+        if found:
+            shown = ", ".join(found[:8]) + (", …" if len(found) > 8 else "")
+            self.search_note.set_text(_("Always ships, so not in the list below: {packages}").format(packages=shown))
+        self.search_note.set_visible(bool(found))
 
     def _on_arrow_clicked(self, _w, category):
         self._expanded ^= {category}

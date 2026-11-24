@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kiro-iso-builder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-01 08:06+0100\n"
+"POT-Creation-Date: 2026-11-24 06:52+0100\n"
 "PO-Revision-Date: 2026-11-01 06:14+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: Kiro translations\n"
@@ -58,7 +58,7 @@ msgstr "Beantwoord een buildvraag (bijvoorbeeld y) en druk op Enter"
 msgid "Send"
 msgstr "Verzenden"
 
-#: build_gui.py:104 configure_gui.py:195 extras_gui.py:88 packages_gui.py:102
+#: build_gui.py:104 configure_gui.py:195 extras_gui.py:88 packages_gui.py:107
 msgid "← Back"
 msgstr "← Terug"
 
@@ -356,7 +356,7 @@ msgstr "Standaardwaarden herstellen"
 msgid "Import build profile…"
 msgstr "Buildprofiel importeren…"
 
-#: configure_gui.py:197 extras_gui.py:90 packages_gui.py:104
+#: configure_gui.py:197 extras_gui.py:90 packages_gui.py:109
 msgid "Save & Continue →"
 msgstr "Opslaan en doorgaan →"
 
@@ -500,29 +500,29 @@ msgstr "Uitvoermap nog niet gevonden."
 msgid "No ISO found in {path}"
 msgstr "Geen ISO gevonden in {path}"
 
-#: done_gui.py:193
+#: done_gui.py:190
 msgid "VirtualBox (VBoxManage) not installed."
 msgstr "VirtualBox (VBoxManage) is niet geïnstalleerd."
 
-#: done_gui.py:196
+#: done_gui.py:193
 msgid "Creating a VirtualBox VM (UEFI + 50 GB disk) and booting the ISO…"
 msgstr "Een VirtualBox-VM maken (UEFI + schijf van 50 GB) en de ISO opstarten…"
 
-#: done_gui.py:223
+#: done_gui.py:220
 msgid "VirtualBox VM started."
 msgstr "VirtualBox-VM gestart."
 
-#: done_gui.py:224
+#: done_gui.py:221
 #, python-brace-format
 msgid "VirtualBox launch failed (exit {code})."
 msgstr "VirtualBox starten mislukt (afsluitcode {code})."
 
-#: done_gui.py:228
+#: done_gui.py:225
 msgid "Installing VirtualBox + host DKMS + kernel headers (password required)…"
 msgstr ""
 "VirtualBox + host-DKMS + kernelheaders installeren (wachtwoord vereist)…"
 
-#: done_gui.py:236
+#: done_gui.py:233
 msgid ""
 "VirtualBox installed. Reboot now (a log-out is not enough) to load the host "
 "kernel modules and join the vboxusers group. Also enable virtualization in "
@@ -535,64 +535,64 @@ msgstr ""
 "UEFI (Intel VT-x of AMD-V / SVM); zonder virtualisatie kan VirtualBox geen "
 "virtuele machines uitvoeren."
 
-#: done_gui.py:244
+#: done_gui.py:241
 #, python-brace-format
 msgid "VirtualBox install failed (exit {code})."
 msgstr "Installatie van VirtualBox mislukt (afsluitcode {code})."
 
-#: done_gui.py:255
+#: done_gui.py:252
 msgid "OVMF not found (install edk2-ovmf); booting BIOS instead of UEFI."
 msgstr ""
 "OVMF niet gevonden (installeer edk2-ovmf); opstarten met BIOS in plaats van "
 "UEFI."
 
-#: done_gui.py:268
+#: done_gui.py:265
 msgid "qemu-img not found; the installer will have no disk to install on."
 msgstr ""
 "qemu-img niet gevonden; het installatieprogramma heeft geen schijf waarop je "
 "kunt installeren."
 
-#: done_gui.py:275
+#: done_gui.py:272
 msgid "Creating a fresh 50 GB virtual disk for the installer…"
 msgstr ""
 "Een nieuwe virtuele schijf van 50 GB maken voor het installatieprogramma…"
 
-#: done_gui.py:279
+#: done_gui.py:276
 #, python-brace-format
 msgid "Failed to create disk: {error}"
 msgstr "Schijf maken mislukt: {error}"
 
-#: done_gui.py:285
+#: done_gui.py:282
 msgid "Installing qemu-desktop (you will be asked for your password)…"
 msgstr "qemu-desktop installeren (je wordt om je wachtwoord gevraagd)…"
 
-#: done_gui.py:293
+#: done_gui.py:290
 msgid "QEMU installed; you can now test in a VM."
 msgstr "QEMU is geïnstalleerd; je kunt nu testen in een VM."
 
-#: done_gui.py:298
+#: done_gui.py:295
 #, python-brace-format
 msgid "QEMU install failed (exit {code})."
 msgstr "Installatie van QEMU mislukt (afsluitcode {code})."
 
-#: done_gui.py:310
+#: done_gui.py:307
 msgid "Installing mintstick (you will be asked for your password)…"
 msgstr "mintstick installeren (je wordt om je wachtwoord gevraagd)…"
 
-#: done_gui.py:318
+#: done_gui.py:315
 msgid "USB writer installed; you can now burn to USB."
 msgstr "USB-schrijver is geïnstalleerd; je kunt nu naar USB schrijven."
 
-#: done_gui.py:323
+#: done_gui.py:320
 #, python-brace-format
 msgid "USB writer install failed (exit {code})."
 msgstr "Installatie van USB-schrijver mislukt (afsluitcode {code})."
 
-#: done_gui.py:331
+#: done_gui.py:328
 msgid "Save build profile"
 msgstr "Buildprofiel opslaan"
 
-#: done_gui.py:348
+#: done_gui.py:345
 #, python-brace-format
 msgid "Saved build profile ({count} package removed) → {path}"
 msgid_plural "Saved build profile ({count} packages removed) → {path}"
@@ -657,7 +657,7 @@ msgstr "Applijst opslaan…"
 msgid "Import app list…"
 msgstr "Applijst importeren…"
 
-#: extras_gui.py:122 packages_gui.py:125
+#: extras_gui.py:122 packages_gui.py:130
 msgid "packages.x86_64 not found; fix the clone on the Pre-flight screen."
 msgstr ""
 "packages.x86_64 niet gevonden; los dit op via het scherm Voorbereiding."
@@ -1222,23 +1222,28 @@ msgstr "Alles uitklappen"
 msgid "Collapse all"
 msgstr "Alles inklappen"
 
-#: packages_gui.py:93
+#: packages_gui.py:98
 msgid "Save package list…"
 msgstr "Pakketlijst opslaan…"
 
-#: packages_gui.py:95
+#: packages_gui.py:100
 msgid "Import package list…"
 msgstr "Pakketlijst importeren…"
 
-#: packages_gui.py:137
+#: packages_gui.py:142
 msgid "No optional apps were found to choose from."
 msgstr "Er zijn geen optionele apps gevonden om uit te kiezen."
 
-#: packages_gui.py:143
+#: packages_gui.py:148
 msgid "Show or hide the packages in this group"
 msgstr "Pakketten in deze groep tonen of verbergen"
 
-#: packages_gui.py:255
+#: packages_gui.py:252
+#, python-brace-format
+msgid "Always ships, so not in the list below: {packages}"
+msgstr "Gaat altijd mee, dus niet in de lijst hieronder: {packages}"
+
+#: packages_gui.py:269
 #, python-brace-format
 msgid "Package that will ship: {shipping}/{total} ({left_out} left out)"
 msgid_plural ""
@@ -1248,7 +1253,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Pakketten die worden meegeleverd: {shipping}/{total} ({left_out} weggelaten)"
 
-#: packages_gui.py:260
+#: packages_gui.py:274
 #, python-brace-format
 msgid ""
 "{count} unticked package still ships; see the rows marked 'still ships'."
@@ -1261,51 +1266,51 @@ msgstr[1] ""
 "{count} niet-aangevinkte pakketten worden toch meegeleverd; zie de rijen met "
 "'wordt toch meegeleverd'."
 
-#: packages_gui.py:270
+#: packages_gui.py:284
 #, python-brace-format
 msgid "Show the package that always ships ({count})"
 msgid_plural "Show the packages that always ship ({count})"
 msgstr[0] "Toon het pakket dat altijd wordt meegeleverd ({count})"
 msgstr[1] "Toon de pakketten die altijd worden meegeleverd ({count})"
 
-#: packages_gui.py:274
+#: packages_gui.py:288
 msgid "Ships with your editions:\n"
 msgstr "Wordt meegeleverd met je edities:\n"
 
-#: packages_gui.py:277
+#: packages_gui.py:291
 msgid "Also ships because of your editions or add-ons:\n"
 msgstr "Wordt ook meegeleverd vanwege je edities of add-ons:\n"
 
-#: packages_gui.py:279
+#: packages_gui.py:293
 msgid "Core: "
 msgstr "Basis: "
 
-#: packages_gui.py:310
+#: packages_gui.py:324
 #, python-brace-format
 msgid "Still ships: {package} ({reason})"
 msgstr "Wordt toch meegeleverd: {package} ({reason})"
 
-#: packages_gui.py:312
+#: packages_gui.py:326
 #, python-brace-format
 msgid "Unticked, but still on the ISO: {reason}."
 msgstr "Niet aangevinkt, maar staat nog steeds op de ISO: {reason}."
 
-#: packages_gui.py:342
+#: packages_gui.py:356
 msgid "Save package profile"
 msgstr "Pakketprofiel opslaan"
 
-#: packages_gui.py:356
+#: packages_gui.py:370
 #, python-brace-format
 msgid "Saved profile ({count} package excluded) → {path}"
 msgid_plural "Saved profile ({count} packages excluded) → {path}"
 msgstr[0] "Profiel opgeslagen ({count} pakket uitgesloten) → {path}"
 msgstr[1] "Profiel opgeslagen ({count} pakketten uitgesloten) → {path}"
 
-#: packages_gui.py:362
+#: packages_gui.py:376
 msgid "Import package profile"
 msgstr "Pakketprofiel importeren"
 
-#: packages_gui.py:375
+#: packages_gui.py:389
 #, python-brace-format
 msgid "Imported profile; {count} package marked for exclusion."
 msgid_plural "Imported profile; {count} packages marked for exclusion."

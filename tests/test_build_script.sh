@@ -33,6 +33,8 @@ pacman() {
         *) return 1 ;;
     esac
 }
+# The script queries a private sync db through qpacman (pacman --dbpath …); same stub.
+qpacman() { pacman "$@"; }
 
 write_packages() {
     mkdir -p "${TMP}/repo/archiso"

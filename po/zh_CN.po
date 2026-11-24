@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kiro-iso-builder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-01 08:06+0100\n"
+"POT-Creation-Date: 2026-11-24 06:52+0100\n"
 "PO-Revision-Date: 2026-11-01 06:14+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: Kiro translations\n"
@@ -55,7 +55,7 @@ msgstr "回复构建提示（例如 y），然后按 Enter"
 msgid "Send"
 msgstr "发送"
 
-#: build_gui.py:104 configure_gui.py:195 extras_gui.py:88 packages_gui.py:102
+#: build_gui.py:104 configure_gui.py:195 extras_gui.py:88 packages_gui.py:107
 msgid "← Back"
 msgstr "← 返回"
 
@@ -346,7 +346,7 @@ msgstr "恢复默认值"
 msgid "Import build profile…"
 msgstr "导入构建配置…"
 
-#: configure_gui.py:197 extras_gui.py:90 packages_gui.py:104
+#: configure_gui.py:197 extras_gui.py:90 packages_gui.py:109
 msgid "Save & Continue →"
 msgstr "保存并继续 →"
 
@@ -477,28 +477,28 @@ msgstr "尚未找到输出目录。"
 msgid "No ISO found in {path}"
 msgstr "在 {path} 中未找到 ISO"
 
-#: done_gui.py:193
+#: done_gui.py:190
 msgid "VirtualBox (VBoxManage) not installed."
 msgstr "未安装 VirtualBox（VBoxManage）。"
 
-#: done_gui.py:196
+#: done_gui.py:193
 msgid "Creating a VirtualBox VM (UEFI + 50 GB disk) and booting the ISO…"
 msgstr "正在创建 VirtualBox 虚拟机（UEFI + 50 GB 磁盘）并启动 ISO…"
 
-#: done_gui.py:223
+#: done_gui.py:220
 msgid "VirtualBox VM started."
 msgstr "VirtualBox 虚拟机已启动。"
 
-#: done_gui.py:224
+#: done_gui.py:221
 #, python-brace-format
 msgid "VirtualBox launch failed (exit {code})."
 msgstr "启动 VirtualBox 失败（退出代码 {code}）。"
 
-#: done_gui.py:228
+#: done_gui.py:225
 msgid "Installing VirtualBox + host DKMS + kernel headers (password required)…"
 msgstr "正在安装 VirtualBox + 主机 DKMS + 内核头文件（需要密码）…"
 
-#: done_gui.py:236
+#: done_gui.py:233
 msgid ""
 "VirtualBox installed. Reboot now (a log-out is not enough) to load the host "
 "kernel modules and join the vboxusers group. Also enable virtualization in "
@@ -509,59 +509,59 @@ msgstr ""
 "组。还需在主板或 BIOS/UEFI 设置中启用虚拟化（Intel VT-x 或 AMD-V / SVM）；否"
 "则 VirtualBox 无法运行虚拟机。"
 
-#: done_gui.py:244
+#: done_gui.py:241
 #, python-brace-format
 msgid "VirtualBox install failed (exit {code})."
 msgstr "安装 VirtualBox 失败（退出代码 {code}）。"
 
-#: done_gui.py:255
+#: done_gui.py:252
 msgid "OVMF not found (install edk2-ovmf); booting BIOS instead of UEFI."
 msgstr "未找到 OVMF（请安装 edk2-ovmf）；将以 BIOS 而非 UEFI 启动。"
 
-#: done_gui.py:268
+#: done_gui.py:265
 msgid "qemu-img not found; the installer will have no disk to install on."
 msgstr "未找到 qemu-img；安装程序没有可安装到的磁盘。"
 
-#: done_gui.py:275
+#: done_gui.py:272
 msgid "Creating a fresh 50 GB virtual disk for the installer…"
 msgstr "正在为安装程序创建新的 50 GB 虚拟磁盘…"
 
-#: done_gui.py:279
+#: done_gui.py:276
 #, python-brace-format
 msgid "Failed to create disk: {error}"
 msgstr "无法创建磁盘：{error}"
 
-#: done_gui.py:285
+#: done_gui.py:282
 msgid "Installing qemu-desktop (you will be asked for your password)…"
 msgstr "正在安装 qemu-desktop（将提示输入密码）…"
 
-#: done_gui.py:293
+#: done_gui.py:290
 msgid "QEMU installed; you can now test in a VM."
 msgstr "QEMU 已安装；现在可以在虚拟机中测试。"
 
-#: done_gui.py:298
+#: done_gui.py:295
 #, python-brace-format
 msgid "QEMU install failed (exit {code})."
 msgstr "安装 QEMU 失败（退出代码 {code}）。"
 
-#: done_gui.py:310
+#: done_gui.py:307
 msgid "Installing mintstick (you will be asked for your password)…"
 msgstr "正在安装 mintstick（将提示输入密码）…"
 
-#: done_gui.py:318
+#: done_gui.py:315
 msgid "USB writer installed; you can now burn to USB."
 msgstr "USB 写入工具已安装；现在可以写入 USB。"
 
-#: done_gui.py:323
+#: done_gui.py:320
 #, python-brace-format
 msgid "USB writer install failed (exit {code})."
 msgstr "安装 USB 写入工具失败（退出代码 {code}）。"
 
-#: done_gui.py:331
+#: done_gui.py:328
 msgid "Save build profile"
 msgstr "保存构建配置"
 
-#: done_gui.py:348
+#: done_gui.py:345
 #, python-brace-format
 msgid "Saved build profile ({count} package removed) → {path}"
 msgid_plural "Saved build profile ({count} packages removed) → {path}"
@@ -620,7 +620,7 @@ msgstr "保存应用列表…"
 msgid "Import app list…"
 msgstr "导入应用列表…"
 
-#: extras_gui.py:122 packages_gui.py:125
+#: extras_gui.py:122 packages_gui.py:130
 msgid "packages.x86_64 not found; fix the clone on the Pre-flight screen."
 msgstr "未找到 packages.x86_64；请在预检页面修复克隆仓库。"
 
@@ -1155,30 +1155,35 @@ msgstr "全部展开"
 msgid "Collapse all"
 msgstr "全部折叠"
 
-#: packages_gui.py:93
+#: packages_gui.py:98
 msgid "Save package list…"
 msgstr "保存软件包列表…"
 
-#: packages_gui.py:95
+#: packages_gui.py:100
 msgid "Import package list…"
 msgstr "导入软件包列表…"
 
-#: packages_gui.py:137
+#: packages_gui.py:142
 msgid "No optional apps were found to choose from."
 msgstr "没有可选的应用。"
 
-#: packages_gui.py:143
+#: packages_gui.py:148
 msgid "Show or hide the packages in this group"
 msgstr "显示或隐藏此组的软件包"
 
-#: packages_gui.py:255
+#: packages_gui.py:252
+#, python-brace-format
+msgid "Always ships, so not in the list below: {packages}"
+msgstr "始终包含，因此不在下方列表中：{packages}"
+
+#: packages_gui.py:269
 #, python-brace-format
 msgid "Package that will ship: {shipping}/{total} ({left_out} left out)"
 msgid_plural ""
 "Packages that will ship: {shipping}/{total} ({left_out} left out)"
 msgstr[0] "将包含的软件包：{shipping}/{total}（已排除 {left_out}）"
 
-#: packages_gui.py:260
+#: packages_gui.py:274
 #, python-brace-format
 msgid ""
 "{count} unticked package still ships; see the rows marked 'still ships'."
@@ -1186,49 +1191,49 @@ msgid_plural ""
 "{count} unticked packages still ship; see the rows marked 'still ships'."
 msgstr[0] "取消勾选的 {count} 个软件包仍会包含；请查看标记为“仍然包含”的行。"
 
-#: packages_gui.py:270
+#: packages_gui.py:284
 #, python-brace-format
 msgid "Show the package that always ships ({count})"
 msgid_plural "Show the packages that always ship ({count})"
 msgstr[0] "显示始终包含的软件包（{count}）"
 
-#: packages_gui.py:274
+#: packages_gui.py:288
 msgid "Ships with your editions:\n"
 msgstr "随所选版本包含：\n"
 
-#: packages_gui.py:277
+#: packages_gui.py:291
 msgid "Also ships because of your editions or add-ons:\n"
 msgstr "因版本或附加应用而包含：\n"
 
-#: packages_gui.py:279
+#: packages_gui.py:293
 msgid "Core: "
 msgstr "基础： "
 
-#: packages_gui.py:310
+#: packages_gui.py:324
 #, python-brace-format
 msgid "Still ships: {package} ({reason})"
 msgstr "仍然包含：{package}（{reason}）"
 
-#: packages_gui.py:312
+#: packages_gui.py:326
 #, python-brace-format
 msgid "Unticked, but still on the ISO: {reason}."
 msgstr "未勾选，但仍在 ISO 中：{reason}。"
 
-#: packages_gui.py:342
+#: packages_gui.py:356
 msgid "Save package profile"
 msgstr "保存软件包配置"
 
-#: packages_gui.py:356
+#: packages_gui.py:370
 #, python-brace-format
 msgid "Saved profile ({count} package excluded) → {path}"
 msgid_plural "Saved profile ({count} packages excluded) → {path}"
 msgstr[0] "已保存配置（排除 {count} 个软件包）→ {path}"
 
-#: packages_gui.py:362
+#: packages_gui.py:376
 msgid "Import package profile"
 msgstr "导入软件包配置"
 
-#: packages_gui.py:375
+#: packages_gui.py:389
 #, python-brace-format
 msgid "Imported profile; {count} package marked for exclusion."
 msgid_plural "Imported profile; {count} packages marked for exclusion."

@@ -53,6 +53,20 @@ def shoot(name):
             subprocess.run(["import", "-window", wid[0], str(SHOTS / f"{name}.png")], check=False)
 
 
+def check_search_note(screen):
+    """Searching for a core package names it under the search box instead of showing nothing."""
+    screen.search.set_text("tweak")
+    screen._apply_filter("tweak")
+    note = screen.search_note
+    if not (note.get_visible() and "archlinux-tweak-tool" in note.get_text()):
+        errors.append(f"search note missing for an always-shipped package: {note.get_text()!r}")
+    screen.search.set_text("")
+    screen._apply_filter("")
+    if note.get_visible():
+        errors.append("search note still shown after clearing the search")
+    return False
+
+
 def present(self):
     orig_present(self)
     self.set_title("KIB-SMOKE")
@@ -69,6 +83,8 @@ def present(self):
             return False
         print(f"  visiting {names[i]}")
         self.navigate(names[i])
+        if names[i] == "packages":
+            GLib.timeout_add(600, check_search_note, self.screens["packages"])
         GLib.timeout_add(1200, step, i + 1)
         return False
 

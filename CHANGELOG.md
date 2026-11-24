@@ -4,6 +4,30 @@
 
 ---
 
+## 2026.11.24
+
+### What Changed
+- **Searching for a package that always ships now names it.** In his November KIB review, Jacinth Samuel looked
+  for archlinux-logout, betterlockscreen and ATT, found nothing, and concluded he would have to "edit the package
+  list". They are core packages, listed only inside the folded "always ships" list among about 300 names. A note
+  under the search box now says "Always ships, so not in the list below: …" for any core, edition-fixed or
+  dependency package that matches.
+- **One sudo password per build** comes from kiro-iso-next's new sudo keepalive in `build-the-iso.sh`, so the Build
+  screen's "asked for your password once" is now true. No KIB code change was needed for it.
+- **The build-script contract test works again.** `check_group_drift` has queried through `qpacman` since 2026-11-15,
+  and the test stubbed only `pacman`.
+
+### Technical Details
+- `_update_search_note` runs at the end of `_apply_filter`, so it follows both typing and the background
+  always-ship scan (`_on_kept_ready`). It matches `_core` ∪ `_hidden` ∪ the edition-fixed packages, starts at two
+  characters, and shows at most 8 names. New string translated in all 13 catalogs.
+- `tests/gui_smoke.py` searches "tweak" on the Packages screen and fails unless the note names
+  archlinux-tweak-tool, then checks that it hides again once the search is cleared. Run on GTK4 Broadway.
+
+### Files Modified
+- `packages_gui.py`, `po/*.po`, `po/kiro-iso-builder.pot`, `locale/*/LC_MESSAGES/kiro-iso-builder.mo`,
+  `tests/test_build_script.sh`, `tests/gui_smoke.py`, `CHANGELOG.md`
+
 ## 2026.11.20
 
 ### What Changed

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kiro-iso-builder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-01 08:06+0100\n"
+"POT-Creation-Date: 2026-11-24 06:52+0100\n"
 "PO-Revision-Date: 2026-11-01 06:14+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: Kiro translations\n"
@@ -58,7 +58,7 @@ msgstr "Responde a una solicitud de compilación (por ejemplo, y) y pulsa Enter"
 msgid "Send"
 msgstr "Enviar"
 
-#: build_gui.py:104 configure_gui.py:195 extras_gui.py:88 packages_gui.py:102
+#: build_gui.py:104 configure_gui.py:195 extras_gui.py:88 packages_gui.py:107
 msgid "← Back"
 msgstr "← Volver"
 
@@ -360,7 +360,7 @@ msgstr "Restablecer valores predeterminados"
 msgid "Import build profile…"
 msgstr "Importar perfil de compilación…"
 
-#: configure_gui.py:197 extras_gui.py:90 packages_gui.py:104
+#: configure_gui.py:197 extras_gui.py:90 packages_gui.py:109
 msgid "Save & Continue →"
 msgstr "Guardar y continuar →"
 
@@ -505,31 +505,31 @@ msgstr "Aún no se encontró la carpeta de salida."
 msgid "No ISO found in {path}"
 msgstr "No se encontró ninguna ISO en {path}"
 
-#: done_gui.py:193
+#: done_gui.py:190
 msgid "VirtualBox (VBoxManage) not installed."
 msgstr "VirtualBox (VBoxManage) no está instalado."
 
-#: done_gui.py:196
+#: done_gui.py:193
 msgid "Creating a VirtualBox VM (UEFI + 50 GB disk) and booting the ISO…"
 msgstr ""
 "Creando una VM de VirtualBox (UEFI + disco de 50 GB) e iniciando la ISO…"
 
-#: done_gui.py:223
+#: done_gui.py:220
 msgid "VirtualBox VM started."
 msgstr "VM de VirtualBox iniciada."
 
-#: done_gui.py:224
+#: done_gui.py:221
 #, python-brace-format
 msgid "VirtualBox launch failed (exit {code})."
 msgstr "Error al iniciar VirtualBox (código de salida {code})."
 
-#: done_gui.py:228
+#: done_gui.py:225
 msgid "Installing VirtualBox + host DKMS + kernel headers (password required)…"
 msgstr ""
 "Instalando VirtualBox + DKMS del host + encabezados del kernel (se requiere "
 "contraseña)…"
 
-#: done_gui.py:236
+#: done_gui.py:233
 msgid ""
 "VirtualBox installed. Reboot now (a log-out is not enough) to load the host "
 "kernel modules and join the vboxusers group. Also enable virtualization in "
@@ -542,62 +542,62 @@ msgstr ""
 "VT-x o AMD-V / SVM); VirtualBox no puede ejecutar máquinas virtuales sin "
 "ella."
 
-#: done_gui.py:244
+#: done_gui.py:241
 #, python-brace-format
 msgid "VirtualBox install failed (exit {code})."
 msgstr "Error al instalar VirtualBox (código de salida {code})."
 
-#: done_gui.py:255
+#: done_gui.py:252
 msgid "OVMF not found (install edk2-ovmf); booting BIOS instead of UEFI."
 msgstr ""
 "No se encontró OVMF (instala edk2-ovmf); se iniciará con BIOS en lugar de "
 "UEFI."
 
-#: done_gui.py:268
+#: done_gui.py:265
 msgid "qemu-img not found; the installer will have no disk to install on."
 msgstr ""
 "No se encontró qemu-img; el instalador no tendrá un disco donde instalarse."
 
-#: done_gui.py:275
+#: done_gui.py:272
 msgid "Creating a fresh 50 GB virtual disk for the installer…"
 msgstr "Creando un disco virtual nuevo de 50 GB para el instalador…"
 
-#: done_gui.py:279
+#: done_gui.py:276
 #, python-brace-format
 msgid "Failed to create disk: {error}"
 msgstr "No se pudo crear el disco: {error}"
 
-#: done_gui.py:285
+#: done_gui.py:282
 msgid "Installing qemu-desktop (you will be asked for your password)…"
 msgstr "Instalando qemu-desktop (se te pedirá la contraseña)…"
 
-#: done_gui.py:293
+#: done_gui.py:290
 msgid "QEMU installed; you can now test in a VM."
 msgstr "QEMU está instalado; ya puedes probar en una VM."
 
-#: done_gui.py:298
+#: done_gui.py:295
 #, python-brace-format
 msgid "QEMU install failed (exit {code})."
 msgstr "Error al instalar QEMU (código de salida {code})."
 
-#: done_gui.py:310
+#: done_gui.py:307
 msgid "Installing mintstick (you will be asked for your password)…"
 msgstr "Instalando mintstick (se te pedirá la contraseña)…"
 
-#: done_gui.py:318
+#: done_gui.py:315
 msgid "USB writer installed; you can now burn to USB."
 msgstr "El grabador USB está instalado; ya puedes grabar en USB."
 
-#: done_gui.py:323
+#: done_gui.py:320
 #, python-brace-format
 msgid "USB writer install failed (exit {code})."
 msgstr "Error al instalar el grabador USB (código de salida {code})."
 
-#: done_gui.py:331
+#: done_gui.py:328
 msgid "Save build profile"
 msgstr "Guardar perfil de compilación"
 
-#: done_gui.py:348
+#: done_gui.py:345
 #, python-brace-format
 msgid "Saved build profile ({count} package removed) → {path}"
 msgid_plural "Saved build profile ({count} packages removed) → {path}"
@@ -663,7 +663,7 @@ msgstr "Guardar lista de aplicaciones…"
 msgid "Import app list…"
 msgstr "Importar lista de aplicaciones…"
 
-#: extras_gui.py:122 packages_gui.py:125
+#: extras_gui.py:122 packages_gui.py:130
 msgid "packages.x86_64 not found; fix the clone on the Pre-flight screen."
 msgstr ""
 "No se encontró packages.x86_64; corrígelo en la pantalla de Revisión previa."
@@ -1231,23 +1231,28 @@ msgstr "Expandir todo"
 msgid "Collapse all"
 msgstr "Contraer todo"
 
-#: packages_gui.py:93
+#: packages_gui.py:98
 msgid "Save package list…"
 msgstr "Guardar lista de paquetes…"
 
-#: packages_gui.py:95
+#: packages_gui.py:100
 msgid "Import package list…"
 msgstr "Importar lista de paquetes…"
 
-#: packages_gui.py:137
+#: packages_gui.py:142
 msgid "No optional apps were found to choose from."
 msgstr "No se encontraron aplicaciones opcionales para elegir."
 
-#: packages_gui.py:143
+#: packages_gui.py:148
 msgid "Show or hide the packages in this group"
 msgstr "Mostrar u ocultar los paquetes de este grupo"
 
-#: packages_gui.py:255
+#: packages_gui.py:252
+#, python-brace-format
+msgid "Always ships, so not in the list below: {packages}"
+msgstr "Siempre se incluye, por eso no está en la lista de abajo: {packages}"
+
+#: packages_gui.py:269
 #, python-brace-format
 msgid "Package that will ship: {shipping}/{total} ({left_out} left out)"
 msgid_plural ""
@@ -1256,7 +1261,7 @@ msgstr[0] "Paquete que se incluirá: {shipping}/{total} ({left_out} excluidos)"
 msgstr[1] ""
 "Paquetes que se incluirán: {shipping}/{total} ({left_out} excluidos)"
 
-#: packages_gui.py:260
+#: packages_gui.py:274
 #, python-brace-format
 msgid ""
 "{count} unticked package still ships; see the rows marked 'still ships'."
@@ -1269,51 +1274,51 @@ msgstr[1] ""
 "Se incluirán {count} paquetes desmarcados; consulta las filas marcadas como "
 "«se sigue incluyendo»."
 
-#: packages_gui.py:270
+#: packages_gui.py:284
 #, python-brace-format
 msgid "Show the package that always ships ({count})"
 msgid_plural "Show the packages that always ship ({count})"
 msgstr[0] "Mostrar el paquete que siempre se incluye ({count})"
 msgstr[1] "Mostrar los paquetes que siempre se incluyen ({count})"
 
-#: packages_gui.py:274
+#: packages_gui.py:288
 msgid "Ships with your editions:\n"
 msgstr "Se incluye con tus ediciones:\n"
 
-#: packages_gui.py:277
+#: packages_gui.py:291
 msgid "Also ships because of your editions or add-ons:\n"
 msgstr "También se incluye por tus ediciones o complementos:\n"
 
-#: packages_gui.py:279
+#: packages_gui.py:293
 msgid "Core: "
 msgstr "Base: "
 
-#: packages_gui.py:310
+#: packages_gui.py:324
 #, python-brace-format
 msgid "Still ships: {package} ({reason})"
 msgstr "Se sigue incluyendo: {package} ({reason})"
 
-#: packages_gui.py:312
+#: packages_gui.py:326
 #, python-brace-format
 msgid "Unticked, but still on the ISO: {reason}."
 msgstr "Desmarcado, pero sigue en la ISO: {reason}."
 
-#: packages_gui.py:342
+#: packages_gui.py:356
 msgid "Save package profile"
 msgstr "Guardar perfil de paquetes"
 
-#: packages_gui.py:356
+#: packages_gui.py:370
 #, python-brace-format
 msgid "Saved profile ({count} package excluded) → {path}"
 msgid_plural "Saved profile ({count} packages excluded) → {path}"
 msgstr[0] "Perfil guardado ({count} paquete excluido) → {path}"
 msgstr[1] "Perfil guardado ({count} paquetes excluidos) → {path}"
 
-#: packages_gui.py:362
+#: packages_gui.py:376
 msgid "Import package profile"
 msgstr "Importar perfil de paquetes"
 
-#: packages_gui.py:375
+#: packages_gui.py:389
 #, python-brace-format
 msgid "Imported profile; {count} package marked for exclusion."
 msgid_plural "Imported profile; {count} packages marked for exclusion."
