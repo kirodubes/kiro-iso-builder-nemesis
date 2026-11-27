@@ -731,7 +731,29 @@ def _shipped_names(excludes, editions):
         elif s and not s.startswith("#") and s not in excludes:
             for name in _with_selected_kernels([s], kernel):
                 names.setdefault(name, "")
-    return names
+    return _with_selected_nvidia(names, read_conf().get("nvidia_driver", "open"))
+
+
+# build-the-iso.sh inject_nvidia_packages(): every listed NVIDIA line goes, then the chosen driver's set is added.
+_NVIDIA_LINE_RE = re.compile(r"^(nvidia-open-dkms|nvidia-utils|nvidia-settings|nvidia-(580|470|390)xx|libva-nvidia-driver)")
+_NVIDIA_SETS = {
+    "open": ("nvidia-open-dkms", "nvidia-utils", "nvidia-settings", "libva-nvidia-driver"),
+    "580xx": ("nvidia-580xx-dkms", "nvidia-580xx-utils", "nvidia-580xx-settings", "libva-nvidia-driver"),
+    "470xx": ("nvidia-470xx-dkms", "nvidia-470xx-utils", "nvidia-470xx-settings", "libva-nvidia-driver"),
+    "390xx": ("nvidia-390xx-dkms", "nvidia-390xx-utils", "nvidia-390xx-settings"),
+    "none": (),
+}
+
+
+def _with_selected_nvidia(names, driver):
+    """The shipped names with the NVIDIA set of build.conf's driver in place of the one packages.x86_64 lists."""
+    chosen = _NVIDIA_SETS.get(driver.strip())
+    if chosen is None:
+        return names
+    kept = {n: src for n, src in names.items() if not _NVIDIA_LINE_RE.match(n)}
+    for name in chosen:
+        kept.setdefault(name, "")
+    return kept
 
 
 _SYNC_DB = {}

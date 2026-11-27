@@ -7,6 +7,11 @@
 ## 2026.11.27
 
 ### What Changed
+- **The size estimate follows the NVIDIA driver choice** (Erik's minimal-ISO test on picard). KIB counted the
+  open driver set that `packages.x86_64` lists whatever `nvidia_driver` said, so a build with NVIDIA set to none
+  still counted nvidia-utils (1 013 MiB installed) and nvidia-open-dkms: the minimal ISO (ohmychadwm only, one
+  kernel, NVIDIA none, 0/111 optional packages) estimated 3.89 GB and came out 3.44 GB (+12.9 %). Now 3.46 GB
+  estimated against 3.44 real (+0.4 %). The build summary's package lists follow the choice too.
 - **The size estimate is refitted on Kiro's own builds** (Erik: "we need to adjust the calculation on the basis of
   kiro and our own builds"). For the standard Kiro ISO it said "about 7.0 GB" while the real v26.12.01 ISO is
   6.86 GB (+1.85 %): the model was fitted mostly on October builds made with zstd level 3, and Kiro builds at level 6
@@ -20,6 +25,10 @@
   "Estimated ISO size" tile.
 
 ### Technical Details
+- `_with_selected_nvidia()` mirrors `build-the-iso.sh` `inject_nvidia_packages()`: every `nvidia-open-dkms`,
+  `nvidia-utils`, `nvidia-settings`, `nvidia-580/470/390xx*` and `libva-nvidia-driver` name goes, then the chosen
+  driver's set is added (none adds nothing, 390xx has no libva). An unknown driver value leaves the list as is.
+  `_shipped_names()` returns through it. Two new tests.
 - Model: `0.365 × installed size + 444 MiB` for airootfs.sfs (zstd -6, 1M blocks), plus ~530 MiB per booting
   kernel (the live kernel and the fallback entry's: vmlinuz + initramfs in /arch/boot and the EFI image). Fitted on
   the six builds in `~/.config/kiro-iso-builder/logs` (2026-10-18 to 2026-11-23, 3.8 to 6.5 GB), whose build.log

@@ -154,6 +154,22 @@ class PackageLogic(unittest.TestCase):
         fn._SIZES["linux-zen"] = 0
         self.assertEqual(fn.iso_size_estimate(set(), self.editions)[0] - one, fn._PER_KERNEL)
 
+    def test_nvidia_driver_choice_replaces_the_listed_set(self):
+        listed = {"nvidia-open-dkms": "", "nvidia-utils": "", "nvidia-settings": "", "libva-nvidia-driver": "",
+                  "mesa": ""}
+        self.assertEqual(set(fn._with_selected_nvidia(listed, "none")), {"mesa"},
+                         "a build without NVIDIA must not count nvidia-utils (1 GB installed)")
+        self.assertEqual(set(fn._with_selected_nvidia(listed, "580xx")),
+                         {"mesa", "nvidia-580xx-dkms", "nvidia-580xx-utils", "nvidia-580xx-settings",
+                          "libva-nvidia-driver"})
+        self.assertNotIn("libva-nvidia-driver", fn._with_selected_nvidia(listed, "390xx"))
+        self.assertEqual(fn._with_selected_nvidia(listed, "open"), listed)
+        self.assertEqual(fn._with_selected_nvidia(listed, "something-new"), listed, "unknown driver: list as is")
+
+    def test_estimate_follows_the_nvidia_driver(self):
+        fn.set_conf("nvidia_driver", "none")
+        self.assertFalse(any(n.startswith("nvidia") for n in fn._shipped_names(set(), self.editions)))
+
     def test_repo_prefixed_name_gets_a_size(self):
         self.assertEqual(fn._installed_bytes(["cachyos/gimp"]), 1024 ** 3)
 
