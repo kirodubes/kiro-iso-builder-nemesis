@@ -899,13 +899,14 @@ def _with_selected_kernels(tier1, kernel_conf):
 
 
 # ── ISO size estimate ───────────────────────────────────────────────
-# Fitted 2026-11-27 on six real builds (3.8-6.5 GB, 2026-10-18 to 2026-11-23): airootfs.sfs (zstd -6, 1M blocks)
-# came to 0.365 x pacstrap's installed size + 444 MiB, and every booting kernel (the live one plus the fallback
-# entry's) adds ~530 MiB of vmlinuz + initramfs to the ISO. Within 4 % of every build on pacstrap's numbers;
-# the host's sync db lacks a few Kiro packages (calamares), so the estimate runs a little low.
+# Ratio from six real builds (3.8-6.5 GB, 2026-10-18 to 2026-11-23); base and per-kernel refitted 2026-11-27 on
+# Kiro's zstd -6 / 1M-block builds (the October ones were level 3 and made the estimate ~3 % high): each booting
+# kernel adds ~484 MiB (vmlinuz + initramfs), and the base is set so KIB's own estimate of the standard Kiro ISO
+# (v26.12.01, 6 858 184 704 bytes, same as a KIB build of it on a test box) lands on its real size. The base also
+# absorbs that the host's sync db lacks a few Kiro packages (calamares), which makes the installed total ~1 % low.
 _SFS_RATIO = 0.365
-_SFS_BASE = 444 * 1024 ** 2
-_PER_KERNEL = 530 * 1024 ** 2
+_SFS_BASE = 415 * 1024 ** 2
+_PER_KERNEL = 484 * 1024 ** 2
 
 
 def _installed_bytes(pkgs):

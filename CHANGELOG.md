@@ -7,6 +7,12 @@
 ## 2026.11.27
 
 ### What Changed
+- **The size estimate is refitted on Kiro's own builds** (Erik: "we need to adjust the calculation on the basis of
+  kiro and our own builds"). For the standard Kiro ISO it said "about 7.0 GB" while the real v26.12.01 ISO is
+  6.86 GB (+1.85 %): the model was fitted mostly on October builds made with zstd level 3, and Kiro builds at level 6
+  since 2026-11-15. Each booting kernel now counts 484 MiB (was 530; measured 479 and 489 MiB on the two level-6
+  builds with logs) and the squashfs base 415 MiB (was 444), set so KIB's own estimate of the standard ISO lands on
+  its real size: 6 857 909 474 bytes estimated against 6 858 184 704, now shown as 6.9 GB.
 - **The ISO size is estimated before the build.** In his November KIB review Jacinth Samuel unticked packages
   expecting a much smaller ISO, and only got about 900 MB off a 6 GB image; KIB told him nothing until mkarchiso was
   done. The Packages page now says "Estimated ISO size: about 6.8 GB (0.9 GB less than with every package ticked)"
