@@ -7,6 +7,9 @@
 ## 2026.11.27
 
 ### What Changed
+- **Screenshots in the README** (Erik): a Screenshots section with the eight screens (Pre-flight, Configure twice,
+  Packages, Add apps, the build summary, Build, Done), taken on picard building the standard ISO. The images live in
+  `images/`, which the PKGBUILD does not install. The same set replaces the June screenshots on kiroproject.be.
 - **The size estimate follows the NVIDIA driver choice** (Erik's minimal-ISO test on picard). KIB counted the
   open driver set that `packages.x86_64` lists whatever `nvidia_driver` said, so a build with NVIDIA set to none
   still counted nvidia-utils (1 013 MiB installed) and nvidia-open-dkms: the minimal ISO (ohmychadwm only, one

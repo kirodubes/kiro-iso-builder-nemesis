@@ -27,6 +27,17 @@ Works on any Arch-based host (Arch, CachyOS, EndeavourOS, Garuda, …).
 3. **Build** — the estimated ISO size (also under the Packages list, with what your unticks save), then the live log + phase progress (auto-derived from the build script), stoppable. **Show summary** opens a browser page listing what the build removes, keeps (and why) and pulls in.
 4. **Done** — open `~/kiro-Out`, show checksums, boot the ISO in QEMU.
 
+## Screenshots
+
+Kiro ISO Builder 26.11 building the standard Kiro ISO (XFCE + Ohmychadwm, linux-cachyos + linux-lts).
+
+<table>
+<tr><td align="center"><img src="images/1-kib-preflight.webp" width="420" alt="Pre-flight: every check green, one-click fixes"><br><sub>Pre-flight: every check green, one-click fixes</sub></td><td align="center"><img src="images/2-kib-kernel.webp" width="420" alt="Configure: NVIDIA driver and kernels"><br><sub>Configure: NVIDIA driver and kernels</sub></td></tr>
+<tr><td align="center"><img src="images/2-kib-desktops.webp" width="420" alt="Configure: editions and the default session"><br><sub>Configure: editions and the default session</sub></td><td align="center"><img src="images/3-kib-packages.webp" width="420" alt="Packages: grouped, with the estimated ISO size"><br><sub>Packages: grouped, with the estimated ISO size</sub></td></tr>
+<tr><td align="center"><img src="images/4-kib-add-apps.webp" width="420" alt="Add apps: opt-in apps that are not on the standard ISO"><br><sub>Add apps: opt-in apps that are not on the standard ISO</sub></td><td align="center"><img src="images/5-kib-summary.webp" width="420" alt="Build summary: what goes on the ISO and why"><br><sub>Build summary: what goes on the ISO and why</sub></td></tr>
+<tr><td align="center"><img src="images/5-kib-build.webp" width="420" alt="Build: live log and phase progress"><br><sub>Build: live log and phase progress</sub></td><td align="center"><img src="images/6-kib-done.webp" width="420" alt="Done: the ISO and its SHA256"><br><sub>Done: the ISO and its SHA256</sub></td></tr>
+</table>
+
 ## Run from source
 
 ```bash
