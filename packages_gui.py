@@ -274,6 +274,8 @@ class PackagesScreen:
                 "{count} unticked package still ships; see the rows marked 'still ships'.",
                 "{count} unticked packages still ship; see the rows marked 'still ships'.",
                 len(self._kept)).format(count=len(self._kept))
+        if self._kept_ready:
+            text += "\n" + fn.iso_size_text(*fn.iso_size_estimate(self._excludes(), self._editions()))
         self.status.set_text(text)
 
     def _show_always_list(self):

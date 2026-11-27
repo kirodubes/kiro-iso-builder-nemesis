@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kiro-iso-builder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-24 06:52+0100\n"
+"POT-Creation-Date: 2026-11-27 05:36+0100\n"
 "PO-Revision-Date: 2026-11-01 06:14+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: Kiro translations\n"
@@ -26,19 +26,19 @@ msgstr ""
 "kez sorulur; derleme yanıt isterse (ör. pacman'ın [Y/n] sorusu), yanıtınızı "
 "aşağıdaki kutuya yazın."
 
-#: build_gui.py:60
+#: build_gui.py:64
 msgid "Start build"
 msgstr "Derlemeyi başlat"
 
-#: build_gui.py:63
+#: build_gui.py:67
 msgid "Stop"
 msgstr "Durdur"
 
-#: build_gui.py:67 build_gui.py:162
+#: build_gui.py:71 build_gui.py:172
 msgid "Show summary"
 msgstr "Özeti göster"
 
-#: build_gui.py:68
+#: build_gui.py:72
 msgid ""
 "Open a page in your browser listing what this build removes, keeps and pulls "
 "in, and why"
@@ -46,139 +46,139 @@ msgstr ""
 "Bu derlemenin neyi kaldırdığını, koruduğunu ve eklediğini, ayrıca nedenini "
 "gösteren bir sayfayı tarayıcıda açar"
 
-#: build_gui.py:76
+#: build_gui.py:80
 msgid "Idle"
 msgstr "Boşta"
 
-#: build_gui.py:95
+#: build_gui.py:99
 msgid "Reply to a build prompt (for example, y) and press Enter"
 msgstr "Derleme isteğini yanıtlayın (ör. y) ve Enter'a basın"
 
-#: build_gui.py:97
+#: build_gui.py:101
 msgid "Send"
 msgstr "Gönder"
 
-#: build_gui.py:104 configure_gui.py:195 extras_gui.py:88 packages_gui.py:107
+#: build_gui.py:108 configure_gui.py:195 extras_gui.py:88 packages_gui.py:107
 msgid "← Back"
 msgstr "← Geri"
 
-#: build_gui.py:113 configure_gui.py:460
+#: build_gui.py:117 configure_gui.py:460
 #, python-brace-format
 msgid "{repo} clone not found; fix it on the Pre-flight screen."
 msgstr "{repo} klonu bulunamadı; bunu Ön denetim ekranında düzeltin."
 
-#: build_gui.py:120
+#: build_gui.py:124
 msgid "Work dir:"
 msgstr "Çalışma klasörü:"
 
-#: build_gui.py:121
+#: build_gui.py:125
 msgid "ISO output:"
 msgstr "ISO çıktısı:"
 
-#: build_gui.py:123
+#: build_gui.py:127
 msgid "Output location unknown; set the clone path on the Pre-flight screen."
 msgstr "Çıktı konumu bilinmiyor; Ön denetim ekranında klon yolunu ayarlayın."
 
-#: build_gui.py:138
+#: build_gui.py:143
 msgid "Unticked but still on the ISO:\n"
 msgstr "Seçilmedi ama ISO'da kalacak:\n"
 
-#: build_gui.py:147
+#: build_gui.py:157
 msgid "Preparing…"
 msgstr "Hazırlanıyor…"
 
-#: build_gui.py:154
+#: build_gui.py:164
 #, python-brace-format
 msgid "Summary opened: {path}"
 msgstr "Özet açıldı: {path}"
 
-#: build_gui.py:156
+#: build_gui.py:166
 #, python-brace-format
 msgid "Could not build the summary page: {error}"
 msgstr "Özet sayfası oluşturulamadı: {error}"
 
-#: build_gui.py:177
+#: build_gui.py:187
 #, python-brace-format
 msgid "Summary saved: {path}"
 msgstr "Özet kaydedildi: {path}"
 
-#: build_gui.py:179
+#: build_gui.py:189
 #, python-brace-format
 msgid "Could not save the summary page: {error}"
 msgstr "Özet sayfası kaydedilemedi: {error}"
 
-#: build_gui.py:199
+#: build_gui.py:209
 msgid "Starting…"
 msgstr "Başlatılıyor…"
 
-#: build_gui.py:200
+#: build_gui.py:210
 msgid "── Starting build ──"
 msgstr "── Derleme başlatılıyor ──"
 
-#: build_gui.py:245
+#: build_gui.py:255
 #, python-brace-format
 msgid "Phase {current} / {total}"
 msgstr "Aşama {current} / {total}"
 
-#: build_gui.py:256
+#: build_gui.py:266
 msgid "Done"
 msgstr "Tamamlandı"
 
-#: build_gui.py:257
+#: build_gui.py:267
 msgid "── Build finished ──"
 msgstr "── Derleme tamamlandı ──"
 
-#: build_gui.py:266
+#: build_gui.py:276
 #, python-brace-format
 msgid "Stopped (exit {code})"
 msgstr "Durduruldu (çıkış kodu {code})"
 
-#: build_gui.py:267
+#: build_gui.py:277
 #, python-brace-format
 msgid "── Build stopped (exit {code}) ──"
 msgstr "── Derleme durduruldu (çıkış kodu {code}) ──"
 
-#: build_gui.py:269
+#: build_gui.py:279
 #, python-brace-format
 msgid "Failed (exit {code})"
 msgstr "Başarısız (çıkış kodu {code})"
 
-#: build_gui.py:270
+#: build_gui.py:280
 #, python-brace-format
 msgid "── Build failed (exit {code}) ──"
 msgstr "── Derleme başarısız oldu (çıkış kodu {code}) ──"
 
-#: build_gui.py:273
+#: build_gui.py:283
 msgid "Cleaning up mounts…"
 msgstr "Bağlama noktaları temizleniyor…"
 
-#: build_gui.py:274
+#: build_gui.py:284
 msgid "── Stale build mounts found; cleaning up ──"
 msgstr "── Eski derleme bağlama noktaları bulundu; temizleniyor ──"
 
-#: build_gui.py:280
+#: build_gui.py:290
 msgid "── Mount cleanup complete ──"
 msgstr "── Bağlama noktaları temizlendi ──"
 
-#: build_gui.py:281
+#: build_gui.py:291
 #, python-brace-format
 msgid "── Mount cleanup exited with code {code} ──"
 msgstr "── Bağlama noktası temizliği {code} koduyla sona erdi ──"
 
-#: build_gui.py:282
+#: build_gui.py:292
 msgid "Cleaned up"
 msgstr "Temizlik tamamlandı"
 
-#: build_gui.py:282
+#: build_gui.py:292
 #, python-brace-format
 msgid "Cleanup failed (exit {code})"
 msgstr "Temizlik hatası (çıkış kodu {code})"
 
-#: build_gui.py:298 preflight_gui.py:330
+#: build_gui.py:308 preflight_gui.py:330
 msgid "Remove the leftover build folder?"
 msgstr "Kalan derleme klasörü kaldırılsın mı?"
 
-#: build_gui.py:299 preflight_gui.py:331
+#: build_gui.py:309 preflight_gui.py:331
 #, python-brace-format
 msgid ""
 "{path}{size}\n"
@@ -192,41 +192,41 @@ msgstr ""
 "yöneticisinden kaldıramazsınız. Klasörü tutabilirsiniz; sonraki derleme aynı "
 "konumu kullanır."
 
-#: build_gui.py:302 preflight_gui.py:335
+#: build_gui.py:312 preflight_gui.py:335
 msgid "Keep"
 msgstr "Koru"
 
-#: build_gui.py:302 preflight_gui.py:335
+#: build_gui.py:312 preflight_gui.py:335
 msgid "Remove"
 msgstr "Kaldır"
 
-#: build_gui.py:316
+#: build_gui.py:326
 msgid "Removing build folder…"
 msgstr "Derleme klasörü kaldırılıyor…"
 
-#: build_gui.py:317
+#: build_gui.py:327
 msgid "── Removing build folder (with your approval) ──"
 msgstr "── Onayınızla derleme klasörü kaldırılıyor ──"
 
-#: build_gui.py:321
+#: build_gui.py:331
 msgid "── Build folder removed ──"
 msgstr "── Derleme klasörü kaldırıldı ──"
 
-#: build_gui.py:322
+#: build_gui.py:332
 #, python-brace-format
 msgid "── Removing build folder failed (exit {code}) ──"
 msgstr "── Derleme klasörü kaldırılamadı (çıkış kodu {code}) ──"
 
-#: build_gui.py:323
+#: build_gui.py:333
 #, python-brace-format
 msgid "Remove failed (exit {code})"
 msgstr "Kaldırılamadı (çıkış kodu {code})"
 
-#: build_gui.py:323 functions.py:1084 functions.py:1105
+#: build_gui.py:333 functions.py:1131 functions.py:1153
 msgid "Removed"
 msgstr "Kaldırıldı"
 
-#: build_gui.py:335
+#: build_gui.py:345
 #, python-brace-format
 msgid "Could not open build log: {error}"
 msgstr "Derleme günlüğü açılamadı: {error}"
@@ -257,7 +257,7 @@ msgstr ""
 "Bu ayarlar doğrudan build.conf dosyasına yazılır; CLI da aynı dosyayı "
 "kullanır."
 
-#: configure_gui.py:78 functions.py:944
+#: configure_gui.py:78 functions.py:990
 msgid "NVIDIA driver"
 msgstr "NVIDIA sürücüsü"
 
@@ -685,80 +685,98 @@ msgid_plural "Imported app list; {count} apps marked to add."
 msgstr[0] "Liste içe aktarıldı; eklenecek {count} uygulama işaretlendi."
 msgstr[1] "Liste içe aktarıldı; eklenecek {count} uygulama işaretlendi."
 
-#: functions.py:941
+#: functions.py:937
+#, python-brace-format
+msgid "Estimated ISO size: about {size} GB."
+msgstr "Tahmini ISO boyutu: yaklaşık {size} GB."
+
+#: functions.py:938
+#, python-brace-format
+msgid ""
+"Estimated ISO size: about {size} GB ({saved} GB less than with every package "
+"ticked)."
+msgstr ""
+"Tahmini ISO boyutu: yaklaşık {size} GB (tüm paketler işaretliyken olduğundan "
+"{saved} GB daha az)."
+
+#: functions.py:987
 msgid "Editions"
 msgstr "Sürümler"
 
-#: functions.py:942
+#: functions.py:988
 msgid "Default session"
 msgstr "Varsayılan oturum"
 
-#: functions.py:943
+#: functions.py:989
 msgid "Kernel"
 msgstr "Çekirdek"
 
-#: functions.py:1084
+#: functions.py:1131
 msgid "Core"
 msgstr "Temel"
 
-#: functions.py:1084
+#: functions.py:1131
 msgid "Frozen"
 msgstr "Sabit"
 
-#: functions.py:1085
+#: functions.py:1132
 msgid "Comes back"
 msgstr "Geri gelir"
 
-#: functions.py:1085
+#: functions.py:1132
 msgid "Pulled in"
 msgstr "Çekilen"
 
-#: functions.py:1087
+#: functions.py:1133
+msgid "Estimated ISO size"
+msgstr "Tahmini ISO boyutu"
+
+#: functions.py:1135
 msgid "Search packages or reasons..."
 msgstr "Paket veya neden ara…"
 
-#: functions.py:1093
+#: functions.py:1141
 msgid "Kiro ISO build summary"
 msgstr "Kiro ISO derleme özeti"
 
-#: functions.py:1094
+#: functions.py:1142
 msgid "What this build puts on the ISO, and why."
 msgstr "Bu derlemenin ISO'ya ne koyduğu ve nedeni."
 
-#: functions.py:1097
+#: functions.py:1145
 msgid "This build"
 msgstr "Bu derleme"
 
-#: functions.py:1106
+#: functions.py:1154
 msgid ""
 "You unticked these and nothing else needs them, so they are not on the ISO."
 msgstr ""
 "Bunların işaretini kaldırdınız ve başka hiçbir şey onlara ihtiyaç duymuyor, "
 "bu yüzden ISO'da değiller."
 
-#: functions.py:1107
+#: functions.py:1155
 msgid "Nothing removed."
 msgstr "Hiçbir şey kaldırılmadı."
 
-#: functions.py:1109
+#: functions.py:1157
 msgid "Comes back anyway"
 msgstr "Yine de geri gelir"
 
-#: functions.py:1110
+#: functions.py:1158
 msgid "You unticked these, but they still ship. The reason is on the right."
 msgstr ""
 "Bunların işaretini kaldırdınız ama yine de ISO'ya giriyorlar. Neden sağda "
 "yazıyor."
 
-#: functions.py:1111
+#: functions.py:1159
 msgid "Every unticked package is really gone."
 msgstr "İşareti kaldırılan her paket gerçekten gitti."
 
-#: functions.py:1115
+#: functions.py:1163
 msgid "Pulled in by your choices"
 msgstr "Seçimlerinizin çektikleri"
 
-#: functions.py:1116
+#: functions.py:1164
 msgid ""
 "Dependencies of your editions, add-ons and optional apps that the core alone "
 "would not bring."
@@ -766,11 +784,11 @@ msgstr ""
 "Sürümlerinizin, eklentilerinizin ve isteğe bağlı uygulamalarınızın, temelin "
 "tek başına getirmeyeceği bağımlılıkları."
 
-#: functions.py:1119
+#: functions.py:1167
 msgid "Frozen, TIER 1"
 msgstr "Sabit, TIER 1"
 
-#: functions.py:1120
+#: functions.py:1168
 msgid ""
 "Always ship. Removing any of these breaks the build, the live boot or the "
 "installer."
@@ -778,32 +796,32 @@ msgstr ""
 "Her zaman dahil. Herhangi birini kaldırmak derlemeyi, canlı açılışı veya "
 "yükleyiciyi bozar."
 
-#: functions.py:1123
+#: functions.py:1171
 msgid "Core, TIER 2"
 msgstr "Temel, TIER 2"
 
-#: functions.py:1124
+#: functions.py:1172
 msgid "Always ship. The base of every Kiro system."
 msgstr "Her zaman dahil. Her Kiro sisteminin temeli."
 
-#: functions.py:1126
+#: functions.py:1174
 #, python-brace-format
 msgid "Generated {date} from {source}"
 msgstr "{date} tarihinde {source} kaynağından oluşturuldu"
 
-#: functions.py:1365
+#: functions.py:1413
 msgid "Authentication required"
 msgstr "Kimlik doğrulama gerekli"
 
-#: functions.py:1366 preflight_gui.py:298
+#: functions.py:1414 preflight_gui.py:298
 msgid "Cancel"
 msgstr "İptal"
 
-#: functions.py:1367
+#: functions.py:1415
 msgid "Authenticate"
 msgstr "Kimlik doğrula"
 
-#: functions.py:1375
+#: functions.py:1423
 msgid "Enter your password"
 msgstr "Parolanızı girin"
 
@@ -1255,51 +1273,51 @@ msgstr[1] ""
 "İşaretini kaldırdığınız {count} paket yine de dahil edilecek; “yine de "
 "dahil” olarak işaretli satırlara bakın."
 
-#: packages_gui.py:284
+#: packages_gui.py:286
 #, python-brace-format
 msgid "Show the package that always ships ({count})"
 msgid_plural "Show the packages that always ship ({count})"
 msgstr[0] "Her zaman dahil edilen paketi göster ({count})"
 msgstr[1] "Her zaman dahil edilen paketleri göster ({count})"
 
-#: packages_gui.py:288
+#: packages_gui.py:290
 msgid "Ships with your editions:\n"
 msgstr "Sürümlerinizle dahil:\n"
 
-#: packages_gui.py:291
+#: packages_gui.py:293
 msgid "Also ships because of your editions or add-ons:\n"
 msgstr "Sürümleriniz veya ekleriniz nedeniyle de dahil:\n"
 
-#: packages_gui.py:293
+#: packages_gui.py:295
 msgid "Core: "
 msgstr "Temel: "
 
-#: packages_gui.py:324
+#: packages_gui.py:326
 #, python-brace-format
 msgid "Still ships: {package} ({reason})"
 msgstr "Yine de dahil: {package} ({reason})"
 
-#: packages_gui.py:326
+#: packages_gui.py:328
 #, python-brace-format
 msgid "Unticked, but still on the ISO: {reason}."
 msgstr "İşaretli değil ama ISO'da kalıyor: {reason}."
 
-#: packages_gui.py:356
+#: packages_gui.py:358
 msgid "Save package profile"
 msgstr "Paket profilini kaydet"
 
-#: packages_gui.py:370
+#: packages_gui.py:372
 #, python-brace-format
 msgid "Saved profile ({count} package excluded) → {path}"
 msgid_plural "Saved profile ({count} packages excluded) → {path}"
 msgstr[0] "Profil kaydedildi ({count} paket hariç) → {path}"
 msgstr[1] "Profil kaydedildi ({count} paket hariç) → {path}"
 
-#: packages_gui.py:376
+#: packages_gui.py:378
 msgid "Import package profile"
 msgstr "Paket profilini içe aktar"
 
-#: packages_gui.py:389
+#: packages_gui.py:391
 #, python-brace-format
 msgid "Imported profile; {count} package marked for exclusion."
 msgid_plural "Imported profile; {count} packages marked for exclusion."

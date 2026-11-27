@@ -74,6 +74,9 @@ SYNC_DB = {
 
 GROUPS = {"tool-a": "mygroup", "tool-b": "mygroup"}
 
+# {name: installed bytes}, the shape functions._SIZES holds; every package 100 MiB, gimp 1 GiB.
+SIZES = {name: 100 * 1024 ** 2 for name in SYNC_DB} | {"gimp": 1024 ** 3}
+
 
 def make_repo(build_conf=BUILD_CONF):
     """Create the fake repo; returns (TemporaryDirectory, build_scripts_path)."""
@@ -97,3 +100,5 @@ def install(fn, build_scripts):
     fn._SYNC_DB.update(SYNC_DB)
     fn._GROUPS.clear()
     fn._GROUPS.update(GROUPS)
+    fn._SIZES.clear()
+    fn._SIZES.update(SIZES)

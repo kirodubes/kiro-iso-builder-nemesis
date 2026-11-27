@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kiro-iso-builder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-24 06:52+0100\n"
+"POT-Creation-Date: 2026-11-27 05:36+0100\n"
 "PO-Revision-Date: 2026-11-01 06:14+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: Kiro translations\n"
@@ -26,19 +26,19 @@ msgstr ""
 "Si el proceso solicita una respuesta (por ejemplo, pacman's [Y/n]), "
 "escríbela en el cuadro de abajo."
 
-#: build_gui.py:60
+#: build_gui.py:64
 msgid "Start build"
 msgstr "Iniciar compilación"
 
-#: build_gui.py:63
+#: build_gui.py:67
 msgid "Stop"
 msgstr "Detener"
 
-#: build_gui.py:67 build_gui.py:162
+#: build_gui.py:71 build_gui.py:172
 msgid "Show summary"
 msgstr "Mostrar resumen"
 
-#: build_gui.py:68
+#: build_gui.py:72
 msgid ""
 "Open a page in your browser listing what this build removes, keeps and pulls "
 "in, and why"
@@ -46,143 +46,143 @@ msgstr ""
 "Abre una página en el navegador que indica qué elimina, conserva y añade "
 "esta compilación, y por qué"
 
-#: build_gui.py:76
+#: build_gui.py:80
 msgid "Idle"
 msgstr "Inactivo"
 
-#: build_gui.py:95
+#: build_gui.py:99
 msgid "Reply to a build prompt (for example, y) and press Enter"
 msgstr "Responde a una solicitud de compilación (por ejemplo, y) y pulsa Enter"
 
-#: build_gui.py:97
+#: build_gui.py:101
 msgid "Send"
 msgstr "Enviar"
 
-#: build_gui.py:104 configure_gui.py:195 extras_gui.py:88 packages_gui.py:107
+#: build_gui.py:108 configure_gui.py:195 extras_gui.py:88 packages_gui.py:107
 msgid "← Back"
 msgstr "← Volver"
 
-#: build_gui.py:113 configure_gui.py:460
+#: build_gui.py:117 configure_gui.py:460
 #, python-brace-format
 msgid "{repo} clone not found; fix it on the Pre-flight screen."
 msgstr ""
 "No se encontró el clon de {repo}; corrígelo en la pantalla de Revisión "
 "previa."
 
-#: build_gui.py:120
+#: build_gui.py:124
 msgid "Work dir:"
 msgstr "Directorio de trabajo:"
 
-#: build_gui.py:121
+#: build_gui.py:125
 msgid "ISO output:"
 msgstr "Salida de la ISO:"
 
-#: build_gui.py:123
+#: build_gui.py:127
 msgid "Output location unknown; set the clone path on the Pre-flight screen."
 msgstr ""
 "Se desconoce la ubicación de salida; establece la ruta del clon en la "
 "pantalla de Revisión previa."
 
-#: build_gui.py:138
+#: build_gui.py:143
 msgid "Unticked but still on the ISO:\n"
 msgstr "No seleccionados, pero siguen en la ISO:\n"
 
-#: build_gui.py:147
+#: build_gui.py:157
 msgid "Preparing…"
 msgstr "Preparando…"
 
-#: build_gui.py:154
+#: build_gui.py:164
 #, python-brace-format
 msgid "Summary opened: {path}"
 msgstr "Resumen abierto: {path}"
 
-#: build_gui.py:156
+#: build_gui.py:166
 #, python-brace-format
 msgid "Could not build the summary page: {error}"
 msgstr "No se pudo crear la página del resumen: {error}"
 
-#: build_gui.py:177
+#: build_gui.py:187
 #, python-brace-format
 msgid "Summary saved: {path}"
 msgstr "Resumen guardado: {path}"
 
-#: build_gui.py:179
+#: build_gui.py:189
 #, python-brace-format
 msgid "Could not save the summary page: {error}"
 msgstr "No se pudo guardar la página del resumen: {error}"
 
-#: build_gui.py:199
+#: build_gui.py:209
 msgid "Starting…"
 msgstr "Iniciando…"
 
-#: build_gui.py:200
+#: build_gui.py:210
 msgid "── Starting build ──"
 msgstr "── Iniciando compilación ──"
 
-#: build_gui.py:245
+#: build_gui.py:255
 #, python-brace-format
 msgid "Phase {current} / {total}"
 msgstr "Fase {current} / {total}"
 
-#: build_gui.py:256
+#: build_gui.py:266
 msgid "Done"
 msgstr "Listo"
 
-#: build_gui.py:257
+#: build_gui.py:267
 msgid "── Build finished ──"
 msgstr "── Compilación finalizada ──"
 
-#: build_gui.py:266
+#: build_gui.py:276
 #, python-brace-format
 msgid "Stopped (exit {code})"
 msgstr "Detenida (código de salida {code})"
 
-#: build_gui.py:267
+#: build_gui.py:277
 #, python-brace-format
 msgid "── Build stopped (exit {code}) ──"
 msgstr "── Compilación detenida (código de salida {code}) ──"
 
-#: build_gui.py:269
+#: build_gui.py:279
 #, python-brace-format
 msgid "Failed (exit {code})"
 msgstr "Fallida (código de salida {code})"
 
-#: build_gui.py:270
+#: build_gui.py:280
 #, python-brace-format
 msgid "── Build failed (exit {code}) ──"
 msgstr "── Compilación fallida (código de salida {code}) ──"
 
-#: build_gui.py:273
+#: build_gui.py:283
 msgid "Cleaning up mounts…"
 msgstr "Limpiando montajes…"
 
-#: build_gui.py:274
+#: build_gui.py:284
 msgid "── Stale build mounts found; cleaning up ──"
 msgstr "── Se encontraron montajes antiguos de la compilación; limpiando ──"
 
-#: build_gui.py:280
+#: build_gui.py:290
 msgid "── Mount cleanup complete ──"
 msgstr "── Limpieza de montajes finalizada ──"
 
-#: build_gui.py:281
+#: build_gui.py:291
 #, python-brace-format
 msgid "── Mount cleanup exited with code {code} ──"
 msgstr "── La limpieza de montajes terminó con el código {code} ──"
 
-#: build_gui.py:282
+#: build_gui.py:292
 msgid "Cleaned up"
 msgstr "Limpieza finalizada"
 
-#: build_gui.py:282
+#: build_gui.py:292
 #, python-brace-format
 msgid "Cleanup failed (exit {code})"
 msgstr "Error de limpieza (código de salida {code})"
 
-#: build_gui.py:298 preflight_gui.py:330
+#: build_gui.py:308 preflight_gui.py:330
 msgid "Remove the leftover build folder?"
 msgstr "¿Eliminar la carpeta de compilación restante?"
 
-#: build_gui.py:299 preflight_gui.py:331
+#: build_gui.py:309 preflight_gui.py:331
 #, python-brace-format
 msgid ""
 "{path}{size}\n"
@@ -196,42 +196,42 @@ msgstr ""
 "puedes eliminarla desde el gestor de archivos. Puedes conservarla; la "
 "siguiente compilación volverá a usar esta ubicación."
 
-#: build_gui.py:302 preflight_gui.py:335
+#: build_gui.py:312 preflight_gui.py:335
 msgid "Keep"
 msgstr "Mantener"
 
-#: build_gui.py:302 preflight_gui.py:335
+#: build_gui.py:312 preflight_gui.py:335
 msgid "Remove"
 msgstr "Quitar"
 
-#: build_gui.py:316
+#: build_gui.py:326
 msgid "Removing build folder…"
 msgstr "Eliminando carpeta de compilación…"
 
-#: build_gui.py:317
+#: build_gui.py:327
 msgid "── Removing build folder (with your approval) ──"
 msgstr "── Eliminando carpeta de compilación con tu autorización ──"
 
-#: build_gui.py:321
+#: build_gui.py:331
 msgid "── Build folder removed ──"
 msgstr "── Carpeta de compilación eliminada ──"
 
-#: build_gui.py:322
+#: build_gui.py:332
 #, python-brace-format
 msgid "── Removing build folder failed (exit {code}) ──"
 msgstr ""
 "── Error al eliminar la carpeta de compilación (código de salida {code}) ──"
 
-#: build_gui.py:323
+#: build_gui.py:333
 #, python-brace-format
 msgid "Remove failed (exit {code})"
 msgstr "Error al eliminar (código de salida {code})"
 
-#: build_gui.py:323 functions.py:1084 functions.py:1105
+#: build_gui.py:333 functions.py:1131 functions.py:1153
 msgid "Removed"
 msgstr "Eliminada"
 
-#: build_gui.py:335
+#: build_gui.py:345
 #, python-brace-format
 msgid "Could not open build log: {error}"
 msgstr "No se pudo abrir el registro de compilación: {error}"
@@ -262,7 +262,7 @@ msgstr ""
 "Estos ajustes se escriben directamente en build.conf; la CLI usa el mismo "
 "archivo."
 
-#: configure_gui.py:78 functions.py:944
+#: configure_gui.py:78 functions.py:990
 msgid "NVIDIA driver"
 msgstr "Controlador NVIDIA"
 
@@ -703,76 +703,94 @@ msgid_plural "Imported app list; {count} apps marked to add."
 msgstr[0] "Lista importada; se marcó {count} aplicación para añadir."
 msgstr[1] "Lista importada; se marcaron {count} aplicaciones para añadir."
 
-#: functions.py:941
+#: functions.py:937
+#, python-brace-format
+msgid "Estimated ISO size: about {size} GB."
+msgstr "Tamaño estimado de la ISO: unos {size} GB."
+
+#: functions.py:938
+#, python-brace-format
+msgid ""
+"Estimated ISO size: about {size} GB ({saved} GB less than with every package "
+"ticked)."
+msgstr ""
+"Tamaño estimado de la ISO: unos {size} GB ({saved} GB menos que con todos "
+"los paquetes marcados)."
+
+#: functions.py:987
 msgid "Editions"
 msgstr "Ediciones"
 
-#: functions.py:942
+#: functions.py:988
 msgid "Default session"
 msgstr "Sesión predeterminada"
 
-#: functions.py:943
+#: functions.py:989
 msgid "Kernel"
 msgstr "Kernel"
 
-#: functions.py:1084
+#: functions.py:1131
 msgid "Core"
 msgstr "Base"
 
-#: functions.py:1084
+#: functions.py:1131
 msgid "Frozen"
 msgstr "Congelados"
 
-#: functions.py:1085
+#: functions.py:1132
 msgid "Comes back"
 msgstr "Vuelven"
 
-#: functions.py:1085
+#: functions.py:1132
 msgid "Pulled in"
 msgstr "Arrastrados"
 
-#: functions.py:1087
+#: functions.py:1133
+msgid "Estimated ISO size"
+msgstr "Tamaño estimado de la ISO"
+
+#: functions.py:1135
 msgid "Search packages or reasons..."
 msgstr "Buscar paquetes o motivos…"
 
-#: functions.py:1093
+#: functions.py:1141
 msgid "Kiro ISO build summary"
 msgstr "Resumen de la compilación de la ISO de Kiro"
 
-#: functions.py:1094
+#: functions.py:1142
 msgid "What this build puts on the ISO, and why."
 msgstr "Lo que esta compilación pone en la ISO, y por qué."
 
-#: functions.py:1097
+#: functions.py:1145
 msgid "This build"
 msgstr "Esta compilación"
 
-#: functions.py:1106
+#: functions.py:1154
 msgid ""
 "You unticked these and nothing else needs them, so they are not on the ISO."
 msgstr "Los desmarcaste y nada más los necesita, así que no están en la ISO."
 
-#: functions.py:1107
+#: functions.py:1155
 msgid "Nothing removed."
 msgstr "No se quitó nada."
 
-#: functions.py:1109
+#: functions.py:1157
 msgid "Comes back anyway"
 msgstr "Vuelven de todos modos"
 
-#: functions.py:1110
+#: functions.py:1158
 msgid "You unticked these, but they still ship. The reason is on the right."
 msgstr "Los desmarcaste, pero se incluyen igual. El motivo está a la derecha."
 
-#: functions.py:1111
+#: functions.py:1159
 msgid "Every unticked package is really gone."
 msgstr "Cada paquete desmarcado se ha ido de verdad."
 
-#: functions.py:1115
+#: functions.py:1163
 msgid "Pulled in by your choices"
 msgstr "Arrastrados por tus elecciones"
 
-#: functions.py:1116
+#: functions.py:1164
 msgid ""
 "Dependencies of your editions, add-ons and optional apps that the core alone "
 "would not bring."
@@ -780,11 +798,11 @@ msgstr ""
 "Dependencias de tus ediciones, complementos y apps opcionales que la base "
 "sola no traería."
 
-#: functions.py:1119
+#: functions.py:1167
 msgid "Frozen, TIER 1"
 msgstr "Congelados, TIER 1"
 
-#: functions.py:1120
+#: functions.py:1168
 msgid ""
 "Always ship. Removing any of these breaks the build, the live boot or the "
 "installer."
@@ -792,32 +810,32 @@ msgstr ""
 "Siempre se incluyen. Quitar cualquiera rompe la compilación, el arranque "
 "live o el instalador."
 
-#: functions.py:1123
+#: functions.py:1171
 msgid "Core, TIER 2"
 msgstr "Base, TIER 2"
 
-#: functions.py:1124
+#: functions.py:1172
 msgid "Always ship. The base of every Kiro system."
 msgstr "Siempre se incluyen. La base de todo sistema Kiro."
 
-#: functions.py:1126
+#: functions.py:1174
 #, python-brace-format
 msgid "Generated {date} from {source}"
 msgstr "Generado el {date} a partir de {source}"
 
-#: functions.py:1365
+#: functions.py:1413
 msgid "Authentication required"
 msgstr "Se requiere autenticación"
 
-#: functions.py:1366 preflight_gui.py:298
+#: functions.py:1414 preflight_gui.py:298
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: functions.py:1367
+#: functions.py:1415
 msgid "Authenticate"
 msgstr "Autenticar"
 
-#: functions.py:1375
+#: functions.py:1423
 msgid "Enter your password"
 msgstr "Introduce tu contraseña"
 
@@ -1274,51 +1292,51 @@ msgstr[1] ""
 "Se incluirán {count} paquetes desmarcados; consulta las filas marcadas como "
 "«se sigue incluyendo»."
 
-#: packages_gui.py:284
+#: packages_gui.py:286
 #, python-brace-format
 msgid "Show the package that always ships ({count})"
 msgid_plural "Show the packages that always ship ({count})"
 msgstr[0] "Mostrar el paquete que siempre se incluye ({count})"
 msgstr[1] "Mostrar los paquetes que siempre se incluyen ({count})"
 
-#: packages_gui.py:288
+#: packages_gui.py:290
 msgid "Ships with your editions:\n"
 msgstr "Se incluye con tus ediciones:\n"
 
-#: packages_gui.py:291
+#: packages_gui.py:293
 msgid "Also ships because of your editions or add-ons:\n"
 msgstr "También se incluye por tus ediciones o complementos:\n"
 
-#: packages_gui.py:293
+#: packages_gui.py:295
 msgid "Core: "
 msgstr "Base: "
 
-#: packages_gui.py:324
+#: packages_gui.py:326
 #, python-brace-format
 msgid "Still ships: {package} ({reason})"
 msgstr "Se sigue incluyendo: {package} ({reason})"
 
-#: packages_gui.py:326
+#: packages_gui.py:328
 #, python-brace-format
 msgid "Unticked, but still on the ISO: {reason}."
 msgstr "Desmarcado, pero sigue en la ISO: {reason}."
 
-#: packages_gui.py:356
+#: packages_gui.py:358
 msgid "Save package profile"
 msgstr "Guardar perfil de paquetes"
 
-#: packages_gui.py:370
+#: packages_gui.py:372
 #, python-brace-format
 msgid "Saved profile ({count} package excluded) → {path}"
 msgid_plural "Saved profile ({count} packages excluded) → {path}"
 msgstr[0] "Perfil guardado ({count} paquete excluido) → {path}"
 msgstr[1] "Perfil guardado ({count} paquetes excluidos) → {path}"
 
-#: packages_gui.py:376
+#: packages_gui.py:378
 msgid "Import package profile"
 msgstr "Importar perfil de paquetes"
 
-#: packages_gui.py:389
+#: packages_gui.py:391
 #, python-brace-format
 msgid "Imported profile; {count} package marked for exclusion."
 msgid_plural "Imported profile; {count} packages marked for exclusion."

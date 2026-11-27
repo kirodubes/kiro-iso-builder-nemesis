@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kiro-iso-builder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-24 06:52+0100\n"
+"POT-Creation-Date: 2026-11-27 05:36+0100\n"
 "PO-Revision-Date: 2026-11-01 06:14+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: Kiro translations\n"
@@ -26,158 +26,158 @@ msgstr ""
 "す。ビルドから応答を求められた場合（pacman の [Y/n] など）は、下の欄に入力し"
 "てください。"
 
-#: build_gui.py:60
+#: build_gui.py:64
 msgid "Start build"
 msgstr "ビルドを開始"
 
-#: build_gui.py:63
+#: build_gui.py:67
 msgid "Stop"
 msgstr "停止"
 
-#: build_gui.py:67 build_gui.py:162
+#: build_gui.py:71 build_gui.py:172
 msgid "Show summary"
 msgstr "概要を表示"
 
-#: build_gui.py:68
+#: build_gui.py:72
 msgid ""
 "Open a page in your browser listing what this build removes, keeps and pulls "
 "in, and why"
 msgstr "このビルドで削除、保持、追加される内容とその理由をブラウザーで開きます"
 
-#: build_gui.py:76
+#: build_gui.py:80
 msgid "Idle"
 msgstr "待機中"
 
-#: build_gui.py:95
+#: build_gui.py:99
 msgid "Reply to a build prompt (for example, y) and press Enter"
 msgstr "ビルドの要求に応答（例: y）して Enter を押してください"
 
-#: build_gui.py:97
+#: build_gui.py:101
 msgid "Send"
 msgstr "送信"
 
-#: build_gui.py:104 configure_gui.py:195 extras_gui.py:88 packages_gui.py:107
+#: build_gui.py:108 configure_gui.py:195 extras_gui.py:88 packages_gui.py:107
 msgid "← Back"
 msgstr "← 戻る"
 
-#: build_gui.py:113 configure_gui.py:460
+#: build_gui.py:117 configure_gui.py:460
 #, python-brace-format
 msgid "{repo} clone not found; fix it on the Pre-flight screen."
 msgstr ""
 "{repo} のクローンが見つかりません。事前チェック画面で修正してください。"
 
-#: build_gui.py:120
+#: build_gui.py:124
 msgid "Work dir:"
 msgstr "作業フォルダー:"
 
-#: build_gui.py:121
+#: build_gui.py:125
 msgid "ISO output:"
 msgstr "ISO の出力先:"
 
-#: build_gui.py:123
+#: build_gui.py:127
 msgid "Output location unknown; set the clone path on the Pre-flight screen."
 msgstr "出力先が不明です。事前チェック画面でクローンのパスを設定してください。"
 
-#: build_gui.py:138
+#: build_gui.py:143
 msgid "Unticked but still on the ISO:\n"
 msgstr "選択されていませんが ISO に残ります:\n"
 
-#: build_gui.py:147
+#: build_gui.py:157
 msgid "Preparing…"
 msgstr "準備中…"
 
-#: build_gui.py:154
+#: build_gui.py:164
 #, python-brace-format
 msgid "Summary opened: {path}"
 msgstr "概要を開きました: {path}"
 
-#: build_gui.py:156
+#: build_gui.py:166
 #, python-brace-format
 msgid "Could not build the summary page: {error}"
 msgstr "概要ページを作成できませんでした: {error}"
 
-#: build_gui.py:177
+#: build_gui.py:187
 #, python-brace-format
 msgid "Summary saved: {path}"
 msgstr "概要を保存しました: {path}"
 
-#: build_gui.py:179
+#: build_gui.py:189
 #, python-brace-format
 msgid "Could not save the summary page: {error}"
 msgstr "概要ページを保存できませんでした: {error}"
 
-#: build_gui.py:199
+#: build_gui.py:209
 msgid "Starting…"
 msgstr "起動中…"
 
-#: build_gui.py:200
+#: build_gui.py:210
 msgid "── Starting build ──"
 msgstr "── ビルドを開始しています ──"
 
-#: build_gui.py:245
+#: build_gui.py:255
 #, python-brace-format
 msgid "Phase {current} / {total}"
 msgstr "ステップ {current} / {total}"
 
-#: build_gui.py:256
+#: build_gui.py:266
 msgid "Done"
 msgstr "完了"
 
-#: build_gui.py:257
+#: build_gui.py:267
 msgid "── Build finished ──"
 msgstr "── ビルドが完了しました ──"
 
-#: build_gui.py:266
+#: build_gui.py:276
 #, python-brace-format
 msgid "Stopped (exit {code})"
 msgstr "停止しました（終了コード {code}）"
 
-#: build_gui.py:267
+#: build_gui.py:277
 #, python-brace-format
 msgid "── Build stopped (exit {code}) ──"
 msgstr "── ビルドを停止しました（終了コード {code}）──"
 
-#: build_gui.py:269
+#: build_gui.py:279
 #, python-brace-format
 msgid "Failed (exit {code})"
 msgstr "失敗しました（終了コード {code}）"
 
-#: build_gui.py:270
+#: build_gui.py:280
 #, python-brace-format
 msgid "── Build failed (exit {code}) ──"
 msgstr "── ビルドに失敗しました（終了コード {code}）──"
 
-#: build_gui.py:273
+#: build_gui.py:283
 msgid "Cleaning up mounts…"
 msgstr "マウントをクリーンアップ中…"
 
-#: build_gui.py:274
+#: build_gui.py:284
 msgid "── Stale build mounts found; cleaning up ──"
 msgstr "── 古いビルドマウントが見つかりました。クリーンアップ中 ──"
 
-#: build_gui.py:280
+#: build_gui.py:290
 msgid "── Mount cleanup complete ──"
 msgstr "── マウントのクリーンアップが完了しました ──"
 
-#: build_gui.py:281
+#: build_gui.py:291
 #, python-brace-format
 msgid "── Mount cleanup exited with code {code} ──"
 msgstr "── マウントのクリーンアップが終了しました（終了コード {code}）──"
 
-#: build_gui.py:282
+#: build_gui.py:292
 msgid "Cleaned up"
 msgstr "クリーンアップ完了"
 
-#: build_gui.py:282
+#: build_gui.py:292
 #, python-brace-format
 msgid "Cleanup failed (exit {code})"
 msgstr "クリーンアップエラー（終了コード {code}）"
 
-#: build_gui.py:298 preflight_gui.py:330
+#: build_gui.py:308 preflight_gui.py:330
 msgid "Remove the leftover build folder?"
 msgstr "残っているビルドフォルダーを削除しますか？"
 
-#: build_gui.py:299 preflight_gui.py:331
+#: build_gui.py:309 preflight_gui.py:331
 #, python-brace-format
 msgid ""
 "{path}{size}\n"
@@ -191,41 +191,41 @@ msgstr ""
 "た）。そのため、ファイルマネージャーから削除できません。残しておくこともでき"
 "ます。次回のビルドでこの場所が再利用されます。"
 
-#: build_gui.py:302 preflight_gui.py:335
+#: build_gui.py:312 preflight_gui.py:335
 msgid "Keep"
 msgstr "保持"
 
-#: build_gui.py:302 preflight_gui.py:335
+#: build_gui.py:312 preflight_gui.py:335
 msgid "Remove"
 msgstr "削除"
 
-#: build_gui.py:316
+#: build_gui.py:326
 msgid "Removing build folder…"
 msgstr "ビルドフォルダーを削除中…"
 
-#: build_gui.py:317
+#: build_gui.py:327
 msgid "── Removing build folder (with your approval) ──"
 msgstr "── 許可を得てビルドフォルダーを削除しています ──"
 
-#: build_gui.py:321
+#: build_gui.py:331
 msgid "── Build folder removed ──"
 msgstr "── ビルドフォルダーを削除しました ──"
 
-#: build_gui.py:322
+#: build_gui.py:332
 #, python-brace-format
 msgid "── Removing build folder failed (exit {code}) ──"
 msgstr "── ビルドフォルダーを削除できませんでした（終了コード {code}）──"
 
-#: build_gui.py:323
+#: build_gui.py:333
 #, python-brace-format
 msgid "Remove failed (exit {code})"
 msgstr "削除に失敗しました（終了コード {code}）"
 
-#: build_gui.py:323 functions.py:1084 functions.py:1105
+#: build_gui.py:333 functions.py:1131 functions.py:1153
 msgid "Removed"
 msgstr "削除しました"
 
-#: build_gui.py:335
+#: build_gui.py:345
 #, python-brace-format
 msgid "Could not open build log: {error}"
 msgstr "ビルドログを開けませんでした: {error}"
@@ -256,7 +256,7 @@ msgstr ""
 "これらの設定は build.conf に直接書き込まれます。CLI も同じファイルを使用しま"
 "す。"
 
-#: configure_gui.py:78 functions.py:944
+#: configure_gui.py:78 functions.py:990
 msgid "NVIDIA driver"
 msgstr "NVIDIA ドライバー"
 
@@ -684,76 +684,94 @@ msgid_plural "Imported app list; {count} apps marked to add."
 msgstr[0] ""
 "一覧をインポートしました。{count} 個のアプリを追加対象に選択しました。"
 
-#: functions.py:941
+#: functions.py:937
+#, python-brace-format
+msgid "Estimated ISO size: about {size} GB."
+msgstr "推定 ISO サイズ: 約 {size} GB。"
+
+#: functions.py:938
+#, python-brace-format
+msgid ""
+"Estimated ISO size: about {size} GB ({saved} GB less than with every package "
+"ticked)."
+msgstr ""
+"推定 ISO サイズ: 約 {size} GB（すべてのパッケージにチェックを入れた場合より "
+"{saved} GB 少ない）。"
+
+#: functions.py:987
 msgid "Editions"
 msgstr "エディション"
 
-#: functions.py:942
+#: functions.py:988
 msgid "Default session"
 msgstr "既定のセッション"
 
-#: functions.py:943
+#: functions.py:989
 msgid "Kernel"
 msgstr "カーネル"
 
-#: functions.py:1084
+#: functions.py:1131
 msgid "Core"
 msgstr "コア"
 
-#: functions.py:1084
+#: functions.py:1131
 msgid "Frozen"
 msgstr "固定"
 
-#: functions.py:1085
+#: functions.py:1132
 msgid "Comes back"
 msgstr "戻るもの"
 
-#: functions.py:1085
+#: functions.py:1132
 msgid "Pulled in"
 msgstr "追加で入るもの"
 
-#: functions.py:1087
+#: functions.py:1133
+msgid "Estimated ISO size"
+msgstr "推定 ISO サイズ"
+
+#: functions.py:1135
 msgid "Search packages or reasons..."
 msgstr "パッケージや理由を検索…"
 
-#: functions.py:1093
+#: functions.py:1141
 msgid "Kiro ISO build summary"
 msgstr "Kiro ISO ビルドの概要"
 
-#: functions.py:1094
+#: functions.py:1142
 msgid "What this build puts on the ISO, and why."
 msgstr "このビルドが ISO に入れるものとその理由。"
 
-#: functions.py:1097
+#: functions.py:1145
 msgid "This build"
 msgstr "このビルド"
 
-#: functions.py:1106
+#: functions.py:1154
 msgid ""
 "You unticked these and nothing else needs them, so they are not on the ISO."
 msgstr "選択を外し、ほかに必要とするものもないため、ISO には入りません。"
 
-#: functions.py:1107
+#: functions.py:1155
 msgid "Nothing removed."
 msgstr "削除されたものはありません。"
 
-#: functions.py:1109
+#: functions.py:1157
 msgid "Comes back anyway"
 msgstr "それでも戻るもの"
 
-#: functions.py:1110
+#: functions.py:1158
 msgid "You unticked these, but they still ship. The reason is on the right."
 msgstr "選択を外しましたが、それでも ISO に入ります。理由は右側にあります。"
 
-#: functions.py:1111
+#: functions.py:1159
 msgid "Every unticked package is really gone."
 msgstr "選択を外したパッケージはすべて本当に削除されています。"
 
-#: functions.py:1115
+#: functions.py:1163
 msgid "Pulled in by your choices"
 msgstr "選択によって追加で入るもの"
 
-#: functions.py:1116
+#: functions.py:1164
 msgid ""
 "Dependencies of your editions, add-ons and optional apps that the core alone "
 "would not bring."
@@ -761,11 +779,11 @@ msgstr ""
 "コアだけでは入らない、エディション・アドオン・オプションアプリの依存パッケー"
 "ジです。"
 
-#: functions.py:1119
+#: functions.py:1167
 msgid "Frozen, TIER 1"
 msgstr "固定、TIER 1"
 
-#: functions.py:1120
+#: functions.py:1168
 msgid ""
 "Always ship. Removing any of these breaks the build, the live boot or the "
 "installer."
@@ -773,32 +791,32 @@ msgstr ""
 "常に入ります。どれかを削除すると、ビルド、ライブ起動、またはインストーラーが"
 "壊れます。"
 
-#: functions.py:1123
+#: functions.py:1171
 msgid "Core, TIER 2"
 msgstr "コア、TIER 2"
 
-#: functions.py:1124
+#: functions.py:1172
 msgid "Always ship. The base of every Kiro system."
 msgstr "常に入ります。すべての Kiro システムの土台です。"
 
-#: functions.py:1126
+#: functions.py:1174
 #, python-brace-format
 msgid "Generated {date} from {source}"
 msgstr "{date} に {source} から生成"
 
-#: functions.py:1365
+#: functions.py:1413
 msgid "Authentication required"
 msgstr "認証が必要です"
 
-#: functions.py:1366 preflight_gui.py:298
+#: functions.py:1414 preflight_gui.py:298
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: functions.py:1367
+#: functions.py:1415
 msgid "Authenticate"
 msgstr "認証"
 
-#: functions.py:1375
+#: functions.py:1423
 msgid "Enter your password"
 msgstr "パスワードを入力"
 
@@ -1242,49 +1260,49 @@ msgstr[0] ""
 "選択を解除しても {count} 個のパッケージが含まれます。「引き続き含まれる」と表"
 "示された行を確認してください。"
 
-#: packages_gui.py:284
+#: packages_gui.py:286
 #, python-brace-format
 msgid "Show the package that always ships ({count})"
 msgid_plural "Show the packages that always ship ({count})"
 msgstr[0] "常に含まれるパッケージを表示（{count}）"
 
-#: packages_gui.py:288
+#: packages_gui.py:290
 msgid "Ships with your editions:\n"
 msgstr "選択したエディションに含まれるもの:\n"
 
-#: packages_gui.py:291
+#: packages_gui.py:293
 msgid "Also ships because of your editions or add-ons:\n"
 msgstr "エディションまたは追加アプリにより含まれるもの:\n"
 
-#: packages_gui.py:293
+#: packages_gui.py:295
 msgid "Core: "
 msgstr "基本: "
 
-#: packages_gui.py:324
+#: packages_gui.py:326
 #, python-brace-format
 msgid "Still ships: {package} ({reason})"
 msgstr "引き続き含まれる: {package}（{reason}）"
 
-#: packages_gui.py:326
+#: packages_gui.py:328
 #, python-brace-format
 msgid "Unticked, but still on the ISO: {reason}."
 msgstr "選択されていませんが ISO に残ります: {reason}。"
 
-#: packages_gui.py:356
+#: packages_gui.py:358
 msgid "Save package profile"
 msgstr "パッケージプロファイルを保存"
 
-#: packages_gui.py:370
+#: packages_gui.py:372
 #, python-brace-format
 msgid "Saved profile ({count} package excluded) → {path}"
 msgid_plural "Saved profile ({count} packages excluded) → {path}"
 msgstr[0] "プロファイルを保存しました（{count} 個のパッケージを除外）→ {path}"
 
-#: packages_gui.py:376
+#: packages_gui.py:378
 msgid "Import package profile"
 msgstr "パッケージプロファイルをインポート"
 
-#: packages_gui.py:389
+#: packages_gui.py:391
 #, python-brace-format
 msgid "Imported profile; {count} package marked for exclusion."
 msgid_plural "Imported profile; {count} packages marked for exclusion."

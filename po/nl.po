@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kiro-iso-builder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-24 06:52+0100\n"
+"POT-Creation-Date: 2026-11-27 05:36+0100\n"
 "PO-Revision-Date: 2026-11-01 06:14+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: Kiro translations\n"
@@ -26,19 +26,19 @@ msgstr ""
 "je wachtwoord gevraagd; als de build om invoer vraagt (bijvoorbeeld bij "
 "pacman's [Y/n]), typ je antwoord dan in het vak hieronder."
 
-#: build_gui.py:60
+#: build_gui.py:64
 msgid "Start build"
 msgstr "Build starten"
 
-#: build_gui.py:63
+#: build_gui.py:67
 msgid "Stop"
 msgstr "Stoppen"
 
-#: build_gui.py:67 build_gui.py:162
+#: build_gui.py:71 build_gui.py:172
 msgid "Show summary"
 msgstr "Samenvatting tonen"
 
-#: build_gui.py:68
+#: build_gui.py:72
 msgid ""
 "Open a page in your browser listing what this build removes, keeps and pulls "
 "in, and why"
@@ -46,142 +46,142 @@ msgstr ""
 "Open een pagina in je browser waarop staat wat deze build verwijdert, "
 "behoudt en toevoegt, en waarom."
 
-#: build_gui.py:76
+#: build_gui.py:80
 msgid "Idle"
 msgstr "Inactief"
 
-#: build_gui.py:95
+#: build_gui.py:99
 msgid "Reply to a build prompt (for example, y) and press Enter"
 msgstr "Beantwoord een buildvraag (bijvoorbeeld y) en druk op Enter"
 
-#: build_gui.py:97
+#: build_gui.py:101
 msgid "Send"
 msgstr "Verzenden"
 
-#: build_gui.py:104 configure_gui.py:195 extras_gui.py:88 packages_gui.py:107
+#: build_gui.py:108 configure_gui.py:195 extras_gui.py:88 packages_gui.py:107
 msgid "← Back"
 msgstr "← Terug"
 
-#: build_gui.py:113 configure_gui.py:460
+#: build_gui.py:117 configure_gui.py:460
 #, python-brace-format
 msgid "{repo} clone not found; fix it on the Pre-flight screen."
 msgstr ""
 "De {repo}-kloon niet gevonden; los dit op via het scherm Voorbereiding."
 
-#: build_gui.py:120
+#: build_gui.py:124
 msgid "Work dir:"
 msgstr "Werkmap:"
 
-#: build_gui.py:121
+#: build_gui.py:125
 msgid "ISO output:"
 msgstr "ISO-uitvoer:"
 
-#: build_gui.py:123
+#: build_gui.py:127
 msgid "Output location unknown; set the clone path on the Pre-flight screen."
 msgstr ""
 "Uitvoerlocatie onbekend; stel het pad van de kloon in op het scherm "
 "Voorbereiding."
 
-#: build_gui.py:138
+#: build_gui.py:143
 msgid "Unticked but still on the ISO:\n"
 msgstr "Niet aangevinkt, maar staat nog steeds op de ISO:\n"
 
-#: build_gui.py:147
+#: build_gui.py:157
 msgid "Preparing…"
 msgstr "Voorbereiden…"
 
-#: build_gui.py:154
+#: build_gui.py:164
 #, python-brace-format
 msgid "Summary opened: {path}"
 msgstr "Samenvatting geopend: {path}"
 
-#: build_gui.py:156
+#: build_gui.py:166
 #, python-brace-format
 msgid "Could not build the summary page: {error}"
 msgstr "Kan de samenvattingspagina niet maken: {error}"
 
-#: build_gui.py:177
+#: build_gui.py:187
 #, python-brace-format
 msgid "Summary saved: {path}"
 msgstr "Samenvatting opgeslagen: {path}"
 
-#: build_gui.py:179
+#: build_gui.py:189
 #, python-brace-format
 msgid "Could not save the summary page: {error}"
 msgstr "Kan de samenvattingspagina niet opslaan: {error}"
 
-#: build_gui.py:199
+#: build_gui.py:209
 msgid "Starting…"
 msgstr "Starten…"
 
-#: build_gui.py:200
+#: build_gui.py:210
 msgid "── Starting build ──"
 msgstr "── Build starten ──"
 
-#: build_gui.py:245
+#: build_gui.py:255
 #, python-brace-format
 msgid "Phase {current} / {total}"
 msgstr "Fase {current} / {total}"
 
-#: build_gui.py:256
+#: build_gui.py:266
 msgid "Done"
 msgstr "Klaar"
 
-#: build_gui.py:257
+#: build_gui.py:267
 msgid "── Build finished ──"
 msgstr "── Build voltooid ──"
 
-#: build_gui.py:266
+#: build_gui.py:276
 #, python-brace-format
 msgid "Stopped (exit {code})"
 msgstr "Gestopt (afsluitcode {code})"
 
-#: build_gui.py:267
+#: build_gui.py:277
 #, python-brace-format
 msgid "── Build stopped (exit {code}) ──"
 msgstr "── Build gestopt (afsluitcode {code}) ──"
 
-#: build_gui.py:269
+#: build_gui.py:279
 #, python-brace-format
 msgid "Failed (exit {code})"
 msgstr "Mislukt (afsluitcode {code})"
 
-#: build_gui.py:270
+#: build_gui.py:280
 #, python-brace-format
 msgid "── Build failed (exit {code}) ──"
 msgstr "── Build mislukt (afsluitcode {code}) ──"
 
-#: build_gui.py:273
+#: build_gui.py:283
 msgid "Cleaning up mounts…"
 msgstr "Aankoppelingen opruimen…"
 
-#: build_gui.py:274
+#: build_gui.py:284
 msgid "── Stale build mounts found; cleaning up ──"
 msgstr "── Verouderde aankoppelingen van de build gevonden; opruimen ──"
 
-#: build_gui.py:280
+#: build_gui.py:290
 msgid "── Mount cleanup complete ──"
 msgstr "── Opruimen van aankoppelingen voltooid ──"
 
-#: build_gui.py:281
+#: build_gui.py:291
 #, python-brace-format
 msgid "── Mount cleanup exited with code {code} ──"
 msgstr "── Opruimen van aankoppelingen beëindigd met code {code} ──"
 
-#: build_gui.py:282
+#: build_gui.py:292
 msgid "Cleaned up"
 msgstr "Opgeruimd"
 
-#: build_gui.py:282
+#: build_gui.py:292
 #, python-brace-format
 msgid "Cleanup failed (exit {code})"
 msgstr "Opruimen van aankoppelingen mislukt (afsluitcode {code})"
 
-#: build_gui.py:298 preflight_gui.py:330
+#: build_gui.py:308 preflight_gui.py:330
 msgid "Remove the leftover build folder?"
 msgstr "De overgebleven buildmap verwijderen?"
 
-#: build_gui.py:299 preflight_gui.py:331
+#: build_gui.py:309 preflight_gui.py:331
 #, python-brace-format
 msgid ""
 "{path}{size}\n"
@@ -193,41 +193,41 @@ msgstr ""
 "dus je kunt hem niet verwijderen via je bestandsbeheerder. Bewaren is prima; "
 "de volgende build gebruikt deze locatie opnieuw."
 
-#: build_gui.py:302 preflight_gui.py:335
+#: build_gui.py:312 preflight_gui.py:335
 msgid "Keep"
 msgstr "Behouden"
 
-#: build_gui.py:302 preflight_gui.py:335
+#: build_gui.py:312 preflight_gui.py:335
 msgid "Remove"
 msgstr "Verwijderen"
 
-#: build_gui.py:316
+#: build_gui.py:326
 msgid "Removing build folder…"
 msgstr "Buildmap verwijderen…"
 
-#: build_gui.py:317
+#: build_gui.py:327
 msgid "── Removing build folder (with your approval) ──"
 msgstr "── Buildmap verwijderen (na je toestemming) ──"
 
-#: build_gui.py:321
+#: build_gui.py:331
 msgid "── Build folder removed ──"
 msgstr "── Buildmap verwijderd ──"
 
-#: build_gui.py:322
+#: build_gui.py:332
 #, python-brace-format
 msgid "── Removing build folder failed (exit {code}) ──"
 msgstr "── Verwijderen van buildmap mislukt (afsluitcode {code}) ──"
 
-#: build_gui.py:323
+#: build_gui.py:333
 #, python-brace-format
 msgid "Remove failed (exit {code})"
 msgstr "Verwijderen mislukt (afsluitcode {code})"
 
-#: build_gui.py:323 functions.py:1084 functions.py:1105
+#: build_gui.py:333 functions.py:1131 functions.py:1153
 msgid "Removed"
 msgstr "Verwijderd"
 
-#: build_gui.py:335
+#: build_gui.py:345
 #, python-brace-format
 msgid "Could not open build log: {error}"
 msgstr "Kan buildlog niet openen: {error}"
@@ -258,7 +258,7 @@ msgstr ""
 "Deze instellingen worden rechtstreeks naar build.conf geschreven; de CLI "
 "gebruikt hetzelfde bestand."
 
-#: configure_gui.py:78 functions.py:944
+#: configure_gui.py:78 functions.py:990
 msgid "NVIDIA driver"
 msgstr "NVIDIA-stuurprogramma"
 
@@ -695,79 +695,97 @@ msgid_plural "Imported app list; {count} apps marked to add."
 msgstr[0] "Applijst geïmporteerd; {count} app gemarkeerd om toe te voegen."
 msgstr[1] "Applijst geïmporteerd; {count} apps gemarkeerd om toe te voegen."
 
-#: functions.py:941
+#: functions.py:937
+#, python-brace-format
+msgid "Estimated ISO size: about {size} GB."
+msgstr "Geschatte ISO-grootte: ongeveer {size} GB."
+
+#: functions.py:938
+#, python-brace-format
+msgid ""
+"Estimated ISO size: about {size} GB ({saved} GB less than with every package "
+"ticked)."
+msgstr ""
+"Geschatte ISO-grootte: ongeveer {size} GB ({saved} GB minder dan met elk "
+"pakket aangevinkt)."
+
+#: functions.py:987
 msgid "Editions"
 msgstr "Edities"
 
-#: functions.py:942
+#: functions.py:988
 msgid "Default session"
 msgstr "Standaardsessie"
 
-#: functions.py:943
+#: functions.py:989
 msgid "Kernel"
 msgstr "Kernel"
 
-#: functions.py:1084
+#: functions.py:1131
 msgid "Core"
 msgstr "Basis"
 
-#: functions.py:1084
+#: functions.py:1131
 msgid "Frozen"
 msgstr "Bevroren"
 
-#: functions.py:1085
+#: functions.py:1132
 msgid "Comes back"
 msgstr "Komt terug"
 
-#: functions.py:1085
+#: functions.py:1132
 msgid "Pulled in"
 msgstr "Meegetrokken"
 
-#: functions.py:1087
+#: functions.py:1133
+msgid "Estimated ISO size"
+msgstr "Geschatte ISO-grootte"
+
+#: functions.py:1135
 msgid "Search packages or reasons..."
 msgstr "Pakketten of redenen zoeken…"
 
-#: functions.py:1093
+#: functions.py:1141
 msgid "Kiro ISO build summary"
 msgstr "Samenvatting van de Kiro ISO-build"
 
-#: functions.py:1094
+#: functions.py:1142
 msgid "What this build puts on the ISO, and why."
 msgstr "Wat deze build op de ISO zet, en waarom."
 
-#: functions.py:1097
+#: functions.py:1145
 msgid "This build"
 msgstr "Deze build"
 
-#: functions.py:1106
+#: functions.py:1154
 msgid ""
 "You unticked these and nothing else needs them, so they are not on the ISO."
 msgstr ""
 "Je hebt deze uitgevinkt en niets anders heeft ze nodig, dus staan ze niet op "
 "de ISO."
 
-#: functions.py:1107
+#: functions.py:1155
 msgid "Nothing removed."
 msgstr "Niets verwijderd."
 
-#: functions.py:1109
+#: functions.py:1157
 msgid "Comes back anyway"
 msgstr "Komt toch terug"
 
-#: functions.py:1110
+#: functions.py:1158
 msgid "You unticked these, but they still ship. The reason is on the right."
 msgstr ""
 "Je hebt deze uitgevinkt, maar ze komen toch mee. De reden staat rechts."
 
-#: functions.py:1111
+#: functions.py:1159
 msgid "Every unticked package is really gone."
 msgstr "Elk uitgevinkt pakket is echt weg."
 
-#: functions.py:1115
+#: functions.py:1163
 msgid "Pulled in by your choices"
 msgstr "Meegetrokken door je keuzes"
 
-#: functions.py:1116
+#: functions.py:1164
 msgid ""
 "Dependencies of your editions, add-ons and optional apps that the core alone "
 "would not bring."
@@ -775,11 +793,11 @@ msgstr ""
 "Afhankelijkheden van je edities, add-ons en optionele apps die de basis "
 "alleen niet zou meebrengen."
 
-#: functions.py:1119
+#: functions.py:1167
 msgid "Frozen, TIER 1"
 msgstr "Bevroren, TIER 1"
 
-#: functions.py:1120
+#: functions.py:1168
 msgid ""
 "Always ship. Removing any of these breaks the build, the live boot or the "
 "installer."
@@ -787,32 +805,32 @@ msgstr ""
 "Komen altijd mee. Eén ervan weghalen breekt de build, de live-boot of het "
 "installatieprogramma."
 
-#: functions.py:1123
+#: functions.py:1171
 msgid "Core, TIER 2"
 msgstr "Basis, TIER 2"
 
-#: functions.py:1124
+#: functions.py:1172
 msgid "Always ship. The base of every Kiro system."
 msgstr "Komen altijd mee. De basis van elk Kiro-systeem."
 
-#: functions.py:1126
+#: functions.py:1174
 #, python-brace-format
 msgid "Generated {date} from {source}"
 msgstr "Gemaakt op {date} uit {source}"
 
-#: functions.py:1365
+#: functions.py:1413
 msgid "Authentication required"
 msgstr "Authenticatie vereist"
 
-#: functions.py:1366 preflight_gui.py:298
+#: functions.py:1414 preflight_gui.py:298
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: functions.py:1367
+#: functions.py:1415
 msgid "Authenticate"
 msgstr "Authenticeren"
 
-#: functions.py:1375
+#: functions.py:1423
 msgid "Enter your password"
 msgstr "Voer je wachtwoord in"
 
@@ -1266,51 +1284,51 @@ msgstr[1] ""
 "{count} niet-aangevinkte pakketten worden toch meegeleverd; zie de rijen met "
 "'wordt toch meegeleverd'."
 
-#: packages_gui.py:284
+#: packages_gui.py:286
 #, python-brace-format
 msgid "Show the package that always ships ({count})"
 msgid_plural "Show the packages that always ship ({count})"
 msgstr[0] "Toon het pakket dat altijd wordt meegeleverd ({count})"
 msgstr[1] "Toon de pakketten die altijd worden meegeleverd ({count})"
 
-#: packages_gui.py:288
+#: packages_gui.py:290
 msgid "Ships with your editions:\n"
 msgstr "Wordt meegeleverd met je edities:\n"
 
-#: packages_gui.py:291
+#: packages_gui.py:293
 msgid "Also ships because of your editions or add-ons:\n"
 msgstr "Wordt ook meegeleverd vanwege je edities of add-ons:\n"
 
-#: packages_gui.py:293
+#: packages_gui.py:295
 msgid "Core: "
 msgstr "Basis: "
 
-#: packages_gui.py:324
+#: packages_gui.py:326
 #, python-brace-format
 msgid "Still ships: {package} ({reason})"
 msgstr "Wordt toch meegeleverd: {package} ({reason})"
 
-#: packages_gui.py:326
+#: packages_gui.py:328
 #, python-brace-format
 msgid "Unticked, but still on the ISO: {reason}."
 msgstr "Niet aangevinkt, maar staat nog steeds op de ISO: {reason}."
 
-#: packages_gui.py:356
+#: packages_gui.py:358
 msgid "Save package profile"
 msgstr "Pakketprofiel opslaan"
 
-#: packages_gui.py:370
+#: packages_gui.py:372
 #, python-brace-format
 msgid "Saved profile ({count} package excluded) → {path}"
 msgid_plural "Saved profile ({count} packages excluded) → {path}"
 msgstr[0] "Profiel opgeslagen ({count} pakket uitgesloten) → {path}"
 msgstr[1] "Profiel opgeslagen ({count} pakketten uitgesloten) → {path}"
 
-#: packages_gui.py:376
+#: packages_gui.py:378
 msgid "Import package profile"
 msgstr "Pakketprofiel importeren"
 
-#: packages_gui.py:389
+#: packages_gui.py:391
 #, python-brace-format
 msgid "Imported profile; {count} package marked for exclusion."
 msgid_plural "Imported profile; {count} packages marked for exclusion."

@@ -735,8 +735,10 @@ def _shipped_names(excludes, editions):
 
 
 _SYNC_DB = {}
+_SIZES = {}    # {name: installed bytes}, filled by the same pacman -Si pass as _SYNC_DB
 _CACHE_LOCK = threading.Lock()
 _DEP_NAME_RE = re.compile(r"[<>=:].*$")
+_SIZE_UNITS = {"B": 1, "KiB": 1024, "MiB": 1024 ** 2, "GiB": 1024 ** 3}
 
 
 def _sync_db():
@@ -761,6 +763,9 @@ def _sync_db():
             if name and field in ("Depends On", "Provides"):
                 words = [_DEP_NAME_RE.sub("", w) for w in val.split() if w != "None"]
                 _SYNC_DB[name][0 if field == "Depends On" else 1].extend(words)
+            elif name and field == "Installed Size":
+                num, _sp, unit = val.strip().partition(" ")
+                _SIZES[name] = float(num) * _SIZE_UNITS.get(unit, 1)
     return _SYNC_DB
 
 
@@ -893,6 +898,47 @@ def _with_selected_kernels(tier1, kernel_conf):
     return [q for p in tier1 for q in swaps.get(p, [p])]
 
 
+# ── ISO size estimate ───────────────────────────────────────────────
+# Fitted 2026-11-27 on six real builds (3.8-6.5 GB, 2026-10-18 to 2026-11-23): airootfs.sfs (zstd -6, 1M blocks)
+# came to 0.365 x pacstrap's installed size + 444 MiB, and every booting kernel (the live one plus the fallback
+# entry's) adds ~530 MiB of vmlinuz + initramfs to the ISO. Within 4 % of every build on pacstrap's numbers;
+# the host's sync db lacks a few Kiro packages (calamares), so the estimate runs a little low.
+_SFS_RATIO = 0.365
+_SFS_BASE = 444 * 1024 ** 2
+_PER_KERNEL = 530 * 1024 ** 2
+
+
+def _installed_bytes(pkgs):
+    return sum(_SIZES.get(p.rpartition("/")[2], 0) for p in pkgs)
+
+
+def iso_size_estimate(excludes, editions):
+    """(estimated ISO bytes, the same with nothing excluded) for this selection. Slow on the first call."""
+    with _CACHE_LOCK:
+        db = _sync_db()
+        groups = group_members()
+    kernels = [k for k in read_conf().get("kernel", "").split() if k != "ask"]
+    overhead = _SFS_BASE + _PER_KERNEL * min(max(len(kernels), 1), 2)
+
+    def estimate(ex):
+        return round(_SFS_RATIO * _installed_bytes(_resolve(_shipped_names(ex, editions), ex, db, groups)) + overhead)
+    return estimate(excludes), estimate(set())
+
+
+def format_gb(size):
+    """Bytes as decimal GB with one decimal, the unit the Done screen uses."""
+    return f"{size / 1_000_000_000:.1f}"
+
+
+def iso_size_text(estimate, full):
+    """The estimate line the Packages and Build pages show."""
+    saved = full - estimate
+    if saved < 50_000_000:
+        return _("Estimated ISO size: about {size} GB.").format(size=format_gb(estimate))
+    return _("Estimated ISO size: about {size} GB ({saved} GB less than with every package ticked).").format(
+        size=format_gb(estimate), saved=format_gb(saved))
+
+
 # ── Build summary page ──────────────────────────────────────────────
 def _merge_addon_families(by_block):
     """Fold add-ons sharing a two-word prefix (kiro-plasma-*, surfn-plasma-*) into one block each."""
@@ -949,6 +995,7 @@ def build_summary(excludes, editions):
         "removed": sorted(p for p in excludes if p not in all_kept),
         "kept": kept,
         "pulled_in": pulled_in,
+        "iso_estimate": iso_size_estimate(excludes, editions)[0],
         "source": str(packages_file() or "?"),
     }
 
@@ -1082,7 +1129,8 @@ def _summary_html(s):
         return f'<p class="tr">{tr(text)}</p>'
 
     tiles = [(N_("Frozen"), len(s["frozen"])), (N_("Core"), len(s["core"])), (N_("Removed"), len(s["removed"])),
-             (N_("Comes back"), len(s["kept"])), (N_("Pulled in"), len(s["pulled_in"]))]
+             (N_("Comes back"), len(s["kept"])), (N_("Pulled in"), len(s["pulled_in"])),
+             (N_("Estimated ISO size"), f"~{format_gb(s['iso_estimate'])} GB")]
     settings = "".join(f'<tr><td class="tr">{tr(k)}</td><td>{esc(v)}</td></tr>' for k, v in s["settings"].items())
     placeholders = kib_i18n.every_language(N_("Search packages or reasons..."))
     menu = "".join(

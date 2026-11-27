@@ -67,6 +67,13 @@ def check_search_note(screen):
     return False
 
 
+def check_size_line(label, where):
+    """The Packages status and the Build page both carry the ISO size estimate."""
+    if "Estimated ISO size: about" not in label.get_text():
+        errors.append(f"no ISO size estimate on the {where} page: {label.get_text()!r}")
+    return False
+
+
 def present(self):
     orig_present(self)
     self.set_title("KIB-SMOKE")
@@ -85,6 +92,9 @@ def present(self):
         self.navigate(names[i])
         if names[i] == "packages":
             GLib.timeout_add(600, check_search_note, self.screens["packages"])
+            GLib.timeout_add(1000, check_size_line, self.screens["packages"].status, "Packages")
+        if names[i] == "build":
+            GLib.timeout_add(1000, check_size_line, self.screens["build"].size, "Build")
         GLib.timeout_add(1200, step, i + 1)
         return False
 

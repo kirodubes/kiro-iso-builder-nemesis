@@ -141,6 +141,26 @@ class PackageLogic(unittest.TestCase):
         self.assertEqual(fn._with_selected_kernels(["linux-cachyos-headers"], "linux"), ["linux-headers"],
                          "a headers line on its own is swapped too (pulled-in deps resolve from it)")
 
+    # ── ISO size estimate ──
+    def test_estimate_drops_by_the_excluded_package(self):
+        estimate, full = fn.iso_size_estimate({"gimp"}, self.editions)
+        # gimp goes; its dependency babl stays, being a ticked TIER 3 line of its own.
+        self.assertEqual(full - estimate, round(fn._SFS_RATIO * 1024 ** 3))
+        self.assertEqual(fn.iso_size_estimate(set(), self.editions), (full, full))
+
+    def test_estimate_adds_a_kernel_overhead_per_booting_kernel(self):
+        one = fn.iso_size_estimate(set(), self.editions)[0]
+        fn.set_conf("kernel", "linux linux-zen")
+        fn._SIZES["linux-zen"] = 0
+        self.assertEqual(fn.iso_size_estimate(set(), self.editions)[0] - one, fn._PER_KERNEL)
+
+    def test_repo_prefixed_name_gets_a_size(self):
+        self.assertEqual(fn._installed_bytes(["cachyos/gimp"]), 1024 ** 3)
+
+    def test_size_text_names_the_saving_only_when_there_is_one(self):
+        self.assertNotIn("less", fn.iso_size_text(6_800_000_000, 6_800_000_000))
+        self.assertIn("6.8 GB (0.9 GB less", fn.iso_size_text(6_800_000_000, 7_700_000_000))
+
     def test_summary_html_is_escaped_and_complete(self):
         fn.set_conf("default_session", "<script>x</script>")
         s = fn.build_summary({"babl"}, self.editions)

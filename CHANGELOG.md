@@ -4,6 +4,40 @@
 
 ---
 
+## 2026.11.27
+
+### What Changed
+- **The ISO size is estimated before the build.** In his November KIB review Jacinth Samuel unticked packages
+  expecting a much smaller ISO, and only got about 900 MB off a 6 GB image; KIB told him nothing until mkarchiso was
+  done. The Packages page now says "Estimated ISO size: about 6.8 GB (0.9 GB less than with every package ticked)"
+  under the list and updates with every tick, the Build page shows the same line, and the build summary page has an
+  "Estimated ISO size" tile.
+
+### Technical Details
+- Model: `0.365 × installed size + 444 MiB` for airootfs.sfs (zstd -6, 1M blocks), plus ~530 MiB per booting
+  kernel (the live kernel and the fallback entry's: vmlinuz + initramfs in /arch/boot and the EFI image). Fitted on
+  the six builds in `~/.config/kiro-iso-builder/logs` (2026-10-18 to 2026-11-23, 3.8 to 6.5 GB), whose build.log
+  holds pacstrap's "Total Installed Size", mksquashfs's "Filesystem size" and xorriso's sector count. On pacstrap's
+  numbers it is within 4 % of every real ISO; through KIB's own dependency resolution the 11-23, 10-20 and 10-21
+  selections came out 0.6 %, 2 % and 3 % low (calamares and the kiro-calamares-* packages are not in a normal
+  host's sync db).
+- `_sync_db()` records `Installed Size` into a separate `_SIZES` dict in the same `pacman -Si` pass; the
+  `(depends, provides)` tuples are unchanged. `_installed_bytes` strips a `repo/` prefix (`cachyos/pahole`).
+- `iso_size_estimate(excludes, editions)` returns the estimate and the same with nothing excluded, so the page can
+  name the saving. Warm it costs ~12 ms on the real db, the same as the existing "still ships" check per tick.
+  `iso_size_text()` drops the saving when it is under 0.05 GB. Decimal GB, as on the Done screen.
+- 3 new strings, translated in all 13 catalogs (merged with `msgmerge --compendium`; 0 fuzzy, 0 untranslated).
+- Tests: four unit tests (an exclude removes its size, a second kernel adds the per-kernel overhead, repo-prefixed
+  names get a size, the saving only shows when there is one); `gui_smoke.py` fails unless the Packages status and
+  the Build page carry the estimate. Run on GTK4 Broadway.
+
+### Files Modified
+- `functions.py`, `packages_gui.py`, `build_gui.py`, `tests/fixture.py`, `tests/test_functions.py`,
+  `tests/gui_smoke.py`, `po/*.po`, `po/kiro-iso-builder.pot`, `locale/*/LC_MESSAGES/kiro-iso-builder.mo`,
+  `README.md`, `CHANGELOG.md`
+
+---
+
 ## 2026.11.24
 
 ### What Changed

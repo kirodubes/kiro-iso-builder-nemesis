@@ -50,6 +50,10 @@ class BuildScreen:
         self.paths.add_css_class("dim-label")
         self.widget.append(self.paths)
 
+        self.size = Gtk.Label(xalign=0, wrap=True, max_width_chars=110, visible=False)
+        self.size.add_css_class("dim-label")
+        self.widget.append(self.size)
+
         # Unticked packages that will still be on the ISO, so nobody is surprised after install.
         self.kept = Gtk.Label(xalign=0, wrap=True, max_width_chars=110, selectable=True, visible=False)
         self.kept.add_css_class("att-orange-note")
@@ -129,6 +133,7 @@ class BuildScreen:
         def worker():
             kept = fn.reported_kept(excludes, editions) if excludes else {}
             GLib.idle_add(self._show_kept, kept)
+            GLib.idle_add(self._show_size, fn.iso_size_text(*fn.iso_size_estimate(excludes, editions)))
 
         threading.Thread(target=worker, daemon=True).start()
 
@@ -137,6 +142,11 @@ class BuildScreen:
         if kept:
             self.kept.set_text(_("Unticked but still on the ISO:\n") + "\n".join(self._kept_lines))
         self.kept.set_visible(bool(kept))
+        return False
+
+    def _show_size(self, text):
+        self.size.set_text(text)
+        self.size.set_visible(True)
         return False
 
     def _summary_args(self):
